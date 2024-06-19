@@ -1,0 +1,39 @@
+img {
+	width: 300px;
+	height: auto;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+section {
+    display: flex;
+    gap: 10px;
+}
+
+section div {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#membersSection {
+	display: flex;
+    gap: 10px;
+}
+
+#groupFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #000;
+}
