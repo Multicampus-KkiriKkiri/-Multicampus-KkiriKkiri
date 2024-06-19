@@ -1,6 +1,5 @@
 package service;
 
-
 import dto.GroupDTO;
 
 public interface GroupService {
