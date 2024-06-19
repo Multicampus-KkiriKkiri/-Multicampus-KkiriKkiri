@@ -6,7 +6,8 @@
 <configuration>
 
 	<typeAliases>
-		<!-- <typeAlias type="kkirikkiri.MemberDTO" alias="memberdto"/> -->
+		<typeAlias type="dto.UserDTO" alias="userdto"/>
+		<typeAlias type="dto.GroupDTO" alias="groupdto"/>
 	</typeAliases>
 	
 
