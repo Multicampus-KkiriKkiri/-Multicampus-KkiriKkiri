@@ -1,5 +1,7 @@
 package dto;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +12,9 @@ import lombok.Setter;
  * @Getter는 사용하되 최대한 객체가 캡슐화하여 해당 객체가 그 기능을 제공해주는 것이 바람직.
  * @NoArgsConstructor 접근 권한을 최소화 하자
  * */
-@Getter @Setter
+@Getter
+@Setter
+@Component
 public class GroupDTO {
     private int groupId;
     private int groupLeaderId;
@@ -22,5 +26,4 @@ public class GroupDTO {
     private int groupInterest;
     private String groupSignUpType;
     private int groupMaximum;
-    
 }

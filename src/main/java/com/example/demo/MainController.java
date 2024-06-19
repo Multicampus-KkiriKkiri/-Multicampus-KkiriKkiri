@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class MainController {
 	
-	@RequestMapping("/main")
+	@RequestMapping("/kkirikkiri")
 	ModelAndView helloboot(){
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("model","스프링부트를 시작합니다." );

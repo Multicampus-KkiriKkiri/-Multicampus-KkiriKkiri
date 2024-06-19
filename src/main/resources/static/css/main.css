@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.main-banner{
+	background-color:#fbf7f3;
+	display: flex;
+	justify-content: center;	
+	align-items: center;      
+    text-align: center;	
+}
+
+.banner-phrase {
+    margin-top: 20px;
+}
+
+.banner-phrase button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.container{
+	margin-top: 120px;
+}
+
+.my-group{
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.my-group-image, .interest-group-image{
+	width:100%;
+	height: 200px;
+}
+
+
+.interest-group-suggestion{
+	margin-top: 120px;
+}
+/*
+.interest-nav{
+	border: 1px solid black;
+	padding: 10px;
+            flex: 1;
+            margin: 10px;
+            text-align: center;
+	
+}
+
+*/
+
+/*
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+*/
+
+
+
+
+footer{
+	margin-top: 200px;
+	background-color:#fbf7f3;	
+}
+
+.footer-info{
+	display: flex;
+	justify-content: space-around;
+	padding-top: 60px;
+}
+
+/*
+.footer-bottom{
+	display: flex;
+            flex-direction: column;
+            
+}
+*/
+
+.footer-bottom{
+	padding-bottom:30px;
+	padding-left: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
