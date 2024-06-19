@@ -7,6 +7,12 @@
 
 	<typeAliases>
 		<!-- <typeAlias type="kkirikkiri.MemberDTO" alias="memberdto"/> -->
+		<typeAlias type="dto.ChatDTO" alias="chatdto"/>
+		<typeAlias type="dto.EventDTO" alias="eventdto"/>
+		<typeAlias type="dto.GroupDTO" alias="groupdto"/>
+		<typeAlias type="dto.GroupMemberDTO" alias="groupmemberdto"/>
+		<typeAlias type="dto.NotificationDTO" alias="notificationdto"/>
+		<typeAlias type="dto.UserDTO" alias="userdto"/>
 	</typeAliases>
 	
 
