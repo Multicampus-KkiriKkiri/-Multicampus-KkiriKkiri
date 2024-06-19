@@ -1,16 +1,19 @@
 package dto;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Component
 public class NotificationDTO {
 
-	int notificationId;
-	int userId;
-	int groupId;
-	String notificationTime;
-	String notificationText;
+	private int notificationId;
+	private int userId;
+	private int groupId;
+	private String notificationTime;
+	private String notificationText;
 	
 }

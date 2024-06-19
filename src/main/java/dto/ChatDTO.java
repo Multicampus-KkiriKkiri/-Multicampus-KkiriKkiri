@@ -1,5 +1,7 @@
 package dto;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +10,10 @@ import lombok.Setter;
 @Component
 public class ChatDTO {
 	
-	int chatId;
-	int groupId;
-	int userId;
-	String chatMessage;
-	String chatTime;
+	private int chatId;
+	private int groupId;
+	private int userId;
+	private String chatMessage;
+	private String chatTime;
 	
 }

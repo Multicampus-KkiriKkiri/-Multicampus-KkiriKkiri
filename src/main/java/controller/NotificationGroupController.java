@@ -10,8 +10,9 @@ import service.NotificationService;
 
 @Controller
 public class NotificationGroupController {
+	
 	@Autowired
-	@Qualifier("NotificationServiceImple")
+	@Qualifier("notificationServiceImple")
 	NotificationService service;
 	
 	@GetMapping("/notificationgrouplist")
@@ -19,6 +20,5 @@ public class NotificationGroupController {
 		ModelAndView mv = null;
 		return mv;
 	}
-	
 	
 }

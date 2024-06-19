@@ -1,5 +1,7 @@
 package dto;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +10,8 @@ import lombok.Setter;
 @Component
 public class EventDTO {
 	
-	int eventId;
-	int groupId;
-	String eventName;
+	private int eventId;
+	private int groupId;
+	private String eventName;
 	
 }
