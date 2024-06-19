@@ -2,9 +2,12 @@ package dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
+
+@Component
 public class UserDTO {
 
 	int userId;
@@ -14,5 +17,6 @@ public class UserDTO {
 	String profileIntro;
 	String profileImage;
 	String signUpType;
+	String userNickname;
 	
 }

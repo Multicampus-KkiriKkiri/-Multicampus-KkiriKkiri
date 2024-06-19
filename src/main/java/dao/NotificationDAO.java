@@ -1,6 +1,5 @@
 package dao;
 
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,4 +23,5 @@ public class NotificationDAO {
 	public int deleteNotification() {
 		return session.delete("deleteNotification");
 	}
+
 }
