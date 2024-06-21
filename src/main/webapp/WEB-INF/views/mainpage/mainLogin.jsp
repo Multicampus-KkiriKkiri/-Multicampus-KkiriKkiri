@@ -26,15 +26,18 @@
 <body>
 	<%@ include file="mainHeaderLogin.jsp" %>	
 	<main>
-		<section class="main-banner">
-			<div>
-				<img class="main-banner" src="images/main_banner.png" alt="끼리끼리 배너"> 
+		<section class="main-banner row">
+			<div class="col-1"></div>
+			<div class="col-3">
+				<img src="images/main_banner.png" alt="끼리끼리 배너"> 
 			</div>	
-			<div class="banner-phrase">
-				<h2>친구도 취미도<br> <b>끼리끼리</b>에서</h2>
-				<h4>나와 같은 관심사를 가진 사람들과 가장 가까운 곳에서 지금 바로<br> 소모임을 시작해보세요!</h4>
+			<div class="col-2"></div>
+			<div class="banner-phrase col-5">
+				<h1>친구도 취미도<br> <b>끼리끼리</b>에서</h1>
+				<h6>나와 같은 관심사를 가진 사람들과 <br>가장 가까운 곳에서 소모임을 시작해보세요!</h6>
 				<button>모임 만들기</button>
-			</div>				
+			</div>
+			<div class="col-1"></div>				
 		</section>
 		
 		<section class="container">
