@@ -1,4 +1,3 @@
-@charset "utf-8";
 body {
     font-family: Arial, sans-serif;
 }
@@ -7,8 +6,8 @@ body {
     width: 60%;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc; /* border 색깔 지정 */
-    border-radius: 10px; /* border 모서리 둥글게 */
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
 h2 {
@@ -34,15 +33,18 @@ h2 {
 
 .description-image-box {
     display: flex;
+    flex-direction: row;
     gap: 20px;
 }
 
 .image-box {
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
     height: 200px;
-    border: 1px dashed #ccc; /* border 색깔 지정 */
+    border: 1px dashed #ccc;
     position: relative;
     text-align: center;
+    overflow: hidden;
 }
 
 .image-placeholder {
@@ -54,9 +56,13 @@ h2 {
     cursor: pointer;
 }
 
+#addImageButton {
+    margin-bottom: 10px;
+}
+
 .plus-icon {
     font-size: 50px;
-    color: #ccc; /* 아이콘 색깔 지정 */
+    color: #ccc;
 }
 
 #preview {
@@ -91,11 +97,52 @@ textarea {
     margin-top: 10px;
 }
 
-.application-description div {
-    display: none;
-}
-
 .application-description .first-come-first-served,
 .application-description .approval-system {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.application-description .first-come-first-served.active,
+.application-description .approval-system.active {
     display: block;
+}
+
+.application-type .active {
+    background-color: #ddd;
+}
+
+.region-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.region,
+.district {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.region.active,
+.district.active {
+    background-color: #ddd;
+}
+
+.districts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#register_submit {
+    display: flex;
+    margin-left: auto;
 }
