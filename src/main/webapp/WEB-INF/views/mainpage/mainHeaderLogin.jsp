@@ -14,7 +14,6 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-<link rel="stylesheet" href="/css/main.css" />
 <link rel="stylesheet" href="/css/kkirikkiri.css" />
 
 <script src="/jquery-3.7.1.min.js"></script>   
@@ -52,7 +51,7 @@ $(document).ready(function(){
 		</a>			
 		<span class="btn-group dropdown">
 		  <button class="dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:white">
-		    <i class="fa-solid fa-chevron-down" style="margin-bottom:15px; background-color:white;"></i>
+		    <i class="fa-solid fa-chevron-down" style="margin-bottom:15px; background-color:white; color:#706F6F"></i>
 		  </button>		  
 			  <ul class="dropdown-menu dropdown-menu-end" >
 			    <li><a class="dropdown-item" href="#">마이페이지</a></li>
@@ -73,6 +72,6 @@ $(document).ready(function(){
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<script src="main.js"></script>
+<script src="<c:url value='/js/kkirikkiri.js'/>"></script>
 </body>
 </html>
