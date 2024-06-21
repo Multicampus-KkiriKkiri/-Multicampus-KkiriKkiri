@@ -22,14 +22,13 @@ public class GroupServiceImpl implements GroupService {
 		return dao.getGroupDetail(groupId);
 	}
 	
-	
-	 @Override
-	 public List<RegionDTO> getAllRegions() {
-		 return dao.getAllRegions();
-		 }
+	@Override
+	public List<RegionDTO> getAllRegions() {
+		return dao.getAllRegions();
+	}
 
-	 @Override
-	 public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
-		 return dao.getDistrictsByRegionId(regionId);
-		 }
+	@Override
+	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
+		return dao.getDistrictsByRegionId(regionId);
+	}
 }	
