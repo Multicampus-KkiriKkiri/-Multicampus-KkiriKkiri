@@ -12,8 +12,8 @@ public class NotificationDAO {
 	@Autowired
 	SqlSession session;
 	
-	public String getNotificationText(NotificationDTO userIdAndGroupId) {
-		return session.selectOne("getNotificationText", userIdAndGroupId);
+	public NotificationDTO getNotification(NotificationDTO userIdAndGroupId) {
+		return session.selectOne("getNotification", userIdAndGroupId);
 	}
 	
 	public int insertNotification(NotificationDTO all) {

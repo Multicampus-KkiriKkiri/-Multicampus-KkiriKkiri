@@ -13,8 +13,8 @@ public class NotificationServiceImple implements NotificationService {
 	NotificationDAO dao;
 
 	@Override
-	public String getNotificationText(NotificationDTO userIdAndGroupId) {
-		return dao.getNotificationText(userIdAndGroupId);
+	public NotificationDTO getNotification(NotificationDTO userIdAndGroupId) {
+		return dao.getNotification(userIdAndGroupId);
 	}
 
 	@Override
