@@ -3,8 +3,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="dao.NotificationDAO">
- <select id="getNotificationText" resultType="String" parameterType="notificationdto">
-  select notificationText from notification where userId=#{userId} and groupId = #{groupId}
+ <select id="getNotification" resultType="notificationdto" parameterType="notificationdto">
+  select * from notification where userId=#{userId} and groupId = #{groupId}
  </select>
  
  <insert id="insertNotification" parameterType="notificationdto">
@@ -13,7 +13,12 @@
  </insert>
 
  <delete id="deleteNotification">
-	delete from notification where notificationTime &lt; date_sub(Now(), interval 30 day)   
+	delete from notification where notificationID = #{notificationID}
  </delete>
+
+
+ <!-- <delete id="deleteNotification">
+	delete from notification where notificationTime &lt; date_sub(Now(), interval 30 day)   
+ </delete> -->
 
   </mapper>
