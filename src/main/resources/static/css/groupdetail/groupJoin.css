@@ -1,0 +1,63 @@
+/* groupJoin.css */
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+main {
+    border: 1px solid #000;
+    padding: 20px;
+    height: auto;
+    width: 450px;
+}
+
+section div {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#joinPageSection {
+    text-align: center;
+}
+
+img {
+	width: 50px;
+	height: auto;
+}
+
+#questionDiv {
+    display: flex;
+    align-items: stretch; /* 자식 요소들의 높이를 동일하게 설정 */
+}
+
+#leaderInfoDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+}
+
+#leaderProfileDiv, #leaderNameDiv {
+    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춤 */
+}
+
+#signUpQuestionDiv {
+    flex: 1; /* 남은 공간을 차지 */
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: flex-start; /* 내용을 왼쪽으로 정렬 */
+    padding-left: 10px; /* 왼쪽 가장자리에서 공간 생성 (선택 사항) */
+    text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+}
+
+#joinPageSection textarea {
+    width: calc(100% - 20px); /* 부모 요소의 너비에 맞추고 padding을 고려 */
+    height: 100px; /* 원하는 높이 설정 */
+    padding: 10px;
+    box-sizing: border-box; /* 패딩을 포함한 전체 너비와 높이 계산 */
+}

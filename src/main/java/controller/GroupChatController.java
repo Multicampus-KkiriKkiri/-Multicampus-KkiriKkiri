@@ -10,12 +10,13 @@ import service.GroupService;
 
 
 @Controller
+@RequestMapping("/groupdetail")
 public class GroupChatController {
 	
 	@Autowired
 	GroupService groupService;
 
-	@RequestMapping("/groupchat")
+	@RequestMapping("/chat")
 	ModelAndView groupDetail(int groupId) {
 				
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);

@@ -26,4 +26,5 @@ public class GroupDTO {
     private int groupInterest;
     private String groupSignUpType;
     private int groupMaximum;
+    private String groupSignUpQuestion;
 }

@@ -8,12 +8,19 @@
 <meta charset="utf-8">
 <title>${groupDTO.groupName} 모임 설명 & 가입 멤버</title>
 <script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupDetailTap.js"></script>
+<script src="/js/groupdetail/groupDetail.js"></script>
 </head>
 <body>
 	<section id="tapPageSection">
 			<div>
-				<div><img src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">${groupLeaderDTO.userNickname}</div>
+				<div id="leaderInfoDiv">
+					<div id="leaderImageDiv">
+						<img id="leaderImg" src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
+					</div>
+					<div id="leaderNameDiv">
+						${groupLeaderDTO.userNickname}
+					</div>
+				</div>
 	            <div>${groupDTO.groupDetail}</div>
 			</div>
 			<div>

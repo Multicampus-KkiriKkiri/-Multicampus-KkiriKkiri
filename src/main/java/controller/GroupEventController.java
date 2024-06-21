@@ -9,12 +9,13 @@ import dto.GroupDTO;
 import service.GroupService;
 
 @Controller
+@RequestMapping("/groupdetail")
 public class GroupEventController {
 	
 	@Autowired
 	GroupService groupService;
 
-	@RequestMapping("/groupevent")
+	@RequestMapping("/event")
 	ModelAndView groupDetail(int groupId) {
 				
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
