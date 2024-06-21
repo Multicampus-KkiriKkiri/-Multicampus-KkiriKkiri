@@ -25,9 +25,17 @@
 			</div>
 			<div>
 			  	<div>가입멤버</div>
-	            <div id="membersSection">
-	            	<div>프로필 사진 목록</div>
-	                <div>닉네임 목록</div>
+	            <div id="membersDiv">
+	            	<div>
+	            		프로필 사진 목록
+	            		<%-- <c:forEach var="userProfileImg" items="${memberList.profileImage}}">
+	            		
+	            		</c:forEach> --%>
+	            	</div>
+	                <div>
+	                	닉네임 목록
+	                	
+	                </div>
 	            </div>
 			</div>
 		</section>

@@ -12,6 +12,7 @@
 <script>
 	var groupId = ${groupDTO.groupId};
 	var userId = ${userId};
+	var groupSignUpType = "${groupDTO.groupSignUpType}";
 </script>
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />

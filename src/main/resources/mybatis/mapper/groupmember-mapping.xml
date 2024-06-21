@@ -27,8 +27,8 @@
 	    )
 	</select>
 	
-	<select id="checkMemberInGroup" resultType="int">
-		select count(*) from `group_member` where userId = #{userId} and groupId = #{groupId} and status = '승인'
+	<select id="checkMemberStatusInGroup" resultType="String">
+		select status from `group_member` where userId = #{userId} and groupId = #{groupId}
 	</select>
 	
 	<select id="checkUserHistoryInGroup" resultType="String">

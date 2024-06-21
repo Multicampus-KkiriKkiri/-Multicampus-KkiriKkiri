@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -101,9 +102,13 @@ public class GroupDetailController {
                 map.put("userId", userId);
                 map.put("groupId", groupId);
                 
-                if(groupMemberService.checkMemberInGroup(map)) { // 모임원
+                String memberStatusInGroup = groupMemberService.checkMemberStatusInGroup(map);
+                
+                if(memberStatusInGroup.equals("승인")) { // 모임원
                 	return "member";
-                } else { // 일반회원
+                } else if(memberStatusInGroup.equals("대기")){ // 가입신청 상태
+                	return "stanby";
+                } else { // 일반 회원
                 	return "user";
                 }
             }
@@ -132,23 +137,21 @@ public class GroupDetailController {
 		
 	}
 	
-	// 모임 가입 신청서 제출
+	// 모임 가입 신청 과정
 	@PostMapping("/groupjoin")
 	@ResponseBody
-	int submitJoinApply(int userId, int groupId, String signUpAnswerTxt) {
+	int submitJoinApply(int userId, int groupId, String groupSignUpType, @RequestParam(required = false) String signUpAnswerTxt) {
 		
-		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
-		String signUpType = groupDTO.getGroupSignUpType();
-				
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
         map.put("groupId", groupId);
-        map.put("signUpAnswer", signUpAnswerTxt);
+        map.put("groupSignUpType", groupSignUpType);
         
         // 가입 방식 구분(선착순/승인제)
-     	if(signUpType.equals("선착순")) { // 선착순
+     	if(groupSignUpType.equals("선착순")) { // 선착순
      		map.put("status", "승인");
-     	} else { // 승인제
+     	} else if(groupSignUpType.equals("승인제")){ // 승인제
+     		map.put("signUpAnswer", signUpAnswerTxt);
      		map.put("status", "대기");
      	}
         
@@ -162,9 +165,6 @@ public class GroupDetailController {
         } else { // 이전 가입 이력 없는 경우
         	return groupMemberService.addMemberToGroup(map);
         }
-		
-        
-		
 	}
 	
 	// 모임 탈퇴 팝업창 열기

@@ -21,7 +21,8 @@ function submitJoinApply() {
         data: { 
 			userId: userId,
         	groupId: groupId, 
-        	signUpAnswerTxt: $("#signUpAnswerTxt").val() 
+        	groupSignUpType: "승인제",
+        	signUpAnswerTxt: $("#signUpAnswerTxt").val()
         },
         success: function(data) {
 			if(data == 1) {

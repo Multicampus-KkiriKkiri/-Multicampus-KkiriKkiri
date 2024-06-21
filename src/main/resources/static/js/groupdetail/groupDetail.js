@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 	// 사용자 권한 확인(비회원/회원/모임원/모임장)
 	checkUserAuthority(); 
+	
 	// 회원 찜 상태 확인
 	checkUserWishlist();
 
@@ -19,7 +20,7 @@ $(document).ready(function() {
         switchWishlistBtn();
     });
     
-    // 모임 상세페이지에서 groupOptionBtn 버튼 클릭 시 이벤트 처리
+    // 모임 상세페이지에서 groupOptionBtn 버튼 클릭 시 이벤트 처리(모임가입/모임나가기/모임설정)
     $('#groupOptionBtn').click(function() {
         groupOptionProcess($(this).val());
     });
@@ -163,7 +164,10 @@ function setGroupOptionBtn(auth) {
 	} else if (auth === "user") {
         $("#groupOptionBtn").val("join");
         $("#groupOptionBtn").html("모임 가입"); 
-    } else if(auth === "member") {
+    } else if(auth === "stanby") {
+		$("#groupOptionBtn").val("standby");
+        $("#groupOptionBtn").html("가입 신청 취소");
+	} else if(auth === "member") {
         $("#groupOptionBtn").val("quit");
         $("#groupOptionBtn").html("모임 나가기");
     } else if(auth === "leader") {
@@ -172,32 +176,42 @@ function setGroupOptionBtn(auth) {
 	}
 }
 
-// groupOptionBtn 클릭 시 사용자별 기능
-function groupOptionProcess(value) {
-	if(value === "signup") {
+// groupOptionBtn 클릭 시 권한 별 기능
+function groupOptionProcess(btnValue) {
+	if(btnValue === "signup") {
 		alert("로그인 후 이용해주세요.");
 		/* 로그인 페이지로 이동 */
-	} else if (value === "join") {
-		openGroupJoinPopup(userId, groupId);
-    } else if(value === "quit") {
-		openGroupQuitPopup(userId, groupId);
-    } else if(value === "set") {
+	} else if (btnValue === "join") {
+		groupJoinProcessByType();
+    } else if(btnValue === "standby") {
+		var userConfirm = confirm("가입 신청을 취소하시겠어요?");
+		if(userConfirm) { // 대기 취소
+			openGroupQuitPopup();
+		}
+	} else if(btnValue === "quit") {
+		openGroupQuitPopup();
+    } else if(btnValue === "set") {
 			
 	}
 }
 
+// 모임 가입 진행 함수
+function groupJoinProcessByType() {
+		openGroupJoinPopup();	
+}
+
 // 모임 가입 팝업창 열기 함수
-function openGroupJoinPopup(userId, groupId) {
+function openGroupJoinPopup() {
     var popupWidth = 600;
     var popupHeight = 600;
     var left = (screen.width / 2) - (popupWidth / 2);
     var top = (screen.height / 2) - (popupHeight / 2);
 
-    window.open('/groupdetail/groupjoin?userId=' + userId + '&groupId=' + groupId, 'groupJoinPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
+    window.open('/groupdetail/groupjoin?userId=' + userId + '&groupId=' + groupId , 'groupJoinPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
 }
 
 // 모임 나가기 팝업창 열기 함수
-function openGroupQuitPopup(userId, groupId) {
+function openGroupQuitPopup() {
     var popupWidth = 600;
     var popupHeight = 600;
     var left = (screen.width / 2) - (popupWidth / 2);
