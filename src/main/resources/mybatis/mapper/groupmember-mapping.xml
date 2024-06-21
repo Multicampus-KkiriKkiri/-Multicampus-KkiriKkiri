@@ -4,8 +4,35 @@
 
 <mapper namespace="dao.GroupMemberDAO">
 	
+	<insert id="addMemberToGroup">
+		insert into `group_member` values(#{groupId}, #{userId}, #{signUpAnswer}, now(), #{status})
+	</insert>
+	
+	<update id="updateMemberToGroup">
+		update `group_member` set status = #{status}, statusDate = now() where userId = #{userId} and groupId = #{groupId}
+	</update>
+	
 	<select id="getMemberCountInGroup" resultType="int">
-		select count(*) as member_count from `group_member` where groupId = #{groupId}
+		select count(*) as member_count from `group_member` where groupId = #{groupId} and status = '승인'
+	</select>
+	
+	<select id="getGroupMemberList" resultType="userdto">
+		SELECT u.userId, u.profileImage, u.userNickName
+	    FROM `user` u
+	    WHERE u.userId IN (
+	        SELECT gm.userId
+	        FROM `group_member` gm
+	        WHERE gm.groupId = #{groupId} AND gm.status = '승인'
+	        ORDER BY gm.statusDate
+	    )
+	</select>
+	
+	<select id="checkMemberInGroup" resultType="int">
+		select count(*) from `group_member` where userId = #{userId} and groupId = #{groupId} and status = '승인'
+	</select>
+	
+	<select id="checkUserHistoryInGroup" resultType="String">
+		select status from `group_member` where userId = #{userId} and groupId = #{groupId}
 	</select>
 	
 </mapper>

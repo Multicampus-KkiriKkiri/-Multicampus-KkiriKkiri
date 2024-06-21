@@ -8,16 +8,18 @@
 <meta charset="utf-8">
 <title>${ groupDTO.groupName }</title>
 <script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupDetailTap.js"></script>
+<script src="/js/groupdetail/groupDetail.js"></script>
 <script>
 	var groupId = ${groupDTO.groupId};
+	var userId = ${userId};
 </script>
-<link rel="stylesheet" type="text/css" href="/css/groupDetail.css">
+<link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
 	<main>
 		<section>
-			<div><img src="${groupDTO.groupImage}" alt="${groupDTO.groupName}"></div>
+			<div><img id="groupImg" src="${groupDTO.groupImage}" alt="${groupDTO.groupName}"></div>
 			<div>
 				<div>${groupDTO.groupName}</div>
 				<div>${category}</div>
@@ -29,21 +31,36 @@
 			</div>
 		</section>
 		<section>
-			<button id="tapInfoBtn">모임 설명 & 가입 멤버</button>
-			<button id="tapEventBtn">모임 일정</button>
-			<button id="tapPhotoBtn">모임 사진</button>
-			<button id="tapChatBtn">모임 채팅</button>
+			<button class="tapBtn" value="info">모임 설명 & 가입 멤버</button>
+			<button class="tapBtn" value="event">모임 일정</button>
+			<button class="tapBtn" value="photo">모임 사진</button>
+			<button class="tapBtn" value="chat" id="chatBtn">모임 채팅</button>
 		</section>
 		<section id="tapPageSection">
 			<div>
-				<div><img src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">${groupLeaderDTO.userNickname}</div>
+				<div id="leaderInfoDiv">
+					<div id="leaderImageDiv">
+						<img id="leaderImg" src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
+					</div>
+					<div id="leaderNameDiv">
+						${groupLeaderDTO.userNickname}
+					</div>
+				</div>
 	            <div>${groupDTO.groupDetail}</div>
 			</div>
 			<div>
 			  	<div>가입멤버</div>
-	            <div id="membersSection">
-	            	<div>프로필 사진 목록</div>
-	                <div>닉네임 목록</div>
+	            <div id="membersDiv">
+	            	<div>
+	            		프로필 사진 목록
+	            		<%-- <c:forEach var="userProfileImg" items="${memberList.profileImage}}">
+	            		
+	            		</c:forEach> --%>
+	            	</div>
+	                <div>
+	                	닉네임 목록
+	                	
+	                </div>
 	            </div>
 			</div>
 		</section>
@@ -55,9 +72,9 @@
 			${groupDTO.groupName}		
 		</span>
 		<span>
-			<button>공유</button>
-			<button>찜</button>
-			<button>모입 가입</button>
+			<button id="groupShareBtn">공유</button>
+			<button id="groupWishBtn" value=""></button>
+			<button id="groupOptionBtn" value=""></button>
 		</span>
 	</div>
 </body>

@@ -17,16 +17,16 @@
 <body>
 	<h1>임시 로그인(회원 id session에 저장)</h1>
 	<h1>현재 sessionUserId  = <%=session.getAttribute("sessionUserId") %></h1>
-	<form action="/tmplogin" method="post">
+	<form action="/groupdetail/tmplogin" method="post">
 		<input type="text" name="inputUserId">
 		<button>로그인(sessionUserId 저장)</button>
 	</form>
 	<br>
-	<form action="/tmplogout" method="post">
+	<form action="/groupdetail/tmplogout" method="post">
 		<button>로그아웃(sessionUserId 삭제)</button>
 	</form>
 	<br>
-	<form action="/groupdetail" method="get">
+	<form action="/groupdetail/info" method="get">
 		<input type="hidden" name="groupId" value="1">
 		<button>'테스트모임' 상세 페이지로 이동</button>
 	</form>

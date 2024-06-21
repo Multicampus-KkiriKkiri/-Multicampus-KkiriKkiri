@@ -1,10 +1,8 @@
-img {
+/* groupDetail.css */
+
+#groupImg {
 	width: 300px;
 	height: auto;
-}
-
-body {
-    font-family: Arial, sans-serif;
 }
 
 main {
@@ -23,9 +21,25 @@ section div {
     padding: 10px;
 }
 
-#membersSection {
+#chatBtn {
+	display: none;
+}
+
+#leaderImg {
+	width: 50px;
+	height: auto;
+}
+
+#membersDiv, #leaderInfoDiv {
 	display: flex;
     gap: 10px;
+    align-items: stretch; /* 자식 요소들의 높이를 동일하게 설정 */
+}
+
+#leaderInfoDiv > div {
+    display: flex;
+    align-items: center; /* 자식 요소의 내용을 수직 중앙 정렬 */
+    justify-content: center; /* 필요 시 수평 중앙 정렬 */
 }
 
 #groupFooter {
