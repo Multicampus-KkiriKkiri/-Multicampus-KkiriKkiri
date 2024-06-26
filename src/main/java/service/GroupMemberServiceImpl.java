@@ -37,13 +37,8 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 	}
 
 	@Override
-	public boolean checkMemberInGroup(HashMap map) {
-		// 모임원 여부 확인
-		if(dao.checkMemberInGroup(map) == 1) { // 모임원 인 경우
-			return true;
-		} else { // 모임원 아닌경우
-			return false;
-		}
+	public String checkMemberStatusInGroup(HashMap map) {
+		return dao.checkMemberStatusInGroup(map);
 	}
 
 	@Override

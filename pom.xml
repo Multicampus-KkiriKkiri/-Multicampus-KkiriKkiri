@@ -41,7 +41,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- jsp  servlet jstl -->
+		<!-- jsp servlet jstl -->
 		<dependency>
 		    <groupId>jakarta.servlet</groupId>
 		    <artifactId>jakarta.servlet-api</artifactId>
@@ -86,24 +86,23 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-
+		
 		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
+		<!-- Thumbnailator(img resize관련)추가 -->
 		<dependency>
 		    <groupId>net.coobird</groupId>
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.14</version>
 		</dependency>
-	
 	</dependencies>
 	
 	
-
 	<build>
 		<plugins>
 			<plugin>

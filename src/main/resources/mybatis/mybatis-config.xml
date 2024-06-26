@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
-
-
+  
 <configuration>
+    <!-- 타입 별칭 설정 -->
+    <typeAliases>
+        <typeAlias type="dto.ChatDTO" alias="chatdto"/>
+        <typeAlias type="dto.EventDTO" alias="eventdto"/>
+        <typeAlias type="dto.GroupDTO" alias="groupdto"/>
+        <typeAlias type="dto.GroupMemberDTO" alias="groupmemberdto"/>
+        <typeAlias type="dto.NotificationDTO" alias="notificationdto"/>
+        <typeAlias type="dto.UserDTO" alias="userdto"/>
+    </typeAliases>
 
-	<typeAliases>
-		<typeAlias type="dto.ChatDTO" alias="chatdto"/>
-		<typeAlias type="dto.EventDTO" alias="eventdto"/>
-		<typeAlias type="dto.GroupDTO" alias="groupdto"/>
-		<typeAlias type="dto.GroupMemberDTO" alias="groupmemberdto"/>
-		<typeAlias type="dto.NotificationDTO" alias="notificationdto"/>
-		<typeAlias type="dto.UserDTO" alias="userdto"/>
-	</typeAliases>
-	
-
+    <!-- 매퍼 설정 -->
+    <mappers>
+        <mapper resource="mybatis/mapper/groupregister-mapping.xml"/>
+    </mappers>
 </configuration>
