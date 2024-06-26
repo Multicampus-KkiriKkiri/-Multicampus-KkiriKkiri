@@ -124,8 +124,7 @@ $(document).ready(function(){
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
-	    
-	    
+
 	    <form id="email-signup-modal-form">
 		    <div class="email-login" style="margin-top: 25px">
 			    <h6 style="margin-right:290px"><b>이메일</b></h6>
@@ -146,8 +145,7 @@ $(document).ready(function(){
 			<div class="email-signup-form" id="email-signup-modal-form-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
 		    <button type="button" class="login-modal-button" id="open-signup-set-myprofile-modal">회원가입</button>  	    
 	    </form>
-	    
-	    
+	   
 	    <div class="signup-suggestion" style="margin-top: 25px;">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
 		    <a href="#" style="color:#3b5f3e"><b>로그인 하기</b></a>

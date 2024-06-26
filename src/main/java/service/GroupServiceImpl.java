@@ -32,4 +32,9 @@ public class GroupServiceImpl implements GroupService {
 		return dao.getDistrictsByRegionId(regionId);
 	}
 	
+	@Override
+	public void registerGroup(GroupDTO groupDTO) {
+	    dao.insertGroup(groupDTO);
+	}
+
 }	

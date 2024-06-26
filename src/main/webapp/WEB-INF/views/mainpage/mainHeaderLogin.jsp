@@ -72,6 +72,5 @@ $(document).ready(function(){
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<script src="<c:url value='/js/kkirikkiri.js'/>"></script>
 </body>
 </html>
