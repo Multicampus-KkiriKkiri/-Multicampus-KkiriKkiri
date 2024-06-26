@@ -15,4 +15,6 @@ public interface GroupService {
 	List<RegionDTO> getAllRegions();
 	
 	List<DistrictDTO> getDistrictsByRegionId(int regionId);
+	
+	public void registerGroup(GroupDTO groupDTO);
 }

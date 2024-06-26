@@ -31,4 +31,9 @@ public class GroupServiceImpl implements GroupService {
 	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
 		return dao.getDistrictsByRegionId(regionId);
 	}
+	
+	@Override
+	public void registerGroup(GroupDTO groupDTO) {
+	    dao.insertGroup(groupDTO);
+	}
 }	
