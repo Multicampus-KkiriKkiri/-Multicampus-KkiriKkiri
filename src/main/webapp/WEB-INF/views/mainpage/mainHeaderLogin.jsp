@@ -28,7 +28,7 @@ $(document).ready(function(){
 <header class="header-nav">
 	<div>
 		<a href="#" class="logo">
-			<img src="images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
+			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>		 
 	       <span class="search-area">
 	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  

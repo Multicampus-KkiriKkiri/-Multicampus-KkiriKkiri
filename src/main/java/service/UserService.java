@@ -21,4 +21,8 @@ public interface UserService {
 	
 	// 한 회원 정보 조회
 	UserDTO getUserInfo(int userId);
+	
+	//해당 email 회원정보 조회
+	UserDTO findByUserEmail(String userEmail);
+	
 }

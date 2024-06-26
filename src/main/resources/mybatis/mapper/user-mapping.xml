@@ -8,4 +8,16 @@
 		select userId, userEmail, userRegion, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
 	</select>
 	
+	<!-- 로그인 -->
+	<select id="findByUserEmail" resultType="userdto" parameterType = "String">
+		select * from user where userEmail = #{userEmail}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="signUp" parameterType="userdto">		
+		insert into user (userEmail, userPw) values (#{userEmail}, #{userPw})		
+	</insert>
+	
+	
+	
 </mapper>

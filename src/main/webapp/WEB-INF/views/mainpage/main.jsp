@@ -206,6 +206,6 @@
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<script src="main.js"></script>
+
 </body>
 </html>

@@ -21,24 +21,24 @@
 
 <script src="/jquery-3.7.1.min.js"></script>   
 <script>
-$(document).ready(function(){
+$(document).ready(function(){	
 	
 });
 </script>    
 </head>
 <body>
 <header class="header-nav">
-	<div>
+	<div class="header-nav-left">
 		<a href="#" class="logo">
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
-		</a>		 
-	       <span class="search-area">
-	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  
-	        --><input type="text" class="second-input" id="search-input" placeholder="지역이나타나야 해" /><!--
-	         --><button>
-	         <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:white"></i>
-	         </button>
-	       </span>	       
+		</a>	
+		<form action="/groupsearch" method="get" class="search-area" style="margin-top:20px;"> 	       
+	       <input type="text" class="first-input" id="search-input-keyword" name="keyword" placeholder="검색어 입력" /><!--  
+	       --><input type="text" class="second-input" id="search-input-region" name="region" placeholder="지역 입력" /><!--
+	       --><button id="search-button">
+	       <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:white"></i>
+	       </button>       	
+        </form>    
 	</div>
 	
 	<div class="before-login-header-nav-right">
@@ -58,13 +58,16 @@ $(document).ready(function(){
 		    <h6 style="margin-right:7px">아직 계정이 없다면?</h6>
 		    <a href="#" style="color:#3b5f3e"><b>계정 만들기</b></a>
 	    </div>
-	    <div class="email-login" style="margin-top: 25px">
-		    <h6 style="margin-right:290px"><b>이메일</b></h6>
-		    <input type="text">
-		    <h6 style="margin-right:270px; margin-top: 15px"><b>비밀번호</b></h6>
-		    <input type="password">
-	    </div>	    
-	    <button class="login-modal-button">로그인</button>	    
+	    <form id="login-modal-form">
+		    <div class="email-login" style="margin-top: 25px">
+			    <h6 style="margin-right:290px"><b>이메일</b></h6>
+			    <input type="text" id="userEmail" name="userEmail" required>
+			    <h6 style="margin-right:270px; margin-top: 15px"><b>비밀번호</b></h6>
+			    <input type="password" id="userPw" name="userPw" required>
+			    <div id="errorMessage" style="color: red; margin-top:5px; text-align:left; margin-left:50px;"><!-- 로그인 실패 메시지 --></div>
+		    </div>	    		    
+		    <button type="button" id="login-modal-button" class="login-modal-button">로그인</button>	  
+	    </form>  
 	    <div style="display:flex; align-items:center; justify-content:space-between; padding: 0 10px; margin:20px 0">
 		    <div style="flex: 1; border-top: 1px solid #e4e2dd;"></div>
 		    <span style="margin: 0 10px;">또는</span>
@@ -76,13 +79,13 @@ $(document).ready(function(){
 		    	<img src="/images/kakao_login_medium_wide.png" alt="카카오톡 로그인 버튼" style="width: 80%">
 		    </a>	
 	    </div>
-	    <!-- 구글 로그인 -->
+	    <!-- 구글 로그인-->  
 		<div id="GgCustomLogin" style="height: 100px; padding:0px">
 			<a href="javascript:void(0)">
 				<img src="/images/google_login.png" alt="구글 로그인 버튼" style="width:350px; margin-top: 13px;">
 			</a>
 		</div>	
-		<a href="#" style="text-decoration:underline; margin-top:0px;">로그인에 어려움이 있으신가요?</a>     	
+		<a href="#" style="text-decoration:underline; margin-top:0px;">로그인에 어려움이 있으신가요?</a>     		
   	</div>       
   </div>
 </div>
@@ -121,31 +124,118 @@ $(document).ready(function(){
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
-	    <div class="email-login" style="margin-top: 25px">
-		    <h6 style="margin-right:290px"><b>이메일</b></h6>
-		    <input type="text">
-		    <div class="email-signup-form">이메일 중복 결과창</div> 
-		    <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>		    
-		    
-		    <div class="password-input-container">
-        		<input type="password" id="passwordInput" class="password-input" placeholder="   비밀번호">
-        		<i class="fa-solid fa-eye-slash toggle-password" onclick="togglePasswordVisibility()"></i>
-    		</div>   	    
-		    <input type="password" placeholder="   비밀번호 재입력">
-		    <div class="email-signup-form">비밀번호 일치 결과창</div> 	    
-	    </div>
-	    <div class="email-signup-form" style="margin-top:20px;">
-	    	<input type="checkbox" name="age" value="rightAge" class="email-signup-form-checkbox"> 
-	    	<span style="font-size:17px; margin-left:10px;">저는 18세 이상입니다.</span>
-	    </div>	
-	    	    		    
-		<div class="email-signup-form">전체 입력이 안됐을시 보여지는 창</div> 
-	    <button class="login-modal-button">회원가입</button>  	    
+
+	    <form id="email-signup-modal-form">
+		    <div class="email-login" style="margin-top: 25px">
+			    <h6 style="margin-right:290px"><b>이메일</b></h6>
+			    <input type="text" id="email-signup-modal-userEmail" name="userEmail" required>
+			    <div class="email-signup-form" id="email-signup-modal-userEmail-confirm"><!--이메일 중복 결과창  --></div> 
+			    <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>	  	    
+			    <div class="password-input-container">
+				  <input type="password" placeholder=" 비밀번호를 입력하세요" id="email-signup-modal-userPw" name="userPw" required>
+				  <i class="fa-regular fa-eye-slash"></i>
+				</div>		    	
+			    <input type="password" placeholder=" 비밀번호 재입력" id="email-signup-modal-userPw-confirm">
+			    <div class="email-signup-form" id="email-signup-modal-userPw-confirm-result"><!--비밀번호 일치 결과창  --></div> 	    
+		    </div>
+		    <div class="email-signup-form" style="margin-top:20px;">
+		    	<input type="checkbox" name="age" value="rightAge" class="email-signup-form-checkbox"> 
+		    	<span style="font-size:17px; margin-left:10px;">저는 18세 이상입니다.</span>
+		    </div>	    		    
+			<div class="email-signup-form" id="email-signup-modal-form-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
+		    <button type="button" class="login-modal-button" id="open-signup-set-myprofile-modal">회원가입</button>  	    
+	    </form>
+	   
 	    <div class="signup-suggestion" style="margin-top: 25px;">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
 		    <a href="#" style="color:#3b5f3e"><b>로그인 하기</b></a>
+	    </div>		   
+  	</div>
+  </div>
+</div>
+
+
+<!-- 회원가입 내정보설정 모달 -->
+<div id="signup-set-myprofile-modal" class="modal">
+  <div class="modal-content" style="padding-bottom:40px;">
+  	<div class="modal-content-container">
+	    <span class="modal-close">&times;</span><br><br>
+	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
+	    <h4><b>끼리끼리</b>에 오신 것을 환영합니다!</h4>
+	    <p>나에게 꼭 맞는 모임을 찾기 위해 <br>지금 '내 정보 설정'을 해 보세요.</p>	    
+	    <!-- 프로필 사진 업로드 -->
+	    <form class="signup-myprofile-img" method="post" enctype="multipart/form-data">
+	    	<div class="signup-myprofile-add-img" id="signup-myprofile-show-img">
+	    	<!-- 이미지가 보여지는 공간 -->
+	    	</div>
+	    	<div class="file-input-container">
+            	<label class="custom-file-label" for="file-upload">사진 업로드</label>
+            	<input type="file" id="file-upload" class="file-input" accept="image/*" onchange="loadFile(this)">
+        	</div>		 
+	    </form>
+	    
+	    <div class="email-login" style="margin-top: 25px">
+		    <h6 style="margin-right:290px"><b>내 별명</b></h6>
+		    <input type="text" required>
+		    <div class="email-signup-form">별명 중복 결과창</div> 
+		    <h6 style="margin-right:270px; margin-top: 15px;"><b>내 위치</b></h6>	  	    
+		    <div>
+		    	
+				<select id="city" required>
+			    	<option value="" disabled selected>도시 선택</option>
+			    	<option value="">도시</option>
+			    </select>
+		    </div>
+		    <div>
+			    <select id="district">
+			    	<option value="" disabled selected>구/동 선택</option>
+			    	<option value=""></option>
+			    </select>			  
+			</div>		    	
+		    <div class="email-signup-form">비밀번호 일치 결과창</div> 	 
 	    </div>
-		   
+	    	<h6 style="margin-right:290px"><b>내 관심사</b></h6>
+		    <form action="" style="border:1px solid red; margin-left: 45px;width:80%; height:100px;">			  
+			  <!--  <div class="col-3">-->
+			  <input type="checkbox" id="cultureArt" name="setProfileInterest" value="cultureArt">
+			  <label for="vehicle1">문화예술</label> 	
+			  <!--</div>  -->	
+			  <!--  <div class="col-3">--> 
+			  <input type="checkbox" id="activity" name="setProfileInterest" value="activity">
+			  <label for="vehicle2">액티비티</label>
+			   <!--</div>  -->	
+			  
+			  <!--  <div class="col-3">-->
+			  <input type="checkbox" id="foodDrink" name="setProfileInterest" value="foodDrink">
+			  <label for="vehicle3">푸드&드링크</label><br>
+			   <!--</div>  -->	
+			  
+			 <!--  <div class="col-3">-->
+			<div style="display:flex; justify-content:space-around;margin-top:50px;">
+			 <span>
+			  <input type="checkbox" id="selfStudy" name="setProfileInterest" value="selfStudy">
+			  <label for="vehicle3">자기계발</label>
+			  </span>
+			   <!--</div>  -->	
+			  
+			  <!--  <div class="col-3">-->
+			  <span>
+			  <input type="checkbox" id="etc" name="setProfileInterest" value="etc">
+			  <label for="vehicle3">기타</label>
+			  </div>
+			</span>  
+			   <!--</div>  -->	
+			</form>
+		    
+		    <h6 style="margin-right:290px"><b>내 소개</b></h6>
+		    <textarea style="width:80%;"id="setProfileBio" name="setProfileBio" rows="4" placeholder="Enter your message"></textarea>
+		    
+		    
+		    
+	    
+	       		    
+		<div class="email-signup-form">전체 입력이 안됐을시 보여지는 창</div> 
+	    <button class="login-modal-button">내 정보 등록하기</button>  	    	   
   	</div>
   </div>
 </div>

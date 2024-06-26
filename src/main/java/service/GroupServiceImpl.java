@@ -36,4 +36,5 @@ public class GroupServiceImpl implements GroupService {
 	public void registerGroup(GroupDTO groupDTO) {
 	    dao.insertGroup(groupDTO);
 	}
+
 }	
