@@ -10,21 +10,35 @@
 <script src="/jquery-3.7.1.min.js"></script>   
 </head>
 <body>
- <main>
+<header>
+	<%@ include file="../mainpage/mainHeader.jsp" %>
+	<%@ include file="../mainpage/mainHeaderLogin.jsp" %>
+</header>
+
+<main>
  	<div>
-		<c:forEach items="${notificationDTO}">
-			<div>
-				<div>${notificationDTO.notificationTime}</div>
-				<div>${notification.notificationText}</div>
-				<div>
-					<form action="deleteNotification" method="post">
-						<input type="submit" name="notificationId" value="${notificationDTO.notificationId}" />
-					</form>
-				</div>
-			</div>
-		</c:forEach>
+ 		<c:if test="${notificationDTO == null}">
+ 			<div>알림이 없습니다.</div><br>
+ 		</c:if>
+ 		 		
+		<c:if test="${notificationDTO != null}">
+            <div>
+                <div>${notificationDTO.notificationTime}</div><br>
+                <div>${userDTO.userNickname}의 ${groupName} 모임 가입 ${notificationDTO.notificationText} 입니다.</div><br>
+                <div>
+                    <form action="deleteNotification" method="post">
+                        <input type="hidden" name="notificationId" value="${notificationDTO.notificationId}" />
+                        <input type="submit" value="삭제" />
+                    </form>
+                </div>
+            </div>
+        </c:if>
+		
 	</div>
- 	
- </main>
+</main>
+
+<footer>
+	<%@ include file="../mainpage/mainFooter.jsp" %>
+</footer>
 </body>
 </html>
