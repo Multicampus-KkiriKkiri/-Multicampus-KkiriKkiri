@@ -9,7 +9,7 @@
 	</insert>
 	
 	<update id="updateMemberToGroup">
-		update `group_member` set status = #{status}, statusDate = now() where userId = #{userId} and groupId = #{groupId}
+		update `group_member` set signUpAnswer = #{signUpAnswer}, status = #{status}, statusDate = now() where userId = #{userId} and groupId = #{groupId}
 	</update>
 	
 	<select id="getMemberCountInGroup" resultType="int">
@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="getGroupMemberList" resultType="userdto">
-		SELECT u.userId, u.profileImage, u.userNickName
+		SELECT u.userId, u.profileIntro, u.profileImage, u.userNickName
 	    FROM `user` u
 	    WHERE u.userId IN (
 	        SELECT gm.userId

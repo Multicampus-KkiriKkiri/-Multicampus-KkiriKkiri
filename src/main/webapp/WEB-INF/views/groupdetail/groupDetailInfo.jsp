@@ -4,40 +4,36 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>${groupDTO.groupName} 모임 설명 & 가입 멤버</title>
-<script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupdetail/groupDetail.js"></script>
-</head>
-<body>
-	<section id="tapPageSection">
-			<div>
-				<div id="leaderInfoDiv">
-					<div id="leaderImageDiv">
-						<img id="leaderImg" src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
-					</div>
-					<div id="leaderNameDiv">
-						${groupLeaderDTO.userNickname}
-					</div>
-				</div>
+	<section class="tapPageSection" id="infoTapPageSection" >
+			<div id="groupDescriptionDiv">
+				<div class="groupDetailheaderDiv" id="groupInfoHeader">
+				  		<span>모임 설명</span>
+				  	</div>
 	            <div>${groupDTO.groupDetail}</div>
 			</div>
-			<div>
-			  	<div>가입멤버</div>
-	            <div id="membersDiv">
-	            	<div>
-	            		프로필 사진 목록
-	            		<%-- <c:forEach var="userProfileImg" items="${memberList.profileImage}}">
-	            		
-	            		</c:forEach> --%>
-	            	</div>
-	                <div>
-	                	닉네임 목록
-	                	
-	                </div>
-	            </div>
+			<div id="groupMembersDiv">
+				<div>
+					<div class="groupDetailheaderDiv" id="leaderInfoHeader">
+				  		<span>모임장</span>
+				  	</div>
+					<div id="leaderInfoDiv">
+						<div id="leaderImageDiv">
+							<img id="leaderImg" src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
+						</div>
+						<div id="leaderNicknameDiv">
+							${groupLeaderDTO.userNickname}
+						</div>
+					</div>
+				</div>
+				<div>
+				  	<div class="groupDetailheaderDiv" id="memberListHeader">
+				  		<span>모임원</span>
+				  		<button id="toggleMembersBtn"></button>
+				  	</div>
+		            <div id="memberListDiv">
+		            	<!-- groupDetail.js -->
+		            </div>
+				</div>
 			</div>
-		</section>
-</body>
+	</section>
 </html>
