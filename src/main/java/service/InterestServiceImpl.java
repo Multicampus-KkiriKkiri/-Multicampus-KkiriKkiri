@@ -15,5 +15,4 @@ public class InterestServiceImpl implements InterestService {
 	public String getInterestField(int interestId) {
 		return dao.getInterestField(interestId);
 	}
-
 }

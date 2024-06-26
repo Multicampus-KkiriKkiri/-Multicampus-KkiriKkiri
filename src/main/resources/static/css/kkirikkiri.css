@@ -6,8 +6,12 @@ body a{
 	color: inherit;
 }
 
-/*상단 고정바-로그인 후*/
 /*상단 고정바-왼쪽*/
+.header-nav-left{
+	display:flex;
+	justify-content:center;
+}
+
 .logo{
 	width:80px;
 	height: 80px;
@@ -26,8 +30,7 @@ body a{
 }
 
 .search-area .second-input {
-    border-right: none; 
-    
+    border-right: none;   
 }
 
 .search-area button{
@@ -39,6 +42,7 @@ body a{
     background-color: #e15c31;
 }
 
+/*상단 고정바-로그인 후*/
 /*상단 고정바-오른쪽*/
 .header-nav-icon{
 	font-size: 35px;
@@ -156,6 +160,10 @@ body.modal-open {
     overflow: hidden; 
 }
 
+body.modal-open2 {
+    overflow: hidden; 
+}
+
 body {
     overflow: auto; 
 }
@@ -223,31 +231,64 @@ body {
     transform: scale(1.4);
 }
 
+/*이메일 회원가입 모달 내 비밀번호 확인*/
+.password-input-container{
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+}
+
+.password-input-container i{
+	padding-top: 15px;
+	padding-right: 0px;
+	margin-right: 0px;
+	position: absolute;
+	left: 82%
+}
+
+/*회원가입 내정보설정 모달 내 프로필 사진 업로드*/
+.signup-myprofile-img{
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+}
+
+.signup-myprofile-add-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    
+    border: 0.5px solid #ddd;
+}
+
+.file-input-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px; /* Optional: Adjust spacing */
+}
+
+.custom-file-label {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 13px;
+    
+    background-color:#3b5f3e;
+    color:white;
+    
+   padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.file-input {
+    display: none;
+}
 
 
 
-      .password-input-container {
-            position: relative;
-            width: 400px; /* 원하는 너비로 조정 */
-        }
 
-        .password-input {
-            width: calc(100% - 40px); /* 아이콘 공간을 제외한 너비 */
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-        }
 
-        .toggle-password {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #aaa;
-        }
+
 
 
 

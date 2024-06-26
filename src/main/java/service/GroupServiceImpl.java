@@ -31,4 +31,5 @@ public class GroupServiceImpl implements GroupService {
 	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
 		return dao.getDistrictsByRegionId(regionId);
 	}
+	
 }	

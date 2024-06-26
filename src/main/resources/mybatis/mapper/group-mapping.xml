@@ -6,8 +6,5 @@
 	
 	<select id="getGroupDetail" resultType="groupdto">
 		select * from `group` where groupId = #{groupId}
-	</select>
-	
-	
-	
+	</select>	
 </mapper>

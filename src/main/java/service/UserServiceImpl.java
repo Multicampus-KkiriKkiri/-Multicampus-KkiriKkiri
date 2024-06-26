@@ -14,9 +14,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO logInUser(String userEmail, String userPw) {
+		UserDTO user = dao.findByUserEmail(userEmail);
+		if(user != null && user.getUserPw().equals(userPw)) {
+			return user;
+		}
+		return null;
+	}
+	
+	
+
+	@Override
+	public UserDTO findByUserEmail(String userEmail) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	@Override
 	public void logOutUser(String userId) {
@@ -26,8 +39,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean signUp(UserDTO dto) {
-		// TODO Auto-generated method stub
-		return false;
+		if(dao.existsByUserEmail(dto.getUserEmail())) {
+			return false;
+		}
+		dao.signUp(dto);
+		return true;		
 	}
 
 	@Override
