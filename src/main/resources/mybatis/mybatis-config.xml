@@ -11,10 +11,7 @@
         <typeAlias type="dto.GroupMemberDTO" alias="groupmemberdto"/>
         <typeAlias type="dto.NotificationDTO" alias="notificationdto"/>
         <typeAlias type="dto.UserDTO" alias="userdto"/>
+        <typeAlias type="dto.RegionDTO" alias="regiondto"/>
+        <typeAlias type="dto.DistrictDTO" alias="districtdto"/>        
     </typeAliases>
-
-    <!-- 매퍼 설정 -->
-    <mappers>
-        <mapper resource="mybatis/mapper/groupregister-mapping.xml"/>
-    </mappers>
 </configuration>

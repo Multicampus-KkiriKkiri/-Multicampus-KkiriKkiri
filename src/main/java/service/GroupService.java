@@ -14,7 +14,7 @@ public interface GroupService {
 	//지역 정보만 가졍괴,시,구
 	List<RegionDTO> getAllRegions();
 	
-  List<DistrictDTO> getDistrictsByRegionId(int regionId);
+	List<DistrictDTO> getDistrictsByRegionId(int regionId);
 	
 	public void registerGroup(GroupDTO groupDTO);
 

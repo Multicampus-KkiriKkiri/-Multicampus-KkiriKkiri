@@ -43,14 +43,14 @@ public class GroupDAO {
 	}
 	//지역 불러오기, 광역시
 	public List<RegionDTO> getAllRegions() {
-		return session.selectList("mapper.groupregister-mapping.getAllRegions");
+		return session.selectList("getAllRegions");
 	 }
 	//지역 불러오기 ,구
 	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
-		return session.selectList("mapper.groupregister-mapping.getDistrictsByRegionId", regionId);
+		return session.selectList("getDistrictsByRegionId", regionId);
 	}
 	
 	public int insertGroup(GroupDTO groupDTO) {
-	    return session.insert("mapper.groupregister-mapping.insertGroup", groupDTO);
+	    return session.insert("insertGroup", groupDTO);
 	}
 }

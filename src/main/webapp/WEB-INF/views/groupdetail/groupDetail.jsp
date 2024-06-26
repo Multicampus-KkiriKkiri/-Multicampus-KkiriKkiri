@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body id="groupDetailBody">
+	<jsp:include page="../mainpage/mainHeader.jsp" />
 	<main id="groupDetailMain">
 		<section class="groupDetailSection" id="groupHeaderSection">
 			<div id="groupImgDiv"><img id="groupImg" src="${groupDTO.groupImage}" alt="${groupDTO.groupName}"></div>
@@ -48,9 +49,10 @@
 			<%@ include file="../groupdetail/groupDetailInfo.jsp" %>
 		</section>
 	</main>
+	
+	<!-- footer -->
+	<footer id="groupDetailFooter">
+		<jsp:include page="../mainpage/mainFooter.jsp" />
+	</footer>
 </body>
-<!-- footer -->
-<footer id="groupDetailFooter">
-	<%@ include file="../mainpage/mainFooter.jsp" %>
-</footer>
 </html>
