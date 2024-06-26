@@ -30,7 +30,7 @@ $(document).ready(function(){
 <header class="header-nav">
 	<div>
 		<a href="#" class="logo">
-			<img src="images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
+			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>		 
 	       <span class="search-area">
 	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  
@@ -52,7 +52,7 @@ $(document).ready(function(){
   <div class="modal-content" style="padding-bottom:30px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br>
-	    <img src="images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
+	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>로그인</b></h2>
 	    <div class="signup-suggestion">
 		    <h6 style="margin-right:7px">아직 계정이 없다면?</h6>
@@ -73,13 +73,13 @@ $(document).ready(function(){
 	    <!-- 카카오 로그인 -->
 	    <div onclick="kakaoLogin();">
 		    <a href="javascript:void(0)">
-		    	<img src="images/kakao_login_medium_wide.png" alt="카카오톡 로그인 버튼" style="width: 80%">
+		    	<img src="/images/kakao_login_medium_wide.png" alt="카카오톡 로그인 버튼" style="width: 80%">
 		    </a>	
 	    </div>
 	    <!-- 구글 로그인 -->
 		<div id="GgCustomLogin" style="height: 100px; padding:0px">
 			<a href="javascript:void(0)">
-				<img src="images/google_login.png" alt="구글 로그인 버튼" style="width:350px; margin-top: 13px;">
+				<img src="/images/google_login.png" alt="구글 로그인 버튼" style="width:350px; margin-top: 13px;">
 			</a>
 		</div>	
 		<a href="#" style="text-decoration:underline; margin-top:0px;">로그인에 어려움이 있으신가요?</a>     	
@@ -92,7 +92,7 @@ $(document).ready(function(){
   <div class="modal-content" style="padding-bottom:40px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
-	    <img src="images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
+	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>회원가입</b></h2>
 	    <div class="signup-suggestion">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
@@ -107,7 +107,7 @@ $(document).ready(function(){
 	    <!-- 구글 회원가입 -->
 		<div id="GgCustomLogin" >
 			<a href="javascript:void(0)">
-				<button class="signup-button"><img src="images/google_logo.png" alt="구글 로고" style="margin-right:15px;">구글로 계속하기</button>  
+				<button class="signup-button"><img src="/images/google_logo.png" alt="구글 로고" style="margin-right:15px;">구글로 계속하기</button>  
 			</a>
 		</div>	
 		<button class="signup-button" id="open-email-signup-modal"><i class="fa-solid fa-envelope" style="margin-right:10px;"></i>이메일로 가입하기</button>   
@@ -120,7 +120,7 @@ $(document).ready(function(){
   <div class="modal-content" style="padding-bottom:40px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
-	    <img src="images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
+	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
 	    <div class="email-login" style="margin-top: 25px">
 		    <h6 style="margin-right:290px"><b>이메일</b></h6>
 		    <input type="text">
