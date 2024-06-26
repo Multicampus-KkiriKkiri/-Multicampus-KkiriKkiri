@@ -28,7 +28,12 @@
 	<br>
 	<form action="/groupdetail/info" method="get">
 		<input type="hidden" name="groupId" value="1">
-		<button>'테스트모임' 상세 페이지로 이동</button>
+		<button>재테크모임</button>
+	</form>
+	<br>
+	<form action="/groupdetail/info" method="get">
+		<input type="hidden" name="groupId" value="2">
+		<button>야구모임</button>
 	</form>
 </body>
 </html>

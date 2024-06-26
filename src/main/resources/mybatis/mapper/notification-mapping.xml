@@ -10,7 +10,7 @@
 	 
 	<insert id="insertNotification" parameterType="notificationdto">
 		insert into notification values
-		(#{notificationId}, #{userId}, #{groupId}, #{notificationTime}, #{notificationText})
+		(#{notificationId}, #{userId}, #{groupId}, now(), #{notificationText})
 	</insert>
 	
 	<delete id="deleteNotification">

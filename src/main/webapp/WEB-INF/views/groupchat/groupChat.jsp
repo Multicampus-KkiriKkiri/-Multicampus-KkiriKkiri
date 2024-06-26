@@ -4,14 +4,9 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>${groupDTO.groupName} 채팅방</title>
-<script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupDetailTap.js"></script>
-</head>
-<body>
-	<section id="tapPageSection">
+	<link rel="stylesheet" type="text/css" href="/css/groupchat/groupChat.css">
+
+	<section class="tapPageSection" id="chatTapPageSection">
 	    <div>
 			<h1>끼리끼리 이야기</h1>
 	        <textarea id="chatInput" placeholder="채팅 내용을 입력하세요"></textarea>
@@ -26,5 +21,4 @@
 	        }
 	    </script>
 	</section>
-</body>
 </html>

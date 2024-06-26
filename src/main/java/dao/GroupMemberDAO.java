@@ -32,8 +32,8 @@ public class GroupMemberDAO {
 		return session.selectList("getGroupMemberList", groupId);
 	}
 
-	public int checkMemberInGroup(HashMap map) {
-		return session.selectOne("checkMemberInGroup", map);
+	public String checkMemberStatusInGroup(HashMap map) {
+		return session.selectOne("checkMemberStatusInGroup", map);
 	}
 
 	public String checkUserHistoryInGroup(HashMap map) {

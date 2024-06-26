@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpSession;
+import service.GroupService;
+import service.NotificationService;
+import service.UserService;
 import service.WishlistService;
 
 @Controller
@@ -18,6 +20,16 @@ public class WishlistController {
 	@Autowired
 	WishlistService wishlistService;
 	
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	GroupService groupService;
+	
+	@Autowired
+	NotificationService notificationService;
+	
+	// 회원의 모임 찜 여부 확인
 	@PostMapping("/check")
 	@ResponseBody
 	boolean checkUserWishlist(int userId, int groupId) {
@@ -35,6 +47,7 @@ public class WishlistController {
 		
 	} // checkUserWishlist() end
 	
+	// 모임 찜 등록 과정
 	@PostMapping("/add")
 	@ResponseBody
 	int addGroupToWishlist(int userId, int groupId) {
@@ -44,10 +57,16 @@ public class WishlistController {
 		map.put("groupId", groupId);
 			
 		// 찜 목록에 저장
-		return wishlistService.addGroupToWishlist(map); // 테이블에 추가된 행 개수 반환
+		int insertRow =  wishlistService.addGroupToWishlist(map); // 테이블에 추가된 행 개수 반환
+		
+		// 찜 저장 모임장한테 알림보내기
+		notificationService.notifyToUserByGroup(groupService.getGroupDetail(groupId).getGroupLeaderId(), groupId, userService.getUserInfo(userId).getUserNickname() + "님이 내 모임을 찜했습니다.");
+		
+		return insertRow;
 		
 	} // addGroupToWishlist() end
 	
+	// 모임 찜 삭제 과정
 	@PostMapping("/delete")
 	@ResponseBody
 	int deleteGroupToWishlist(int userId, int groupId) {
@@ -56,7 +75,7 @@ public class WishlistController {
 		map.put("userId", userId);
 		map.put("groupId", groupId);
 			
-		// 찜 목록에 저장
+		// 찜 목록에서 삭제
 		return wishlistService.deleteGroupToWishlist(map); // 테이블에 추가된 행 개수 반환
 		
 	} // deleteGroupToWishlist() end

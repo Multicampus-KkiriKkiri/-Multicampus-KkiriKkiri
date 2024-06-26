@@ -4,22 +4,74 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>${groupDTO.groupName} 일정 목록</title>
-<script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupDetailTap.js"></script>
-</head>
-<body>
-
-	<section id="tapPageSection">
-
-	    <div>
-			<h1>모임 일정 목록</h1>
-			<h1>모임명:${groupDTO.groupName}</h1>
-		</div>
-	    
-	</section>
+	<head>
+		<script src="/js/groupevent/groupEvent.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/groupevent/groupEvent.css">	
+	</head>
 	
-</body>
+	<section class="tapPageSection" id="eventTapPageSection">
+        <div id="groupEventContainerDiv">
+            <div id="groupEventNavDiv">
+                <button>리스트로 보여주기</button>
+                <button>달력으로 보여주기</button>
+            </div>
+            <div id="groupEventSidebarDiv">
+                <div><button id="futureEventBtn">예정된 일정</button></div>
+                <div><button id="pastEventBtn">지난 일정</button></div>
+            </div>
+            <div id="groupEventListDiv">
+                <div id="futureEventsDiv" style="display: block;">
+                    <h2>예정된 일정</h2>
+                    <c:choose>
+                        <c:when test="${empty futureEventList}">
+                            <div>예정된 일정이 없습니다.</div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="event" items="${futureEventList}">
+                                <div id="groupEventImageDiv"><img id="eventImg" src="${event.eventImage}" alt="${event.eventName}"></div>
+                                <div id="groupEventDescriptionDiv">
+                                    <div>${event.eventName}</div>
+                                    <div>${event.eventDetail}</div>
+                                </div>
+                                <div id="groupEventDetailDiv">
+                                    <div>${event.eventDate}</div>
+                                    <div>${event.eventLocation}</div>
+                                </div>
+                                <div id="groupEventMembersDiv">
+                                   참여멤버<%--  ${event.members} --%>
+                                </div>
+                                <div id="groupEventJoinBtnDiv">
+                                    <button>참여 신청</button>
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="pastEventsDiv" style="display: none;">
+                    <h2>지난 일정</h2>
+                    <c:choose>
+                        <c:when test="${empty pastEventList}">
+                            <div>지난 일정이 없습니다.</div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="event" items="${pastEventList}">
+                                <div id="groupEventImageDiv"><img id="eventImg" src="${event.eventImage}" alt="${event.eventName}"></div>
+                                <div id="groupEventDescriptionDiv">
+                                    <div>${event.title}</div>
+                                    <div>${event.description}</div>
+                                </div>
+                                <div id="groupEventDetailDiv">
+                                    <div>${event.startDateTime}</div>
+                                    <div>${event.location}</div>
+                                </div>
+                                <div id="groupEventMembersDiv">
+                                    ${event.members}
+                                </div>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </div>
+    </section>
 </html>
