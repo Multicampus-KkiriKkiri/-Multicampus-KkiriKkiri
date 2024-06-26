@@ -27,4 +27,14 @@ public class NotificationServiceImple implements NotificationService {
 		return dao.deleteNotification();
 	}
 
+	@Override
+	public void notifyToUserByGroup(int userId, int groupId, String notificationText) {
+		NotificationDTO dto = new NotificationDTO();
+		dto.setUserId(userId);
+		dto.setGroupId(groupId);
+		dto.setNotificationText(notificationText);
+		
+		dao.insertNotification(dto);
+	}
+
 }

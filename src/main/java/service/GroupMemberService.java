@@ -19,8 +19,8 @@ public interface GroupMemberService {
 	// 모임의 모임원 목록 가져오기
 	List<UserDTO> getGroupMemberList(int groupId);
 	
-	// 모임원 여부 확인
-	boolean checkMemberInGroup(HashMap map);
+	// 모임 내 모임원 상태 확인(대기/승인/탈퇴/강퇴)
+	String checkMemberStatusInGroup(HashMap map);
 	
 	// 모임 내 탈퇴/강퇴 내역 확인
 	String checkUserHistoryInGroup(HashMap map);

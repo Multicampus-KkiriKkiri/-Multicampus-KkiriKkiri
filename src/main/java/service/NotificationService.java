@@ -10,4 +10,7 @@ public interface NotificationService {
 	
 	int deleteNotification();
 	
+	// 그룹별 알림 회원에게 전송
+	void notifyToUserByGroup(int userId, int groupId, String notificationText);
+	
 }

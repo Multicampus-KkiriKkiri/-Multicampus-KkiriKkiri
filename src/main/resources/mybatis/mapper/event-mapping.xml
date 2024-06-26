@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="dao.GroupDAO">
+<mapper namespace="dao.EventDAO">
 	
-	<select id="getGroupDetail" resultType="groupdto">
-		select * from `group` where groupId = #{groupId}
+	<select id="getGroupEventList" resultType="eventdto">
+		select * from `event` where groupId = #{groupId}
 	</select>
 	
 </mapper>
