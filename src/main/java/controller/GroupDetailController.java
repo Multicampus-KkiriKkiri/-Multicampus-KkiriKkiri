@@ -56,6 +56,7 @@ public class GroupDetailController {
 
 		ModelAndView mv = new ModelAndView();
 
+
 		if (session.getAttribute("sessionUserId") != null) { // 로그인 상태 시
 			mv.addObject("userId", (int) session.getAttribute("sessionUserId"));
 		} else {
@@ -170,7 +171,7 @@ public class GroupDetailController {
 	// 모임 가입 신청 과정
 	@PostMapping("/groupjoin")
 	@ResponseBody
-	int submitJoinApply(int userId, int groupId, String groupSignUpType, @RequestParam(required = false) String signUpAnswerTxt) {
+	int submitGroupJoinApply(int userId, int groupId, String groupSignUpType, @RequestParam(required = false) String signUpAnswerTxt) {
 
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userId", userId);

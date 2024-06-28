@@ -8,7 +8,7 @@
 			<div id="groupDescriptionDiv">
 				<div class="groupDetailheaderDiv" id="groupInfoHeader">
 				  		<span>모임 설명</span>
-				  	</div>
+				</div>
 	            <div>${groupDTO.groupDetail}</div>
 			</div>
 			<div id="groupMembersDiv">

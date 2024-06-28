@@ -17,9 +17,9 @@
 </head>
 <body>
 	<main>
-		<section id="quitPageSection">
+		<section id="groupQuitPageSection">
 				<div>
-					<h2>모임을 나가기 전 꼭 확인해주세요</h2>
+					<h2>모임을 나가기 전 꼭 확인해주세요!</h2>
 					<ul>
 						<li>모임 일정에 참여하고 있는 경우 모임을 나갈 수 없습니다.</li>
 						<li>모임 채팅방에서도 나가게되며 다시 입장할 수 없습니다.</li>
@@ -28,7 +28,7 @@
 				</div>
 				<div>
 					<label for="checkbox">
-                    	<input type="checkbox" id="checkbox"> 모두 확인했습니다.
+                    	<input type="checkbox" id="checkbox"> 위 안내사항을 모두 확인했습니다.
                 	</label>
 				</div>
 	            <div id="btnsDiv">

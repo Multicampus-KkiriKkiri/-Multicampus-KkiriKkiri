@@ -4,12 +4,12 @@
 
 $(document).ready(function() {
 	
-	// 모임 계속 버튼 클릭 시 이벤트 처리
+	// '모임 계속' 버튼 클릭 시 이벤트 처리
 	$("#cancelQuitBtn").click(function() {
 		cancelGroupQuit();
 	}); // cancelQuitBtn onclick end
 
-	// 모임 나가기 버튼 클릭 시 이벤트 처리
+	// '모임 나가기' 버튼 클릭 시 이벤트 처리
     $("#groupQuitBtn").click(function() {
 		// 체크박스 체크 여부 확인
 		if($("#checkbox").is(":checked")) { // 체크됨

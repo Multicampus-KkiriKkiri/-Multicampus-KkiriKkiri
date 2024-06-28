@@ -8,6 +8,7 @@
 <meta charset="utf-8">
 <title>${groupDTO.groupName} 가입 신청</title>
 <script src="/jquery-3.7.1.min.js"></script>
+<script src="/js/groupdetail/groupDetail.js"></script>
 <script src="/js/groupdetail/groupJoin.js"></script>
 <script>
 	var groupId = ${groupDTO.groupId};

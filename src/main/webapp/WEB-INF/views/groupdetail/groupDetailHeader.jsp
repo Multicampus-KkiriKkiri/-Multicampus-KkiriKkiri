@@ -19,17 +19,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-	<!-- header -->
-	<c:choose>
-	    <c:when test="${userId == 0}">
-	        <jsp:include page="../mainpage/mainHeader.jsp" />
-	    </c:when>
-	    <c:otherwise>
-	        <jsp:include page="../mainpage/mainHeaderLogin.jsp" />
-	    </c:otherwise>
-	</c:choose>
-	
-	<!-- main -->
+	<jsp:include page="../mainpage/mainHeader.jsp" />
 	<main id="groupDetailMain">
 		<section id="groupHeaderSection">
 			<div id="groupImgDiv">
