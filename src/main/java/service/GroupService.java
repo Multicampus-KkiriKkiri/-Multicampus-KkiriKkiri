@@ -8,14 +8,17 @@ import dto.RegionDTO;
 
 public interface GroupService {
 
-	// 그룹 상세정보 가져오기
+    // 그룹 상세 정보 가져오기
 	GroupDTO getGroupDetail(int groupId);
 	
-	//지역 정보만 가졍괴,시,구
+    // 지역 정보 (시,도) 가져오기
 	List<RegionDTO> getAllRegions();
 	
+    // 하위 지역 정보 가져오기
 	List<DistrictDTO> getDistrictsByRegionId(int regionId);
 	
-	public void registerGroup(GroupDTO groupDTO);
-
+    // 새로운 그룹 등록
+	int registerGroup(GroupDTO groupDTO);
+	
+	GroupDTO getGroupById(int groupId);
 }

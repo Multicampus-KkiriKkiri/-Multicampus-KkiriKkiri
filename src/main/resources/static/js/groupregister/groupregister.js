@@ -79,42 +79,43 @@ $(document).ready(function() {
     $('#addImageButton').on('click', function() {
         $('#groupImage').click();
     });
-	//이미지 선택, 미리보기 보여주기.
+
+	// 이미지 선택, 미리보기 보여주기
 	$('#groupImage').on('change', function(event) {
-    var reader = new FileReader();
-    reader.onload = function(){
-        var img = new Image();
-        img.onload = function() {
-            // 이미지 크기 조정
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var MAX_WIDTH = 200;
-            var MAX_HEIGHT = 200;
-            var width = img.width;
-            var height = img.height;
+	    var reader = new FileReader();
+	    reader.onload = function(){
+	        var img = new Image();
+	        img.onload = function() {
+	            // 이미지 크기 조정
+	            var canvas = document.createElement('canvas');
+	            var ctx = canvas.getContext('2d');
+	            var MAX_WIDTH = 200;
+	            var MAX_HEIGHT = 200;
+	            var width = img.width;
+	            var height = img.height;
 
-            if (width > height) {
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                }
-            } else {
-                if (height > MAX_HEIGHT) {
-                    width *= MAX_HEIGHT / height;
-                    height = MAX_HEIGHT;
-                }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
+	            if (width > height) {
+	                if (width > MAX_WIDTH) {
+	                    height *= MAX_WIDTH / width;
+	                    width = MAX_WIDTH;
+	                }
+	            } else {
+	                if (height > MAX_HEIGHT) {
+	                    width *= MAX_HEIGHT / height;
+	                    height = MAX_HEIGHT;
+	                }
+	            }
+	            canvas.width = width;
+	            canvas.height = height;
+	            ctx.drawImage(img, 0, 0, width, height);
 
-            $('#preview').attr('src', canvas.toDataURL('image/jpeg')).show();
-            $('.plus-icon').hide();
-        }
-        img.src = reader.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-});
+	            $('#preview').attr('src', canvas.toDataURL('image/jpeg')).show();
+	            $('.plus-icon').hide();
+	        }
+	        img.src = reader.result;
+	    };
+	    reader.readAsDataURL(event.target.files[0]);
+	});
 
     // 참가인원에 숫자만 입력 가능하도록 설정
     $('#maxParticipants').on('input', function() {
@@ -126,7 +127,8 @@ $(document).ready(function() {
         }
     });
 });
-//금칙어 설정 단어 넣기.
+
+// 금칙어 설정 단어 넣기
 const forbiddenWords = ["금칙어1", "금칙어2", "금칙어3"];
 
 $('#register_submit').on('click', function(event) {
@@ -141,4 +143,3 @@ $('#register_submit').on('click', function(event) {
         }
     }
 });
-

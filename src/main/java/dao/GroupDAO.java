@@ -50,7 +50,13 @@ public class GroupDAO {
 		return session.selectList("getDistrictsByRegionId", regionId);
 	}
 	
-	public int insertGroup(GroupDTO groupDTO) {
-	    return session.insert("insertGroup", groupDTO);
-	}
+	public int saveGroup(GroupDTO groupDTO) {
+		session.insert("group-mapping.saveGroup", groupDTO);
+		return groupDTO.getGroupId(); // 등록된 그룹의 ID 반환
+		}
+	
+    public GroupDTO findGroupById(int groupId) {
+        return session.selectOne("group-mapping.findGroupById", groupId);
+    }
+
 }
