@@ -2,7 +2,6 @@ package dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Component;
 
@@ -20,8 +19,15 @@ public class EventDTO {
 	private String eventDetail;
 	private String eventImage;
 	private String eventType;
-	private LocalDateTime eventDate;
+	private String eventDate;
 	private String eventLocation;
 	private int eventMaximum;
 	
+	
+	// eventDate 타입 변환(String -> LocalDateTime) 메서드
+    public LocalDateTime getEventDateAsLocalDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(eventDate, formatter);
+    }
+ 
 }

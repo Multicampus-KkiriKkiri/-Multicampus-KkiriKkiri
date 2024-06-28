@@ -15,7 +15,7 @@ public class KkiriKkiriApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KkiriKkiriApplication.class, args);
 		
-		System.out.println("끼리끼리 Application class");
+		System.out.println("끼리끼리 Application start");
 	}
 
 }

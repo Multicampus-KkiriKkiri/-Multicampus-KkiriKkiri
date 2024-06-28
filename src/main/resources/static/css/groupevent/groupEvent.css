@@ -24,49 +24,41 @@
     width: 150px;
 }
 
-#futureEventsDiv, #pastEventsDiv {
+#upcomingEventsDiv, #pastEventsDiv {
 	width: 100%;
 	box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기를 부모 요소에 맞춤 */
+	gap: 10px;
 }
 
-#groupEventImageDiv {
+#pastEventsDiv {
+	display: none;	
+}
+
+#upcomingEventsDiv .custom-margin {
+    margin: 10px 0px 0px 0px !important; /* Bootstrap의 기본 스타일 덮어씀 */
+}
+
+.eventItemDiv {
+	align-items: center;
+}
+
+.groupEventImageDiv {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#eventImg {
+.eventImg {
 	width: 200px;
 	height: 200px;
 }
 
-#groupEventDetailDiv {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-}
-
-#groupEventDetailDiv > div{
-    width: 50%;
-}
-
-#groupEventDescriptionDiv {
-    padding: 10px;
-}
-
-#groupEventMembersDiv {
-    grid-column: span 2;
+.groupEventMembersDiv {
     padding: 10px;
     text-align: center;
 }
 
-#groupEventJoinBtnDiv {
+.groupEventOptionBtnDiv {
 	display: flex;
-    grid-column: span 2;
     justify-content: right;
-}
-
-#groupEventJoinBtnDiv button {
-    padding: 10px;
-    gap: 10px;
 }

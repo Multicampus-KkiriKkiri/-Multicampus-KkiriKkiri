@@ -5,12 +5,9 @@
 var auth = null; // 전역변수(사용자 권한)
 
 $(document).ready(function() {
-
-	// 사용자 권한 확인(비회원/회원/모임원/모임장)
-	checkUserAuthority(); 
 	
-	// 페이지 헤더 불러오기
-	loadHeaderContent();
+	// 사용자 권한 확인(비회원/회원/모임원/모임장)
+	checkUserAuthority();
 	
 	// 멤버 목록 불러오기
     loadGroupMembers();
@@ -20,7 +17,7 @@ $(document).ready(function() {
 
 	// 모임 상세페이지에서 각 탭 클릭 시 이벤트 처리
     $(".tapBtn").click(function() {
-        loadTapContent($(this).val());
+		loadTabContent($(this).val());
     });
     
     // 모임 상세페이지에서 '찜(♡)' 버튼 클릭 시 이벤트 처리
@@ -34,6 +31,36 @@ $(document).ready(function() {
     });
     
 }); // ready() end
+
+
+// 모임 상세페이지에서 각 탭 클릭 시 section 불러오기
+function loadTabContent(tab) {
+
+    var urlMap = {
+        'info': '/groupdetail/info',
+        'event': '/groupdetail/event',
+        'photo': '/groupdetail/photo',
+        'chat': '/groupdetail/chat'
+    };
+
+    $.ajax({
+        url: urlMap[tab],
+        method: "POST",
+        data: { groupId: groupId},
+        success: function(data) {
+            $("#groupTapPageSection").html(data);
+            
+            // 모임설명&가입멤버 탭일 경우, 모임원 목록 다시 로드
+            if (tab === 'info') {
+                loadGroupMembers();
+            }
+        },
+        error: function() {
+            alert("탭 콘텐츠를 불러오는데 실패했습니다.");
+        }
+    }); // ajax() end
+    
+} // loadContent() end
 
 // 사용자 권한 확인(비회원/회원/모임원/모임장)
 function checkUserAuthority() {
@@ -53,12 +80,6 @@ function checkUserAuthority() {
     }); // ajax() end
 	
 } // checkUserAuthority() end
-
-// 사용자 권한따라 헤더 불러오기
-function loadHeaderContent() {
-
-	
-}
 
 // 사용자 권한에 따라 chatBtn(모임 채팅) 버튼 숨기기
 function setChatBtn(auth) {
@@ -99,8 +120,8 @@ function groupOptionProcess(btnValue) {
 		groupJoinProcessByType();
     } else if(btnValue === "standby") {
 		var userConfirm = confirm("가입 신청을 취소하시겠어요?");
-		if(userConfirm) { // 대기 취소
-			openGroupQuitPopup();
+		if(userConfirm) {
+			openGroupQuitPopup(); // 대기 취소(모임 나가기 팝업창 열림)
 		}
 	} else if(btnValue === "quit") {
 		openGroupQuitPopup();
@@ -112,7 +133,7 @@ function groupOptionProcess(btnValue) {
 // 모임 가입 선착순/승인제 진행 함수
 function groupJoinProcessByType() {
 	if(groupSignUpType === "선착순") {
-		submitJoinApply("선착순"); // 바로 가입 신청 함수 실행(groupJoin.js 파일에 있는 함수)
+		submitGroupJoin("선착순"); // 바로 가입 신청 함수 실행(groupJoin.js 파일에 있는 함수)
 	} else if(groupSignUpType === "승인제") {
 		openGroupJoinPopup(); // 가입질문 작성하는 팝업창 열기		
 	} // if end
@@ -135,7 +156,7 @@ function openGroupQuitPopup() {
     var left = (screen.width / 2) - (popupWidth / 2);
     var top = (screen.height / 2) - (popupHeight / 2);
 
-    window.open('/groupdetail/groupquit?userId=' + userId + '&groupId=' + groupId, 'groupJoinPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
+    window.open('/groupdetail/groupquit?userId=' + userId + '&groupId=' + groupId, 'groupQuitPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
 } // openGroupQuitPopup() end
 
 // 모임 설정 페이지 열기 함수
@@ -143,35 +164,6 @@ function openGroupSettingPage() {
 	// 새 탭으로 모임 설정 페이지 열기
 	window.open('/groupset', '_blank');
 }
-
-// 모임 상세페이지에서 각 탭 클릭 시 section 불러오기
-function loadTapContent(tab) {
-
-    var urlMap = {
-        'info': '/groupdetail/info',
-        'event': '/groupdetail/event',
-        'photo': '/groupdetail/photo',
-        'chat': '/groupdetail/chat'
-    };
-
-    $.ajax({
-        url: urlMap[tab],
-        method: "POST",
-        data: { groupId: groupId},
-        success: function(data) {
-            $("#groupTapPageSection").html(data);
-            
-            // 모임설명&가입멤버 탭일 경우, 모임원 목록 다시 로드
-            if (tab === 'info') {
-                loadGroupMembers();
-            }
-        },
-        error: function() {
-            alert("탭 콘텐츠를 불러오는데 실패했습니다.");
-        }
-    }); // ajax() end
-    
-} // loadContent() end
 
 // 모임원 목록 불러오는 함수
 function loadGroupMembers() {

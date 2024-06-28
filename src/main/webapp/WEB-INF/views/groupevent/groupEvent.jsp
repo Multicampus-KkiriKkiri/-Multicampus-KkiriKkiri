@@ -16,34 +16,36 @@
                 <button>달력으로 보여주기</button>
             </div>
             <div id="groupEventSidebarDiv">
-                <div><button id="futureEventBtn">예정된 일정</button></div>
+                <div><button id="upcomingEventBtn">예정된 일정</button></div>
                 <div><button id="pastEventBtn">지난 일정</button></div>
             </div>
             <div id="groupEventListDiv">
-                <div id="futureEventsDiv" style="display: block;">
+                <div id="upcomingEventsDiv">
                     <h2>예정된 일정</h2>
                     <c:choose>
-                        <c:when test="${empty futureEventList}">
+                        <c:when test="${empty upcomingEventList}">
                             <div>예정된 일정이 없습니다.</div>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="event" items="${futureEventList}">
-                                <div id="groupEventImageDiv"><img id="eventImg" src="${event.eventImage}" alt="${event.eventName}"></div>
-                                <div id="groupEventDescriptionDiv">
-                                    <div>${event.eventName}</div>
-                                    <div>${event.eventDetail}</div>
-                                </div>
-                                <div id="groupEventDetailDiv">
-                                    <div>${event.eventDate}</div>
-                                    <div>${event.eventLocation}</div>
-                                </div>
-                                <div id="groupEventMembersDiv">
-                                   참여멤버<%--  ${event.members} --%>
-                                </div>
-                                <div id="groupEventJoinBtnDiv">
-                                    <button>참여 신청</button>
-                                </div>
-                            </c:forEach>
+                            <c:forEach var="event" items="${upcomingEventList}">
+							    <div class="eventItemDiv row custom-margin d-flex align-items-stretch mb-3">
+							        <div class="groupEventImageDiv col-md-4 d-flex align-items-center justify-content-center">
+							            <img class="eventImg" src="${event.eventImage}" alt="${event.eventName}" class="img-fluid">
+							        </div>
+							        <div class="groupEventDetailDiv col-md-8 d-flex flex-column justify-content-center">
+							            <div>${event.eventDate}</div>
+							            <div>${event.eventName}</div>
+							            <div>${event.eventLocation}</div>
+							            <div>${event.eventDetail}</div>
+							        </div>
+							        <div class="groupEventMembersDiv col-12">
+							            참여멤버
+							        </div>
+							        <div class="groupEventOptionBtnDiv col-12 text-end">
+							            <button class="groupEventOptionBtn" id="${event.eventId}" value=""></button>
+							        </div>
+							    </div>
+							</c:forEach>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -55,19 +57,21 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="event" items="${pastEventList}">
-                                <div id="groupEventImageDiv"><img id="eventImg" src="${event.eventImage}" alt="${event.eventName}"></div>
-                                <div id="groupEventDescriptionDiv">
-                                    <div>${event.title}</div>
-                                    <div>${event.description}</div>
-                                </div>
-                                <div id="groupEventDetailDiv">
-                                    <div>${event.startDateTime}</div>
-                                    <div>${event.location}</div>
-                                </div>
-                                <div id="groupEventMembersDiv">
-                                    ${event.members}
-                                </div>
-                            </c:forEach>
+							    <div class="eventItemDiv row custom-margin d-flex align-items-stretch mb-3">
+							        <div class="groupEventImageDiv col-md-4 d-flex align-items-center justify-content-center">
+							            <img class="eventImg" src="${event.eventImage}" alt="${event.eventName}" class="img-fluid">
+							        </div>
+							        <div class="groupEventDetailDiv col-md-8 d-flex flex-column justify-content-center">
+							            <div>${event.eventDate}</div>
+							            <div>${event.eventName}</div>
+							            <div>${event.eventLocation}</div>
+							            <div>${event.eventDetail}</div>
+							        </div>
+							        <div class="groupEventMembersDiv col-12">
+							            참여멤버
+							        </div>
+							    </div>
+							</c:forEach>
                         </c:otherwise>
                     </c:choose>
                 </div>
