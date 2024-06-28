@@ -12,6 +12,7 @@
         <typeAlias type="dto.NotificationDTO" alias="notificationdto"/>
         <typeAlias type="dto.UserDTO" alias="userdto"/>
         <typeAlias type="dto.RegionDTO" alias="regiondto"/>
-        <typeAlias type="dto.DistrictDTO" alias="districtdto"/>        
+        <typeAlias type="dto.DistrictDTO" alias="districtdto"/>  
+        <typeAlias type="dto.UserInterestDTO" alias="userinterestdto"/>      
     </typeAliases>
 </configuration>

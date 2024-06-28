@@ -49,7 +49,7 @@ $(document).ready(function(){
 
 <!-- 로그인 모달 -->
 <div id="login-modal" class="modal">
-  <div class="modal-content" style="padding-bottom:30px;">
+  <div class="modal-contents" style="padding-bottom:30px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
@@ -92,7 +92,7 @@ $(document).ready(function(){
 
 <!-- 회원가입 모달 -->
 <div id="signup-modal" class="modal">
-  <div class="modal-content" style="padding-bottom:40px;">
+  <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
@@ -120,32 +120,35 @@ $(document).ready(function(){
 
 <!-- 이메일 회원가입 모달 -->
 <div id="email-signup-modal" class="modal">
-  <div class="modal-content" style="padding-bottom:40px;">
+  <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
 	    <span class="modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
-
+	    
+	    
 	    <form id="email-signup-modal-form">
 		    <div class="email-login" style="margin-top: 25px">
 			    <h6 style="margin-right:290px"><b>이메일</b></h6>
 			    <input type="text" id="email-signup-modal-userEmail" name="userEmail" required>
-			    <div class="email-signup-form" id="email-signup-modal-userEmail-confirm"><!--이메일 중복 결과창  --></div> 
+			    <div class="email-signup-form warning" id="email-signup-modal-userEmail-confirm"><!--이메일 중복 결과창  --></div> 
 			    <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>	  	    
 			    <div class="password-input-container">
 				  <input type="password" placeholder=" 비밀번호를 입력하세요" id="email-signup-modal-userPw" name="userPw" required>
 				  <i class="fa-regular fa-eye-slash"></i>
 				</div>		    	
 			    <input type="password" placeholder=" 비밀번호 재입력" id="email-signup-modal-userPw-confirm">
-			    <div class="email-signup-form" id="email-signup-modal-userPw-confirm-result"><!--비밀번호 일치 결과창  --></div> 	    
+			    <div class="email-signup-form warning" id="email-signup-modal-userPw-confirm-result"><!--비밀번호 일치 결과창  --></div> 	    
 		    </div>
 		    <div class="email-signup-form" style="margin-top:20px;">
-		    	<input type="checkbox" name="age" value="rightAge" class="email-signup-form-checkbox"> 
+		    	<input type="checkbox" id="age-check-box" name="age" value="rightAge" class="email-signup-form-checkbox" required> 
 		    	<span style="font-size:17px; margin-left:10px;">저는 18세 이상입니다.</span>
+		    	<div id="age-check-box-result"><!-- 나이 체크박스 확인창 --></div>
 		    </div>	    		    
-			<div class="email-signup-form" id="email-signup-modal-form-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
+			<div class="email-signup-form warning" id="email-signup-modal-form-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
 		    <button type="button" class="login-modal-button" id="open-signup-set-myprofile-modal">회원가입</button>  	    
 	    </form>
-	   
+	    
+	    
 	    <div class="signup-suggestion" style="margin-top: 25px;">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
 		    <a href="#" style="color:#3b5f3e"><b>로그인 하기</b></a>
@@ -156,10 +159,11 @@ $(document).ready(function(){
 
 
 <!-- 회원가입 내정보설정 모달 -->
+<!-- 모달창 id,class 같이 css주입 받는 것 아니면 확인후 수정필요 -->
 <div id="signup-set-myprofile-modal" class="modal">
-  <div class="modal-content" style="padding-bottom:40px;">
+  <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
-	    <span class="modal-close">&times;</span><br><br>
+	    <!--<span class="modal-close">&times;</span><br><br>  -->
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
 	    <h4><b>끼리끼리</b>에 오신 것을 환영합니다!</h4>
 	    <p>나에게 꼭 맞는 모임을 찾기 위해 <br>지금 '내 정보 설정'을 해 보세요.</p>	    
@@ -170,72 +174,60 @@ $(document).ready(function(){
 	    	</div>
 	    	<div class="file-input-container">
             	<label class="custom-file-label" for="file-upload">사진 업로드</label>
-            	<input type="file" id="file-upload" class="file-input" accept="image/*" onchange="loadFile(this)">
+            	<input type="file" id="file-upload" name="profileImage" class="file-input" accept="image/*" onchange="loadFile(this)">
         	</div>		 
-	    </form>
+	    <!--</form>  -->
 	    
 	    <div class="email-login" style="margin-top: 25px">
 		    <h6 style="margin-right:290px"><b>내 별명</b></h6>
-		    <input type="text" required>
-		    <div class="email-signup-form">별명 중복 결과창</div> 
+		    <input type="text" required id="userNickname" name="userNickname">
+		    <button id="nickname-confirm-btn">별명 중복검사</button>
+		    <div class="email-signup-form" id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 
 		    <h6 style="margin-right:270px; margin-top: 15px;"><b>내 위치</b></h6>	  	    
-		    <div>
-		    	
-				<select id="city" required>
+		    <div>		    	
+				<select id="userRegion" name="userRegion" required>
 			    	<option value="" disabled selected>도시 선택</option>
-			    	<option value="">도시</option>
 			    </select>
 		    </div>
 		    <div>
-			    <select id="district">
+			    <select id="userDistrict" name="userDistrict" required>
 			    	<option value="" disabled selected>구/동 선택</option>
 			    	<option value=""></option>
 			    </select>			  
-			</div>		    	
-		    <div class="email-signup-form">비밀번호 일치 결과창</div> 	 
+			</div>		    	 	 
 	    </div>
 	    	<h6 style="margin-right:290px"><b>내 관심사</b></h6>
-		    <form action="" style="border:1px solid red; margin-left: 45px;width:80%; height:100px;">			  
-			  <!--  <div class="col-3">-->
-			  <input type="checkbox" id="cultureArt" name="setProfileInterest" value="cultureArt">
+	    	<div>한 개 이상 반드시 체크해주세요.</div>
+		    
+			  <input type="checkbox" id="cultureArt" name="cultureArt" value="cultureArt">
 			  <label for="vehicle1">문화예술</label> 	
-			  <!--</div>  -->	
-			  <!--  <div class="col-3">--> 
-			  <input type="checkbox" id="activity" name="setProfileInterest" value="activity">
+			  
+			  <input type="checkbox" id="activity" name="activity" value="activity">
 			  <label for="vehicle2">액티비티</label>
-			   <!--</div>  -->	
-			  
-			  <!--  <div class="col-3">-->
-			  <input type="checkbox" id="foodDrink" name="setProfileInterest" value="foodDrink">
+			   
+			  <input type="checkbox" id="foodDrink" name="foodDrink" value="foodDrink">
 			  <label for="vehicle3">푸드&드링크</label><br>
-			   <!--</div>  -->	
-			  
-			 <!--  <div class="col-3">-->
-			<div style="display:flex; justify-content:space-around;margin-top:50px;">
-			 <span>
-			  <input type="checkbox" id="selfStudy" name="setProfileInterest" value="selfStudy">
+			   
+			 
+			  <input type="checkbox" id="selfStudy" name="selfStudy" value="selfStudy">
 			  <label for="vehicle3">자기계발</label>
-			  </span>
-			   <!--</div>  -->	
 			  
-			  <!--  <div class="col-3">-->
-			  <span>
-			  <input type="checkbox" id="etc" name="setProfileInterest" value="etc">
+			  
+			  <input type="checkbox" id="etc" name="etc" value="etc">
 			  <label for="vehicle3">기타</label>
-			  </div>
-			</span>  
-			   <!--</div>  -->	
-			</form>
+			  
+			
 		    
 		    <h6 style="margin-right:290px"><b>내 소개</b></h6>
-		    <textarea style="width:80%;"id="setProfileBio" name="setProfileBio" rows="4" placeholder="Enter your message"></textarea>
+		    <textarea style="width:80%;"id="profileIntro" name="profileIntro" rows="4" placeholder="Enter your message"></textarea>
 		    
 		    
 		    
 	    
 	       		    
-		<div class="email-signup-form">전체 입력이 안됐을시 보여지는 창</div> 
-	    <button class="login-modal-button">내 정보 등록하기</button>  	    	   
+		<div class="email-signup-form" id="signup-set-myprofile-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
+	    <button type="button" id="signup-set-myprofile-modal-btn" class="login-modal-button">내 정보 등록하기</button> 
+	    </form> 	    	   
   	</div>
   </div>
 </div>
