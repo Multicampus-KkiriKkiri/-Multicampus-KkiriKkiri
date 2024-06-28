@@ -12,13 +12,13 @@
 </head>
 <body>
     <header>
-       
+        <!-- 헤더 내용 -->
     </header>
-
 
     <div class="container">
         <h2>모임 등록</h2>
 
+        <!-- 모임 등록 폼 -->
         <form action="<c:url value='/group/register'/>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="groupName">모임 이름</label>
@@ -48,12 +48,12 @@
                 <label for="region">모임 지역 선택</label>
                 <div class="region-container">
                     <select id="region" name="region">
-                        <!-- Regions will be populated here -->
+                        <!-- 지역 정보가 여기에 추가됨 -->
                     </select>
                 </div>
                 <div class="districts-container">
                     <select id="district" name="district">
-                        <!-- Districts will be populated here -->
+                        <!-- 구 정보가 여기에 추가됨 -->
                     </select>
                 </div>
             </div>
@@ -62,13 +62,12 @@
                 <label>모임 설명 & 이미지</label>
                 <div class="description-image-box">
                     <div class="image-box">
-					    <label for="groupImage" class="image-placeholder">
-					        <img id="preview" src="#" alt="이미지 미리보기" style="display:none; max-width: 200px; max-height: 200px;">
-					        <span class="plus-icon">+</span>
-					        <input type="file" id="groupImage" name="groupImage" accept="image/*" style="display:none;">
-					    </label>
-					</div>
-
+                        <label for="groupImage" class="image-placeholder">
+                            <img id="preview" src="#" alt="이미지 미리보기" style="display:none; max-width: 200px; max-height: 200px;">
+                            <span class="plus-icon">+</span>
+                            <input type="file" id="groupImage" name="groupImage" accept="image/*" style="display:none;">
+                        </label>
+                    </div>
                     <textarea id="description" name="description" placeholder="모임 설명을 입력하세요" required></textarea>
                 </div>
             </div>
@@ -95,11 +94,11 @@
                         <img src="<c:url value='/images/approval.png' />" alt="승인제 이미지">
                         <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
                         <div class="form-group">
-						    <label for="question">가입시 회원에게 물어볼 질문</label>
-						    <input type="text" id="question" name="question" style="width: 100%; height: 50px;">
-						    <p>호스트의 질문:</p>
-						    <p id="hostQuestion"></p>
-						</div>
+                            <label for="question">가입시 회원에게 물어볼 질문</label>
+                            <input type="text" id="question" name="question" style="width: 100%; height: 50px;">
+                            <p>호스트의 질문:</p>
+                            <p id="hostQuestion"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,7 +106,5 @@
             <button type="submit" id="register_submit">모임 등록</button>
         </form>
     </div>
-    
-
 </body>
 </html>
