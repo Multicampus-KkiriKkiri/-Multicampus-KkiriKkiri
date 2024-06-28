@@ -15,9 +15,46 @@
 	
 	<!-- 회원가입 -->
 	<insert id="signUp" parameterType="userdto">		
-		insert into user (userEmail, userPw) values (#{userEmail}, #{userPw})		
+		insert into user (userEmail, userPw, signUpType) values (#{userEmail}, #{userPw}, #{signUpType})		
 	</insert>
 	
+	<!-- 회원가입 - 내정보설정 모달 회원 별명 가져오기 -->
+	<select id="getUserNickname" resultType="userdto" parameterType="String">
+		select userNickname from user where userNickname =#{userNickname};
+	</select>
+		
+	<!-- 회원가입 - 내정보설정 모달 회원정보 업데이트 -->
+	<update id="signUpProfileUpdate" parameterType="userdto">
+		update user 
+		set userNickname = #{userNickname},
+		    userRegion = #{userRegion},
+		    userDistrict = #{userDistrict},
+		    profileIntro = #{profileIntro},
+		    profileImage = #{profileImage} 
+		where userEmail=#{userEmail}    		    
+	</update>
 	
+	<!-- 회원가입 모달에서 내정보설정 모달로 넘어갈 때 같은 회원인지 이메일로 확인 -->
+	<select id="getUserId" parameterType="String" resultType="String">
+		select userId from user where userEmail = #{userEmail}
+	</select>
 	
+	<!-- 회원가입 - 내정보설정 모달 회원 관심사 데이터 입력-->
+	<insert id="setMyInterest" parameterType="userinterestdto">
+		insert into user_interest (userId, interestId) values (#{userId}, #{interestId})
+	</insert>
+
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

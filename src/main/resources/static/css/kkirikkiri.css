@@ -127,7 +127,7 @@ body a{
   background-color: rgba(0,0,0,0.4); 
 }
 
-.modal-content {
+.modal-contents {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
@@ -326,4 +326,3 @@ footer{
 	padding-bottom:30px;
 	padding-left: 100px;
 }
-

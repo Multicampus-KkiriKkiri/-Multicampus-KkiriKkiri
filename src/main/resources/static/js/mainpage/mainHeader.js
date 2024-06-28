@@ -12,10 +12,20 @@ let emailSignupButton = document.getElementById("open-email-signup-modal");
 let emailSignupModal = document.getElementById("email-signup-modal");
 let emailSignupModalClose = emailSignupModal.getElementsByClassName("modal-close")[0];
 
+
+
+
+
+/*
 //'회원가입' 누른 후 내정보설정 모달창
 let finalSignupButton = document.getElementById("open-signup-set-myprofile-modal");
 let signupSetMyProfileModal = document.getElementById("signup-set-myprofile-modal");
 let signupSetMyProfileModalClose = signupSetMyProfileModal.getElementsByClassName("modal-close")[0];
+*/
+
+
+
+
 
 //회원가입 내정보설정 모달 내 프로필 사진 업로드
 let signupMyprofileShowImg = document.getElementById("signup-myprofile-show-img");
@@ -81,14 +91,41 @@ emailSignupButton.addEventListener('click', () => {
 });
 emailSignupModalClose.addEventListener('click', () => closeModal2(emailSignupModal));
 
+
+
+
+
+
+
+
+
+
 /*
 //'회원가입' 누른 후 내정보설정 모달창
+
 finalSignupButton.addEventListener('click', ()=>{
+	
+	/*
+	let userEmail = $('#email-signup-modal-userEmail').val();
+    let userPw = $('#email-signup-modal-userPw').val();
+	let warningMessage = document.querySelectorAll('.warning').innerHTML;
+	
+	
+    if (userEmail.trim() === '' || userPw.trim() === '' || warningMessage !== '') {
+        // 입력이 비어있으면 클릭 이벤트 무시
+        return;
+    }
+   
+		
 	closeModal2(emailSignupModal);
 	openModal2(signupSetMyProfileModal);
+	
+	
 });
-signupSetMyProfileModalClose.addEventListener('click', () => closeModal2(signupSetMyProfileModal));
-*/
+ */
+
+//signupSetMyProfileModalClose.addEventListener('click', () => closeModal2(signupSetMyProfileModal));
+
 window.addEventListener('click', (event) => {
         if (event.target == loginModal) {
             closeModal(loginModal);
@@ -99,10 +136,26 @@ window.addEventListener('click', (event) => {
         if (event.target == emailSignupModal) {
             closeModal(emailSignupModal);
         }
+        /*
         if (event.target === signupSetMyProfileModal) {
             closeModal2(signupSetMyProfileModal);
-        }
+        }*/
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //회원가입 내정보설정 모달 내 프로필 사진 업로드
@@ -139,6 +192,12 @@ $(document).ready(function(){
 					window.location.href = "/mainLogin";
 				} else{
 					$('#errorMessage').text('아이디 혹은 비밀번호가 다릅니다.');
+					$('#userPw').focus(function(){
+			            $('#errorMessage').text('');
+			        });
+			        $('#userEmail').focus(function(){
+			            $('#errorMessage').text('');
+			        });
 					$('.modal-close').click(function(){
 						$('#errorMessage').text('');
 					}); //modal-close
@@ -206,12 +265,41 @@ $(document).ready(function(){
 	$('#open-signup-set-myprofile-modal').click(function(){
 		let userEmail = $('#email-signup-modal-userEmail').val();
         let userPw = $('#email-signup-modal-userPw').val();
-        //alert(userEmail +":"+userPw);
+        //alert(userEmail +":"+userPw);    
         
-        const userEmailReg = /^[0-9a-zA-Z!@#\$%]{4,16}$/;
-        const userPwReg = /^[0-9A-Za-z]{1,}@[0-9A-Za-z]{1,8}(.com|.net|.ac.kr)$/;
+        //이메일, 비밀번호 정규식 검사
+        const userEmailReg = /^[0-9A-Za-z]{1,}@[0-9A-Za-z]{1,8}(.com|.net|.ac.kr)$/;
+        const userPwReg = /^[0-9a-zA-Z!@#\$%]{4,16}$/; 
+        
+        //나이 체크박스
+		//const ageCheckbox = $('#age-check-box');
+        $('#age-check-box').click(function(){
+	        if (!ageCheckbox.prop('checked')) {
+	            $('#age-check-box-result').text('나이를 확인해주세요.').css("color", "red");
+	            return; 
+	        }else{				
+				$('#age-check-box-result').text('');							
+	        } //else
+        }); //click - function
+        
+        $('.modal-close').click(function(){
+			$('#age-check-box-result').text('');
+			$('#email-signup-modal-form-result').text('');
+			$('#age-check-box').prop('checked', false);
+		}); //modal-close
+		$(window).click(function(event){
+			if($(event.target).hasClass('modal')){
+				$('#age-check-box-result').text('');
+				$('#email-signup-modal-form-result').text('');
+				$('#age-check-box').prop('checked', false);
+			}//if
+		}); //window  
+            
+       // alert(userEmailReg.test(userEmail));
+       // alert(userPwReg.test(userPw));
         
         if(userEmailReg.test(userEmail) && userPwReg.test(userPw)){
+			//$('#email-signup-modal-form-result').text('ajax 요청가능')
 	        $.ajax({
 				type: 'POST',
 	            url: '/signup',
@@ -220,20 +308,58 @@ $(document).ready(function(){
 	                userPw: userPw
 	            },
 	            success: function(response){
+					//alert(response);
 					if(response === 'success'){
-						window.location.href = "/signup";
+						//window.location.href = "/signup";	현재 페이지에 있으면 되기 때문에 필요없음					
 						
-					    //모달 창 보이기
-			            $('#signup-set-myprofile-modal').modal('show');      
+						
+						$('#email-signup-modal').modal('hide');
+						$('#signup-set-myprofile-modal').modal('show');
+						
+						
+						
+						
+						/*
+						//ajax와 부트스트랩 충돌로 작동 안됨 -> js 위쪽에 따로 구현
+					    //'내 정보 설정' 모달창 보이기
+					    //alert("success");  
+					    //$('#email-signup-modal').modal('hide');
+			            //$('#signup-set-myprofile-modal').modal('show');        
+			             // window 클릭 시 모달 닫기
+					    $(window).click(function(event) {
+					        if ($(event.target).hasClass('modal')) {
+					            $('#login-modal').modal('hide');
+					        }
+					    });
 					
+					    // 모달 내 닫기 버튼 클릭 시 모달 닫기
+					    $('.modal-close').click(function() {
+					        $('#login-modal').modal('hide');
+					    });
+			            */       
+				
 					} else{
-						$('#email-signup-modal-form-result').text('이메일 혹은 비밀번호를 재확인해주세요.');
+						//alert("fail"); 
+						$('#email-signup-modal-userEmail-confirm').text('이미 가입된 이메일입니다.').css('color','red');
+						
+						/*
+						$('#email-signup-modal-userEmail').focus(function() {
+					        $('#email-signup-modal-userEmail').val(''); 
+					        $('#email-signup-modal-userEmail-confirm').text(''); 
+					        
+					        $('#email-signup-modal-userPw').val(''); 
+					        $('#email-signup-modal-userPw-confirm').val(''); 
+					        
+					        
+					    });
+						*/
+						
 						$('.modal-close').click(function(){
-							$('#errorMessage#email-signup-modal-form-result').text('');
+							$('#email-signup-modal-userEmail-confirm').text('');
 						}); //modal-close
 						$(window).click(function(event){
 							if($(event.target).hasClass('modal')){
-								$('#errorMessage#email-signup-modal-form-result').text('');
+								$('#email-signup-modal-userEmail-confirm').text('');
 							}//if
 						}); //window
 					}//else
@@ -244,13 +370,149 @@ $(document).ready(function(){
 			}); //ajax
 		}//if
 		else{
-			$('#email-signup-modal-form-result').text('이메일 혹은 비밀번호를 재확인해주세요.');
-		}
-		
-		
-		
+			$('#email-signup-modal-form-result').text('이메일 또는 비밀번호를 재확인해주세요.').css("color", "red");
+			$('.modal-close').click(function(){
+						$('#email-signup-modal-form-result').text('');
+			}); //modal-close
+			$(window).click(function(event){
+				if($(event.target).hasClass('modal')){
+					$('#email-signup-modal-form-result').text('');
+				}//if
+			}); //window
+		}//else		    
 	}); //login-modal-button	
 });//ready
+
+
+//내정보 설정 모달 내 - 지역정보 가져오기
+$(document).ready(function() {
+            // 모든 지역 정보를 가져와서 "city" 셀렉트 박스에 추가
+            $.ajax({
+                url: '/regions',
+                method: 'GET',
+                success: function(data) {
+                    let citySelect = $('#userRegion');
+                    data.forEach(function(region) {
+                        citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
+                    });
+                },
+                error: function(error) {
+                    console.log("Error fetching regions:", error);
+                }
+            });
+
+            // 특정 지역이 선택되었을 때 해당 지역의 구/군 정보를 가져와서 "district" 셀렉트 박스에 추가
+            $('#userRegion').change(function() {
+                var regionId = $(this).val();
+                $.ajax({
+                    url: '/regions/' + regionId,
+                    method: 'GET',
+                    success: function(data) {
+                        var districtSelect = $('#userDistrict');
+                        districtSelect.empty();
+                        districtSelect.append('<option value="" disabled selected>구/동 선택</option>');
+                        data.forEach(function(district) {
+                            districtSelect.append('<option value="' + district.districtId + '">' + district.districtName + '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.log("Error fetching districts:", error);
+                    }
+                });
+            });
+        });
+
+
+//회원가입 직후 내정보 설정 모달 내
+$(document).ready(function(){
+	//별명 중복 검사
+	$('#nickname-confirm-btn').click(function(){
+		//alert("중복검사시");
+		let userNickname = $('#userNickname').val();
+		//alert(userNickname);
+		  $.ajax({
+			type: 'POST',
+            url: '/nicknameconfirm',
+            data: {
+                userNickname:userNickname 
+            },
+            success: function(response){				
+				if(response == 'success'){
+					//alert('올바르다');
+					$('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
+				} else{
+					$('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");					
+				}//else
+			},
+			error: function(xhr,status, error){
+				console.error('AJAX 요청 실패: ' + status, error);
+			}			
+		}); //ajax
+	});	//#nickname-confirm-btn.click
+	
+	//사용자 입력 정보 모두 받아오기
+	$('#signup-set-myprofile-modal-btn').click(function(){
+		let profileImage = $('#file-upload').val();
+        let userNickname = $('#userNickname').val();
+        let userDistrict = $('#userDistrict').val();
+        let userRegion = $('#userRegion').val();
+        let profileIntro = $('#profileIntro').val();
+        let interests = [];
+        
+        //관심사 항목 체크되는 것들만 배열로 저장
+        $("input:checked").each(function(){
+			interests.push($(this).val())
+		});        
+        //alert(interests);
+        
+        $.ajax({
+			type: 'POST',
+            url: '/signupprofile',
+            data: {   
+				profileImage : profileImage,
+        		userNickname : userNickname,
+         		userDistrict : userDistrict,
+        		userRegion : userRegion,
+    			profileIntro  : profileIntro,
+             	interests : interests
+            },
+            success: function(response){
+				if(response === 'success'){
+					window.location.href = "/mainLogin";
+				} else{
+					alert(response);
+					$('#signup-set-myprofile-result').text("'사진 업로드'와 '내 소개'를 제외한 모든 정보를 입력해주세요.");
+					$(window).click(function(event){
+						if($(event.target).hasClass('modal')){
+							$('#signup-set-myprofile-result').text('');							
+						}//if
+					}); //window
+				}//else
+			},
+			error: function(xhr,status, error){
+				console.error('AJAX 요청 실패: ' + status, error);
+			}			
+		}); //ajax
+	}); //#signup-set-myprofile-modal-btn.click	
+});//ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -321,4 +583,3 @@ function onSignInFailure(t){
 }
 
 */
-
