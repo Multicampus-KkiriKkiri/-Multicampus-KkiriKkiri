@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class NotificationServiceImple implements NotificationService {
 	NotificationDAO dao;
 
 	@Override
-	public NotificationDTO getNotification(NotificationDTO userIdAndGroupId) {
+	public List<NotificationDTO> getNotification(NotificationDTO userIdAndGroupId) {
 		return dao.getNotification(userIdAndGroupId);
 	}
 
@@ -23,8 +25,8 @@ public class NotificationServiceImple implements NotificationService {
 	}
 
 	@Override
-	public int deleteNotification() {
-		return dao.deleteNotification();
+	public int deleteNotification(int notificationId) {
+		return dao.deleteNotification(notificationId);
 	}
 
 	@Override
