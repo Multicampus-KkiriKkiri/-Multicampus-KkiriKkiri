@@ -13,7 +13,7 @@
 		(#{notificationId}, #{userId}, #{groupId}, now(), #{notificationText})
 	</insert>
 	
-	<delete id="deleteNotification">
+	<delete id="deleteNotification" parameterType = "int">
 		delete from notification where notificationID = #{notificationID}
 	</delete>
 	

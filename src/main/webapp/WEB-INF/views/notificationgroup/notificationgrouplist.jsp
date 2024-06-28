@@ -7,34 +7,43 @@
 <head>
 <meta charset="UTF-8">
 <title>알림</title>
-<script src="/jquery-3.7.1.min.js"></script>   
+<script src="/jquery-3.7.1.min.js"></script>
+<script src="/js/notificationgrouplist/notification.js"></script>   
 </head>
 <body>
+
 <header>
 	<%@ include file="../mainpage/mainHeader.jsp" %>
-	<%@ include file="../mainpage/mainHeaderLogin.jsp" %>
 </header>
 
 <main>
- 	<div>
- 		<c:if test="${notificationDTO == null}">
- 			<div>알림이 없습니다.</div><br>
- 		</c:if>
- 		 		
-		<c:if test="${notificationDTO != null}">
-            <div>
-                <div>${notificationDTO.notificationTime}</div><br>
-                <div>${userDTO.userNickname}의 ${groupName} 모임 가입 ${notificationDTO.notificationText} 입니다.</div><br>
+
+    <div id="notification-container">
+        <c:choose>
+            <c:when test="${notification == null}">
+                <div>알림이 없습니다.</div><br>
+            </c:when>
+            <c:when test="${notification != null}">
                 <div>
-                    <form action="deleteNotification" method="post">
-                        <input type="hidden" name="notificationId" value="${notificationDTO.notificationId}" />
-                        <input type="submit" value="삭제" />
-                    </form>
+                    <c:forEach var="dto" items="${notification}">
+                        <div class="notification-item">
+                            <div>${dto.notificationTime}</div><br>
+                            <div>${dto.notificationText} 입니다.</div><br>
+                            <div>
+                                <form class="delete-form">
+                                    <input type="hidden" name="notificationId" value="${dto.notificationId}" />
+                                    <input type="hidden" name="userId" value="${dto.userId}" />
+                                    <input type="hidden" name="groupId" value="${dto.groupId}" />
+                                    <button type="button" class="delete-button">삭제</button>
+                                </form>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
-            </div>
-        </c:if>
-		
-	</div>
+            </c:when>
+        </c:choose>
+    </div>
+    
 </main>
 
 <footer>
