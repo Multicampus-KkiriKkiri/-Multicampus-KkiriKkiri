@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
-import dto.UserDTO;
 
 @Repository
 public class GroupDAO {
@@ -18,36 +16,29 @@ public class GroupDAO {
 	@Autowired
 	SqlSession session;
 
+	// 그룹 상세 정보 가져오기
 	public GroupDTO getGroupDetail(int groupId) {
 		return session.selectOne("getGroupDetail", groupId);
 	}
-
-	public ArrayList<UserDTO> getGroupMemberList(int groupId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int addMemberToGroup(int userId, int groupId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int removeMemberFromGroup(int userId, int groupId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int addGroupToWishlist(int userId, int groupId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	//지역 불러오기, 광역시
 	public List<RegionDTO> getAllRegions() {
 		return session.selectList("getAllRegions");
 	 }
-	//지역 불러오기 ,구
+	
+	// 지역(Region) 이름 가져오기
+	public String getRegionNameByRegionId(int regionId) {
+		return session.selectOne("getRegionNameByRegionId", regionId);
+	}
+	
+	//지역 불러오기, 구
 	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
 		return session.selectList("getDistrictsByRegionId", regionId);
+	}
+	
+	// 하위 지역(District) 이름 가져오기
+	public String getDistrictNameByDistrictId(int districtId) {
+		return session.selectOne("getDistrictNameByDistrictId", districtId);
 	}
 	
 	public int saveGroup(GroupDTO groupDTO) {

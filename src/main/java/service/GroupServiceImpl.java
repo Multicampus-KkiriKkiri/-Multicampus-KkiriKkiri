@@ -27,11 +27,23 @@ public class GroupServiceImpl implements GroupService {
     public List<RegionDTO> getAllRegions() {
         return dao.getAllRegions();
     }
+    
+    // 지역(Region) 이름 가져오기
+    @Override
+    public String getRegionNameByRegionId(int regionId) {
+    	return dao.getRegionNameByRegionId(regionId);
+    }
 
     // 하위 지역 정보 가져오기
     @Override
     public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
         return dao.getDistrictsByRegionId(regionId);
+    }
+    
+    // 하위 지역(District) 이름 가져오기
+    @Override
+    public String getDistrictNameByDistrictId(int districtId) {
+    	return dao.getDistrictNameByDistrictId(districtId);
     }
 
     // 새로운 그룹 등록

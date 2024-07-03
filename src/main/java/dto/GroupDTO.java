@@ -22,8 +22,9 @@ public class GroupDTO {
     private String groupDetail;
     private String groupImage;
     private String groupType;
-    private String groupRegion;
-    private int groupInterest;
+    private int groupRegionId;
+    private int groupDistrictId;
+    private int groupInterestId;
     private String groupSignUpType;
     private int groupMaximum;
     private String groupSignUpQuestion;

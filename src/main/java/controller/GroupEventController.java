@@ -42,7 +42,7 @@ public class GroupEventController {
 	UserService userService;
 
 	@RequestMapping("/event")
-	ModelAndView groupDetail(int groupId) {
+	ModelAndView groupEvent(int groupId) {
 				
 		// 모임 일정 목록 가져오기
 		List<EventDTO> eventList = eventService.getGroupEventList(groupId);
@@ -115,12 +115,24 @@ public class GroupEventController {
 		
 	}
 	
-	// 각 일정 참여 신청한 모임원 목록 가져오기
-	@PostMapping
+	// 각 일정 참여 모임원 목록 가져오기
+	@PostMapping("/eventattendmemberlist")
 	@ResponseBody
-	List<UserDTO> getAttendMemberList(int eventId) {
+	List<UserDTO> getAttendMemberList(int eventId, int groupId) {
 		
-		return eventMemberService.getAttendMemberListByEventId(eventId);
+		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
+		UserDTO tmpDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
+		UserDTO leaderDTO = new UserDTO();
+		leaderDTO.setUserId(tmpDTO.getUserId());
+		leaderDTO.setProfileImage(tmpDTO.getProfileImage());
+		leaderDTO.setUserNickname(tmpDTO.getUserNickname());
+		
+		// 일정 참여 모임원 목록
+		List<UserDTO> eventAttendMemberList = eventMemberService.getAttendMemberListByEventId(eventId);
+		// 모임장도 리스트 제일 앞에 추가
+		eventAttendMemberList.add(0, leaderDTO);
+		
+		return eventAttendMemberList;
 		
 	}
 	

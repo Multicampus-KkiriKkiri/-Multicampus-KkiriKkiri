@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import chat.ChatRoomRepository;
 import dto.GroupDTO;
 import service.GroupService;
 
@@ -18,11 +19,9 @@ public class GroupChatController {
 
 	@RequestMapping("/chat")
 	ModelAndView groupDetail(int groupId) {
-				
-		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("groupDTO", groupDTO);
+		mv.addObject("groupId", groupId);
 		mv.setViewName("groupchat/groupChat");
 		
 		return mv;
