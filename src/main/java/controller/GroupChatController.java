@@ -1,13 +1,15 @@
 package controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import chat.ChatRoomRepository;
-import dto.GroupDTO;
-import service.GroupService;
+import service.ChatService;
 
 
 @Controller
@@ -15,7 +17,7 @@ import service.GroupService;
 public class GroupChatController {
 	
 	@Autowired
-	GroupService groupService;
+	ChatService chatService;
 
 	@RequestMapping("/chat")
 	ModelAndView groupDetail(int groupId) {
@@ -25,6 +27,20 @@ public class GroupChatController {
 		mv.setViewName("groupchat/groupChat");
 		
 		return mv;
+		
+	}
+	
+	@PostMapping("/chatmessagesend")
+	@ResponseBody
+	int sendChatMessage(int groupId, int userId, String chatMessage, String chatTime) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("groupId", groupId);
+		map.put("userId", userId);
+		map.put("chatMessage", chatMessage);
+		map.put("chatTime", chatTime);
+		
+		return chatService.insertChatMessage(map);
 		
 	}
 	
