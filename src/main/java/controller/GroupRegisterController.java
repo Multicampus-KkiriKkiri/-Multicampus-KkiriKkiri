@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
+import jakarta.servlet.http.HttpSession;
 import service.GroupService;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -33,7 +34,7 @@ public class GroupRegisterController {
     @Autowired
     private GroupService groupService;
     
-    private static final String UPLOAD_DIR = "/path/to/upload/directory/";
+    private static final String UPLOAD_DIR = "C:/upload/";
 
     @GetMapping("/register")
     public ModelAndView showGroupRegisterPage() {
@@ -42,9 +43,15 @@ public class GroupRegisterController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerGroup(@ModelAttribute GroupDTO groupDTO, @RequestParam("groupImage") MultipartFile groupImageFile) {
-        ModelAndView mav = new ModelAndView();
-
+    public ModelAndView registerGroup(HttpSession session, @RequestParam("groupType1") String groupType, @ModelAttribute GroupDTO groupDTO, @RequestParam("groupRegisterImage") MultipartFile groupImageFile) {
+    	session.setAttribute("sessionUserId", 1);//로그인 구현된것에 따라 바꿔야함. 현재user id 1로고정.  . sessionUserId
+    	
+    	groupDTO.setGroupType(groupType);
+    	groupDTO.setGroupLeaderId((Integer)session.getAttribute("sessionUserId"));
+    	
+    	 ModelAndView mav = new ModelAndView();
+    	 
+    	// 이미지 파일이 비어 있지 않은 경우
         if (!groupImageFile.isEmpty()) {
             try {
                 // 원본 이미지 저장
@@ -52,6 +59,8 @@ public class GroupRegisterController {
                 File originalFile = new File(UPLOAD_DIR + originalFilename);
                 groupImageFile.transferTo(originalFile);
                 groupDTO.setGroupImage(originalFile.getAbsolutePath()); // 원본 이미지 경로를 설정
+                System.out.println( groupDTO.getGroupImage());
+                
                 
                 // 리사이즈된 이미지 저장
                 InputStream inputStream = groupImageFile.getInputStream();
@@ -63,7 +72,7 @@ public class GroupRegisterController {
                 groupDTO.setGroupImage(resizedFile.getAbsolutePath()); // 리사이즈된 이미지 경로를 설정
                 
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace();	
             }
         }
 
@@ -71,7 +80,9 @@ public class GroupRegisterController {
         int groupId = groupService.registerGroup(groupDTO);
         
         // 등록된 그룹의 상세 페이지로 리디렉션
-        mav.setViewName("redirect:/group/detail/" + groupId);
+        // 등록한 그룹의 상세 페이지로 리디렉션.
+        mav.setViewName("redirect:/groupdetail/info?groupId=10");// + groupId);
+        //mav.setViewName("redirect:/groupdetail/info?groupId="+groupid););
         return mav;
     }
 

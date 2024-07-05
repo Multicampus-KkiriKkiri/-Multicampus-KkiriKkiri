@@ -51,7 +51,7 @@ public class GroupDetailController {
 
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
-		String category = interestService.getInterestField(groupDTO.getGroupInterest());
+		String category = interestService.getInterestField(groupDTO.getGroupInterestId());
 		int memberCnt = groupMemberService.getMemberCountInGroup(groupId);
 
 		ModelAndView mv = new ModelAndView();

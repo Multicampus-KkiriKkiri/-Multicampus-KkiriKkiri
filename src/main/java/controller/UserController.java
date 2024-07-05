@@ -109,8 +109,8 @@ public class UserController {
 	@PostMapping("/signupprofile")
 	public String signupprofile(HttpSession session, 
 			@RequestParam String userNickname, 
-			@RequestParam String userRegion, 
-			@RequestParam String userDistrict, 
+			@RequestParam int userRegion, 
+			@RequestParam int userDistrict, 
 			@RequestParam(required = false) String profileIntro, 
 			@RequestParam(required = false) String profileImage, 
 			String[] interests, 
@@ -158,8 +158,8 @@ public class UserController {
 		UserDTO user = new UserDTO();
 		user.setUserEmail((String)session.getAttribute("signupEmail"));
         user.setUserNickname(userNickname);
-        user.setUserRegion(userRegion);
-        user.setUserDistrict(userDistrict);
+        user.setUserRegionId(userRegion);
+        user.setUserDistrictId(userDistrict);
         user.setProfileIntro(profileIntro);
         
         //이미지 파일 세션에 넣어두었으나 실제 이미지 파일 저장된 상태가 아니고 보안상 c:fakePath/파일 형태로 저장됨

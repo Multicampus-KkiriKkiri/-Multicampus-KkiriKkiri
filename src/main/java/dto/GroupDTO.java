@@ -20,11 +20,15 @@ public class GroupDTO {
     private int groupLeaderId;
     private String groupName;
     private String groupDetail;
-    private String groupImage;
+    private String groupImage;//저장하는 파일의 위치를 저장해서.
     private String groupType;
-    private String groupRegion;
-    private int groupInterest;
+    private int groupRegionId;
+    private int groupDistrictId;
+    private int groupInterestId;//관심사 category.
     private String groupSignUpType;
     private int groupMaximum;
     private String groupSignUpQuestion;
+    
+
+
 }
