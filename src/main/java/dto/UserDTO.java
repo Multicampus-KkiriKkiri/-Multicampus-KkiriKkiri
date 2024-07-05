@@ -15,7 +15,8 @@ public class UserDTO {
 	private int userId;
 	private String userEmail;
 	private String userPw;
-	private String userRegion;
+	private int userRegionId;
+	private int userDistrictId;
 	private String profileIntro;
 	private String profileImage;
 	private String signUpType;//not null

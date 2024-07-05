@@ -454,8 +454,8 @@ $(document).ready(function(){
 	$('#signup-set-myprofile-modal-btn').click(function(){
 		let profileImage = $('#file-upload').val();
         let userNickname = $('#userNickname').val();
-        let userDistrict = $('#userDistrict').val();
-        let userRegion = $('#userRegion').val();
+        let userDistrictId = $('#userDistrict').val();
+        let userRegionId = $('#userRegion').val();
         let profileIntro = $('#profileIntro').val();
         let interests = [];
         
@@ -471,8 +471,8 @@ $(document).ready(function(){
             data: {   
 				profileImage : profileImage,
         		userNickname : userNickname,
-         		userDistrict : userDistrict,
-        		userRegion : userRegion,
+         		userDistrictId : userDistrictId,
+        		userRegionId : userRegionId,
     			profileIntro  : profileIntro,
              	interests : interests
             },
