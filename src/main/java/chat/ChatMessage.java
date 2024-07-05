@@ -1,10 +1,11 @@
 package chat;
 
 public class ChatMessage {
-    String chatRoomId;
-    String message;
-    String type;
-    String userId;
+    private String chatRoomId;
+    private String message;
+    private String type;
+    private String userId;
+    private String chatTime;
     
 	public String getChatRoomId() {
 		return chatRoomId;
@@ -20,6 +21,10 @@ public class ChatMessage {
 	
 	public String getUserId() {
         return userId;
+    }
+	
+	public String getChatTime() {
+        return chatTime;
     }
      
 }

@@ -18,6 +18,8 @@ public class ChatHandler extends TextWebSocketHandler {
     	String payload = message.getPayload();
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
         ChatRoom chatRoom = repository.getChatRoom(chatMessage.getChatRoomId());   
+        
+        // 메세지 전송 처리
         chatRoom.handleMessage(session, chatMessage, objectMapper);
     }
     
