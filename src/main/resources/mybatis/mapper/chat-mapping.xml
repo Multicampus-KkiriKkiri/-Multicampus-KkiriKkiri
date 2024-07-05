@@ -7,14 +7,9 @@
 	<select id="getChats" resultType="chatdto" parameterType="int">
 		select * from chat where userId=#{userId}
 	</select>
-	 
-	<insert id="insertChat" parameterType="chatdto">
-		insert into chat values
-		(#{groupId}, #{userId}, #{chatMessage}, now()) 
-		<!-- 
-		chat table의 column 순서가 위와 같습니다. 
-		{#chatId}는 autoincrement라서 넣지 않았습니다.
-		-->
+	
+	<insert id="insertChatMessage">
+		insert into `chat` values(0, #{groupId}, #{userId}, #{chatMessage}, #{chatTime})
 	</insert>
 	
 </mapper>

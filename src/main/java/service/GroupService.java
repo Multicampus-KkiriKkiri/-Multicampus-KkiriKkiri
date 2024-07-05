@@ -14,11 +14,17 @@ public interface GroupService {
     // 지역 정보 (시,도) 가져오기
 	List<RegionDTO> getAllRegions();
 	
+	// 지역(Region) 이름 가져오기
+	String getRegionNameByRegionId(int regionId);
+	
     // 하위 지역 정보 가져오기
 	List<DistrictDTO> getDistrictsByRegionId(int regionId);
 	
+	// 하위 지역(District) 이름 가져오기
+	String getDistrictNameByDistrictId(int districtId);
+	
     // 새로운 그룹 등록
 	int registerGroup(GroupDTO groupDTO);
-	
+	//모임 ID로 모임 정보를 가져오는 메서드
 	GroupDTO getGroupById(int groupId);
 }

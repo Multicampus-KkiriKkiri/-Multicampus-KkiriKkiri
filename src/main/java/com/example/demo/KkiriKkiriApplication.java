@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = "dto")
 @ComponentScan(basePackages = "controller")
 @ComponentScan(basePackages = "service")
+@ComponentScan(basePackages = "chat")
 
 public class KkiriKkiriApplication {
 	
