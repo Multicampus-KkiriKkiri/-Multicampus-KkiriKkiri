@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "dto")
 @ComponentScan(basePackages = "controller")
 @ComponentScan(basePackages = "service")
-@ComponentScan(basePackages = "config")
-@ComponentScan(basePackages = "repository")
+@ComponentScan(basePackages = "chat")
+
 public class KkiriKkiriApplication {
 
 	public static void main(String[] args) {
