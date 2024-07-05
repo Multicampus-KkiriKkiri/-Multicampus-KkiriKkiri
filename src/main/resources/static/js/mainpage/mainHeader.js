@@ -1,50 +1,24 @@
 //mainHeader.jsp
-//상단바 로그인, 회원가입 버튼 누를 시 모달창 + 이메일로 회원 가입 모달창 + 회원가입 버튼 누른 후 내정보설정 모달창
+//상단바 로그인, 회원가입 버튼 누를 시 모달창
 let loginButton = document.getElementById("login-button");
 let signupButton = document.getElementById("signup-button");
 let loginModal = document.getElementById("login-modal");
 let signupModal = document.getElementById("signup-modal");
-let loginModalClose = loginModal.getElementsByClassName("modal-close")[0];
-let signupModalClose = signupModal.getElementsByClassName("modal-close")[0];
-
-//'이메일로 회원가입' 누를 시 넘어가는 모달창
-let emailSignupButton = document.getElementById("open-email-signup-modal");
+let loginModalClose = document.getElementById("login-modal-close");
+let signupModalClose = document.getElementById("signup-modal-close");
+let createAccountBtn = document.getElementById("creat-account-btn");
+let openLoginModal1 = document.getElementById("open-login-modal1");
+let openLoginModal2 = document.getElementById("open-login-modal2");
 let emailSignupModal = document.getElementById("email-signup-modal");
-let emailSignupModalClose = emailSignupModal.getElementsByClassName("modal-close")[0];
-
-
-
-
-
-/*
-//'회원가입' 누른 후 내정보설정 모달창
-let finalSignupButton = document.getElementById("open-signup-set-myprofile-modal");
-let signupSetMyProfileModal = document.getElementById("signup-set-myprofile-modal");
-let signupSetMyProfileModalClose = signupSetMyProfileModal.getElementsByClassName("modal-close")[0];
-*/
-
-
-
-
-
-//회원가입 내정보설정 모달 내 프로필 사진 업로드
-let signupMyprofileShowImg = document.getElementById("signup-myprofile-show-img");
-let fileUploadInput = document.getElementById("file-upload");
+//let signupModalClose = signupModal.getElementsByClassName("modal-close")[0];
 
 function openModal(modal){
 	modal.classList.remove('fade-out');
 	modal.classList.add('fade-in');		
 		
 	modal.style.display = "block";
-	document.body.classList.add('modal-open');
-}
-
-function openModal2(modal){
-	modal.classList.remove('fade-out');
-	modal.classList.add('fade-in');		
-		
-	modal.style.display = "block";
-	document.body.classList.add('modal-open2');
+	document.body.classList.add('modal-open');	
+	document.body.style.overflow = 'hidden';
 }
 
 function closeModal(modal){
@@ -57,25 +31,7 @@ function closeModal(modal){
             input.value = "";
         }
         document.body.classList.remove('modal-open');
-    }, 300);
-}
-
-function closeModal2(modal){
-	modal.classList.remove('fade-in');
-    modal.classList.add('fade-out');
-    setTimeout(() => {
-        modal.style.display = "none";
-        let inputs = modal.getElementsByTagName('input');
-        for (let input of inputs) {
-            input.value = "";
-        }      
-        
-        //회원가입 내정보설정 모달 내 프로필 사진 업로드 초기화
-        fileUploadInput.value = ""; 
-        signupMyprofileShowImg.innerHTML = "";
-              
-        document.body.classList.remove('modal-open2'); 
-        //document.body.style.overflow = 'auto';          
+        document.body.style.overflow = 'auto';
     }, 300);
 }
 
@@ -84,47 +40,37 @@ signupButton.addEventListener('click', ()=> openModal(signupModal));
 loginModalClose.addEventListener('click', ()=> closeModal(loginModal));
 signupModalClose.addEventListener('click', ()=> closeModal(signupModal));
 
-//'이메일로 회원가입' 누를 시 넘어가는 모달창
-emailSignupButton.addEventListener('click', () => {
-    closeModal2(signupModal);
-    openModal2(emailSignupModal);
+createAccountBtn.addEventListener('click', ()=> {
+    openModal(signupModal);
+    closeModal(loginModal);
 });
-emailSignupModalClose.addEventListener('click', () => closeModal2(emailSignupModal));
 
+openLoginModal1.addEventListener('click', ()=> {
+    openModal(loginModal);
+    closeModal(signupModal);
+});
 
+openLoginModal2.addEventListener('click', ()=> {
+    openModal(loginModal);
+    closeModal(emailSignupModal);
+});
 
-
-
-
-
-
-
+//'이메일로 회원가입' 누를 시 넘어가는 모달창  
+let openEmailSignupModal = document.getElementById("open-email-signup-modal");
+openEmailSignupModal.addEventListener ('click', ()=> {
+	openModal(emailSignupModal );
+	closeModal(signupModal);
+});
 
 /*
-//'회원가입' 누른 후 내정보설정 모달창
-
-finalSignupButton.addEventListener('click', ()=>{
-	
-	/*
-	let userEmail = $('#email-signup-modal-userEmail').val();
-    let userPw = $('#email-signup-modal-userPw').val();
-	let warningMessage = document.querySelectorAll('.warning').innerHTML;
-	
-	
-    if (userEmail.trim() === '' || userPw.trim() === '' || warningMessage !== '') {
-        // 입력이 비어있으면 클릭 이벤트 무시
-        return;
-    }
-   
-		
-	closeModal2(emailSignupModal);
-	openModal2(signupSetMyProfileModal);
-	
-	
-});
- */
-
-//signupSetMyProfileModalClose.addEventListener('click', () => closeModal2(signupSetMyProfileModal));
+//'이메일로 회원가입' 누를 시 넘어가는 모달창 
+//- js로 한 코드가 안될 경우 이 코드 사용 + openLoginModal2.addEventListener 삭제
+$('#open-email-signup-modal').click(function(){	
+	$('#signup-modal').css('display', 'none');	
+	$('#email-signup-modal').css('display', 'block');
+	$('body').css('overflow', 'hidden');	
+}); //#open-email-signup-modal click 
+*/
 
 window.addEventListener('click', (event) => {
         if (event.target == loginModal) {
@@ -133,30 +79,7 @@ window.addEventListener('click', (event) => {
         if (event.target == signupModal) {
             closeModal(signupModal);
         }
-        if (event.target == emailSignupModal) {
-            closeModal(emailSignupModal);
-        }
-        /*
-        if (event.target === signupSetMyProfileModal) {
-            closeModal2(signupSetMyProfileModal);
-        }*/
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //회원가입 내정보설정 모달 내 프로필 사진 업로드
 function loadFile(input){
@@ -226,7 +149,7 @@ $('.password-input-container i').on('click',function(){
             $(this).attr('class',"fa-regular fa-eye-slash")
             .prev('input').attr('type','password');
         }
-        $('.modal-close').click(function(){
+        $('#email-signup-modal-close').click(function(){
 			$("#email-signup-modal-userPw-confirm-result").text("");
 			$('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
 	        $('.password-input-container input').attr('type', 'password')
@@ -238,8 +161,17 @@ $('.password-input-container i').on('click',function(){
 		        $('.password-input-container input').attr('type', 'password');    
 			}//if
 		}); //window
-    });
-
+    });//.password-input-container i
+    
+//비밀번호가 텍스트로 보이는 상태에서 input창에 커서를 놓으면 다시 비밀번호 형태로 자동 변환
+$('.password-input-container input').on('focus', function() {
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('active')
+               .attr('type', 'password');
+        $(this).next('i').attr('class', "fa-regular fa-eye-slash");
+    }
+});//.password-input-container input
+    
 //이메일 회원가입 모달 내 - 비밀번호 일치 확인
  $("#email-signup-modal-userPw-confirm").on("input", function() {
         let password = $("#email-signup-modal-userPw").val();
@@ -250,15 +182,27 @@ $('.password-input-container i').on('click',function(){
         } else {
             $("#email-signup-modal-userPw-confirm-result").text("비밀번호가 일치하지 않습니다.").css("color", "red");
         }
-        $('.modal-close').click(function(){
+        
+        $('#email-signup-modal-close').click(function(){
 			$("#email-signup-modal-userPw-confirm-result").text("");
 		}); //modal-close
-		$(window).click(function(event){
-			if($(event.target).hasClass('modal')){
-				$("#email-signup-modal-userPw-confirm-result").text("");
-			}//if
-		}); //window
-});
+		
+		$(window).click(function(event) {
+			if ($(event.target).closest('#email-signup-modal').length === 0) {       
+		        $('#email-signup-modal-userEmail').val(''); 
+		        $('#email-signup-modal-userPw').val(''); 
+		        $('#email-signup-modal-userPw-confirm').val(''); 
+		        $('#email-signup-modal-userEmail-confirm').text(''); 
+		        $('#email-signup-modal-userPw-confirm-result').text(''); 
+		        $('#age-check-box-result').text(''); 		
+		        
+		        if ($('#age-check-box').is(':checked')) {
+		            $('#age-check-box').prop('checked', false); 
+		        }
+		    }
+		});		
+});//#email-signup-modal-userPw-confirm
+
 
 //이메일 회원가입 모달창
 $(document).ready(function(){
@@ -272,34 +216,16 @@ $(document).ready(function(){
         const userPwReg = /^[0-9a-zA-Z!@#\$%]{4,16}$/; 
         
         //나이 체크박스
-		//const ageCheckbox = $('#age-check-box');
-        $('#age-check-box').click(function(){
-	        if (!ageCheckbox.prop('checked')) {
-	            $('#age-check-box-result').text('나이를 확인해주세요.').css("color", "red");
-	            return; 
-	        }else{				
-				$('#age-check-box-result').text('');							
-	        } //else
-        }); //click - function
-        
-        $('.modal-close').click(function(){
-			$('#age-check-box-result').text('');
-			$('#email-signup-modal-form-result').text('');
-			$('#age-check-box').prop('checked', false);
-		}); //modal-close
-		$(window).click(function(event){
-			if($(event.target).hasClass('modal')){
-				$('#age-check-box-result').text('');
-				$('#email-signup-modal-form-result').text('');
-				$('#age-check-box').prop('checked', false);
-			}//if
-		}); //window  
-            
+		const ageCheckbox = $('#age-check-box');		
+		 if (!ageCheckbox.is(':checked')) {
+            $('#age-check-box-result').text('나이를 확인해주세요.').css("color", "red");
+            return; 
+        }
+          
        // alert(userEmailReg.test(userEmail));
        // alert(userPwReg.test(userPw));
         
         if(userEmailReg.test(userEmail) && userPwReg.test(userPw)){
-			//$('#email-signup-modal-form-result').text('ajax 요청가능')
 	        $.ajax({
 				type: 'POST',
 	            url: '/signup',
@@ -310,60 +236,25 @@ $(document).ready(function(){
 	            success: function(response){
 					//alert(response);
 					if(response === 'success'){
-						//window.location.href = "/signup";	현재 페이지에 있으면 되기 때문에 필요없음					
-						
-						
-						$('#email-signup-modal').modal('hide');
-						$('#signup-set-myprofile-modal').modal('show');
-						
-						
-						
-						
-						/*
-						//ajax와 부트스트랩 충돌로 작동 안됨 -> js 위쪽에 따로 구현
-					    //'내 정보 설정' 모달창 보이기
-					    //alert("success");  
-					    //$('#email-signup-modal').modal('hide');
-			            //$('#signup-set-myprofile-modal').modal('show');        
-			             // window 클릭 시 모달 닫기
-					    $(window).click(function(event) {
-					        if ($(event.target).hasClass('modal')) {
-					            $('#login-modal').modal('hide');
-					        }
-					    });
-					
-					    // 모달 내 닫기 버튼 클릭 시 모달 닫기
-					    $('.modal-close').click(function() {
-					        $('#login-modal').modal('hide');
-					    });
-			            */       
-				
-					} else{
-						//alert("fail"); 
+						$('#email-signup-modal').css('display', 'none');	
+						$('#signup-set-myprofile-modal').css('display', 'block');
+						disableScroll();			
+					} else{ 
 						$('#email-signup-modal-userEmail-confirm').text('이미 가입된 이메일입니다.').css('color','red');
-						
-						/*
-						$('#email-signup-modal-userEmail').focus(function() {
-					        $('#email-signup-modal-userEmail').val(''); 
-					        $('#email-signup-modal-userEmail-confirm').text(''); 
-					        
-					        $('#email-signup-modal-userPw').val(''); 
-					        $('#email-signup-modal-userPw-confirm').val(''); 
-					        
-					        
-					    });
-						*/
-						
-						$('.modal-close').click(function(){
+						$('#email-signup-modal-userEmail').focus(function(){
 							$('#email-signup-modal-userEmail-confirm').text('');
-						}); //modal-close
-						$(window).click(function(event){
-							if($(event.target).hasClass('modal')){
-								$('#email-signup-modal-userEmail-confirm').text('');
-							}//if
-						}); //window
+						});//focus function
+						
+						$('#email-signup-modal-close').click(function(){
+							$('input').val('');
+						})
+						$(window).click(function(event) {
+						    if (!$(event.target).closest('#email-signup-modal').length) {
+						        $('input').val('');
+						    }
+						});	
 					}//else
-				},
+				}, //success
 				error: function(xhr,status, error){
 					console.error('AJAX 요청 실패: ' + status, error);
 				}			
@@ -371,17 +262,46 @@ $(document).ready(function(){
 		}//if
 		else{
 			$('#email-signup-modal-form-result').text('이메일 또는 비밀번호를 재확인해주세요.').css("color", "red");
-			$('.modal-close').click(function(){
-						$('#email-signup-modal-form-result').text('');
-			}); //modal-close
-			$(window).click(function(event){
-				if($(event.target).hasClass('modal')){
-					$('#email-signup-modal-form-result').text('');
-				}//if
-			}); //window
+			$('#email-signup-modal-form input').focus(function() {
+			    $('#email-signup-modal-form-result').text('');
+			});
 		}//else		    
-	}); //login-modal-button	
+	});//login-modal-button	
+	
+	// 나이 체크박스 클릭 이벤트 - 위쪽에 두면 작동안함
+    $('#age-check-box').click(function(){
+        if (!$(this).is(':checked')) {
+            $('#age-check-box-result').text('나이를 확인해주세요.').css("color", "red");
+        } else {
+            $('#age-check-box-result').text('');
+        }
+    });	
 });//ready
+
+//이메일 회원가입 모달창 닫기
+$('#email-signup-modal-close').click(function(){
+						$('#email-signup-modal-form-result').text('');
+						$('#email-signup-modal').css('display', 'none');	
+						$('.modal-backdrop').remove(); // backdrop 제거 - 작동이 안되는 것 같음	
+						$('body').css('overflow', 'auto'); // body 스크롤 복구
+}); //modal-close
+$(window).click(function(event){
+	if($(event.target).hasClass('modal')){
+		$('#email-signup-modal-form-result').text('');
+		$('#email-signup-modal').css('display', 'none');	
+		$('.modal-backdrop').remove(); // backdrop 제거 - 작동이 안되는 것 같음	
+		$('body').css('overflow', 'auto'); // body 스크롤 복구
+	}//if
+}); //window
+
+// 스크롤 비활성화 함수
+function disableScroll() {
+    $('body').css({
+        'overflow': 'hidden',
+        'position': 'fixed',
+        'width': '100%'
+    });
+}
 
 
 //내정보 설정 모달 내 - 지역정보 가져오기
@@ -426,10 +346,9 @@ $(document).ready(function() {
 //회원가입 직후 내정보 설정 모달 내
 $(document).ready(function(){
 	//별명 중복 검사
-	$('#nickname-confirm-btn').click(function(){
-		//alert("중복검사시");
-		let userNickname = $('#userNickname').val();
-		//alert(userNickname);
+	$('#nickname-confirm-btn').click(function(event){
+		event.preventDefault();
+		let userNickname = $('#userNickname').val();		
 		  $.ajax({
 			type: 'POST',
             url: '/nicknameconfirm',
@@ -438,7 +357,6 @@ $(document).ready(function(){
             },
             success: function(response){				
 				if(response == 'success'){
-					//alert('올바르다');
 					$('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
 				} else{
 					$('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");					
@@ -449,6 +367,10 @@ $(document).ready(function(){
 			}			
 		}); //ajax
 	});	//#nickname-confirm-btn.click
+	//별명창에 포커스 갈때 별명 중복 확인창 비우기
+	$('#userNickname').focus(function(){
+    $('#nickname-confirm-result').text('');
+});
 	
 	//사용자 입력 정보 모두 받아오기
 	$('#signup-set-myprofile-modal-btn').click(function(){
@@ -458,41 +380,39 @@ $(document).ready(function(){
         let userRegionId = $('#userRegion').val();
         let profileIntro = $('#profileIntro').val();
         let interests = [];
-        
+        //alert(userDistrictId + userRegionId);
         //관심사 항목 체크되는 것들만 배열로 저장
         $("input:checked").each(function(){
 			interests.push($(this).val())
 		});        
-        //alert(interests);
-        
-        $.ajax({
-			type: 'POST',
-            url: '/signupprofile',
-            data: {   
-				profileImage : profileImage,
-        		userNickname : userNickname,
-         		userDistrictId : userDistrictId,
-        		userRegionId : userRegionId,
-    			profileIntro  : profileIntro,
-             	interests : interests
-            },
-            success: function(response){
-				if(response === 'success'){
-					window.location.href = "/mainLogin";
-				} else{
-					alert(response);
-					$('#signup-set-myprofile-result').text("'사진 업로드'와 '내 소개'를 제외한 모든 정보를 입력해주세요.");
-					$(window).click(function(event){
-						if($(event.target).hasClass('modal')){
-							$('#signup-set-myprofile-result').text('');							
-						}//if
-					}); //window
-				}//else
-			},
-			error: function(xhr,status, error){
-				console.error('AJAX 요청 실패: ' + status, error);
-			}			
-		}); //ajax
+
+       if(userNickname !='' && interests.length !=0 && userRegionId != '' && userDistrictId != ''){
+	      $.ajax({
+				type: 'POST',
+	            url: '/signupprofile',
+	            data: {   
+					profileImage : profileImage,
+	        		userNickname : userNickname,
+	         		userDistrictId : userDistrictId,
+	        		userRegionId : userRegionId,
+	    			profileIntro  : profileIntro,
+	             	interests : interests
+	            },
+	            success: function(response){
+					if(response === 'success'){
+						window.location.href = "/mainLogin";
+					} else{
+						console.log(response);					
+					}//else
+				},
+				error: function(xhr,status, error){
+					console.error('AJAX 요청 실패: ' + status, error);
+				}			
+			}); //ajax		
+		}//if 
+		else{
+			$('#signup-set-myprofile-result').text("사진 업로드와 내 소개를 제외한 모든 정보를 입력해주세요.");
+		}		
 	}); //#signup-set-myprofile-modal-btn.click	
 });//ready
 
@@ -581,5 +501,4 @@ function onSignIn(googleUser) {
 function onSignInFailure(t){		
 	console.log(t);
 }
-
 */

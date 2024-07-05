@@ -5,7 +5,7 @@
 <mapper namespace="dao.UserDAO">
 	
 	<select id="getUserInfo" resultType="userdto">
-		select userId, userEmail, userRegionId, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
+		select userId, userEmail, userRegionId, userDistrictId, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
 	</select>
 	
 	<!-- 로그인 -->

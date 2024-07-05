@@ -25,4 +25,7 @@ public interface GroupMemberService {
 	// 모임 내 탈퇴/강퇴 내역 확인
 	String checkUserHistoryInGroup(HashMap map);
 	
+	// 메인페이지 로그인 후 내 모임 정보 가져오기 위해 groupId 받아오기 
+	List<Integer> getMyGroupIdList(int userId);
+	
 }

@@ -41,6 +41,7 @@ public interface UserService {
 	
 	//회원가입 - 내정보설정 모달 회원 관심사 데이터 입력
 	int setMyInterest(UserInterestDTO dto);
+
 }
 
 

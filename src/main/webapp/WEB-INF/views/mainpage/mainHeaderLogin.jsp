@@ -32,7 +32,7 @@ $(document).ready(function(){
 		</a>		 
 	       <span class="search-area">
 	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  
-	        --><input type="text" class="second-input" id="search-input" placeholder="지역이나타나야 해" /><!--
+	        --><input type="text" class="second-input" id="search-input" placeholder="지역 입력" /><!--
 	         --><button>
 	         <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:#e4e2dd"></i>
 	         </button>
@@ -47,7 +47,7 @@ $(document).ready(function(){
 			<i class="fa-regular fa-comment header-nav-icon fa-thin"></i>
 		</a>
 		<a href="#">
-			<img class="profile-circle" src="https://via.placeholder.com/150" alt="내 프로필 사진">
+			<img class="profile-circle" src="${profileImage}" alt="내 프로필 사진">
 		</a>			
 		<span class="btn-group dropdown">
 		  <button class="dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:white">
@@ -56,7 +56,7 @@ $(document).ready(function(){
 			  <ul class="dropdown-menu dropdown-menu-end" >
 			    <li><a class="dropdown-item" href="#">마이페이지</a></li>
 			    <li><a class="dropdown-item" href="#">모임 만들기</a></li>
-			    <li><a class="dropdown-item" href="#">로그아웃</a></li>
+			    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 			  </ul>		  		  
 		</span>
 	</div>	
@@ -72,5 +72,6 @@ $(document).ready(function(){
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
+<script src="<c:url value='/js/mainpage/mainHeaderLogin.js'/>"></script>
 </body>
 </html>

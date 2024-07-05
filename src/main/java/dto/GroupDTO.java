@@ -24,9 +24,9 @@ public class GroupDTO {
     private String groupType;
     private int groupRegionId;
     private int groupDistrictId;
-    private int groupInterestId;//관심사 category.
+    private int groupInterestId; 
     private String groupSignUpType;
     private int groupMaximum;
     private String groupSignUpQuestion;
- 
 }
+

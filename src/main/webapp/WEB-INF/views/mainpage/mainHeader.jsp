@@ -51,12 +51,12 @@ $(document).ready(function(){
 <div id="login-modal" class="modal">
   <div class="modal-contents" style="padding-bottom:30px;">
   	<div class="modal-content-container">
-	    <span class="modal-close">&times;</span><br>
+	    <span class="modal-close" id="login-modal-close">&times;</span><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>로그인</b></h2>
 	    <div class="signup-suggestion">
 		    <h6 style="margin-right:7px">아직 계정이 없다면?</h6>
-		    <a href="#" style="color:#3b5f3e"><b>계정 만들기</b></a>
+		    <a href="#" id="creat-account-btn" style="color:#3b5f3e"><b>계정 만들기</b></a>
 	    </div>
 	    <form id="login-modal-form">
 		    <div class="email-login" style="margin-top: 25px">
@@ -94,12 +94,12 @@ $(document).ready(function(){
 <div id="signup-modal" class="modal">
   <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
-	    <span class="modal-close">&times;</span><br><br>
+	    <span class="modal-close" id="signup-modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>회원가입</b></h2>
 	    <div class="signup-suggestion">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
-		    <a href="#" style="color:#3b5f3e"><b>로그인 하기</b></a>
+		    <a href="#" id="open-login-modal1" style="color:#3b5f3e"><b>로그인 하기</b></a>
 	    </div>
 		<!-- 카카오 회원가입 -->
 	    <div onclick="kakaoLogin();">
@@ -113,6 +113,7 @@ $(document).ready(function(){
 				<button class="signup-button"><img src="/images/google_logo.png" alt="구글 로고" style="margin-right:15px;">구글로 계속하기</button>  
 			</a>
 		</div>	
+		<!-- 이메일로 회원가입하기 버튼 -->
 		<button class="signup-button" id="open-email-signup-modal"><i class="fa-solid fa-envelope" style="margin-right:10px;"></i>이메일로 가입하기</button>   
   	</div>
   </div>
@@ -122,7 +123,7 @@ $(document).ready(function(){
 <div id="email-signup-modal" class="modal">
   <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
-	    <span class="modal-close">&times;</span><br><br>
+	    <span class="modal-close" id="email-signup-modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
 	    
 	    
@@ -151,7 +152,7 @@ $(document).ready(function(){
 	    
 	    <div class="signup-suggestion" style="margin-top: 25px;">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
-		    <a href="#" style="color:#3b5f3e"><b>로그인 하기</b></a>
+		    <a href="#" id="open-login-modal2" style="color:#3b5f3e"><b>로그인 하기</b></a>
 	    </div>		   
   	</div>
   </div>
@@ -163,7 +164,6 @@ $(document).ready(function(){
 <div id="signup-set-myprofile-modal" class="modal">
   <div class="modal-contents" style="padding-bottom:40px;">
   	<div class="modal-content-container">
-	    <!--<span class="modal-close">&times;</span><br><br>  -->
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
 	    <h4><b>끼리끼리</b>에 오신 것을 환영합니다!</h4>
 	    <p>나에게 꼭 맞는 모임을 찾기 위해 <br>지금 '내 정보 설정'을 해 보세요.</p>	    
@@ -175,30 +175,26 @@ $(document).ready(function(){
 	    	<div class="file-input-container">
             	<label class="custom-file-label" for="file-upload">사진 업로드</label>
             	<input type="file" id="file-upload" name="profileImage" class="file-input" accept="image/*" onchange="loadFile(this)">
-        	</div>		 
-	    <!--</form>  -->
-	    
+        	</div>		 	    
 	    <div class="email-login" style="margin-top: 25px">
 		    <h6 style="margin-right:290px"><b>내 별명</b></h6>
 		    <input type="text" required id="userNickname" name="userNickname">
-		    <button id="nickname-confirm-btn">별명 중복검사</button>
+		    <button type="button" id="nickname-confirm-btn">별명 중복검사</button>
 		    <div class="email-signup-form" id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 
 		    <h6 style="margin-right:270px; margin-top: 15px;"><b>내 위치</b></h6>	  	    
 		    <div>		    	
-				<select id="userRegion" name="userRegion" required>
+				<select id="userRegion" name="userRegionId" required>
 			    	<option value="" disabled selected>도시 선택</option>
 			    </select>
 		    </div>
 		    <div>
-			    <select id="userDistrict" name="userDistrict" required>
+			    <select id="userDistrict" name="userDistrictId" required>
 			    	<option value="" disabled selected>구/동 선택</option>
-			    	<option value=""></option>
 			    </select>			  
 			</div>		    	 	 
 	    </div>
 	    	<h6 style="margin-right:290px"><b>내 관심사</b></h6>
-	    	<div>한 개 이상 반드시 체크해주세요.</div>
-		    
+	    	<div>한 개 이상 반드시 체크해주세요.</div>		    
 			  <input type="checkbox" id="cultureArt" name="cultureArt" value="cultureArt">
 			  <label for="vehicle1">문화예술</label> 	
 			  
@@ -206,35 +202,22 @@ $(document).ready(function(){
 			  <label for="vehicle2">액티비티</label>
 			   
 			  <input type="checkbox" id="foodDrink" name="foodDrink" value="foodDrink">
-			  <label for="vehicle3">푸드&드링크</label><br>
-			   
+			  <label for="vehicle3">푸드&드링크</label><br>			   
 			 
 			  <input type="checkbox" id="selfStudy" name="selfStudy" value="selfStudy">
-			  <label for="vehicle3">자기계발</label>
-			  
+			  <label for="vehicle3">자기계발</label>			  
 			  
 			  <input type="checkbox" id="etc" name="etc" value="etc">
-			  <label for="vehicle3">기타</label>
-			  
-			
+			  <label for="vehicle3">기타</label>			
 		    
 		    <h6 style="margin-right:290px"><b>내 소개</b></h6>
-		    <textarea style="width:80%;"id="profileIntro" name="profileIntro" rows="4" placeholder="Enter your message"></textarea>
-		    
-		    
-		    
-	    
-	       		    
+		    <textarea style="width:80%;"id="profileIntro" name="profileIntro" rows="4" placeholder="Enter your message"></textarea>       		    
 		<div class="email-signup-form" id="signup-set-myprofile-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
 	    <button type="button" id="signup-set-myprofile-modal-btn" class="login-modal-button">내 정보 등록하기</button> 
 	    </form> 	    	   
   	</div>
   </div>
 </div>
-
-
-
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>

@@ -46,4 +46,19 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 		return dao.checkUserHistoryInGroup(map);
 	}
 
+	// 메인페이지 로그인 후 내 모임 정보 가져오기 위해 groupId 받아오기 
+	@Override
+	public List<Integer> getMyGroupIdList(int userId) {
+		return dao.getMyGroupIdList(userId);
+	}
+
 }
+
+
+
+
+
+
+
+
+
