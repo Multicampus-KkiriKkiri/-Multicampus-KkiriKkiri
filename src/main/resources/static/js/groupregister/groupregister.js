@@ -13,7 +13,7 @@ $(document).ready(function() {
         url: '/groupregister/regions',
         type: 'GET',
         success: function(data) {
-            const regionSelect = $('#region');
+            const regionSelect = $('#groupRegionId');
             regionSelect.empty();
             data.forEach(region => {
                 regionSelect.append(new Option(region.regionName, region.regionId));
@@ -27,7 +27,7 @@ $(document).ready(function() {
     });
 
     // 지역 선택 시 구 정보 불러오기
-    $('#region').on('change', function() {
+    $('#groupRegionId').on('change', function() {
         const regionId = $(this).val();
         loadDistricts(regionId);
     });
@@ -37,7 +37,7 @@ $(document).ready(function() {
             url: `/groupregister/regions/${regionId}`,
             type: 'GET',
             success: function(data) {
-                const districtSelect = $('#district');
+                const districtSelect = $('#groupDistrictId');
                 districtSelect.empty();
                 data.forEach(district => {
                     districtSelect.append(new Option(district.districtName, district.districtId));
@@ -56,14 +56,7 @@ $(document).ready(function() {
 	        $('.approval-system').show(500);
 	        $('#questionBox').show(500);
 	        
-	        // 호스트의 질문을 로드
-	        $.ajax({
-	            url: '/group/hostQuestion', // 실제로 호스트 질문을 가져오는 URL로 변경 필요
-	            type: 'GET',
-	            success: function(data) {
-	                $('#hostQuestion').text(data);
-	            }
-	        });
+	       
 	    } else {
 	        $('.approval-system').hide(500);
 	        $('.first-come-first-served').show(500);
@@ -118,7 +111,7 @@ $(document).ready(function() {
 	});
 
     // 참가인원에 숫자만 입력 가능하도록 설정
-    $('#maxParticipants').on('input', function() {
+    $('#groupMaximum').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 입력 제거
         if (parseInt(this.value) > 300) {
             this.value = '300'; // 최대값 제한
@@ -139,7 +132,7 @@ $('#register_submit').on('click', function(event) {
         if (groupName.includes(word) || description.includes(word)) {
             alert("모임 이름이나 설명에 금칙어가 포함되어 있습니다.");
             event.preventDefault();
-            return;
+            return;	
         }
     }
 });

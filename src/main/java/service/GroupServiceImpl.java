@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.GroupDAO;
 import dto.DistrictDTO;
@@ -47,11 +48,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     // 새로운 그룹 등록
+    @Transactional
     @Override
     public int registerGroup(GroupDTO groupDTO) {
         return dao.saveGroup(groupDTO); // 등록된 그룹의 ID 반환
     }
-    
+    //모임 ID로 모임 정보를 가져오z
     @Override
     public GroupDTO getGroupById(int groupId) {
         return dao.findGroupById(groupId);

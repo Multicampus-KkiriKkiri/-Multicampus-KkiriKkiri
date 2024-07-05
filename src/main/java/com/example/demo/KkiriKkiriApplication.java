@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "controller")
 @ComponentScan(basePackages = "service")
 @ComponentScan(basePackages = "chat")
+
 public class KkiriKkiriApplication {
 
 	public static void main(String[] args) {

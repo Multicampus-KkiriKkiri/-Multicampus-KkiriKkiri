@@ -25,6 +25,6 @@ public interface GroupService {
 	
     // 새로운 그룹 등록
 	int registerGroup(GroupDTO groupDTO);
-	
+	//모임 ID로 모임 정보를 가져오는 메서드
 	GroupDTO getGroupById(int groupId);
 }
