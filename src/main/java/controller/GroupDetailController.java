@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.GroupDTO;
-import dto.NotificationDTO;
 import dto.UserDTO;
 import jakarta.servlet.http.HttpSession;
 import service.GroupMemberService;
@@ -51,9 +50,12 @@ public class GroupDetailController {
 
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
-		String category = interestService.getInterestField(groupDTO.getGroupInterest());
+		String category = interestService.getInterestField(groupDTO.getGroupInterestId());
 		int memberCnt = groupMemberService.getMemberCountInGroup(groupId);
-
+		HashMap<String, String> regionMap = new HashMap<>();
+		regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
+		regionMap.put("groupDistrict", groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId()));
+		
 		ModelAndView mv = new ModelAndView();
 
 
@@ -63,10 +65,10 @@ public class GroupDetailController {
 			mv.addObject("userId", 0);
 		}
 		mv.addObject("groupDTO", groupDTO);
+		mv.addObject("groupLeaderDTO", groupLeaderDTO);
 		mv.addObject("category", category);
 		mv.addObject("memberCnt", memberCnt);
-		mv.addObject("groupLeaderDTO", groupLeaderDTO);
-		
+		mv.addObject("regionMap", regionMap);		
 		mv.addObject("memberList", groupMemberService.getGroupMemberList(groupId));
 
 		mv.setViewName("groupdetail/groupDetail");

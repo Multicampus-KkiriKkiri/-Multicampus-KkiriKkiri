@@ -38,11 +38,11 @@
 							            <div>${event.eventLocation}</div>
 							            <div>${event.eventDetail}</div>
 							        </div>
-							        <div class="groupEventMembersDiv col-12">
-							            참여멤버
+							        <div class="groupEventAttendMembersDiv col-12" data-eventId="${event.eventId}">
+							        	<!-- 일정 참여 신청한 모임원 목록(groupEvent.js) -->
 							        </div>
 							        <div class="groupEventOptionBtnDiv col-12 text-end">
-							            <button class="groupEventOptionBtn" id="${event.eventId}" value=""></button>
+							            <button class="groupEventOptionBtn" data-eventId="${event.eventId}" value=""></button>
 							        </div>
 							    </div>
 							</c:forEach>
@@ -67,8 +67,8 @@
 							            <div>${event.eventLocation}</div>
 							            <div>${event.eventDetail}</div>
 							        </div>
-							        <div class="groupEventMembersDiv col-12">
-							            참여멤버
+							        <div class="groupEventAttendMembersDiv col-12" data-eventId="${event.eventId}">
+							        	<!-- 일정 참여 신청한 모임원 목록(groupEvent.js) -->
 							        </div>
 							    </div>
 							</c:forEach>

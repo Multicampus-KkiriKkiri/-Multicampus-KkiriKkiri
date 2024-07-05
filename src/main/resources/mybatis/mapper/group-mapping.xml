@@ -14,12 +14,22 @@
         SELECT regionId, regionName
         FROM regions
     </select>
+    
+    <!-- 지역(Region) 이름 가져오기 -->
+    <select id="getRegionNameByRegionId" resultType="String">
+    	select `regionName` from `regions` where regionId = #{regionId}
+    </select>
 
     <!-- 하위 지역 정보 가져오기 -->
     <select id="getDistrictsByRegionId" parameterType="int" resultType="dto.DistrictDTO">
         SELECT districtId, regionId, districtName
         FROM districts
         WHERE regionId = #{regionId}
+    </select>
+    
+    <!-- 하위 지역(District) 이름 가져오기 -->
+    <select id="getDistrictNameByDistrictId" resultType="String">
+    	select `districtName` from `districts` where districtId = #{districtId}
     </select>
     
     <!-- 새로운 그룹 등록 -->

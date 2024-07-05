@@ -7,8 +7,8 @@
 	// 사용자 권한에 따라 groupEventOptionBtn 버튼 속성 설정
 	setEventOptionBtn();
 	
-/*	// 일정 별 참여 신청한 모임원 목록 보여주기
-	setAttendMemberListByEventID();*/
+	// 일정 별 참여 신청한 모임원 목록 보여주기
+	setAttendMemberListByEventID();
 
 	// 모임 일정페이지에서 '예정된 일정' 버튼 눌렀을때 이벤트 처리
     $('#upcomingEventBtn').click(function() {
@@ -22,7 +22,7 @@
     
     // 모임 일정페이지에서 '참여 신청' 버튼 눌렀을때 이벤트 처리
     $('.groupEventOptionBtn').click(function() {
-        eventOptionProcess($(this).attr("id"), $(this).val());
+        eventOptionProcess(parseInt($(this).data('eventid')), $(this).val());
     });
     
 }); // ready() end
@@ -52,7 +52,7 @@ function checkEventSubmitHistoryAndSetOptionBtn() {
         data: { userId: userId, groupId: groupId },
         success: function(data) {
             $('.groupEventOptionBtn').each(function() {
-                var eventId = parseInt($(this).attr('id'));
+                var eventId = parseInt($(this).data('eventid'));
                 // 서버에서 받아온 데이터에 eventId가 포함되어 있는지 확인
 			    if (data.includes(eventId)) { // 해당 일정에 이미 참여 신청을 함
 			        $(this).val("cancel");
@@ -72,9 +72,31 @@ function checkEventSubmitHistoryAndSetOptionBtn() {
 
 // 일정 별 참여 신청한 모임원 목록 보여주는 함수
 function setAttendMemberListByEventID() {
-	$('.groupEventMembersDiv').each(function() {
-        var eventId = $(this).data('eventId');
-        showEventMembers(eventId);
+	$('.groupEventAttendMembersDiv').each(function() {
+        var eventId = parseInt($(this).data('eventid'));
+        
+        // this를 jQuery 객체로 변환하여 $this 변수에 저장
+    	var $this = $(this);
+    
+        $.ajax({
+	        url: '/groupdetail/eventattendmemberlist',
+	        type: 'POST',
+	        data: { eventId: eventId, groupId: groupId },
+	        success: function(data) {
+	            var eventAttendMemberList = '<div class="eventAttendMembersListDiv">';
+	            data.forEach(function(member) {
+	                eventAttendMemberList += '<div class="eventAttendMemberItemDiv">';
+	                eventAttendMemberList += '<img src="' + member.profileImage + '" alt="' + member.userNickname + '">';
+	                eventAttendMemberList += '<p>' + member.userNickname + '</p>';
+	                eventAttendMemberList += '</div>';
+	            });
+	            eventAttendMemberList += '</div>';
+	            $this.html(eventAttendMemberList);
+	        },
+	        error: function() {
+	            alert("멤버 목록을 가져오는 데 실패했습니다.");
+	        }
+	    });
     });
 }
 

@@ -100,6 +100,14 @@
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.14</version>
 		</dependency>
+		
+		<!-- sockjs 추가(채팅) -->
+		<!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>sockjs-client</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
 	</dependencies>
 	
 	
@@ -120,4 +128,17 @@
 		</plugins>
 	</build>
 
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
 </project>

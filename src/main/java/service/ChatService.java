@@ -1,5 +1,10 @@
 package service;
 
-public class ChatService {
+import java.util.HashMap;
 
+public interface ChatService {
+	
+	// 채팅 메세지 저장
+	int insertChatMessage(HashMap map);
+	
 }

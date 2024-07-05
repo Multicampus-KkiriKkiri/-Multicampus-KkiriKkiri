@@ -38,7 +38,7 @@
 			<div id="groupDetailDiv">
 				<div>${groupDTO.groupName}</div>
 				<div>${category}</div>
-				<div>${groupDTO.groupRegion}</div>
+				<div>${regionMap.groupRegion} - ${regionMap.groupDistrict}</div>
 				<div>${memberCnt}/${groupDTO.groupMaximum}</div>
 				<div>${groupDTO.groupType}</div>
 				<div>${groupDTO.groupSignUpType}</div>
