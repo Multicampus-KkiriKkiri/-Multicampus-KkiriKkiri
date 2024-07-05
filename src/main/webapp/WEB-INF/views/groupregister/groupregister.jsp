@@ -19,40 +19,45 @@
         <h2>모임 등록</h2>
 
         <!-- 모임 등록 폼 -->
-        <form action="<c:url value='/group/register'/>" method="post" enctype="multipart/form-data">
+        <form action="<c:url value='/groupregister/register'/>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="groupName">모임 이름</label>
                 <input type="text" id="groupName" name="groupName" required>
             </div>
             
             <div class="form-group">
-                <label for="category">모임 카테고리</label>
-                <select id="category" name="category" required>
-                    <option value="문화예술">문화예술</option>
-                    <option value="액티비티">액티비티</option>
-                    <option value="푸드/드링크">푸드/드링크</option>
-                    <option value="자기계발">자기계발</option>
-                    <option value="기타">기타</option>
+                <label for="groupInterestId">모임 카테고리</label>
+                <select id="groupInterestId" name="groupInterestId" required>
+                    <option value="1">문화예술</option>
+                    <option value="2">액티비티</option>
+                    <option value="3">푸드/드링크</option>
+                    <option value="4">자기계발</option>
+                    <option value="5">기타</option>
                 </select>
             </div>
-            
+            <!-- groupSignUpType 얘도 저장해야함.-->
             <div class="form-group">
                 <label>활동 방식</label>
                 <div class="activity-type">
-                    <button type="button" id="offlineButton">오프라인</button>
-                    <button type="button" id="onlineButton">온라인</button>
+                    <!-- <input type="button" id="offlineButton" name="groupType1" value="오프라인">
+                
+                    <input type="button" id="onlineButton"  name="groupType1" value="온라인">-->
+                     <input type="radio" id="onlineButton"  name="groupType1" value="온라인">  온라인                   
+                    <input type="radio" id="offlineButton"  name="groupType1" value="오프라인" checked> 오프라인
+                   
                 </div>
             </div>
             
+                        
             <div class="form-group" id="regionSelect">
-                <label for="region">모임 지역 선택</label>
+                <label for="groupRegionId">모임 지역 선택</label>
                 <div class="region-container">
-                    <select id="region" name="region">
+                    <select id="groupRegionId" name="groupRegionId">
                         <!-- 지역 정보가 여기에 추가됨 -->
                     </select>
                 </div>
                 <div class="districts-container">
-                    <select id="district" name="district">
+                    <select id="groupDistrictId" name="groupDistrictId">
                         <!-- 구 정보가 여기에 추가됨 -->
                     </select>
                 </div>
@@ -65,25 +70,26 @@
                         <label for="groupImage" class="image-placeholder">
                             <img id="preview" src="#" alt="이미지 미리보기" style="display:none; max-width: 200px; max-height: 200px;">
                             <span class="plus-icon">+</span>
-                            <input type="file" id="groupImage" name="groupImage" accept="image/*" style="display:none;">
+                            <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" style="display:none;">
+                            
                         </label>
                     </div>
-                    <textarea id="description" name="description" placeholder="모임 설명을 입력하세요" required></textarea>
+                    <textarea id="groupDetail" name="groupDetail" placeholder="모임 설명을 입력하세요" required></textarea>
                 </div>
             </div>
             
             <button type="button" id="addImageButton">이미지 추가</button>
             
             <div class="form-group">
-                <label for="maxParticipants">참가인원(모임장 포함)</label>
-                <input type="number" id="maxParticipants" name="maxParticipants" min="1" max="300" required>
+                <label for="groupMaximum">참가인원(모임장 포함)</label>
+                <input type="number" id="groupMaximum" name="groupMaximum" min="1" max="300" required>
             </div>
             
             <div class="form-group">
                 <label>신청 방식</label>
                 <div class="application-type">
-                    <button type="button" class="approval-type" data-value="선착순">선착순</button>
-                    <button type="button" class="approval-type" data-value="가입제">승인제</button>
+                    <input type="radio" class="approval-type" data-value="선착순" name="groupSignUpType" value="선착순" checked>선착순
+                    <input type="radio" class="approval-type" data-value="가입제" name="groupSignUpType" value="승인제" >승인제
                 </div>
                 <div class="application-description">
                     <div class="first-come-first-served active">
@@ -95,9 +101,8 @@
                         <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
                         <div class="form-group">
                             <label for="question">가입시 회원에게 물어볼 질문</label>
-                            <input type="text" id="question" name="question" style="width: 100%; height: 50px;">
-                            <p>호스트의 질문:</p>
-                            <p id="hostQuestion"></p>
+                            <input type="text" id="groupSignUpQuestion" name="groupSignUpQuestion" style="width: 100%; height: 50px;">
+                            
                         </div>
                     </div>
                 </div>

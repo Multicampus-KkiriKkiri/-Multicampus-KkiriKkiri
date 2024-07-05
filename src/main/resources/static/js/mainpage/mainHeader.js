@@ -385,6 +385,7 @@ $(document).ready(function(){
         $("input:checked").each(function(){
 			interests.push($(this).val())
 		});        
+
        if(userNickname !='' && interests.length !=0 && userRegionId != '' && userDistrictId != ''){
 	      $.ajax({
 				type: 'POST',

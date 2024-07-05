@@ -58,6 +58,27 @@
     text-align: center;
 }
 
+.eventAttendMembersListDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.eventAttendMemberItemDiv {
+    text-align: center;
+}
+
+.eventAttendMemberItemDiv img {
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.eventAttendMemberItemDiv p {
+    margin: 0px 0px 0px 0px;
+}
+
 .groupEventOptionBtnDiv {
 	display: flex;
     justify-content: right;

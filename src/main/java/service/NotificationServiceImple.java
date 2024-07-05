@@ -15,8 +15,8 @@ public class NotificationServiceImple implements NotificationService {
 	NotificationDAO dao;
 
 	@Override
-	public List<NotificationDTO> getNotification(NotificationDTO userIdAndGroupId) {
-		return dao.getNotification(userIdAndGroupId);
+	public List<NotificationDTO> getNotification(int userId, int offset, int size) {
+		return dao.getNotification(userId, offset, size);
 	}
 
 	@Override
@@ -38,5 +38,10 @@ public class NotificationServiceImple implements NotificationService {
 		
 		dao.insertNotification(dto);
 	}
+	
+	@Override
+    public void deleteOldNotifications() {
+        dao.deleteOldNotifications();
+    }
 
 }
