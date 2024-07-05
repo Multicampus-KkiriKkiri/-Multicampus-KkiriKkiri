@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import dto.DistrictDTO;
@@ -21,4 +23,30 @@ public interface GroupService {
 	int registerGroup(GroupDTO groupDTO);
 	
 	GroupDTO getGroupById(int groupId);
+		
+	//메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보
+	List<String> getRegionName(int regionId);
+	
+	List<String> getDistrictName(int districtId);
+	
+	//메인페이지 관심사별 그룹 내용 가져오기
+	ArrayList<HashMap<String, Object>> getGroupDetailsByInterestId(int interestId);
+	
+	//메인페이지 로그인전 신상 그룹 가져오기
+	List<GroupDTO> getNewestGroupDetails();
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

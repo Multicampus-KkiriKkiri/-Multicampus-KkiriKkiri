@@ -28,5 +28,48 @@
     VALUES (#{groupName}, #{category}, #{region}, #{district}, #{description}, #{groupImage}, #{maxParticipants}, #{question})
 	</insert>
 	
+	<!--메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보 -->
+	<select id="getRegionName" resultType="String" parameterType="int">
+		select regionName from regions where regionId = #{regionId}
+	</select>
+	
+	<select id="getDistrictName" resultType="String" parameterType="int">
+		select districtName from districts where districtId = #{districtId}
+	</select>
+	
+	<!-- 메인페이지 관심사별 그룹 내용 가져오기 -->	
+	<resultMap id="getGroupDetailsByInterestId" type="java.util.HashMap">
+	    <result property="groupName" column="groupName"/>
+	    <result property="groupImage" column="groupImage"/>
+	    <result property="groupType" column="groupType"/>
+	    <result property="regionName" column="regionName"/>
+	    <result property="districtName" column="districtName"/>
+	</resultMap>
+	
+	<select id="getGroupDetailsByInterestId" resultMap="getGroupDetailsByInterestId">
+		select g.groupName, g.groupImage, g.groupType, r.regionName, d.districtName
+		from `group` g
+		join interest i on g.groupInterestId = i.interestId
+		join regions r on g.groupRegionId = r.regionId
+		join districts d on g.groupDistrictId = d.districtId
+		where g.groupInterestId = #{interestId}
+	</select>
+	
+	<!-- 메인페이지 로그인전 신상 그룹 가져오기 -->
+	<select id="getNewestGroupDetails" resultType="groupdto">
+		select * from `group` order by groupId desc
+	</select>	
 	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+

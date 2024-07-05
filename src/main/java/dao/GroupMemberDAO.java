@@ -40,4 +40,15 @@ public class GroupMemberDAO {
 		return session.selectOne("checkUserHistoryInGroup", map);
 	}
 	
+	// 메인페이지 로그인 후 내 모임 정보 가져오기 위해 groupId 받아오기 
+	public List<Integer> getMyGroupIdList(int userId) {
+		return session.selectList("getMyGroupIdList", userId);
+	}
+	
 }
+
+
+
+
+
+

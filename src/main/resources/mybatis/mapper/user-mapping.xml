@@ -5,7 +5,7 @@
 <mapper namespace="dao.UserDAO">
 	
 	<select id="getUserInfo" resultType="userdto">
-		select userId, userEmail, userRegion, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
+		select userId, userEmail, userRegionId, userDistrictId, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
 	</select>
 	
 	<!-- 로그인 -->
@@ -27,8 +27,8 @@
 	<update id="signUpProfileUpdate" parameterType="userdto">
 		update user 
 		set userNickname = #{userNickname},
-		    userRegion = #{userRegion},
-		    userDistrict = #{userDistrict},
+		    userRegionId = #{userRegionId},
+		    userDistrictId = #{userDistrictId},
 		    profileIntro = #{profileIntro},
 		    profileImage = #{profileImage} 
 		where userEmail=#{userEmail}    		    

@@ -15,11 +15,11 @@ public class UserDTO {
 	private int userId;
 	private String userEmail;
 	private String userPw;
-	private String userRegion;
 	private String profileIntro;
 	private String profileImage;
 	private String signUpType;//not null
 	private String userNickname;
-	private String userDistrict;
+	private int userRegionId;
+	private int userDistrictId;
 	
 }

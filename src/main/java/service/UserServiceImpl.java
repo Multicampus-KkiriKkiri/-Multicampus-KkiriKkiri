@@ -92,8 +92,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int setMyInterest(UserInterestDTO dto) {
 		return dao.setMyInterest(dto);
-	}
-	
+	}	
 	
 }
 

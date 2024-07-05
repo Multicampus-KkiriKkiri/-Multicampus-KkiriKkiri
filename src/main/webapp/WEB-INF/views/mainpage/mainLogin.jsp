@@ -24,7 +24,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="mainHeaderLogin.jsp" %>	
+	<%@ include file="/WEB-INF/views/mainpage/mainHeaderLogin.jsp" %>	
 	<main>
 		<section class="main-banner row">
 			<div class="col-1"></div>
@@ -41,97 +41,45 @@
 		</section>
 		
 		<section class="container">
-			<div class="my-group">
+			<div class="group-title">
 				<h3><b>내 모임</b></h3>
-				<a href="#">내 모임 더보기</a>
+				<a href="#" id="go-to-my-group-list">내 모임 더보기</a>
 			</div>			
-			<div class="row">				
-				<div class="col">
-					<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/test.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/test.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/test.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/test.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>				  		
-			</div>	
-			<div class="row">				
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/kkirikkiri_logo.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/kkirikkiri_logo.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/kkirikkiri_logo.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>
-				<div class="col">			    
-		      		<a href="#" alt="">			    
-			      		<img class="my-group-image" src="images/kkirikkiri_logo.png" alt="내 모임">    			    
-					    <p>Some text</p>
-				    </a>
-				</div>				  		
+            <div class="row" id="myGroupDetailContainer">
+            	<!-- Ajax로 받아온 내 모임 정보 내용 -->			  		
 			</div>	
 			
 			<div class="interest-group-suggestion">
-				<h3><b>관심사별 모임</b></h3>
-				<div class="row">				
-					<div class="col interest-nav">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-solid fa-shapes"></i>    			    
-						    <p>전체모임</p>
-					    </a>
-					</div>
-					<div class="col interest-nav">			    
+				<div class="group-title">
+					<h3><b>관심사별 모임</b></h3>
+					<a href="#">모임 더보기</a>
+				</div>				
+				<div class="row">						  
+					<div class="col interest-nav" data-interest-id="1">			    
 			      		<a href="#" alt="">			    
 				      		<i class="fa-solid fa-masks-theater"></i>    			    
 						    <p>문화예술</p>
 					    </a>
 					</div>
-					<div class="col interest-nav">			    
+					<div class="col interest-nav" data-interest-id="2">			    
 			      		<a href="#" alt="">			    
 				      		<i class="fa-solid fa-person-running"></i>    			    
 						    <p>액티비티</p>
 					    </a>
 					</div>
-					<div class="col interest-nav">			    
+					<div class="col interest-nav" data-interest-id="3">			    
 			      		<a href="#" alt="">			    
 				      		<i class="fa-solid fa-utensils"></i>   			    
 						    <p>푸드&드링크</p>
 					    </a>
 					</div>
-					<div class="col interest-nav">			    
+					<div class="col interest-nav" data-interest-id="4">			    
 			      		<a href="#" alt="">			    
 				      		<i class="fa-solid fa-building-columns"></i>    			    
 						    <p>자기계발</p>
 					    </a>
 					</div>	
-					<div class="col interest-nav">			    
+					<div class="col interest-nav" data-interest-id="5">			    
 			      		<a href="#" alt="">			    
 				      		<i class="fa-brands fa-sketch"></i>   			    
 						    <p>기타</p>
@@ -139,62 +87,13 @@
 					</div>					  		
 				</div>			
 				
-				<div class="row">				
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>				  		
-				</div>	
-				<div class="row">				
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>
-					<div class="col">			    
-			      		<a href="#" alt="">			    
-				      		<img class="interest-group-image" src="images/kkirikkiri_logo.png" alt="관심 카테고리별 모임">    			    
-						    <p>Some text</p>
-					    </a>
-					</div>				  		
-				</div>	
+				<div id="groupDeatilsByInterest" class="row">
+					<!-- Ajax로 받아온 관심사별 모임 정보 내용 -->
+				</div>				
 			</div>			
-		</section>
+		</section>		
 	</main>
-	<%@ include file="mainFooter.jsp" %>
+	<%@ include file="/WEB-INF/views/mainpage/mainFooter.jsp" %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
 <script
@@ -206,6 +105,6 @@
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<script src="main.js"></script>
+<script src="<c:url value='/js/mainpage/mainLogin.js'/>"></script>
 </body>
 </html>
