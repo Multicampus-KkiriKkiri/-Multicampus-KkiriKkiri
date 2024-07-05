@@ -4,22 +4,21 @@
   
 <mapper namespace="dao.NotificationDAO">
 
-	<select id="getNotification" resultType="notificationdto" parameterType="notificationdto">
-		select * from notification where userId=#{userId} and groupId = #{groupId}
+	<select id="getNotification" resultType="notificationdto" parameterType="map">
+		select * from notification where userId=#{userId} LIMIT #{size} OFFSET #{offset}
 	</select>
 	 
 	<insert id="insertNotification" parameterType="notificationdto">
 		insert into notification values
-		(#{notificationId}, #{userId}, #{groupId}, now(), #{notificationText})
+		(#{userId}, #{groupId}, now(), #{notificationText})
 	</insert>
 	
 	<delete id="deleteNotification" parameterType = "int">
-		delete from notification where notificationID = #{notificationID}
+		delete from notification where notificationId = #{notificationId}
 	</delete>
 	
-	
-	 <!-- <delete id="deleteNotification">
-		delete from notification where notificationTime &lt; date_sub(Now(), interval 30 day)   
-	 </delete> -->
+	<delete id="deleteOldNotifications">
+    DELETE FROM notification WHERE notificationTime &lt; DATE_SUB(NOW(), INTERVAL 30 DAY)
+	</delete>
 
 </mapper>
