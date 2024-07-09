@@ -43,6 +43,10 @@
 	<insert id="setMyInterest" parameterType="userinterestdto">
 		insert into user_interest (userId, interestId) values (#{userId}, #{interestId})
 	</insert>
+	
+	<select id="getUserNincknameById" resultType="String">
+		select userNickname from `user` where userId = #{userId}
+	</select>
 
 </mapper>
 

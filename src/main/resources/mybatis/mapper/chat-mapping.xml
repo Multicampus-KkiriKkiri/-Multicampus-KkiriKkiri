@@ -12,4 +12,31 @@
 		insert into `chat` values(0, #{groupId}, #{userId}, #{chatMessage}, #{chatTime})
 	</insert>
 	
+	<resultMap id="getChatHistoryByGroupId" type="java.util.HashMap">
+	    <result property="userId" column="userId"/>
+	    <result property="chatMessage" column="chatMessage"/>
+	    <result property="chatTime" column="chatTime"/>
+	    <result property="userNickname" column="userNickname"/>
+	</resultMap>
+	
+	<select id="getChatHistoryByGroupId" resultMap="getChatHistoryByGroupId">
+        SELECT 
+        	c.userId,
+	        c.chatMessage, 
+	        c.chatTime,
+	        u.userNickname 
+	    FROM 
+	        `chat` c 
+	    JOIN 
+	        `user` u 
+	    ON 
+	        c.userId = u.userId 
+	    WHERE 
+	        c.groupId = #{groupId}
+	    ORDER BY 
+	        c.chatTime DESC 
+	    LIMIT 
+	        #{offset}, #{limit}
+    </select>
+	
 </mapper>

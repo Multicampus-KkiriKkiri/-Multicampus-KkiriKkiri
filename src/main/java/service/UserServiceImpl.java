@@ -94,6 +94,11 @@ public class UserServiceImpl implements UserService {
 		return dao.setMyInterest(dto);
 	}	
 	
+	@Override
+	public String getUserNincknameById(int userId) {
+		return dao.getUserNincknameById(userId);
+	}
+	
 }
 
 

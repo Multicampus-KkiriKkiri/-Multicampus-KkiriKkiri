@@ -1,1 +1,42 @@
 /* groupChat.css */
+
+
+#groupChatLogDiv {
+    overflow-y: auto;
+    height: 600px; /* 채팅방 높이 조정 */
+    border: 1px solid #ccc; /* 채팅방 경계 추가 */
+    padding: 10px; /* 내부 여백 추가 */
+}
+
+.chatTimeSpan {
+    color: #888;
+    margin-right: 10px;
+}
+
+.userNicknameSpan {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.chatMessage {
+    display: block;
+    clear: both;
+    margin: 5px 0;
+    border: 1px solid #ccc; /* 메세지 테두리 */
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.sentMessage {
+    text-align: right;
+    background-color: #DCF8C6; /* 자신의 메시지 배경색 */
+    float: right;
+    clear: both;
+}
+
+.receivedMessage {
+    text-align: left;
+    background-color: #fff; /* 받은 메시지 배경색 */
+    float: left;
+    clear: both;
+}

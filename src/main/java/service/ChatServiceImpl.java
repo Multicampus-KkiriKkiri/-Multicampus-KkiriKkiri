@@ -1,7 +1,8 @@
 package service;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,14 @@ public class ChatServiceImpl implements ChatService {
 		return dao.getChats(userId);
 	}
 	
-  @Override
+	@Override
 	public int insertChatMessage(HashMap map) {
 		return dao.insertChatMessage(map);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> getChatHistoryByGroupId(HashMap map) {
+		return dao.getChatHistoryByGroupId(map);
 	}
 
 }

@@ -62,6 +62,10 @@ public class UserDAO {
 	public int setMyInterest(UserInterestDTO dto) {
 		return session.insert("setMyInterest", dto);
 	}
+	
+	public String getUserNincknameById(int userId) {
+		return session.selectOne("getUserNincknameById", userId);
+	}
 
 }
 
