@@ -3,7 +3,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dao.InterestDAO">
+	<!-- 로그인 회원 interestId 가져오기 -->
+	<select id="getInterestIdByUserId" resultType="int" parameterType="int">
+		select interestId from user_interest where userId = #{userId}
+	</select>
 	
+	<!-- 관심사 이름 가져오기 -->
 	<select id="getInterestField" resultType="String">
 		select interestField from `interest` where interestId = #{interestId}
 	</select>

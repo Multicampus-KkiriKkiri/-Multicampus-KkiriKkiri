@@ -47,6 +47,7 @@ public class MainUserController {
         
         if (loginUser != null) { // 로그인 성공
         	session.setAttribute("sessionUserId", loginUser.getUserId()); // 세션에 로그인 회원 id 저장
+        	session.setAttribute("sessionUserEmail", loginUser.getUserEmail()); // 세션에 로그인 회원 email 저장           	
             model.addAttribute("loginUser", loginUser);
             return "success"; 
         } else { // 로그인 실패
@@ -97,7 +98,9 @@ public class MainUserController {
             result = "fail";  
         }
         //System.out.println("/signup==>"+result);
-        session.setAttribute("signupEmail", user.getUserEmail());
+        int userId = Integer.parseInt(userService.getUserId(userEmail));           
+        session.setAttribute("sessionUserEmail", user.getUserEmail()); //회원가입 후 이메일 세션에 저장
+        session.setAttribute("sessionUserId", userId); //회원가입 후 회원 아이디 세션에 저장            
         return result;
     }	
 	
@@ -118,14 +121,65 @@ public class MainUserController {
     //별명 중복 확인
 	@ResponseBody
 	@PostMapping("/nicknameconfirm")
-	public String nicknameconfirm(String userNickname) {
+	public String nicknameconfirm(@RequestParam String userNickname) {
 		UserDTO dto = userService.getUserNickname(userNickname);
-		//System.out.println(userNickname + ":"  +dto);
+		//System.out.println(userNickname + ":"  +dto);		
+		
+		/*
+		List<String> allUserNicknames = userService.getAllUserNicknames();
+		String result ="success";
+		for(String allUserNickname : allUserNicknames) {
+			/*
+			if(dto == null) {
+				result = "success";
+				System.out.println("success:" + dto);
+				System.out.println("success:" +allUserNickname);
+			}else if(allUserNickname != null && allUserNickname.equals(dto)) {
+				result = "same";
+				System.out.println("same:" + dto);
+				System.out.println("same:" +allUserNickname);
+			}else {
+				result = "fail";
+				System.out.println("fail:" + dto);
+				System.out.println("fail:" +allUserNickname);
+			}	
+			*/
+			/*
+			if(allUserNickname != null && allUserNickname.equals(dto.getUserNickname())) {
+				result = "same";
+				System.out.println("same:" + dto);
+				System.out.println("same:" +allUserNickname);
+				//return "same";
+			}else if(allUserNickname != null && !allUserNickname.equals(dto.getUserNickname())) {
+				result = "success";
+				System.out.println("success:" + dto);
+				System.out.println("success:" +allUserNickname);
+				//return "success";
+			}else {
+				result = "fail";
+				System.out.println("fail:" + dto);
+				System.out.println("fail:" +allUserNickname);
+				//return "fail";
+			}				
+		}
+		return result;	
+		*/
+		/*
+		if(dto == null) {
+			return "success";
+		}else if(dto.getUserNickname().equals(userNickname)) {
+			return "same";
+		}else {
+			return "fail";
+		}	
+		*/
+		
 		if(dto == null) {
 			return "success";
 		}else {
 			return "fail";
 		}		
+		
 	} 
 	
     //내정보설정 입력값 데이터에 저장
@@ -146,7 +200,7 @@ public class MainUserController {
 		if (userNickname != null && interests != null && userRegionId != 0 && userDistrictId != 0) {
 				
 		//관심사 user_interest 테이블에 저장
-		int userId = Integer.parseInt(userService.getUserId((String)session.getAttribute("signupEmail")));
+		int userId = Integer.parseInt(userService.getUserId((String)session.getAttribute("sessionUserEmail")));
 		
 		    for (String interest : interests) {
 		        UserInterestDTO idto = new UserInterestDTO();
@@ -177,7 +231,7 @@ public class MainUserController {
 				
 			//관심사 외 내정보 설정 user 테이블에 입력
 			UserDTO user = new UserDTO();
-			user.setUserEmail((String)session.getAttribute("signupEmail"));
+			user.setUserEmail((String)session.getAttribute("sessionUserEmail"));
 	        user.setUserNickname(userNickname);
 	        user.setUserRegionId(userRegionId);
 	        user.setUserDistrictId(userDistrictId);
@@ -211,6 +265,7 @@ public class MainUserController {
 		if(sessionUserId != null) {			
 			List<Integer> mygroupIds = groupMemberService.getMyGroupIdList(userId);
 	        List<GroupDTO2> myGroupDetails = new ArrayList<>();
+	        List<Integer> groupIds = new ArrayList<>();
 	        
 	        for (int mygroupId : mygroupIds) {	            
 	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
@@ -221,7 +276,8 @@ public class MainUserController {
                 groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
                 groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
                 groupDetail2.setGroupType(groupDetail.getGroupType());
-                myGroupDetails.add(groupDetail2);            
+                myGroupDetails.add(groupDetail2);
+                groupIds.add(groupDetail.getGroupId()); 
 	        }
 	        
             for (GroupDTO2 myGroupDetail : myGroupDetails) {
@@ -244,7 +300,7 @@ public class MainUserController {
                     myGroupDetail.setDistrictName("");
                 }
             }     
-            
+            session.setAttribute("myGroupIds", groupIds);
 			model.addAttribute("myGroupDetails", myGroupDetails);
 			return myGroupDetails;	
 		}else {			

@@ -60,7 +60,7 @@ public class GroupDAO {
     
     public List<String> getDistrictName(int districtId){
     	return session.selectList("getDistrictName", districtId);
-    }
+    }   
     
     //메인페이지 관심사별 그룹 내용 가져오기
     public ArrayList<HashMap<String, Object>> getGroupDetailsByInterestId(int interestId){

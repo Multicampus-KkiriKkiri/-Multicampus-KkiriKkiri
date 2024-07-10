@@ -1,6 +1,8 @@
 package service;
 
 
+import java.util.List;
+
 import dto.UserDTO;
 import dto.UserInterestDTO;
 
@@ -33,6 +35,9 @@ public interface UserService {
 	//회원가입 - 내정보설정 모달 별명 가져오기 (별명 중복확인 위함)
 	UserDTO getUserNickname(String userNickname);
 	
+	//마이페이지 - 별명 수정 - 모든 별명 가져오기
+	List<String> getAllUserNicknames();
+	
 	//회원가입 - 내정보설정 모달 회원정보 업데이트
 	int signUpProfileUpdate(UserDTO dto);
 	
@@ -41,7 +46,15 @@ public interface UserService {
 	
 	//회원가입 - 내정보설정 모달 회원 관심사 데이터 입력
 	int setMyInterest(UserInterestDTO dto);
+	
+	//내 정보 수정 - 기존 비밀번호 일치 확인
+	String getUserPwById(int userId);
 
+	//내 정보 수정 - 새로운 비밀번호 업데이트
+	int modifyUserPw(UserDTO dto);
+	
+	//회원 탈퇴
+	int deleteAccount(int userId);
 }
 
 

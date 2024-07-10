@@ -47,7 +47,7 @@
         groupId, groupName, category, region, district, description, groupImage, maxParticipants, question
     </sql>	
 	
-	<!--메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보 -->
+	<!--메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보-->
 	<select id="getRegionName" resultType="String" parameterType="int">
 		select regionName from regions where regionId = #{regionId}
 	</select>
@@ -66,7 +66,7 @@
 	</resultMap>
 	
 	<select id="getGroupDetailsByInterestId" resultMap="getGroupDetailsByInterestId">
-		select g.groupName, g.groupImage, g.groupType, r.regionName, d.districtName
+		select g.groupId, g.groupName, g.groupImage, g.groupType, r.regionName, d.districtName
 		from `group` g
 		join interest i on g.groupInterestId = i.interestId
 		join regions r on g.groupRegionId = r.regionId

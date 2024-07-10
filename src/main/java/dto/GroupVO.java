@@ -13,6 +13,7 @@ import lombok.ToString;
 public class GroupVO {
 	
 	//group table
+	private int groupId;
 	private int groupInterestId;
 	private int groupRegionId;
 	private int groupDistrictId;
