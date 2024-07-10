@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -53,6 +55,11 @@ public class UserDAO {
 		return session.selectOne("getUserNickname", userNickname);
 	}
 	
+	//마이페이지 - 별명 수정 - 모든 별명 가져오기
+	public List<String> getAllUserNicknames(){
+		return session.selectList("getAllUserNicknames");
+	}
+	
 	//회원가입 모달에서 내정보설정 모달로 넘어갈 때 같은 회원인지 이메일로 확인
 	public String getUserId(String userEmail) {
 		return session.selectOne("getUserId",userEmail);
@@ -61,6 +68,21 @@ public class UserDAO {
 	//회원가입 - 내정보설정 모달 회원 관심사 데이터 입력
 	public int setMyInterest(UserInterestDTO dto) {
 		return session.insert("setMyInterest", dto);
+	}
+	
+	//내 정보 수정 - 기존 비밀번호 일치 확인
+	public String getUserPwById(int userId) {
+		return session.selectOne("getUserPwById", userId);
+	}
+	
+	//내 정보 수정 - 새로운 비밀번호 업데이트
+	public int modifyUserPw(UserDTO dto) {
+		return session.update("modifyUserPw", dto);
+	}
+	
+	//회원 탈퇴
+	public int deleteAccount(int userId) {
+		return session.delete("deleteAccount", userId);
 	}
 
 }

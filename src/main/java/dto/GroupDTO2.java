@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Component
 public class GroupDTO2 extends GroupDTO{
-	String regionName;
-	String districtName;
+	private String regionName;
+	private String districtName;
 }
