@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService {
 	}	
 	
 	@Override
-	public String getUserNincknameById(int userId) {
-		return dao.getUserNincknameById(userId);
+	public UserDTO getChatUserInfoById(int userId) {
+		return dao.getChatUserInfoById(userId);
 	}
 	
 }

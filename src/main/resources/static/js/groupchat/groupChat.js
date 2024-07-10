@@ -3,14 +3,15 @@
  */
 
 var userNickname; // 현재 로그인한 회원 별명 전역변수
+var profileImage; // 현재 로그인한 회원 프로필 사진 전역변수
+
 var sock = new SockJS("/ws/multiRoom"); // 웹소켓 전역변수
 var offset = 0; // 채팅 불러올 기준 변수
-var lastMessageDate = null; // 마지막 메시지의 날짜를 저장하는 변수
 
 $(document).ready(function() {
 	
-	// 페이지 로드 시 사용자 별명 가져오기
-	getUserNinckname();
+	// 페이지 로드 시 사용자 별명, 프로필 사진 가져오기
+	getUserNincknameAndProfileImage();
 	
 	// 페이지 로드 시 모임 채팅 내역 가져오기
 	loadInitialChats();
@@ -48,18 +49,19 @@ $(document).ready(function() {
 }); // ready() end
 
 // 사용자 별명 가져오는 함수
-function getUserNinckname() {
+function getUserNincknameAndProfileImage() {
 	$.ajax({
-        url: "/groupdetail/getusernickname",
+        url: "/groupdetail/getchatuserinfo",
         method: "POST",
         data: { 
         	userId: userId
         },
         success: function(data) {
-			userNickname = data;
+			userNickname = data.userNickname;
+			profileImage = data.profileImage;
         },
         error: function() {
-            alert("사용자 별명 가져오기를 실패했습니다.");
+            alert("채팅 사용자 프로필 정보를 가져오는데 실패했습니다.");
         }
     }); // ajax() end
 }
@@ -82,7 +84,7 @@ function loadInitialChats() {
 					// 현재 사용자의 메세지 구분
                     var messageClass = chat.userId === userId ? 'sentMessage' : 'receivedMessage';
                     // 불러온 메세지 순차적으로 추가
-                    chatLog.innerHTML += "<p class='chatMessage " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage + "</p>";
+                    chatLog.innerHTML += "<p class='chatMessage " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span> <img class='chatUserProfileImg' src='" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage + "</p>";
                 });
                 
                 $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -116,7 +118,7 @@ function loadMoreChats() {
                     // 불러온 메세지 순차적으로 newMessage에 저장
                     var newMessage = document.createElement("p");
                     newMessage.className = 'chatMessage ' + messageClass;
-                    newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage;
+                    newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span> <img class='chatUserProfileImg' src='" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage;
                     // groupChatLogDiv 앞쪽에 추가
                     chatLog.insertBefore(newMessage, chatLog.firstChild);
                 });
@@ -149,14 +151,15 @@ function receiveMessage(e) {
     var message = content.message; // 메세지 내용
     var type = content.type; // 메세지 타입
     var chatTime = content.chatTime; // 메세지 전송 시간
-    // 현재 사용자의 메세지 구분  
+    var profileImage = content.profileImage; // 메세지 보낸 사용자 프로필 사진
+    // 현재 로그인 사용자의 메세지 구분  
     var messageClass = content.userId == userId ? 'sentMessage' : 'receivedMessage';
 
     var chatLog = document.getElementById("groupChatLogDiv");
     
     if (type == "SEND")
     	// 수신 메세지 groupChatLogDiv에 추가
-        chatLog.innerHTML += "<p class='chatMessage " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span> <span class='userNicknameSpan'>" + userNickname + "</span> " + message + "</p>";
+        chatLog.innerHTML += "<p class='chatMessage " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span> <img class='chatUserProfileImg' src='" + profileImage + "' alt='" + profileImage + "' /> <span class='userNicknameSpan'>" + userNickname + "</span> " + message + "</p>";
     
 	// 새 메시지 수신 시 맨 아래로 스크롤
     $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -186,7 +189,8 @@ function sendChatMessageSoket(myMessage, currentTime) {
 			userId: userId,
 			type: "SEND",
 			message: myMessage, // 메세지 내용
-			chatTime: currentTime // 메세지 전송 시간
+			chatTime: currentTime, // 메세지 전송 시간
+			profileImage: profileImage // 사용자 프로필
 		})
 	);
 } // sendChatMessageSoket() end

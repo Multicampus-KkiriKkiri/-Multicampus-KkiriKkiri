@@ -6,6 +6,7 @@ public class ChatMessage {
     private String type;
     private String userId;
     private String chatTime;
+    private String profileImage;
     
 	public String getChatRoomId() {
 		return chatRoomId;
@@ -25,6 +26,10 @@ public class ChatMessage {
 	
 	public String getChatTime() {
         return chatTime;
+    }
+	
+	public String getProfileImage() {
+        return profileImage;
     }
      
 }

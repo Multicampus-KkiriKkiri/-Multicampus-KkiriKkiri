@@ -44,8 +44,8 @@
 		insert into user_interest (userId, interestId) values (#{userId}, #{interestId})
 	</insert>
 	
-	<select id="getUserNincknameById" resultType="String">
-		select userNickname from `user` where userId = #{userId}
+	<select id="getChatUserInfoById" resultType="userdto">
+		select userNickname, profileImage from `user` where userId = #{userId}
 	</select>
 
 </mapper>

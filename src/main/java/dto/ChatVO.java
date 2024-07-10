@@ -14,5 +14,6 @@ public class ChatVO {
 	private String chatMessage;
 	private String chatTime;
 	private String userNickname;
+	private String profileImage;
 	
 }

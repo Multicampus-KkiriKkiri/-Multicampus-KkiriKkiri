@@ -13,6 +13,12 @@
     margin-right: 10px;
 }
 
+.chatUserProfileImg {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%; /* 이미지 동그랗게 만듬 */
+}
+
 .userNicknameSpan {
     font-weight: bold;
     margin-right: 5px;
@@ -39,4 +45,14 @@
     background-color: #fff; /* 받은 메시지 배경색 */
     float: left;
     clear: both;
+}
+
+.dateMessage {
+    text-align: center;
+    color: #666;
+    margin: 10px 0;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 5px;
 }

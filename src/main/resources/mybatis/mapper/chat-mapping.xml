@@ -17,6 +17,7 @@
 	    <result property="chatMessage" column="chatMessage"/>
 	    <result property="chatTime" column="chatTime"/>
 	    <result property="userNickname" column="userNickname"/>
+	    <result property="profileImage" column="profileImage"/>
 	</resultMap>
 	
 	<select id="getChatHistoryByGroupId" resultMap="getChatHistoryByGroupId">
@@ -24,7 +25,8 @@
         	c.userId,
 	        c.chatMessage, 
 	        c.chatTime,
-	        u.userNickname 
+	        u.userNickname,
+	        u.profileImage
 	    FROM 
 	        `chat` c 
 	    JOIN 

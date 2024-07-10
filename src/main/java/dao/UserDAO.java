@@ -63,8 +63,8 @@ public class UserDAO {
 		return session.insert("setMyInterest", dto);
 	}
 	
-	public String getUserNincknameById(int userId) {
-		return session.selectOne("getUserNincknameById", userId);
+	public UserDTO getChatUserInfoById(int userId) {
+		return session.selectOne("getChatUserInfoById", userId);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dto.UserDTO;
 import service.ChatService;
 import service.UserService;
 
@@ -48,11 +49,11 @@ public class GroupChatController {
 		
 	}
 	
-	@PostMapping("/getusernickname")
+	@PostMapping("/getchatuserinfo")
 	@ResponseBody
-	String getUserNinckname(int userId) {
+	UserDTO getUserNincknameAndProfileImage(int userId) {
 		
-		return userService.getUserNincknameById(userId);
+		return userService.getChatUserInfoById(userId);
 		
 	}
 	
