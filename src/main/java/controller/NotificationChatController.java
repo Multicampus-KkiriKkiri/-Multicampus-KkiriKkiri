@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.ChatDTO;
+import dto.GroupDTO;
 import jakarta.servlet.http.HttpSession;
 import service.ChatService;
 
@@ -18,18 +19,31 @@ public class NotificationChatController {
 	ChatService chatService;
 	
 	@GetMapping("/notificationchatlist")		
-	ModelAndView getChats(int userId) {
-		List<ChatDTO> chats = chatService.getChats(userId);
-		
-		
-		System.out.println("chats" + chats);
+	public ModelAndView getChats(HttpSession session) {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		Integer userId = (Integer) session.getAttribute("sessionUserId");
 		
+		if (userId != null) {
+			List<ChatDTO> chats = chatService.getChats(userId);
+			
+			if (chats.isEmpty()) {
+				mv.addObject("message", "채팅이 없습니다.");
+				mv.addObject("chats", null);
+			} else {
+				mv.addObject("message", null);
+				mv.addObject("chats", chats);
+				
+							
+			}
+		} else {
+			mv.addObject("message", "로그인해주세요.");
+			mv.addObject("chats", null);
+		}
 		
-		return mv;
-		
+		mv.setViewName("notificationchat/notificationchatlist");
+		return mv;		
 	}
 	
 }

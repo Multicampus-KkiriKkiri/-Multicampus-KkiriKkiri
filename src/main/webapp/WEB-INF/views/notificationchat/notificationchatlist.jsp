@@ -7,7 +7,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>채팅</title>
+	<title>채팅 알림</title>
 	<script src="/jquery-3.7.1.min.js"></script>
 </head>
 
@@ -31,8 +31,6 @@
 			<div></div><br>
 		</div>
 	</div>
-
-
 </main>
 
 <footer>

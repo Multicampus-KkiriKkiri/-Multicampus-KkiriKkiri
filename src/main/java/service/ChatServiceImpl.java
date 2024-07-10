@@ -20,7 +20,7 @@ public class ChatServiceImpl implements ChatService {
 		return dao.getChats(userId);
 	}
 	
-  @Override
+	@Override
 	public int insertChatMessage(HashMap map) {
 		return dao.insertChatMessage(map);
 	}
