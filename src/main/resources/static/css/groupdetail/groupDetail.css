@@ -120,8 +120,8 @@ button {
 #leaderImg, .memberProfileImage {
 	width: 50px;
 	height: 50px;
-	border-radius: 50%; /* 이미지를 동그랗게 만듭니다 */
-    object-fit: cover; /* 이미지의 비율을 유지하면서 요소의 크기에 맞춥니다 */
+	border-radius: 50%; /* 이미지 동그랗게 만듬 */
+    object-fit: cover; /* 이미지의 비율을 유지하면서 요소의 크기에 맞춤 */
 }
 
 #memberListDiv {

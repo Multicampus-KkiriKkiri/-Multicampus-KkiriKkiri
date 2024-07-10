@@ -1,13 +1,15 @@
 package dao;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.ChatDTO;
+import dto.ChatVO;
 
 @Repository
 public class ChatDAO {
@@ -21,6 +23,19 @@ public class ChatDAO {
 	
 	public List<ChatDTO> getChats(int userId) {
 		return session.selectList("getChats", userId);
+	}
+
+	public ArrayList<HashMap<String, Object>> getChatHistoryByGroupId(HashMap map) {
+		List<ChatVO> resultList = session.selectList("getChatHistoryByGroupId", map);
+		ArrayList<HashMap<String, Object>> chatHistoryList = new ArrayList<>();
+		
+		for(Object result : resultList) {
+			if(result instanceof HashMap) {
+				chatHistoryList.add((HashMap<String, Object>) result);
+			}
+		}
+		
+		return chatHistoryList;
 	}
 	
 }

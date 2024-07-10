@@ -18,6 +18,10 @@ public class UserDAO {
 	public UserDTO getUserInfo(int userId) {
 		return session.selectOne("getUserInfo", userId);
 	}
+  
+  public UserDTO getChatUserInfoById(int userId) {
+		return session.selectOne("getChatUserInfoById", userId);
+  }
 	
 	//회원가입
 	public int signUp(UserDTO dto) {
@@ -69,7 +73,7 @@ public class UserDAO {
 	public int setMyInterest(UserInterestDTO dto) {
 		return session.insert("setMyInterest", dto);
 	}
-	
+
 	//내 정보 수정 - 기존 비밀번호 일치 확인
 	public String getUserPwById(int userId) {
 		return session.selectOne("getUserPwById", userId);

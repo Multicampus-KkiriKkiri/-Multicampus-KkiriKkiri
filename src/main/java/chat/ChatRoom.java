@@ -14,13 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  
 public class ChatRoom {
      String id;
-//     Set<WebSocketSession> sessions = new HashSet<>();
+     
      Map<String, WebSocketSession> sessions = new HashMap<>(); // 웹소켓 세션을 userId와 연결
  
     public ChatRoom(String room_id) { 
         this.id = room_id;
     }
    
+    // 메세지 처리(접속/전송)
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage, ObjectMapper objectMapper) throws JsonProcessingException {
         String userId = chatMessage.getUserId(); // 현재 접속한 userId 가져오기
     	
@@ -30,6 +31,7 @@ public class ChatRoom {
             send(chatMessage, objectMapper);
     }
  
+    // 채팅방 접속
     private void join(WebSocketSession session, String userId) {
     	// 기존 접속 sessions Map에 현재 접속한 userId가 없을 때만 연결
     	if (!sessions.containsKey(userId)) { 
@@ -38,6 +40,7 @@ public class ChatRoom {
         }
     }
     
+    // 메세지 전송
     private <T> void send(T messageObject, ObjectMapper objectMapper) throws JsonProcessingException {
         TextMessage message = new TextMessage(objectMapper.writeValueAsString(messageObject));
   
@@ -50,6 +53,7 @@ public class ChatRoom {
         });
     }
     
+    // 채팅방 접속 해제
     public void remove(WebSocketSession target) {
       String targetId = target.getId();
       

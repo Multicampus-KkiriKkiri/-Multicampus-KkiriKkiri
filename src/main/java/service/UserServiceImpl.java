@@ -118,6 +118,11 @@ public class UserServiceImpl implements UserService {
 		return dao.deleteAccount(userId);
 	}
 	
+	@Override
+	public UserDTO getChatUserInfoById(int userId) {
+		return dao.getChatUserInfoById(userId);
+	}
+	
 }
 
 

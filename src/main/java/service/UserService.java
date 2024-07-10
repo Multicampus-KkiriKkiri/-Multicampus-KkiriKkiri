@@ -8,7 +8,13 @@ import dto.UserInterestDTO;
 
 public interface UserService {
 	
-	// 로그인
+  // 한 회원 정보 조회
+	UserDTO getUserInfo(int userId);
+  	
+	// userId로 모임 채팅 사용자 별명, 프로필 사진 조회
+	UserDTO getChatUserInfoById(int userId);
+	
+  // 로그인
 	UserDTO logInUser(String userEmail, String userPw);
 	
 	// 로그아웃
@@ -22,9 +28,6 @@ public interface UserService {
 	
 	// 회원정보 수정
 	void updateUserInfo(int userId, UserDTO dto);
-	
-	// 한 회원 정보 조회
-	UserDTO getUserInfo(int userId);
 	
 	//해당 email 회원정보 조회
 	UserDTO findByUserEmail(String userEmail);
@@ -46,7 +49,7 @@ public interface UserService {
 	
 	//회원가입 - 내정보설정 모달 회원 관심사 데이터 입력
 	int setMyInterest(UserInterestDTO dto);
-	
+
 	//내 정보 수정 - 기존 비밀번호 일치 확인
 	String getUserPwById(int userId);
 
