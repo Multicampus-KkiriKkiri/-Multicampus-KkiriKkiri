@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,10 @@ public class UserDAO {
 	public UserDTO getUserInfo(int userId) {
 		return session.selectOne("getUserInfo", userId);
 	}
+  
+  public UserDTO getChatUserInfoById(int userId) {
+		return session.selectOne("getChatUserInfoById", userId);
+  }
 	
 	//회원가입
 	public int signUp(UserDTO dto) {
@@ -53,6 +59,11 @@ public class UserDAO {
 		return session.selectOne("getUserNickname", userNickname);
 	}
 	
+	//마이페이지 - 별명 수정 - 모든 별명 가져오기
+	public List<String> getAllUserNicknames(){
+		return session.selectList("getAllUserNicknames");
+	}
+	
 	//회원가입 모달에서 내정보설정 모달로 넘어갈 때 같은 회원인지 이메일로 확인
 	public String getUserId(String userEmail) {
 		return session.selectOne("getUserId",userEmail);
@@ -62,9 +73,20 @@ public class UserDAO {
 	public int setMyInterest(UserInterestDTO dto) {
 		return session.insert("setMyInterest", dto);
 	}
+
+	//내 정보 수정 - 기존 비밀번호 일치 확인
+	public String getUserPwById(int userId) {
+		return session.selectOne("getUserPwById", userId);
+	}
 	
-	public UserDTO getChatUserInfoById(int userId) {
-		return session.selectOne("getChatUserInfoById", userId);
+	//내 정보 수정 - 새로운 비밀번호 업데이트
+	public int modifyUserPw(UserDTO dto) {
+		return session.update("modifyUserPw", dto);
+	}
+	
+	//회원 탈퇴
+	public int deleteAccount(int userId) {
+		return session.delete("deleteAccount", userId);
 	}
 
 }

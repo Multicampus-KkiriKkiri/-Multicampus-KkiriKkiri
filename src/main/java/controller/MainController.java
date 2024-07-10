@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dto.GroupDTO;
 import dto.GroupDTO2;
+import jakarta.servlet.http.HttpSession;
 import service.GroupService;
 
 
@@ -49,28 +51,40 @@ public class MainController {
 	//메인페이지 - 관심사별 그룹 내용 가져오기
 	@ResponseBody
 	@GetMapping("/groupDetailsByInterest")
-	public List<HashMap<String, Object>> getGroupDetailsByInterestId(@RequestParam int interestId, Model model) {
+	public List<HashMap<String, Object>> getGroupDetailsByInterestId(@RequestParam int interestId, Model model/*, HttpSession session*/) {
 		ArrayList<HashMap<String, Object>> groupDetailsByInterest = groupService.getGroupDetailsByInterestId(interestId);
 		//model.addAttribute("groupDetailsByInterest", groupDetailsByInterest);	
+		
+	    List<Integer> groupIds = new ArrayList<>();
+	    for (HashMap<String, Object> groupDetail : groupDetailsByInterest) {
+	        Integer groupId = (Integer) groupDetail.get("groupId");
+	        if (groupId != null) {
+	            groupIds.add(groupId);
+	        }
+	    }
+	    //session.setAttribute("groupIds", groupIds);		
 		return groupDetailsByInterest;		
 	}
 	
 	//메인페이지 - 로그인 전 신상 모임 가져오기
 	@ResponseBody
 	@GetMapping("/getNewestGroup")
-	public List<GroupDTO2> getNewestGroupDetails(Model model){
+	public List<GroupDTO2> getNewestGroupDetails(Model model/*, HttpSession session*/){
 		
 		List<GroupDTO> newestGroupDetails = groupService.getNewestGroupDetails();		
-		List<GroupDTO2> newestGroupDetails2 = new ArrayList<>();
-		
+		List<GroupDTO2> newestGroupDetails2 = new ArrayList<>();		
+		List<Integer> groupIds = new ArrayList<>();
+				
 		for (GroupDTO dto : newestGroupDetails) {		
-			GroupDTO2 dto2 = new GroupDTO2();			
+			GroupDTO2 dto2 = new GroupDTO2();	
+			dto2.setGroupId(dto.getGroupId());
 			dto2.setGroupName(dto.getGroupName());
 			dto2.setGroupImage(dto.getGroupImage());
 			dto2.setGroupType(dto.getGroupType());
 			dto2.setGroupRegionId(dto.getGroupRegionId());
 			dto2.setGroupDistrictId(dto.getGroupDistrictId());
 			newestGroupDetails2.add(dto2);
+			groupIds.add(dto.getGroupId());
 		}		
         
 		for (GroupDTO2 newestGroupDetail2 : newestGroupDetails2) {
@@ -94,6 +108,7 @@ public class MainController {
 		      }
 			  	
 		}
+		//session.setAttribute("groupIds", groupIds);
 		model.addAttribute("newestGroupDetail2", newestGroupDetails2);
 		return newestGroupDetails2;	
 	}

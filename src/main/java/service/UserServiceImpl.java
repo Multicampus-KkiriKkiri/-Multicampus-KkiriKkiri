@@ -76,6 +76,12 @@ public class UserServiceImpl implements UserService {
 		return dao.getUserNickname(userNickname);
 	}	
 	
+	//마이페이지 - 별명 수정 - 모든 별명 가져오기	
+	@Override
+	public List<String> getAllUserNicknames() {
+		return dao.getAllUserNicknames();
+	}
+
 	//회원가입 - 내정보설정 모달 회원정보 업데이트
 	@Override
 	public int signUpProfileUpdate(UserDTO dto) {
@@ -92,7 +98,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int setMyInterest(UserInterestDTO dto) {
 		return dao.setMyInterest(dto);
-	}	
+	}
+
+	//내 정보 수정 - 기존 비밀번호 일치 확인
+	@Override
+	public String getUserPwById(int userId) {
+		return dao.getUserPwById(userId);
+	}
+
+	//내 정보 수정 - 새로운 비밀번호 업데이트
+	@Override
+	public int modifyUserPw(UserDTO dto) {
+		return dao.modifyUserPw(dto);
+	}
+
+	//회원 탈퇴
+	@Override
+	public int deleteAccount(int userId) {
+		return dao.deleteAccount(userId);
+	}
 	
 	@Override
 	public UserDTO getChatUserInfoById(int userId) {

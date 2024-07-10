@@ -3,9 +3,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dao.UserDAO">
-	
+  
+	<!-- 회원 정보 가져오기 -->
 	<select id="getUserInfo" resultType="userdto">
 		select userId, userEmail, userRegionId, userDistrictId, profileIntro, profileImage, signUpType, userNickname from `user` where userId = #{userId}
+	</select>
+  
+  <select id="getChatUserInfoById" resultType="userdto">
+		select userNickname, profileImage from `user` where userId = #{userId}
 	</select>
 	
 	<!-- 로그인 -->
@@ -22,7 +27,12 @@
 	<select id="getUserNickname" resultType="userdto" parameterType="String">
 		select userNickname from user where userNickname =#{userNickname};
 	</select>
-		
+	
+	<!-- 마이페이지 - 별명 수정 - 모든 별명 가져오기 - 추후 로직 확인 후 삭제할 지 결정!!! -->
+	<select id="getAllUserNicknames" resultType="String">
+		select userNickname from user
+	</select>
+			
 	<!-- 회원가입 - 내정보설정 모달 회원정보 업데이트 -->
 	<update id="signUpProfileUpdate" parameterType="userdto">
 		update user 
@@ -43,10 +53,22 @@
 	<insert id="setMyInterest" parameterType="userinterestdto">
 		insert into user_interest (userId, interestId) values (#{userId}, #{interestId})
 	</insert>
-	
-	<select id="getChatUserInfoById" resultType="userdto">
-		select userNickname, profileImage from `user` where userId = #{userId}
+
+	<!-- 내 정보 수정 - 기존 비밀번호 일치 확인 -->
+	<select id="getUserPwById" parameterType="int" resultType="String">
+		select userPw from user where userId=#{userId}
 	</select>
+	
+	<!-- 내 정보 수정 - 새로운 비밀번호 업데이트 -->
+	<update id="modifyUserPw" parameterType="userdto">
+		update user
+		set userPw = #{userPw} where userId=#{userId}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteAccount" parameterType="int">
+		delete from user where userId = #{userId}
+	</delete>
 
 </mapper>
 

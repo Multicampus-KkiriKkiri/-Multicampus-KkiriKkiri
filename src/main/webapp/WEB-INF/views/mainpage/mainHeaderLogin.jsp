@@ -54,7 +54,7 @@ $(document).ready(function(){
 		    <i class="fa-solid fa-chevron-down" style="margin-bottom:15px; background-color:white; color:#706F6F"></i>
 		  </button>		  
 			  <ul class="dropdown-menu dropdown-menu-end" >
-			    <li><a class="dropdown-item" href="#">마이페이지</a></li>
+			    <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
 			    <li><a class="dropdown-item" href="#">모임 만들기</a></li>
 			    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 			  </ul>		  		  
