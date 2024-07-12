@@ -6,9 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <title>모임 등록</title>
-    <link rel="stylesheet" href="<c:url value='/css/groupregister.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/groupRegister.css'/>">
     <script src="<c:url value='/jquery-3.7.1.min.js'/>"></script>
-    <script src="<c:url value='/js/groupregister/groupregister.js'/>"></script>
+    <script src="<c:url value='/js/groupregister/groupRegister.js'/>"></script>
+    
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
         <h2>모임 등록</h2>
 
         <!-- 모임 등록 폼 -->
-        <form action="<c:url value='/groupregister/register'/>" method="post" enctype="multipart/form-data">
+        <form id="groupForm" action="<c:url value='/groupregister/register'/>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="groupName">모임 이름</label>
                 <input type="text" id="groupName" name="groupName" required>
@@ -100,7 +101,7 @@
                         <img src="<c:url value='/images/approval.png' />" alt="승인제 이미지">
                         <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
                         <div class="form-group">
-                            <label for="question">가입시 회원에게 물어볼 질문</label>
+                            <label for="groupSignUpQuestion">가입시 회원에게 물어볼 질문</label>
                             <input type="text" id="groupSignUpQuestion" name="groupSignUpQuestion" style="width: 100%; height: 50px;">
                             
                         </div>

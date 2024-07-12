@@ -23,29 +23,35 @@ public class GroupDAO {
 
 	// 그룹 상세 정보 가져오기
 	public GroupDTO getGroupDetail(int groupId) {
-		return session.selectOne("getGroupDetail", groupId);
+		return session.selectOne("group-mapping.getGroupDetail", groupId);
 	}
 	
 	//지역 불러오기, 광역시
 	public List<RegionDTO> getAllRegions() {
-		return session.selectList("getAllRegions");
+		return session.selectList("group-mapping.getAllRegions");
 	 }
 	
 	// 지역(Region) 이름 가져오기
 	public String getRegionNameByRegionId(int regionId) {
-		return session.selectOne("getRegionNameByRegionId", regionId);
+		return session.selectOne("group-mapping.getRegionNameByRegionId", regionId);
 	}
 	
 	//지역 불러오기, 구
 	public List<DistrictDTO> getDistrictsByRegionId(int regionId) {
-		return session.selectList("getDistrictsByRegionId", regionId);
+		return session.selectList("group-mapping.getDistrictsByRegionId", regionId);
 	}
 	
 	// 하위 지역(District) 이름 가져오기
 	public String getDistrictNameByDistrictId(int districtId) {
-		return session.selectOne("getDistrictNameByDistrictId", districtId);
+		return session.selectOne("group-mapping.getDistrictNameByDistrictId", districtId);
 	}
-	
+    
+   //모임 이름 중복체크
+	public boolean existsByGroupName(String groupName) {
+		Integer count = session.selectOne("group-mapping.existsByGroupName", groupName);
+		return count != null && count > 0;
+	}
+	//모임 등록
 	public int saveGroup(GroupDTO groupDTO) {
 		session.insert("group-mapping.saveGroup", groupDTO);
 		return groupDTO.getGroupId(); // 등록된 그룹의 ID 반환
@@ -57,11 +63,11 @@ public class GroupDAO {
     
     //메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보
     public List<String> getRegionName(int regionId){
-    	return session.selectList("getRegionName", regionId);
+    	return session.selectList("group-mapping.getRegionName", regionId);
     }
     
     public List<String> getDistrictName(int districtId){
-    	return session.selectList("getDistrictName", districtId);
+    	return session.selectList("group-mapping.getDistrictName", districtId);
     }   
     
     //메인페이지 관심사별 그룹 내용 가져오기
