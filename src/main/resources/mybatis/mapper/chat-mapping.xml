@@ -5,8 +5,16 @@
 <mapper namespace="dao.ChatDAO">
 
 	<select id="getChats" resultType="chatdto" parameterType="int">
-		select * from chat where userId=#{userId}
+		select * from chat where groupId=#{groupId}
 	</select>
+	
+    <!-- 특정 그룹의 최신 채팅 메시지 가져오기 -->
+    <select id="getLatestChatByGroupId" resultType="chatdto">
+        SELECT * FROM chat 
+        WHERE groupId = #{groupId}
+        ORDER BY chatTime DESC
+        LIMIT 1
+    </select>
 	
 	<insert id="insertChatMessage">
 		insert into `chat` values(0, #{groupId}, #{userId}, #{chatMessage}, #{chatTime})
