@@ -45,7 +45,10 @@ public interface GroupService {
 	
     // 그룹 마지막 업데이트 시간 가져오기
 	Timestamp getGroupLastUpdateTime(int groupId);
-	
+
+	//마이페이지 - 사용자가 모임장인 그룹 가져오기
+	List<GroupDTO> getGroupDetailAsLeader(int userId);
+
 }
 
 

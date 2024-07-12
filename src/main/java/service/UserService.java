@@ -58,6 +58,9 @@ public interface UserService {
 	
 	//회원 탈퇴
 	int deleteAccount(int userId);
+	
+	//마이 페이지 - 내 관심사 수정 전 기존 관심사 삭제
+	int deleteUserInterestId(int userId);
 }
 
 

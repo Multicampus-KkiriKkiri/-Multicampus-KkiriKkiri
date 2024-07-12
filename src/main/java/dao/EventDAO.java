@@ -17,5 +17,10 @@ public class EventDAO {
 	public List<EventDTO> getGroupEventList(int groupId) {
 		return session.selectList("getGroupEventList", groupId);
 	}
+	
+	//마이페이지 내 일정 가져오기
+	public List<EventDTO> getMyGroupEvent(int userId){
+		return session.selectList("getMyGroupEvent", userId);
+	}
 
 }

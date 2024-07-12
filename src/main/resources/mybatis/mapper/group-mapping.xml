@@ -86,5 +86,9 @@
 	    WHERE groupId = #{groupId}
 	</select>
 
+	<!-- 마이페이지 - 사용자가 모임장인 그룹 가져오기 -->
+	<select id="getGroupDetailAsLeader" resultType="groupdto" parameterType="int">
+		select * from `group` where groupLeaderId = #{userId}
+	</select>
 	
 </mapper>

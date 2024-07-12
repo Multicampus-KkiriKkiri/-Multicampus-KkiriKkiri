@@ -5,10 +5,12 @@ $(document).ready(function() {
         url: '/regions',
         method: 'GET',
         success: function(data) {
-            let citySelect = $('#userRegion');
-            data.forEach(function(region) {
-                citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
-            });
+            let citySelect = $('#userRegion');            
+         	// 데이터 필터링하여 온라인 지역 제외하고 옵션 추가
+            data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+                .forEach(region => {
+                    citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
+                });
         },
         error: function(error) {
             console.log("Error fetching regions:", error);
@@ -51,9 +53,6 @@ function loadFile(input) {
     }
 }
 
-
-
-
 //내 프로필 수정
 $(document).ready(function(){
 	//별명 중복 검사 - MainUserController에서 처리
@@ -62,15 +61,16 @@ $(document).ready(function(){
 		let userNickname = $('#userNickname').val();		
 		  $.ajax({
 			type: 'POST',
-            url: '/nicknameconfirm',
+            url: '/editmynickname',
             data: {
                 userNickname:userNickname 
             },
-            success: function(response){				
+            success: function(response){	
+				console.log(response);			
 				if(response === 'success'){
 					$('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
-				/*}else if(response === 'same'){
-					$('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");*/
+				}else if(response === 'same'){
+					$('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");
 				}else{
 					$('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");					
 				}//else
@@ -117,8 +117,6 @@ $(document).ready(function(){
 	}); //#edit-my-profile-btn.click	
 });//ready
 
-
-
 let openModifyPwModal = document.getElementById("open-modify-pw-btn");
 let modifyPwModal = document.getElementById("modify-pw-modal");
 let closeModifyPwModal = document.getElementById("modify-pw-modal-close");
@@ -131,9 +129,6 @@ openModifyPwModal.addEventListener('click', function(){
 closeModifyPwModal.addEventListener('click', function(){
 	modifyPwModal.style.display = "none";
 })
-
-
-
 
 //비밀번호 수정 모달
 $(document).ready(function(){

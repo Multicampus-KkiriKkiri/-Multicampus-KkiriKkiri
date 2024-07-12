@@ -51,7 +51,7 @@ public class GroupDetailController {
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
 		String category = interestService.getInterestField(groupDTO.getGroupInterestId());
-		int memberCnt = groupMemberService.getMemberCountInGroup(groupId);
+		int groupMemberCnt = groupMemberService.getMemberCountInGroup(groupId);
 		HashMap<String, String> regionMap = new HashMap<>();
 		regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
 		regionMap.put("groupDistrict", groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId()));
@@ -67,7 +67,7 @@ public class GroupDetailController {
 		mv.addObject("groupDTO", groupDTO);
 		mv.addObject("groupLeaderDTO", groupLeaderDTO);
 		mv.addObject("category", category);
-		mv.addObject("memberCnt", memberCnt);
+		mv.addObject("groupMemberCnt", groupMemberCnt);
 		mv.addObject("regionMap", regionMap);		
 		mv.addObject("memberList", groupMemberService.getGroupMemberList(groupId));
 

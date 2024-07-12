@@ -1,7 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dto.EventDTO;
+import dto.GroupDTO;
+import dto.GroupDTO2;
 import dto.UserDTO;
+import dto.UserInterestDTO;
 import jakarta.servlet.http.HttpSession;
-import lombok.Setter;
+import service.EventService;
 import service.GroupService;
 import service.InterestService;
 import service.UserService;
@@ -30,6 +37,9 @@ public class MyPageController {
 	
 	@Autowired
 	private InterestService interestService;
+	
+	@Autowired
+	private EventService eventService;
 
 	//내 정보 보여주기
 	@GetMapping("/mypage")
@@ -54,6 +64,7 @@ public class MyPageController {
 			mv.addObject("loginUserRegion", loginUserRegion);
 			mv.addObject("loginUserDistrict", loginUserDistrict);
 			mv.addObject("loginUserInterestNames", loginUserInterestNames);
+			mv.addObject("profileImage", loginUser.getProfileImage());
 			mv.setViewName("/mypage/myPage");
 		}else {
 			mv.setViewName("redirect:/kkirikkiri");
@@ -73,11 +84,38 @@ public class MyPageController {
 		mv.addObject("userRegion", groupService.getRegionNameByRegionId(user.getUserRegionId()));
 		mv.addObject("userDistrict", groupService.getDistrictNameByDistrictId(user.getUserDistrictId()));
 		mv.addObject("userNickname", user.getUserNickname());
-		mv.addObject("userProfileImage", user.getProfileImage());
+		mv.addObject("profileImage", user.getProfileImage());
 		mv.addObject("userProfileIntro", user.getProfileIntro());
 		mv.setViewName("/mypage/editMyPage");
 		return mv;
 	}
+	
+	//내 정보 수정 - 별명 중복 확인
+	@ResponseBody
+	@PostMapping("/editmynickname")
+	public String nicknameconfirm(HttpSession session, @RequestParam String userNickname) {
+				
+		//세션 아이디로 가져온 사용자 정보
+		UserDTO userdto = userService.getUserInfo((Integer)session.getAttribute("sessionUserId"));
+				
+		//세션 사용자 정보로 가져온 사용자 별명
+		UserDTO dto = userService.getUserNickname(userdto.getUserNickname());
+		List<String> allUserNicknames = userService.getAllUserNicknames();
+		String result = null;
+
+		if (dto.getUserNickname().equals(userNickname)) {
+	        result = "same";
+	    } else {
+	        result = "success"; 
+	        for (String allUserNickname : allUserNicknames) {
+	            if (userNickname.equals(allUserNickname)) {
+	                result = "fail";
+	                break;
+	            }
+	        }
+	    }							
+		return result;		
+	} 	
 	
 	//내 정보 수정
 	@ResponseBody
@@ -188,6 +226,115 @@ public class MyPageController {
 			return "fail";
 		}
 	}
+	
+	//내 관심사 수정
+	@ResponseBody
+	@PostMapping("/modifyInterestId")
+	public String[] modifyUserInterestId(HttpSession session, @RequestParam(required = false) String[] interests) {
+		Integer sessionUserId = (Integer)session.getAttribute("sessionUserId");
+		if(interests.length != 0) {
+			UserInterestDTO interestdto = new UserInterestDTO();
+			userService.deleteUserInterestId(sessionUserId);			
+			
+ 			interestdto.setUserId(sessionUserId);
+			for (String interest : interests) {	 
+				if(interest.equals("문화예술")) {
+					interestdto.setInterestId(1);
+					userService.setMyInterest(interestdto);
+				}
+				if(interest.equals("액티비티")) {
+					interestdto.setInterestId(2);
+					userService.setMyInterest(interestdto);
+				}
+				
+				if(interest.equals("푸드/드링크")) {
+					interestdto.setInterestId(3);
+					userService.setMyInterest(interestdto);
+				}
+				
+				if(interest.equals("자기계발")) {
+					interestdto.setInterestId(4);
+					userService.setMyInterest(interestdto);
+				}
+				
+				if(interest.equals("기타")) {
+					interestdto.setInterestId(5);
+					userService.setMyInterest(interestdto);
+				}
+				
+		    }//for 
+		    return interests;		    
+		}
+		else {
+			return null;
+		}		
+	}	
+	
+	//내 일정 목록 가져오기
+	@ResponseBody
+	@GetMapping("/showmygroupeventlist")
+	public Map<String, Object> showMyGroupEventList(HttpSession session) {
+	    int sessionUserId = (Integer) session.getAttribute("sessionUserId");
+
+	    List<EventDTO> myGroupEventLists = eventService.getMyGroupEvent(sessionUserId);
+	    Map<String, List<EventDTO>> groupedEvents = new LinkedHashMap<>();
+
+	    if (myGroupEventLists != null) {
+	        for (EventDTO event : myGroupEventLists) {
+	            String eventDate = event.getEventDate();
+	            if (!groupedEvents.containsKey(eventDate)) {
+	                groupedEvents.put(eventDate, new ArrayList<>());
+	            }
+	            groupedEvents.get(eventDate).add(event);
+	        }
+
+	        Map<String, Object> hashMap = new HashMap<>();
+	        hashMap.put("groupedEvents", groupedEvents);
+
+	        return hashMap;
+	    } else {
+	        Map<String, Object> errorMap = new HashMap<>();
+	        errorMap.put("error", "아직 내 모임이 없습니다.");
+	        return errorMap;
+	    }
+	}
+	
+	//내 모임 목록 가져오기 - 모임장인 경우
+	@ResponseBody
+	@GetMapping("/mygroupasleader")
+	public List<GroupDTO2> showMyGroupsAsLeader (HttpSession session){
+		
+		Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");		
+		
+		if (sessionUserId != null) {
+	        List<GroupDTO> groupdto = groupService.getGroupDetailAsLeader(sessionUserId);
+	        List<GroupDTO2> myGroupsAsLeader = new ArrayList<>();
+
+	        for (GroupDTO group : groupdto) {
+	            GroupDTO2 myGroupAsLeader = new GroupDTO2();
+	            System.out.println("grouplist:" + group);
+	            myGroupAsLeader.setGroupImage(group.getGroupImage());
+	            myGroupAsLeader.setGroupName(group.getGroupName());
+	            myGroupAsLeader.setGroupType(group.getGroupType());
+
+	            List<String> groupRegionNames = groupService.getRegionName(group.getGroupRegionId());
+	            List<String> groupDistrictNames = groupService.getDistrictName(group.getGroupDistrictId());
+
+	            // 모임별로 하나의 지역값이 있기 때문에 가능한 코드
+	            if (!groupRegionNames.isEmpty()) {
+	                myGroupAsLeader.setRegionName(groupRegionNames.get(0));
+	            }
+	            if (!groupDistrictNames.isEmpty()) {
+	                myGroupAsLeader.setDistrictName(groupDistrictNames.get(0));
+	            }
+	            myGroupsAsLeader.add(myGroupAsLeader);
+	        }
+	        return myGroupsAsLeader;
+	    } else {
+	        return null;
+	    }	
+	}
+	
 }
 
 

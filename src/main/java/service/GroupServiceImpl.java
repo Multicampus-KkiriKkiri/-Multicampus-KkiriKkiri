@@ -87,10 +87,16 @@ public class GroupServiceImpl implements GroupService {
 	}    
 	
 	// 그룹 마지막 업데이트 시간 가져오기
-    @Override
-    public Timestamp getGroupLastUpdateTime(int groupId) {
-        return dao.getGroupLastUpdateTime(groupId);
-    }
+  @Override
+  public Timestamp getGroupLastUpdateTime(int groupId) {
+    return dao.getGroupLastUpdateTime(groupId);
+  }
+
+	//마이페이지 - 사용자가 모임장인 그룹 가져오기
+	@Override
+	public List<GroupDTO> getGroupDetailAsLeader(int userId) {
+		return dao.getGroupDetailAsLeader(userId);
+	}   
     
 }
 

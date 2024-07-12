@@ -19,4 +19,10 @@ public class EventServiceImpl implements EventService {
 		return dao.getGroupEventList(groupId);
 	}
 
+	//마이페이지 내 일정 가져오기
+	@Override
+	public List<EventDTO> getMyGroupEvent(int userId) {
+		return dao.getMyGroupEvent(userId);
+	}	
+
 }
