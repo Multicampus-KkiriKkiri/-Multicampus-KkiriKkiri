@@ -36,8 +36,8 @@
     </select>
     <!-- 새로운 그룹 등록 --> 
     <insert id="saveGroup" parameterType="dto.GroupDTO" useGeneratedKeys="true" keyProperty="groupId">
-       INSERT INTO `group` (groupName, groupLeaderId,groupInterestId, groupRegionId, groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion)
-       VALUES (#{groupName}, #{groupLeaderId} ,#{groupInterestId}, #{groupRegionId}, #{groupDistrictId}, #{groupDetail}, #{groupImage}, #{groupMaximum}, #{groupType}, #{groupSignUpType}, #{groupSignUpQuestion})
+       INSERT INTO `group` (groupName, groupLeaderId,groupInterestId, groupRegionId, groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion,lastUpdateTime)
+       VALUES (#{groupName}, #{groupLeaderId} ,#{groupInterestId}, #{groupRegionId}, #{groupDistrictId}, #{groupDetail}, #{groupImage}, #{groupMaximum}, #{groupType}, #{groupSignUpType}, #{groupSignUpQuestion},CURRENT_TIMESTAMP)
     </insert>
     
     <select id="findGroupById" parameterType="int" resultType="dto.GroupDTO">
