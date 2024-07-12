@@ -123,63 +123,11 @@ public class MainUserController {
 	@PostMapping("/nicknameconfirm")
 	public String nicknameconfirm(@RequestParam String userNickname) {
 		UserDTO dto = userService.getUserNickname(userNickname);
-		//System.out.println(userNickname + ":"  +dto);		
-		
-		/*
-		List<String> allUserNicknames = userService.getAllUserNicknames();
-		String result ="success";
-		for(String allUserNickname : allUserNicknames) {
-			/*
-			if(dto == null) {
-				result = "success";
-				System.out.println("success:" + dto);
-				System.out.println("success:" +allUserNickname);
-			}else if(allUserNickname != null && allUserNickname.equals(dto)) {
-				result = "same";
-				System.out.println("same:" + dto);
-				System.out.println("same:" +allUserNickname);
-			}else {
-				result = "fail";
-				System.out.println("fail:" + dto);
-				System.out.println("fail:" +allUserNickname);
-			}	
-			*/
-			/*
-			if(allUserNickname != null && allUserNickname.equals(dto.getUserNickname())) {
-				result = "same";
-				System.out.println("same:" + dto);
-				System.out.println("same:" +allUserNickname);
-				//return "same";
-			}else if(allUserNickname != null && !allUserNickname.equals(dto.getUserNickname())) {
-				result = "success";
-				System.out.println("success:" + dto);
-				System.out.println("success:" +allUserNickname);
-				//return "success";
-			}else {
-				result = "fail";
-				System.out.println("fail:" + dto);
-				System.out.println("fail:" +allUserNickname);
-				//return "fail";
-			}				
-		}
-		return result;	
-		*/
-		/*
-		if(dto == null) {
-			return "success";
-		}else if(dto.getUserNickname().equals(userNickname)) {
-			return "same";
-		}else {
-			return "fail";
-		}	
-		*/
-		
 		if(dto == null) {
 			return "success";
 		}else {
 			return "fail";
-		}		
-		
+		}			
 	} 
 	
     //내정보설정 입력값 데이터에 저장
@@ -193,9 +141,6 @@ public class MainUserController {
 			@RequestParam(required = false) String profileImage, 
 			String[] interests, 
 			Model model){		
-		//System.out.println(userNickname);		
-		//System.out.println(session.getAttribute("signupEmail"));
-		//System.out.println(userService.getUserId((String)session.getAttribute("signupEmail")));
 		
 		if (userNickname != null && interests != null && userRegionId != 0 && userDistrictId != 0) {
 				

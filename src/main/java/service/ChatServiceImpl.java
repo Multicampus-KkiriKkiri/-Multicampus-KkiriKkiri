@@ -17,9 +17,14 @@ public class ChatServiceImpl implements ChatService {
 	ChatDAO dao;
 	
 	@Override
-	public List<ChatDTO> getChats(int userId) {
-		return dao.getChats(userId);
+	public List<ChatDTO> getChats(int groupId) {
+		return dao.getChats(groupId);
 	}
+	
+    @Override
+    public ChatDTO getLatestChatByGroupId(int groupId) {
+        return dao.getLatestChatByGroupId(groupId);
+    }
 	
 	@Override
 	public int insertChatMessage(HashMap map) {

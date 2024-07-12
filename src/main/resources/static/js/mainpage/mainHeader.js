@@ -312,9 +312,10 @@ $(document).ready(function() {
                 method: 'GET',
                 success: function(data) {
                     let citySelect = $('#userRegion');
-                    data.forEach(function(region) {
-                        citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
-                    });
+                    data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+		                .forEach(region => {
+		                    citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
+		                });
                 },
                 error: function(error) {
                     console.log("Error fetching regions:", error);
@@ -380,7 +381,6 @@ $(document).ready(function(){
         let userRegionId = $('#userRegion').val();
         let profileIntro = $('#profileIntro').val();
         let interests = [];
-        //alert(userDistrictId + userRegionId);
         //관심사 항목 체크되는 것들만 배열로 저장
         $("input:checked").each(function(){
 			interests.push($(this).val())

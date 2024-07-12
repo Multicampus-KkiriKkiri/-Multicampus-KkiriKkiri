@@ -1,5 +1,7 @@
 package service;
 
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +29,10 @@ public interface GroupService {
 	
 	//그룹 이름 중복 체크.
 	boolean checkGroupNameExists(String groupName);
+  
     // 새로운 그룹 등록
 	int registerGroup(GroupDTO groupDTO);
+  
 	//모임 ID로 모임 정보를 가져오는 메서드
 	GroupDTO getGroupById(int groupId);
 		
@@ -43,7 +47,12 @@ public interface GroupService {
 	//메인페이지 로그인전 신상 그룹 가져오기
 	List<GroupDTO> getNewestGroupDetails();
 	
-	
+  // 그룹 마지막 업데이트 시간 가져오기
+	Timestamp getGroupLastUpdateTime(int groupId);
+
+	//마이페이지 - 사용자가 모임장인 그룹 가져오기
+	List<GroupDTO> getGroupDetailAsLeader(int userId);
+
 }
 
 

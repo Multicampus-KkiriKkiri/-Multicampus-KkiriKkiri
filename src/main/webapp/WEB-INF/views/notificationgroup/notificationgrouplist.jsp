@@ -34,7 +34,7 @@
                     <c:forEach var="dto" items="${notification}">
                         <div class="notification-item" data-id="${dto.notificationId}">
                             <div>${dto.notificationTime}</div>
-                            <div>${dto.notificationText} 입니다.</div>
+                            <div>${dto.notificationText}</div>
                             <div>
                                 <form class="delete-form">
                                     <input type="hidden" name="notificationId" value="${dto.notificationId}" />

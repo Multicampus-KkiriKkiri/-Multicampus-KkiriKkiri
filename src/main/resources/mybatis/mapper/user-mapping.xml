@@ -69,6 +69,11 @@
 	<delete id="deleteAccount" parameterType="int">
 		delete from user where userId = #{userId}
 	</delete>
+	
+	<!-- 마이 페이지 - 내 관심사 수정 전 기존 관심사 삭제 -->
+	<delete id="deleteUserInterestId" parameterType="int">
+		delete from user_interest where userId = #{userId}
+	</delete>
 
 </mapper>
 

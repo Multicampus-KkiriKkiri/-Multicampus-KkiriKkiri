@@ -1,9 +1,14 @@
 package dto;
 
+
+
+import java.sql.Timestamp;
+
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /*
  * @ToString(exclude ="이름")으로 제외가능?
@@ -14,13 +19,14 @@ import lombok.Setter;
  * */
 @Getter
 @Setter
+@ToString
 @Component
 public class GroupDTO {
     private int groupId;
     private int groupLeaderId;
     private String groupName;
     private String groupDetail;
-    private String groupImage;//저장하는 파일의 위치를 저장해서.
+    private String groupImage; //저장하는 파일의 위치를 저장해서.
     private String groupType;
     private int groupRegionId;
     private int groupDistrictId;
@@ -28,5 +34,6 @@ public class GroupDTO {
     private String groupSignUpType;
     private int groupMaximum;
     private String groupSignUpQuestion;
+    private Timestamp lastUpdateTime;
 }
 

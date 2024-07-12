@@ -88,32 +88,48 @@ function setChatBtn(auth) {
 	} // if end
 } // setChatBtn() end
 
-// 사용자 권한에 따라 groupOptionBtn(가입/나가기/설정) 버튼 속성 설정 함수
+// groupOptionBtn(가입/나가기/설정) 버튼 속성 설정 함수
 function setGroupOptionBtn(auth) {
-    if(auth === "nonuser") {
-		$("#groupOptionBtn").val("signup");
-		$("#groupOptionBtn").html("모임 가입");
+	// 사용자 권한에 따라 버튼 속성 설정
+	if (auth === "nonuser") {
+		// 모임 최대인원이 다 찼을때
+		if (groupMemberCnt === groupMaximumMemberCnt) {
+			$("#groupOptionBtn").val("interrupted");
+			$("#groupOptionBtn").html("가입 불가");
+		} else { // 모임 자리 남았을때
+			$("#groupOptionBtn").val("signup");
+			$("#groupOptionBtn").html("모임 가입");
+		}
 	} else if (auth === "user") {
-        $("#groupOptionBtn").val("join");
-        $("#groupOptionBtn").html("모임 가입"); 
-    } else if(auth === "stanby") {
+		// 모임 최대인원이 다 찼을때
+		if (groupMemberCnt === groupMaximumMemberCnt) {
+			$("#groupOptionBtn").val("interrupted");
+			$("#groupOptionBtn").html("가입 불가");
+		} else { // 모임 자리 남았을때
+			$("#groupOptionBtn").val("join");
+			$("#groupOptionBtn").html("모임 가입");
+		}
+	} else if (auth === "stanby") {
 		$("#groupOptionBtn").val("standby");
-        $("#groupOptionBtn").html("가입 신청 취소");
-	} else if(auth === "member") {
-        $("#groupOptionBtn").val("quit");
-        $("#groupOptionBtn").html("모임 나가기");
-    } else if(auth === "leader") {
-        $("#groupOptionBtn").val("set");
-        $("#groupOptionBtn").html("모임 설정");	
-	} else if(auth == "blacklist") {
+		$("#groupOptionBtn").html("가입 신청 취소");
+	} else if (auth === "member") {
+		$("#groupOptionBtn").val("quit");
+		$("#groupOptionBtn").html("모임 나가기");
+	} else if (auth === "leader") {
+		$("#groupOptionBtn").val("set");
+		$("#groupOptionBtn").html("모임 설정");
+	} else if (auth == "blacklist") {
 		$("#groupOptionBtn").val("");
-        $("#groupOptionBtn").html("가입 불가");
+		$("#groupOptionBtn").html("가입 불가");
 	} // if end
+
 } // setGroupOptionBtn() end
 
 // groupOptionBtn 클릭 시 권한 별 기능
 function groupOptionProcess(btnValue) {
-	if(btnValue === "signup") {
+	if(btnValue === "interrupted") {
+		alert("최대 가입 인원이 초과되어 가입이 불가합니다.");
+	} else if(btnValue === "signup") {
 		alert("로그인 후 이용해주세요.");
 		/* 로그인 페이지로 이동 */
 	} else if (btnValue === "join") {
