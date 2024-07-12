@@ -41,6 +41,8 @@ public interface GroupService {
 	//메인페이지 로그인전 신상 그룹 가져오기
 	List<GroupDTO> getNewestGroupDetails();
 	
+	//마이페이지 - 사용자가 모임장인 그룹 가져오기
+	List<GroupDTO> getGroupDetailAsLeader(int userId);
 }
 
 

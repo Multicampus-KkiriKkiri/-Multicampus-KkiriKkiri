@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
     
 <!DOCTYPE html>
 <html>
@@ -23,7 +25,7 @@ $(document).ready(function(){
 	
 });
 </script>
-    
+
 </head>
 <body>
 <%@ include file="/WEB-INF/views/mainpage/mainHeaderLogin.jsp" %>
@@ -33,7 +35,14 @@ $(document).ready(function(){
 	<div class="mypage-container">
 		<section class="col-3" style="border:1px solid red;">
 			<div class="profile-img-container">
-				<img src="/images/letsGo.jpg" alt="내 프로필 사진">	
+		        <c:choose>
+		            <c:when test="${empty profileImage}">
+		                <img id="uploadedImage" src="/images/empty_profile_image.png" alt="기본 프로필 사진" style="width:300px;height:350px;">
+		            </c:when>
+		            <c:otherwise>
+		                <img id="uploadedImage" src="${profileImage}" alt="내 프로필 사진" style="width:300px;height:350px;">
+		            </c:otherwise>
+		        </c:choose> 
 				<div class="profile-overlay"></div>
 				<div class="profile-text">
 					<div name="userNickname">${loginUser.userNickname}</div>
@@ -41,64 +50,65 @@ $(document).ready(function(){
 				</div>							
 			</div>			
 				<div>
-					<div>내 관심사</div>					
-					 <ul>
-		                 <c:forEach items="${loginUserInterestNames}" var="interestName">
-		                     <li>${interestName}</li>
-		                 </c:forEach>
-	                  </ul>							
-					<div>관심사 목록</div>
-					<div>문화예술</div>
-					<div>액티비티</div>
-					<div>푸드/드링크</div>
-					<div>자기계발</div>
-					<div>기타</div>					
+					<div>내 관심사</div>	
+						<div id="user-interests">
+							<c:forEach items="${loginUserInterestNames}" var="interestName">
+				                     <div>${interestName}</div>
+			                 </c:forEach>
+						</div>	    						
 				</div>
+						
+				<button id="show-modify-interest-btn">내 관심사 수정하기</button>
+				<div>닫기버튼필요?</div>
+				<div id="interest-list-area" style="display:none">
+					<input class="interest-list" type="checkbox" id="cultureArt" name="cultureArt">
+	        		<label for="cultureArt">문화예술</label>			            
+				
+					<input class="interest-list" type="checkbox" id="selfStudy" name="selfStudy">
+					<label for="selfStudy">자기계발</label>
+				
+					<input class="interest-list" type="checkbox" id="etc" name="etc">
+	        		<label for="etc">기타</label>
+	        		
+	        		<input class="interest-list" type="checkbox" id="activity" name="activity">
+	        		<label for="activity">액티비티</label>
+	        		
+	        		<input class="interest-list" type="checkbox" id="foodDrink" name="foodDrink">
+	        		<label for="foodDrink">푸드/드링크</label> 		
+
+					<button id="modify-interest-btn">내 관심사 수정 완료</button>
+				</div>
+		
 				<button onclick=location.href="/editmypage">내 정보 수정</button>
-				<!--  
-				<form action="/gotomypage" method="post">
-					<input type="hidden" id="userRegion" name="userRegion" value="${loginUserRegion}">
-				</form>
-				-->
 		</section>
 		
 		<section class="col-10" style="border:1px solid red;">		
-				<div class="list-nav">
-					<a href="#">내 모임</a>
-					<a href="#">내 모임 일정</a>
+				<div id="my-page-nav">
+					<a href="#" id="my-group-area">내 모임</a>
+					<a href="#" id="my-event-area">내 모임 일정</a>
 				</div>
 				
-				<div id="my-groups-by-status">
-					<a href="#">모임원</a>
-					<a href="#">모임장</a>
-					<a href="#">신청 대기</a>
-					<a href="#">찜</a>				
-				</div>				
-				<div>
-				모임메뉴탭에 따라 내용이 달리 보여짐
-				</div>				
+				<div id="my-groups">
+					<div id="my-group-area-nav">
+						<a href="#" id="as-member">모임원</a>
+						<a href="#" id="as-leader">모임장</a>
+						<a href="#" id="waiting-lists">신청 대기</a>
+						<a href="#" id="wishlists">찜</a>				
+					</div>				
+					<div id="my-group-content">
+					<!--모임메뉴탭에 따라 ajax를 통해 받은 내용이 달리 보여짐  -->					
+					</div>	
+				</div>
+				
+				<div id="my-event-content" style="display:none;">
+				    <!-- ajax로 받은 일정 목록이 보여짐 -->
+				</div>					
 		</section>
 	</div>	
-	
-	<!--  
-	<section class="show-my-list-area row">		
-		<div class="col-4" style="border:1px solid blue; width:430px;">			
-				<div>일정이미지</div>
-				<div>
-					<div>일정날짜</div>
-					<div>일정제목</div>
-					<div>모임이름</div>
-				</div>					
-		</div>		
-	</section>
-	-->	
 </main>
 
-
-
-
-
 <%@ include file="/WEB-INF/views/mainpage/mainFooter.jsp" %> 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
 <script
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -109,18 +119,47 @@ $(document).ready(function(){
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<script src="<c:url value='/js/mypage/myPage.js'/>"></script>
+
+<script src="/js/mypage/myPage.js"></script>
+	<!--관심사 체크박스 - 데이터에서 받아온 사용자 관심사 정보와 일치하면 
+	checkbox 체크한 상태로 화면 보여주기 + 체크된 관심사 항목을 다시 컨트롤러로 주기 위해 배열에 저장
+	js파일에 있는 interests[]을 사용해야 하기 때문에 js파일 스크립트 아랫부분에 반드시 써야함  -->
+	<c:forEach items="${loginUserInterestNames}" var="interestName">
+		<c:if test="${interestName =='문화예술'}"> 
+		 <script>
+		   $("#cultureArt").attr("checked", "checked");
+		   interests.push("문화예술");
+		 </script>
+		</c:if>  
+		
+		<c:if test="${interestName =='자기계발'}"> 
+		 <script>
+		 	$("#activity").attr("checked", "checked");
+		    interests.push("액티비티");
+		 </script>
+		</c:if>
+		
+		<c:if test="${interestName =='기타'}"> 
+		 <script>		 	
+		 	$("#foodDrink").attr("checked", "checked");
+		    interests.push("푸드/드링크");	
+		 </script>
+		</c:if>
+		
+		<c:if test="${interestName =='푸드/드링크'}"> 
+		 <script>
+		 $("#selfStudy").attr("checked", "checked");
+		   interests.push("자기계발");
+		 </script>		 
+		</c:if>	
+		
+		 <c:if test="${interestName =='액티비티'}"> 
+		 <script>
+		 $("#etc").attr("checked", "checked");
+		   interests.push("기타");
+		 </script>
+		</c:if>	
+	</c:forEach>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 

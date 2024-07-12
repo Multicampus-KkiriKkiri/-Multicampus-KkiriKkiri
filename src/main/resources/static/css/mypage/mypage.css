@@ -4,19 +4,19 @@
 	display: flex;
 }
 
-.list-nav{
+#my-page-nav{
 	display:flex;
 }
 
-#my-groups-by-status{
+#my-group-area-nav{
 	display:flex;
 }
    
-#my-groups-by-status a{
+#my-group-area-nav a{
 	margin-right: 50px;
 }
 
-#my-groups-by-status a:last-child{
+#my-group-area-nav a:last-child{
 	margin-right: 0;
 }
 
@@ -58,14 +58,62 @@
 }
 
         
+
+/*관심사 설정 체크박스*/
+/*
+    .checkbox_class {
+
+    display : none;
+}
+
+.checkbox_label {
+
+color : #404040;
+background-color : #c0c0c0;    
+border-radius : 1rem;
+font-size : 12px;
+line-height : 16px;
+padding : 8px;
+margin : 4px;    
+text-align : center;
+}
+
+.checkbox_label:hover {
+
+background-color : #A0A0A0;
+}
+
+
+.checkbox_label_click {
+
+color : #FFFFFF;
+background-color : #404040;    
+border-radius : 1rem;
+font-size : 12px;
+line-height : 16px;
+padding : 8px;
+margin : 4px;    
+text-align : center;
+}
+ */       
         
-        
-        
-        
-        
-        
-        
-        
+.interest-list {
+    display: none;
+}
+
+.interest-list + label {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    border: 3px solid #707070;
+    position: relative;
+    cursor: pointer; /* 마우스를 올렸을 때 손가락 포인터로 변경 */
+    background-color: #c0c0c0; /* 기본 배경색 설정 */
+}
+
+.interest-list:checked + label {
+    background-color: pink; /* 체크된 상태일 때 배경색 변경 */
+}
         
         
         

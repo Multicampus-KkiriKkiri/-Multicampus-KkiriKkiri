@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
 	//마이페이지 - 별명 수정 - 모든 별명 가져오기	
 	@Override
 	public List<String> getAllUserNicknames() {
+		System.out.println(dao.getAllUserNicknames().size());
 		return dao.getAllUserNicknames();
 	}
 
@@ -121,6 +122,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO getChatUserInfoById(int userId) {
 		return dao.getChatUserInfoById(userId);
+	}
+
+	//마이 페이지 - 내 관심사 수정 전 기존 관심사 삭제
+	@Override
+	public int deleteUserInterestId(int userId) {
+		return dao.deleteUserInterestId(userId);
 	}
 	
 }

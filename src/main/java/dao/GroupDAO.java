@@ -79,6 +79,11 @@ public class GroupDAO {
     public List<GroupDTO> getNewestGroupDetails(){
     	return session.selectList("getNewestGroupDetails");
     }
+    
+    //마이페이지 - 사용자가 모임장인 그룹 가져오기
+    public List<GroupDTO> getGroupDetailAsLeader(int userId) {
+    	return session.selectList("getGroupDetailAsLeader", userId);
+    }
 
 }
 

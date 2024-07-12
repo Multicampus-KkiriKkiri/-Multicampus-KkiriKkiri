@@ -39,12 +39,11 @@ $(document).ready(function(){
 			    <div  id="signup-myprofile-show-img">
 			        <!-- 이미지가 보여지는 공간 -->
 			        <c:choose>
-			            <c:when test="${empty userProfileImage}">
+			            <c:when test="${empty profileImage}">
 			                <img id="uploadedImage" src="/images/empty_profile_image.png" alt="기본 프로필 사진" style="width:300px;height:350px;">
 			            </c:when>
 			            <c:otherwise>
-			                <img id="uploadedImage" src="${userProfileImage}" alt="내 프로필 사진" style="width:300px;height:350px;">
-			            	<img id="uploadedImage" src="/images/test.png" alt="내 프로필 사진" style="width:300px;height:350px;">
+			                <img id="uploadedImage" src="${profileImage}" alt="내 프로필 사진" style="width:300px;height:350px;">
 			            </c:otherwise>
 			        </c:choose>     
 			    </div>
