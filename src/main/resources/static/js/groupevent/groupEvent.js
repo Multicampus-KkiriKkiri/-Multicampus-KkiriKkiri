@@ -41,6 +41,9 @@ function setEventOptionBtn() {
         $(".groupEventOptionBtn").val("set");
         $(".groupEventOptionBtn").html("일정 설정");	
 	} // if end
+	
+	// 일정 최대 참여 인원 수 확인 후 버튼 재설정
+	checkEventMaximumMember();
 } // setGroupOptionBtn() end
 
 // 현재 로그인한 회원의 모임 내 일정 참여 신청 내역 확인 후 eventOptionBtn 버튼 속성 설정하는 함수
@@ -61,7 +64,7 @@ function checkEventSubmitHistoryAndSetOptionBtn() {
 			        $(this).val("attend");
 			        $(this).html("참여 신청");
 			    }
-			            });
+			});
         },
         error: function() {
             alert("일정 참여 신청 내역을 가져오는 데 실패했습니다.");
@@ -69,6 +72,23 @@ function checkEventSubmitHistoryAndSetOptionBtn() {
     });
 	
 } // checkEventSubmitHistoryAndSetOptionBtn() end
+
+// 이벤트 최대 참여 인원 수와 현재 참여 인원 수를 가져와서 비교 후 eventOptionBtn 버튼 속성 설정하는 함수
+function checkEventMaximumMember() {
+	
+	$.ajax({
+        url: '/groupdetail/checkeventmaxmember',
+        type: 'POST',
+        data: { groupId: groupId },
+        success: function(data) {
+            
+        },
+        error: function() {
+            alert("일정 참여 신청 내역을 가져오는 데 실패했습니다.");
+        }
+    });
+	
+} // checkEventMaximumMember() end
 
 // 일정 별 참여 신청한 모임원 목록 보여주는 함수
 function setAttendMemberListByEventID() {
