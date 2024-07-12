@@ -88,6 +88,11 @@ public class UserDAO {
 	public int deleteAccount(int userId) {
 		return session.delete("deleteAccount", userId);
 	}
+	
+	//마이 페이지 - 내 관심사 수정 전 기존 관심사 삭제 
+	public int deleteUserInterestId(int userId) {
+		return session.delete("deleteUserInterestId", userId);
+	}
 
 }
 

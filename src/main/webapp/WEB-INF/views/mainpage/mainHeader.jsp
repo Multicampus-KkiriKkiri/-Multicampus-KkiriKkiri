@@ -29,7 +29,7 @@ $(document).ready(function(){
 <body>
 <header class="header-nav">
 	<div class="header-nav-left">
-		<a href="#" class="logo">
+		<a href="/kkirikkiri" class="logo">
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>	
 		<form action="/groupsearch" method="get" class="search-area" style="margin-top:20px;"> 	       

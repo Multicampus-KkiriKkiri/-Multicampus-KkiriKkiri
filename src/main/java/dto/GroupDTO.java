@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /*
  * @ToString(exclude ="이름")으로 제외가능?
@@ -14,6 +15,7 @@ import lombok.Setter;
  * */
 @Getter
 @Setter
+@ToString
 @Component
 public class GroupDTO {
     private int groupId;
