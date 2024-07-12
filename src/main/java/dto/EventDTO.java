@@ -22,6 +22,7 @@ public class EventDTO {
 	private String eventDate;
 	private String eventLocation;
 	private int eventMaximum;
+	private String groupName;
 	
 	
 	// eventDate 타입 변환(String -> LocalDateTime) 메서드
