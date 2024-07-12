@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dao.GroupDAO;
+import dao.GroupDAO;	
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
@@ -48,12 +48,23 @@ public class GroupServiceImpl implements GroupService {
     public String getDistrictNameByDistrictId(int districtId) {
     	return dao.getDistrictNameByDistrictId(districtId);
     }
-
-    // 새로운 그룹 등록
+    //모임이름 중복 체크
+ 
+    @Override
+    public boolean checkGroupNameExists(String groupName) {
+        return dao.existsByGroupName(groupName);
+    }
+    
     @Transactional
     @Override
     public int registerGroup(GroupDTO groupDTO) {
-        return dao.saveGroup(groupDTO); // 등록된 그룹의 ID 반환
+        //return dao.saveGroup(groupDTO); // 등록된 그룹의 ID 반환
+        try {
+            return dao.saveGroup(groupDTO);
+        } catch (Exception e) {
+            // 예외 처리 로직 추가
+            throw new RuntimeException("모임 등록 중 오류가 발생했습니다.", e);
+        }
     }
     //모임 ID로 모임 정보를 가져오z
     @Override
@@ -85,17 +96,6 @@ public class GroupServiceImpl implements GroupService {
 	}    
     
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

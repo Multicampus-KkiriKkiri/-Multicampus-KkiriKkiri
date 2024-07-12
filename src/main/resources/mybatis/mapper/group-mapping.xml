@@ -30,7 +30,10 @@
     <select id="getDistrictNameByDistrictId" resultType="String">
     	select `districtName` from `districts` where districtId = #{districtId}
     </select>
-    
+    	<!-- 모임 이름 중복 체크 -->
+	 <select id="existsByGroupName" resultType="int">
+        SELECT COUNT(*) FROM `group` WHERE groupName = #{groupName}
+    </select>
     <!-- 새로운 그룹 등록 --> 
     <insert id="saveGroup" parameterType="dto.GroupDTO" useGeneratedKeys="true" keyProperty="groupId">
        INSERT INTO `group` (groupName, groupLeaderId,groupInterestId, groupRegionId, groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion)
@@ -44,7 +47,7 @@
     </select>
   
     <sql id="groupColumns">
-        groupId, groupName, category, region, district, description, groupImage, maxParticipants, question
+        groupId, groupLeaderId, groupName, groupDetail, groupRegionId,groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion
     </sql>	
 	
 	<!--메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보-->

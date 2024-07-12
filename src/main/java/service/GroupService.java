@@ -25,6 +25,8 @@ public interface GroupService {
 	// 하위 지역(District) 이름 가져오기
 	String getDistrictNameByDistrictId(int districtId);
 	
+	//그룹 이름 중복 체크.
+	boolean checkGroupNameExists(String groupName);
     // 새로운 그룹 등록
 	int registerGroup(GroupDTO groupDTO);
 	//모임 ID로 모임 정보를 가져오는 메서드
@@ -40,6 +42,7 @@ public interface GroupService {
 	
 	//메인페이지 로그인전 신상 그룹 가져오기
 	List<GroupDTO> getNewestGroupDetails();
+	
 	
 }
 
