@@ -1,5 +1,7 @@
 package service;
 
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,9 @@ public interface GroupService {
 	
 	//메인페이지 로그인전 신상 그룹 가져오기
 	List<GroupDTO> getNewestGroupDetails();
+	
+    // 그룹 마지막 업데이트 시간 가져오기
+	Timestamp getGroupLastUpdateTime(int groupId);
 	
 }
 

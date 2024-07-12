@@ -21,9 +21,13 @@ public class ChatDAO {
 		return session.insert("insertChatMessage", map);
 	}
 	
-	public List<ChatDTO> getChats(int userId) {
-		return session.selectList("getChats", userId);
+	public List<ChatDTO> getChats(int groupId) {
+		return session.selectList("getChats", groupId);
 	}
+	
+	public ChatDTO getLatestChatByGroupId(int groupId) {
+        return session.selectOne("getLatestChatByGroupId", groupId);
+    }
 
 	public ArrayList<HashMap<String, Object>> getChatHistoryByGroupId(HashMap map) {
 		List<ChatVO> resultList = session.selectList("getChatHistoryByGroupId", map);

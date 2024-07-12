@@ -8,7 +8,9 @@ import dto.ChatDTO;
 
 public interface ChatService {
 	
-	List<ChatDTO> getChats(int userId);
+	List<ChatDTO> getChats(int groupId);
+	
+	ChatDTO getLatestChatByGroupId(int groupId);
 	
 	// 채팅 메세지 저장
 	int insertChatMessage(HashMap map);

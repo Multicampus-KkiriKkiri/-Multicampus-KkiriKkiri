@@ -1,5 +1,7 @@
 package service;
 
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +85,12 @@ public class GroupServiceImpl implements GroupService {
 	public List<GroupDTO> getNewestGroupDetails() {
 		return dao.getNewestGroupDetails();
 	}    
+	
+	// 그룹 마지막 업데이트 시간 가져오기
+    @Override
+    public Timestamp getGroupLastUpdateTime(int groupId) {
+        return dao.getGroupLastUpdateTime(groupId);
+    }
     
 }
 

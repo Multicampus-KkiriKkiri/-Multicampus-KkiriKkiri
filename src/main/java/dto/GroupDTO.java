@@ -1,5 +1,9 @@
 package dto;
 
+
+
+import java.sql.Timestamp;
+
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
@@ -28,5 +32,6 @@ public class GroupDTO {
     private String groupSignUpType;
     private int groupMaximum;
     private String groupSignUpQuestion;
+    private Timestamp lastUpdateTime;
 }
 

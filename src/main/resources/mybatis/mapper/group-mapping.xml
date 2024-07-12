@@ -79,4 +79,12 @@
 		select * from `group` order by groupId desc
 	</select>	
 	
+	<!-- 그룹 마지막 업데이트 시간 가져오기 -->
+    <select id="getGroupLastUpdateTime" resultType="java.sql.Timestamp">
+	    SELECT lastUpdateTime
+	    FROM `group`
+	    WHERE groupId = #{groupId}
+	</select>
+
+	
 </mapper>
