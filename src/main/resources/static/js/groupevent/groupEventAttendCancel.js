@@ -20,7 +20,7 @@
 function cancelAttendApplyToEvent() {
 	
 	$.ajax({
-        url: "/groupdetail/eventattendcancel",
+        url: "/groupevent/eventattendcancel",
         method: "POST",
         data: { 
 			userId: userId,

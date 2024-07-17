@@ -3,7 +3,7 @@
  */
 
 var userNickname; // 현재 로그인한 회원 별명 전역변수
-var profileImage; // 현재 로그인한 회원 프로필 사진 전역변수
+// var profileImage; // 현재 로그인한 회원 프로필 사진 전역변수
 
 var sock = new SockJS("/ws/multiRoom"); // 웹소켓 전역변수
 var offset = 0; // 채팅 불러올 기준 변수
@@ -49,17 +49,17 @@ $(document).ready(function() {
     
 }); // ready() end
 
-// 사용자 별명 가져오는 함수
+// 사용자 별명, 프로필 이미지 가져오는 함수
 function getUserNincknameAndProfileImage() {
 	$.ajax({
-        url: "/groupdetail/getchatuserinfo",
+        url: "/groupchat/getchatuserinfo",
         method: "POST",
         data: { 
         	userId: userId
         },
         success: function(data) {
 			userNickname = data.userNickname;
-			profileImage = data.profileImage;
+			// profileImage = data.profileImage;
         },
         error: function() {
             alert("채팅 사용자 프로필 정보를 가져오는데 실패했습니다.");
@@ -82,7 +82,7 @@ function insertDateMessage(chatLog, date, isFirst = false) {
 // 모임 채팅방 접속 시 채팅 기록 20개 불러오는 함수
 function loadInitialChats() {
     $.ajax({
-        url: "/groupdetail/getchathistory",
+        url: "/groupchat/getchathistory",
         method: "POST",
         data: { groupId: groupId, offset: offset },
         success: function(data) {
@@ -127,7 +127,7 @@ function loadInitialChats() {
 // 스크롤 시 채팅 내역 20개씩 추가로 불러오는 함수
 function loadMoreChats() {
     $.ajax({
-        url: "/groupdetail/getchathistory",
+        url: "/groupchat/getchathistory",
         method: "POST",
         data: { groupId: groupId, offset: offset},
         success: function(data) {
@@ -247,7 +247,7 @@ function sendChatMessageSoket(myMessage, currentTime) {
 // 채팅 메세지 DB에 저장하는 함수
 function saveChatMessage(myMessage, currentTime) {
 	$.ajax({
-        url: "/groupdetail/chatmessagesend",
+        url: "/groupchat/chatmessagesend",
         method: "POST",
         data: { 
 			groupId: groupId, 

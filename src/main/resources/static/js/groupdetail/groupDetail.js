@@ -38,9 +38,9 @@ function loadTabContent(tab) {
 
     var urlMap = {
         'info': '/groupdetail/info',
-        'event': '/groupdetail/event',
-        'photo': '/groupdetail/photo',
-        'chat': '/groupdetail/chat'
+        'event': '/groupevent/event',
+        'photo': '/groupphoto/photo',
+        'chat': '/groupchat/chat'
     };
 
     $.ajax({

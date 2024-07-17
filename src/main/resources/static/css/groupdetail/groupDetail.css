@@ -33,7 +33,7 @@
 #groupNavSection {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 0; /* 상단에서 떨어진 거리 설정 */
+    top: 90px; /* 상단에서 떨어진 거리 설정 */
     background-color: #fff; /* 배경색 설정 (필요 시) */
     z-index: 1000; /* 다른 요소들보다 위에 보이도록 설정 */
     border-top: 1px solid black; /* 위쪽 테두리 */

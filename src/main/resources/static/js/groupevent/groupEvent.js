@@ -50,7 +50,7 @@ function setEventOptionBtn() {
 function checkEventSubmitHistoryAndSetOptionBtn() {
 	
 	$.ajax({
-        url: '/groupdetail/eventattendapplyhistory',  // 서버의 엔드포인트 URL
+        url: '/groupevent/eventattendapplyhistory',
         type: 'POST',
         data: { userId: userId, groupId: groupId },
         success: function(data) {
@@ -77,14 +77,14 @@ function checkEventSubmitHistoryAndSetOptionBtn() {
 function checkEventMaximumMember() {
 	
 	$.ajax({
-        url: '/groupdetail/checkeventmaxmember',
+        url: '/groupevent/checkeventmaxmember',
         type: 'POST',
         data: { groupId: groupId },
         success: function(data) {
             
         },
         error: function() {
-            alert("일정 참여 신청 내역을 가져오는 데 실패했습니다.");
+            alert("일정 참여 최대인원 수를 가져오는데 실패했습니다.");
         }
     });
 	
@@ -99,7 +99,7 @@ function setAttendMemberListByEventID() {
     	var $this = $(this);
     
         $.ajax({
-	        url: '/groupdetail/eventattendmemberlist',
+	        url: '/groupevent/eventattendmemberlist',
 	        type: 'POST',
 	        data: { eventId: eventId, groupId: groupId },
 	        success: function(data) {
@@ -140,7 +140,7 @@ function eventOptionProcess(eventId, btnValue) {
 	} else if (btnValue === "join") {
 		var userConfirm = confirm("모임 가입 후 일정 참여 신청이 가능합니다. 지금 가입하시겠습니까?");
 		if(userConfirm) {
-			groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupDetail.js 파일 내 함수)
+			groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupevent.js 파일 내 함수)
 		}
     } else if(btnValue === "attend") {
 		openEventAttendPopup(eventId);
@@ -158,7 +158,7 @@ function openEventAttendPopup(eventId) {
     var left = (screen.width / 2) - (popupWidth / 2);
     var top = (screen.height / 2) - (popupHeight / 2);
 
-    window.open('/groupdetail/eventattend?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
+    window.open('/groupevent/eventattend?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
 } // openEventAttendPopup() end
 
 // 일정 참여 취소 팝업창 열기 함수
@@ -168,5 +168,5 @@ function openEventAttendCancelPopup(eventId) {
     var left = (screen.width / 2) - (popupWidth / 2);
     var top = (screen.height / 2) - (popupHeight / 2);
 
-    window.open('/groupdetail/eventattendcancel?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendCancelPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
+    window.open('/groupevent/eventattendcancel?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendCancelPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
 } // openEventAttendCancelPopup() end

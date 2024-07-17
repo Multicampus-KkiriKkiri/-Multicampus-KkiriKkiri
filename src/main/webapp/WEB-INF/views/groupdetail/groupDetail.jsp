@@ -13,6 +13,7 @@
 <script>
 	var groupId = ${groupDTO.groupId};
 	var userId = ${userId};
+	var profileImage = "${profileImage}";
 	var groupSignUpType = "${groupDTO.groupSignUpType}";
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
@@ -41,7 +42,7 @@
 				<div>${groupDTO.groupName}</div>
 				<div>${category}</div>
 				<div>${regionMap.groupRegion} - ${regionMap.groupDistrict}</div>
-				<div>${memberCnt}/${groupDTO.groupMaximum}</div>
+				<div>${groupMemberCnt}/${groupDTO.groupMaximum}</div>
 				<div>${groupDTO.groupType}</div>
 				<div>${groupDTO.groupSignUpType}</div>
 			</div>

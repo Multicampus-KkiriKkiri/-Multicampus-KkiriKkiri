@@ -20,7 +20,7 @@
 function submitAttendApplyToEvent() {
 	
 	$.ajax({
-        url: "/groupdetail/eventattend",
+        url: "/groupevent/eventattend",
         method: "POST",
         data: { 
 			userId: userId,
