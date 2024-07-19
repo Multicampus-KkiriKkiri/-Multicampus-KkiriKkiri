@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="group-mapping">
+
+    <!-- 그룹 상세 정보 가져오기 -->
+    <select id="getGroupDetail" resultType="groupdto">
+        select * from `group` where groupId = #{groupId}
+    </select>
+    
+    <!-- 지역 정보 가져오기(시,도) 가져오기 -->
+    <select id="getAllRegions" resultType="dto.RegionDTO">
+        SELECT regionId, regionName
+        FROM regions
+    </select>
+    
+    <!-- 지역(Region) 이름 가져오기 -->
+    <select id="getRegionNameByRegionId" resultType="String">
+    	select `regionName` from `regions` where regionId = #{regionId}
+    </select>
+
+    <!-- 하위 지역 정보 가져오기 -->
+    <select id="getDistrictsByRegionId" parameterType="int" resultType="dto.DistrictDTO">
+        SELECT districtId, regionId, districtName
+        FROM districts
+        WHERE regionId = #{regionId}
+    </select>
+    
+    <!-- 하위 지역(District) 이름 가져오기 -->
+    <select id="getDistrictNameByDistrictId" resultType="String">
+    	select `districtName` from `districts` where districtId = #{districtId}
+    </select>
+    	<!-- 모임 이름 중복 체크 -->
+	 <select id="existsByGroupName" resultType="int">
+        SELECT COUNT(*) FROM `group` WHERE groupName = #{groupName}
+    </select>
+    <!-- 새로운 그룹 등록 --> 
+    <insert id="saveGroup" parameterType="dto.GroupDTO" useGeneratedKeys="true" keyProperty="groupId">
+       INSERT INTO `group` (groupName, groupLeaderId,groupInterestId, groupRegionId, groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion,lastUpdateTime)
+       VALUES (#{groupName}, #{groupLeaderId} ,#{groupInterestId}, #{groupRegionId}, #{groupDistrictId}, #{groupDetail}, #{groupImage}, #{groupMaximum}, #{groupType}, #{groupSignUpType}, #{groupSignUpQuestion},CURRENT_TIMESTAMP)
+    </insert>
+    
+    <select id="findGroupById" parameterType="int" resultType="dto.GroupDTO">
+        SELECT <include refid="groupColumns"/>
+        FROM `group`
+        WHERE groupId = #{groupId}
+    </select>
+  
+    <sql id="groupColumns">
+        groupId, groupLeaderId, groupName, groupDetail, groupRegionId,groupDistrictId, groupDetail, groupImage, groupMaximum, groupType, groupSignUpType, groupSignUpQuestion
+    </sql>	
+	
+	<!--메인페이지 로그인 후 내 모임 정보 가져오기 - 지역정보-->
+	<select id="getRegionName" resultType="String" parameterType="int">
+		select regionName from regions where regionId = #{regionId}
+	</select>
+	
+	<select id="getDistrictName" resultType="String" parameterType="int">
+		select districtName from districts where districtId = #{districtId}
+	</select>
+	
+	<!-- 메인페이지 관심사별 그룹 내용 가져오기 -->	
+	<resultMap id="getGroupDetailsByInterestId" type="java.util.HashMap">
+	    <result property="groupName" column="groupName"/>
+	    <result property="groupImage" column="groupImage"/>
+	    <result property="groupType" column="groupType"/>
+	    <result property="regionName" column="regionName"/>
+	    <result property="districtName" column="districtName"/>
+	</resultMap>
+	
+	<select id="getGroupDetailsByInterestId" resultMap="getGroupDetailsByInterestId">
+		select g.groupId, g.groupName, g.groupImage, g.groupType, r.regionName, d.districtName
+		from `group` g
+		join interest i on g.groupInterestId = i.interestId
+		join regions r on g.groupRegionId = r.regionId
+		join districts d on g.groupDistrictId = d.districtId
+		where g.groupInterestId = #{interestId}
+	</select>
+	
+	<!-- 메인페이지 로그인전 신상 그룹 가져오기 -->
+	<select id="getNewestGroupDetails" resultType="groupdto">
+		select * from `group` order by groupId desc
+	</select>	
+	
+	<!-- 그룹 마지막 업데이트 시간 가져오기 -->
+    <select id="getGroupLastUpdateTime" resultType="java.sql.Timestamp">
+	    SELECT lastUpdateTime
+	    FROM `group`
+	    WHERE groupId = #{groupId}
+	</select>
+
+	<!-- 마이페이지 - 사용자가 모임장인 그룹 가져오기 -->
+	<select id="getGroupDetailAsLeader" resultType="groupdto" parameterType="int">
+		select * from `group` where groupLeaderId = #{userId}
+	</select>
+	
+</mapper>
