@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = "controller")
 @ComponentScan(basePackages = "service")
 @ComponentScan(basePackages = "chat")
+@ComponentScan(basePackages = "fileupload")
 
 public class KkiriKkiriApplication {
 	

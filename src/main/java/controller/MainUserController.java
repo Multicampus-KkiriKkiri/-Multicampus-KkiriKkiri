@@ -1,7 +1,10 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dto.DistrictDTO;
 import dto.GroupDTO;
@@ -20,6 +24,7 @@ import dto.GroupDTO2;
 import dto.RegionDTO;
 import dto.UserDTO;
 import dto.UserInterestDTO;
+import fileupload.UploadInform;
 import jakarta.servlet.http.HttpSession;
 import service.GroupMemberService;
 import service.GroupService;
@@ -41,36 +46,38 @@ public class MainUserController {
     //로그인 처리
 	@ResponseBody
     @PostMapping("/main")
-    public String login(@ModelAttribute("user") UserDTO user, Model model, HttpSession session) {
-    	//System.out.println(user.getUserEmail() + user.getUserPw());
+    public String login(@ModelAttribute("user") UserDTO user, HttpSession session) {
         UserDTO loginUser = userService.logInUser(user.getUserEmail(), user.getUserPw());
         
         if (loginUser != null) { // 로그인 성공
         	session.setAttribute("sessionUserId", loginUser.getUserId()); // 세션에 로그인 회원 id 저장
-        	session.setAttribute("sessionUserEmail", loginUser.getUserEmail()); // 세션에 로그인 회원 email 저장        	
-        	session.setAttribute("sessionUserProfileImg", loginUser.getProfileImage()); // 세션에 로그인 회원 profileImage 저장        	
-            model.addAttribute("loginUser", loginUser);
-            return "success"; 
+        	session.setAttribute("sessionUserEmail", loginUser.getUserEmail()); // 세션에 로그인 회원 email 저장  
+        	session.setAttribute("sessionUserInfo", loginUser);     	
+          model.addAttribute("loginUser", loginUser);
+
+          return "success"; 
         } else { // 로그인 실패
-            model.addAttribute("error", "아이디 혹은 비밀번호가 다릅니다.");
             return "fail"; 
         }
     }
-	
+		
 	//로그인 완료된 화면 + 프로필 이미지 url 가져오기
 	@GetMapping("/mainLogin")
 	public String loginForm(Model model, HttpSession session) {
-	    Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
-	    if (sessionUserId != null) {
-	        UserDTO loginUser = userService.getUserInfo(sessionUserId);
-	        if (loginUser != null) {
-	            String profileImage = loginUser.getProfileImage();
-	            model.addAttribute("profileImage", profileImage);
-	        }
+	    Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");	    
+	    UserDTO sessionUserInfo = (UserDTO)session.getAttribute("sessionUserInfo");	    
+	    
+	    String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
+	    
+	    if (sessionUserId != null && sessionUserInfo != null) {	    	
+	    	model.addAttribute("profileImage",profileImage);
+	    	model.addAttribute("sessionUserInfo", sessionUserInfo);
+	    	//model.addAttribute("profileImage", sessionUserInfo.getProfileImage());
+	    }else {
+	        System.out.println("sessionUserInfo = null");
 	    }
-	    model.addAttribute("user", new UserDTO()); 
 	    return "/mainpage/mainLogin"; 
-	}
+	}	
 	
 	//로그아웃
 	@RequestMapping("/logout")
@@ -101,7 +108,7 @@ public class MainUserController {
         //System.out.println("/signup==>"+result);
         int userId = Integer.parseInt(userService.getUserId(userEmail));           
         session.setAttribute("sessionUserEmail", user.getUserEmail()); //회원가입 후 이메일 세션에 저장
-        session.setAttribute("sessionUserId", userId); //회원가입 후 회원 아이디 세션에 저장            
+        //session.setAttribute("sessionUserId", userId); //회원가입 후 회원 아이디 세션에 저장            
         return result;
     }	
 	
@@ -131,73 +138,86 @@ public class MainUserController {
 		}			
 	} 
 	
-    //내정보설정 입력값 데이터에 저장
-	@ResponseBody
-	@PostMapping("/signupprofile")
-	public String signupprofile(HttpSession session, 
-			@RequestParam String userNickname, 
-			@RequestParam int userRegionId, 
-			@RequestParam int userDistrictId, 
-			@RequestParam(required = false) String profileIntro, 
-			@RequestParam(required = false) String profileImage, 
-			String[] interests, 
-			Model model){		
+	//내정보설정 입력값 데이터에 저장
+		@ResponseBody
+		@PostMapping("/signupprofile")
+		public String signupprofile(HttpSession session, 
+				@RequestParam String userNickname, 
+				@RequestParam int userRegionId, 
+				@RequestParam int userDistrictId, 
+				@RequestParam(required = false) String profileIntro, 
+				@RequestParam(required = false) MultipartFile profileImage, 
+				String[] interests, 
+				Model model){		
+			
+			if (userNickname != null && interests != null && userRegionId != 0 && userDistrictId != 0) {
+					
+			//관심사 user_interest 테이블에 저장
+			int userId = Integer.parseInt(userService.getUserId((String)session.getAttribute("sessionUserEmail")));
+			
+			    for (String interest : interests) {
+			        UserInterestDTO idto = new UserInterestDTO();
+			        idto.setUserId(userId);
+			        
+			        switch (interest) {
+			            case "cultureArt":
+			                idto.setInterestId(1);
+			                break;
+			            case "activity":
+			                idto.setInterestId(2);
+			                break;
+			            case "foodDrink":
+			                idto.setInterestId(3);
+			                break;
+			            case "selfStudy":
+			                idto.setInterestId(4);
+			                break;
+			            case "etc":
+			                idto.setInterestId(5);
+			                break;
+			            default:
+			                break;
+			        }
 		
-		if (userNickname != null && interests != null && userRegionId != 0 && userDistrictId != 0) {
-				
-		//관심사 user_interest 테이블에 저장
-		int userId = Integer.parseInt(userService.getUserId((String)session.getAttribute("sessionUserEmail")));
-		
-		    for (String interest : interests) {
-		        UserInterestDTO idto = new UserInterestDTO();
-		        idto.setUserId(userId);
+			        userService.setMyInterest(idto);
+			    }
+					
+				//관심사 외 내정보 설정 user 테이블에 입력
+				UserDTO user = new UserDTO();
+				user.setUserEmail((String)session.getAttribute("sessionUserEmail"));
+		        user.setUserNickname(userNickname);
+		        user.setUserRegionId(userRegionId);
+		        user.setUserDistrictId(userDistrictId);
+		        user.setProfileIntro(profileIntro);  
+	      
+		        String savePath = UploadInform.uploadPath;
+		        String newFileName1 = null;     
 		        
-		        switch (interest) {
-		            case "cultureArt":
-		                idto.setInterestId(1);
-		                break;
-		            case "activity":
-		                idto.setInterestId(2);
-		                break;
-		            case "foodDrink":
-		                idto.setInterestId(3);
-		                break;
-		            case "selfStudy":
-		                idto.setInterestId(4);
-		                break;
-		            case "etc":
-		                idto.setInterestId(5);
-		                break;
-		            default:
-		                break;
-		        }
-	
-		        userService.setMyInterest(idto);
-		    }
-				
-			//관심사 외 내정보 설정 user 테이블에 입력
-			UserDTO user = new UserDTO();
-			user.setUserEmail((String)session.getAttribute("sessionUserEmail"));
-	        user.setUserNickname(userNickname);
-	        user.setUserRegionId(userRegionId);
-	        user.setUserDistrictId(userDistrictId);
-	        user.setProfileIntro(profileIntro);
-	        
-	        //이미지 파일 세션에 넣어두었으나 실제 이미지 파일 저장된 상태가 아니고 보안상 c:fakePath/파일 형태로 저장됨
-	        //추후 이미지 파일 저장 코드 구현을 아래쪽에 한 후 + 현재 이미지 관련 코드 수정 + jsp에서는 <img src="url"> 형태로 보여주기
-	        //user.setProfileImage(profileImage);
-	        user.setProfileImage("/images/test.png"); //임시 지정 파일이 데이터에 저장되도록 함
-	        session.setAttribute("profileImage", user.getProfileImage());//c:fakePath/파일  
-	              
-	        //업데이트 처리 내용은 return이 숫자로 되기 때문에 조회하면 상세내용 확인 가능
-	        //여기서는 업데이트가 됐는지 보기 위해 몇 개가 되었는지 확인하는 코드 생성
-	        int updatecount = userService.signUpProfileUpdate(user);
-	        //System.out.println(user + "==> updatecount==>" + updatecount);
-	    	return "success";	
-		}else {
-			return "fail";
-		}
-	}		
+		        if (profileImage != null && !profileImage.isEmpty()) {
+		            try {
+		                String originalName1 = profileImage.getOriginalFilename();
+		                String beforeExt1 = originalName1.substring(0, originalName1.indexOf("."));
+		                String ext1 = originalName1.substring(originalName1.indexOf("."));
+		                newFileName1 = beforeExt1 + "(" + UUID.randomUUID().toString() + ")" + ext1;
+		                profileImage.transferTo(new File(savePath + newFileName1));
+		                user.setProfileImage(newFileName1);
+		            } catch (IOException e) {
+		                e.printStackTrace();
+		                return "fail";
+		            }
+		        } else {
+		            user.setProfileImage(null); 
+		        }    
+		        //업데이트 처리 내용은 return이 숫자로 되기 때문에 조회하면 상세내용 확인 가능
+		        //여기서는 업데이트가 됐는지 보기 위해 몇 개가 되었는지 확인하는 코드 생성
+		        int updatecount = userService.signUpProfileUpdate(user);
+		        //System.out.println(user + "==> updatecount==>" + updatecount);
+		    	return "success";	
+			}else {
+				return "fail";
+			}
+		}	
+		
 	
 	// 메인페이지 로그인 후 내 모임 정보 가져오기
 	@ResponseBody

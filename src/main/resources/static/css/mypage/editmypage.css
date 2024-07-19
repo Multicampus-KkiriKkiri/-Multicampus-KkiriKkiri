@@ -1,5 +1,199 @@
 @charset "UTF-8";
+/*페이지 상단 부분*/
+main{
+	margin-top: 2rem;
+}
 
-.big{
+#go-back-to-mypage{
+	border:none;
+	background-color: white;
+	color:#3b5f3e;
+}
+
+#go-back-to-mypage:hover{
+	text-decoration: underline;
+}
+
+#edit-mypage-title{
+	margin-top: 20px;
+}
+
+/*editMypage 메인 바디 부분*/
+.edit-mypage-main-area{
+	display: flex;
+	justify-content: flex-start;
+}
+
+.edit-my-info-area{
+	margin-left: 50px;
+}
+
+/*프로필 사진 수정*/
+.edit-mypage-uploaded-image{
+	width: 300px;
+	height: 350px;
+	border-radius: 7px;
+}
+
+.edit-my-profile-image-area{
+	display:flex;
+	flex-direction: column;
+	text-align:center;
+}
+
+file-input-container{
+	margin-top: 10px;
+}
+
+.custom-file-label:hover{
+	filter:contrast(90%);
+}
+
+/*별명 수정*/
+.edit-mypage-nickName-area{
 	display: flex;
 }
+
+#nickname-confirm-btn:hover{
+	filter:contrast(90%);
+}
+
+/*지역 수정*/
+.edit-user-area-title{
+	margin-top: 20px;
+}
+
+.edit-user-area-options{
+	width: 85%;
+	margin-bottom: 5px;
+}
+
+select{
+	width: 200px;
+	height: 40px;
+	padding: 5px;
+	border: 1px solid #e4e2dd;
+	border-radius: 7px;
+	font-size: 16px;
+	appearance: none; /*기본 화살표 제거*/
+	-webkit-appearance: none; /*Safari와 같은 웹킷 기반 브라우저에서 기본 화살표 제거*/
+	-moz-appearance: none; /*Firefox에서 기본 화살표 제거*/	
+}
+
+/*select 요소의 커스텀 화살표 추가 */
+select.edit-user-area-options {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Angle_down_font_awesome.svg/512px-Angle_down_font_awesome.svg.png') no-repeat right 10px center;
+    background-size: 20px;
+}
+
+/*option 요소의 스타일 변경*/
+select option {
+    color: #333;
+    background-color: #fff;
+    padding: 10px;
+}
+
+/*내 정보 수정 완료 버튼*/
+#edit-my-profile-btn{
+	margin-top: 10px;
+	width: 35%;
+	height: 40px;
+	background-color:#e15c31;
+	border-radius: 7px;
+	border: none;
+	color: white;
+	font-weight: bold;
+	font-size: 17px;
+}
+
+#edit-my-profile-btn:hover{
+	filter: contrast(90%);
+}
+
+/*내 정보 변경 완료 모달*/
+.edit-my-profile-confirm-message-modal-main{
+	display:flex;
+	justify-content:center;
+	align-items: center;
+}
+
+/*비밀번호 수정 & 계정 삭제*/
+.edit-pw-delete-account{
+	margin-top: 30px;
+}
+
+#open-modify-pw-btn, #open-delete-modal-btn{
+	margin-top: 0 ;
+	width: 35%;
+	height: 40px;
+	background-color:white;
+	border-radius: 7px;
+	border: 1px solid #3b5f3e;
+	color: #3b5f3e;
+	font-weight: bold;
+	font-size: 17px;
+}
+
+#open-modify-pw-btn:hover, #open-delete-modal-btn:hover{
+	color: white;
+	background-color:#3b5f3e;
+}
+
+.delete-account-title{
+	margin-top: 25px;
+}
+
+/*비밀번호 수정 모달*/
+.password-input-container-in-modify-modal,
+.password-input-container-in-delete-account-modal{
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+}
+
+.password-input-container-in-modify-modal i,
+.password-input-container-in-delete-account-modal i{
+	padding-top: 15px;
+	padding-right: 0px;
+	margin-right: 0px;
+	position: absolute;
+	left: 82%
+}
+
+.modify-pw input,
+.delete-account input{
+	width: 80%;
+	height: 45px;
+	border: 1px solid #e4e2dd;
+	border-radius: 7px;	
+}
+
+.modify-pw-subtitle{
+	margin-top:20px;
+	text-align: left;
+	margin-left: 2.8rem;
+}
+
+.modify-pw-modal-warning,
+.delete-account-modal-form-warning{
+	text-align:left;
+	margin-left: 2.8rem;
+}
+
+/*최종 확인 모달창*/
+.edit-mypage-modal-confirm-message-btn{
+	margin-top: 25px;
+	width: 35%;
+	height: 45px;
+	background-color:#e15c31;
+	border-radius: 7px;
+	border: none;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.confirm-message-area{
+	margin-top: 20px;
+}
+

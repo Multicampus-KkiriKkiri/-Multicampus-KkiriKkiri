@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,8 @@ public class WishlistDAO {
 		return session.delete("deleteGroupToWishlist", map);
 	}
 	
+	//마이페이지 - 찜 모임 가져오기 위해 groupId 받아오기 
+	public List<Integer> getMyWishlistGroupId(int userId) {
+		return session.selectList("getMyWishlistGroupId", userId);
+	}
 }

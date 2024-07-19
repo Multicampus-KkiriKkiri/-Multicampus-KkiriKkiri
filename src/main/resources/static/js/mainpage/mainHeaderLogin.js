@@ -1,35 +1,39 @@
-//로그인 후 - 내 프로필 사진 보여주기
-$(document).ready(function(){
-    $.ajax({
-        type: 'GET',
-        url: '/getNewestGroup',
-        success: function(response){
-			//alert(response[0].groupName);
-            if(response && response.length > 0){
-                $('#newestGroupDetailContainer').empty(); // 기존 내용 지우기
-                $.each(response, function(index, newestGroupDetails2){					
-                    if(index <= 7){ 
-                        var newestGroupHtml = 
-                        	'<div class="col-3">' +
-                            '<a href="#">' +
-                                '<img class="my-group-image" src="' + newestGroupDetails2.groupImage + '" alt="모임 대표 사진">' +
-                                '<h5>' + newestGroupDetails2.groupName + '</h5>' +
-                                '<div>'+
-	                                '<div>' + newestGroupDetails2.groupType + '</div>' +
-	                                '<div>' + newestGroupDetails2.regionName + ' ' + newestGroupDetails2.districtName + '</div>' +
-                                '<div>' +
-                            '</a>' +
-                        '</div>';
-                        $('#newestGroupDetailContainer').append(newestGroupHtml);
-                    }
-                });
-            } else {
-                $('#newestGroupDetailContainer').html('<p>내 모임 정보를 가져오는 데 실패했습니다.</p>');
-            }
-        },
-        error: function(xhr, status, error){
-            console.error('AJAX 요청 실패: ' + status, error);
-            $('#newestGroupDetailContainer').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
-        }
+//로그인 후 상단 고정바 오른쪽 드랍다운 보여주기
+$(document).ready(function() {	
+	$('#main-header-login-dropdown-btn').click(function(event){
+		 event.stopPropagation();
+		$('#main-header-login-dropdown-menu').toggle();
+		
+	});	
+	
+	//드랍다운 바깥쪽 클릭해도 toggle
+	$(window).click(function(){
+		$('#main-header-login-dropdown-menu').hide();
     });
-});
+
+    // 드롭다운 메뉴 내부를 클릭했을 때도 이벤트 전파 중단
+    $('#main-header-login-dropdown-menu').click(function(event){
+        event.stopPropagation();
+    });
+});//ready    
+    
+/* 깃허브 합친 후 드랍다운 토글 작동 안될 시 아래 코드 레디 함수에 넣고 테스트
+	let mainHeaderLoginDropDowonMenu = $('#main-header-login-dropdown-menuuu');
+	$('#main-header-login-dropdown-btnnn').click(function(event){
+		console.log(mainHeaderLoginDropDowonMenu.hasClass("show"));
+		if(mainHeaderLoginDropDowonMenu.hasClass("show")){
+			mainHeaderLoginDropDowonMenu.removeClass('show');
+		}
+		else{
+			mainHeaderLoginDropDowonMenu.addClass('show');
+		}
+		event.stopPropagation();	
+	});    
+*/
+
+
+
+
+
+
+

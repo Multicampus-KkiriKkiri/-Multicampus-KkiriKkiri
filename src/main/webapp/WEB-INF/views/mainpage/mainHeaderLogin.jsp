@@ -46,19 +46,27 @@ $(document).ready(function(){
 		<a href="#">
 			<i class="fa-regular fa-comment header-nav-icon fa-thin"></i>
 		</a>
-		<a href="#">
-			<img class="profile-circle" src="${profileImage}" alt="내 프로필 사진">
+		<a>
+			<c:choose>
+	            <c:when test="${empty profileImage}">
+	                <img id="uploadedImage" class="profile-circle" src="/images/empty_profile_image.png" alt="기본 프로필 사진">
+	            </c:when>
+	            <c:otherwise>
+	                <img id="uploadedImage" class="profile-circle" src="${profileImage}" alt="내 프로필 사진">
+	            </c:otherwise>
+	        </c:choose> 			
 		</a>			
-		<span class="btn-group dropdown">
-		  <button class="dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:white">
-		    <i class="fa-solid fa-chevron-down" style="margin-bottom:15px; background-color:white; color:#706F6F"></i>
+				
+		<span class="header-nav-right-dropdown-area">
+		  <button id="main-header-login-dropdown-btn">
+		    <i class="fa-solid fa-chevron-down"></i>
 		  </button>		  
-			  <ul class="dropdown-menu dropdown-menu-end" >
-			    <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
-			    <li><a class="dropdown-item" href="#">모임 만들기</a></li>
-			    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
-			  </ul>		  		  
-		</span>
+		  <ul id="main-header-login-dropdown-menu">
+		    <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
+		    <li><a class="dropdown-item" href="#">모임 만들기</a></li>
+		    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+		  </ul>		  		  
+		</span>		
 	</div>	
 </header>
 
