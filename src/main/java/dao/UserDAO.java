@@ -14,7 +14,7 @@ public class UserDAO {
 
 	@Autowired
 	SqlSession session;
-	
+	//  사용자 정보를 가져옵니다
 	public UserDTO getUserInfo(int userId) {
 		return session.selectOne("getUserInfo", userId);
 	}
@@ -93,7 +93,8 @@ public class UserDAO {
 	public int deleteUserInterestId(int userId) {
 		return session.delete("deleteUserInterestId", userId);
 	}
-
+	
+	
 }
 
 

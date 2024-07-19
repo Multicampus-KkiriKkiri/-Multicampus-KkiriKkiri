@@ -43,8 +43,35 @@
 	</select>
 	
 	
+	<!-- 그룹 설정 페이지 -->
+	  <!-- 현재 그룹 멤버 목록을 가져옵니다. -->
+    <select id="getCurrentMembers" resultType="dto.GroupMemberDTO">
+        SELECT groupId, userId, signUpAnswer, statusDate, status
+        FROM GroupMember
+        WHERE groupId = #{groupId} AND status = 'CURRENT'
+    </select>
+
+    <!-- 대기 중인 그룹 멤버 목록을 가져옵니다. -->
+    <select id="getPendingMembers" resultType="dto.GroupMemberDTO">
+        SELECT groupId, userId, signUpAnswer, statusDate, status
+        FROM GroupMember
+        WHERE groupId = #{groupId} AND status = 'PENDING'
+    </select>
+    
+    <delete id="kickMember" parameterType="map">
+        DELETE FROM group_members WHERE groupId = #{groupId} AND userId = #{userId}
+    </delete>
+
+    <update id="approveMember" parameterType="map">
+        UPDATE group_members SET status = 'current' WHERE groupId = #{groupId} AND userId = #{userId}
+    </update>
+
+    <delete id="rejectMember" parameterType="map">
+        DELETE FROM group_members WHERE groupId = #{groupId} AND userId = #{userId} AND status = 'pending'
+    </delete>
 	
 	
+		
 </mapper>
 
 

@@ -43,7 +43,7 @@ public class GroupRegisterController {
                                       @RequestParam("groupRegisterImage") MultipartFile groupImageFile) {
         Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
         if (sessionUserId == null) {
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/kkirikkiri");
         }
 
         groupDTO.setGroupType(groupType);
