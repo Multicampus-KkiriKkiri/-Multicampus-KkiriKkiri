@@ -28,4 +28,6 @@ public interface GroupMemberService {
 	// 메인페이지 로그인 후 내 모임 정보 가져오기 위해 groupId 받아오기 
 	List<Integer> getMyGroupIdList(int userId);
 	
+	//마이페이지 - 신청대기 모임 가져오기 위해 groupId 받아오기
+	List<Integer> getMyPendingGroupIdList(int userId);
 }

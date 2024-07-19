@@ -1,6 +1,7 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,13 @@ public class WishlistServiceImpl implements WishlistService {
 		}
 	}
 
+	//마이페이지 - 찜 모임 가져오기 위해 groupId 받아오기
+	@Override
+	public List<Integer> getMyWishlistGroupId(int userId) {
+		return dao.getMyWishlistGroupId(userId);
+	}	
+
 }
+
+
+

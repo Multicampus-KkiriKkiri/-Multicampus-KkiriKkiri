@@ -52,6 +52,14 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 		return dao.getMyGroupIdList(userId);
 	}
 
+	//마이페이지 - 신청대기 모임 가져오기 위해 groupId 받아오기
+	@Override
+	public List<Integer> getMyPendingGroupIdList(int userId) {
+		return dao.getMyPendingGroupIdList(userId);
+	}
+	
+	
+
 }
 
 
