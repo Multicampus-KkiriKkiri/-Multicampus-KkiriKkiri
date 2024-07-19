@@ -1,0 +1,85 @@
+/* groupEvent.css */
+
+#groupEventContainerDiv {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
+    padding: 10px;
+}
+
+#groupEventNavDiv {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+#groupEventNavDiv button {
+    padding: 10px;
+}
+
+#groupEventSidebarDiv button {
+    padding: 10px;
+    width: 150px;
+}
+
+#upcomingEventsDiv, #pastEventsDiv {
+	width: 100%;
+	box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기를 부모 요소에 맞춤 */
+	gap: 10px;
+}
+
+#pastEventsDiv {
+	display: none;	
+}
+
+#upcomingEventsDiv .custom-margin {
+    margin: 10px 0px 0px 0px !important; /* Bootstrap의 기본 스타일 덮어씀 */
+}
+
+.eventItemDiv {
+	align-items: center;
+}
+
+.groupEventImageDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eventImg {
+	width: 200px;
+	height: 200px;
+}
+
+.groupEventMembersDiv {
+    padding: 10px;
+    text-align: center;
+}
+
+.eventAttendMembersListDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.eventAttendMemberItemDiv {
+    text-align: center;
+}
+
+.eventAttendMemberItemDiv img {
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.eventAttendMemberItemDiv p {
+    margin: 0px 0px 0px 0px;
+}
+
+.groupEventOptionBtnDiv {
+	display: flex;
+    justify-content: right;
+}
