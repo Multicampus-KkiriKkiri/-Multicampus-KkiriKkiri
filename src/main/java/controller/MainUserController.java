@@ -53,7 +53,6 @@ public class MainUserController {
         	session.setAttribute("sessionUserId", loginUser.getUserId()); // 세션에 로그인 회원 id 저장
         	session.setAttribute("sessionUserEmail", loginUser.getUserEmail()); // 세션에 로그인 회원 email 저장  
         	session.setAttribute("sessionUserInfo", loginUser);     	
-          model.addAttribute("loginUser", loginUser);
 
           return "success"; 
         } else { // 로그인 실패
