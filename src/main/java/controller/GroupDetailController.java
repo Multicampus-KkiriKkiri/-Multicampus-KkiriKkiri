@@ -21,10 +21,6 @@ import service.InterestService;
 import service.NotificationService;
 import service.UserService;
 
-/*
- * http://localhost:9090/groupdetail/tmplogin 로 임시 접속
- */
-
 @Controller
 @RequestMapping("/groupdetail")
 public class GroupDetailController {
@@ -61,6 +57,7 @@ public class GroupDetailController {
 
 		if (session.getAttribute("sessionUserId") != null) { // 로그인 상태 시
 			mv.addObject("userId", (int) session.getAttribute("sessionUserId"));
+			mv.addObject("profileImage", session.getAttribute("sessionUserProfileImg"));
 		} else {
 			mv.addObject("userId", 0);
 		}

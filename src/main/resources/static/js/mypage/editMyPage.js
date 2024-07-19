@@ -26,7 +26,7 @@ $(document).ready(function() {
             success: function(data) {
                 var districtSelect = $('#userDistrict');
                 districtSelect.empty();
-                districtSelect.append('<option value="" disabled selected>구/동 선택</option>');
+                districtSelect.append('<option value="" readOnly selected>구/동 선택</option>');
                 data.forEach(function(district) {
                     districtSelect.append('<option value="' + district.districtId + '">' + district.districtName + '</option>');
                 });
@@ -38,143 +38,169 @@ $(document).ready(function() {
     });
 });
 
-//내 프로필 사진 업로드
-function loadFile(input) {	
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#uploadedImage')
-                .attr('src', e.target.result)
-                .width(300)
-                .height(350);
-        };
-        reader.readAsDataURL(input.files[0]);
+//내 프로필 사진 수정용 업로드
+function loadFile(input) {
+	let file = input.files[0];
+    let uploadedImage = document.getElementById("edit-mypage-uploadedImage");
+
+    if (file) {
+        uploadedImage.src = URL.createObjectURL(file);
+        uploadedImage.style.width = "300";
+        uploadedImage.style.height = "350";
+        uploadedImage.style.objectFit = "cover";
     }
 }
 
 //내 프로필 수정
 $(document).ready(function(){
-	//별명 중복 검사 - MainUserController에서 처리
-	$('#nickname-confirm-btn').click(function(event){
-		event.preventDefault();
-		let userNickname = $('#userNickname').val();		
-		  $.ajax({
-			type: 'POST',
+    // 별명 중복 검사 - MainUserController에서 처리
+    $('#nickname-confirm-btn').click(function(event){
+        event.preventDefault();
+        let userNickname = $('#userNickname').val();
+        
+        $.ajax({
+            type: 'POST',
             url: '/editmynickname',
             data: {
-                userNickname:userNickname 
+                userNickname: userNickname 
             },
-            success: function(response){	
-				console.log(response);			
-				if(response === 'success'){
-					$('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
-				}else if(response === 'same'){
-					$('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");
-				}else{
-					$('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");					
-				}//else
-			},
-			error: function(xhr,status, error){
-				console.error('AJAX 요청 실패: ' + status, error);
-			}			
-		}); //ajax
-	});	//#nickname-confirm-btn.click
-	//별명창에 포커스 갈때 별명 중복 확인창 비우기
-	//$('#userNickname').focus(function(){
-    //$('#nickname-confirm-result').text('');
-//});
-	
-	//사용자 입력 정보 모두 받아오기
-	$('#edit-my-profile-btn').click(function(){
-		let profileImage = $('#file-upload').val();
-		let userNickname = $('#userNickname').val();
+            success: function(response){         
+                if(response === 'success'){
+                    $('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
+                } else if(response === 'same'){
+                    $('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");
+                } else {
+                    $('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");                  
+                }
+            },
+            error: function(xhr, status, error){
+                console.error('AJAX 요청 실패: ' + status, error);
+            }           
+        }); // ajax
+    }); // #nickname-confirm-btn.click
+    
+    // 별명 창에 포커스 갈 때 별명 중복 확인 창 비우기
+    $('#userNickname').focus(function(){
+        $('#nickname-confirm-result').text('');
+    });
+    
+    // 사용자 입력 정보 모두 받아오기 
+    $('#edit-my-profile-btn').click(function(){                
+        let newProfileImage = $('#file-upload')[0].files[0];
+        let originalProfileImage = $('#edit-mypage-uploadedImage').attr('src');
+        let userNickname = $('#userNickname').val();
         let userDistrictId = $('#userDistrict').val();
         let userRegionId = $('#userRegion').val();
-        let profileIntro = $('#profileIntro').val();   
+        let profileIntro = $('#profileIntro').val();
         
-	      $.ajax({
-				type: 'POST',
-	            url: '/editmyprofile',
-	            data: {   
-					profileImage : profileImage,
-	        		userNickname : userNickname,
-	         		userDistrictId : userDistrictId,
-	        		userRegionId : userRegionId,
-	    			profileIntro  : profileIntro	    			
-	            },
-	            success: function(response){
-					if(response === 'success'){
-						alert("수정 성공");
-					} else{
-						console.log(response);					
-					}//else
-				},
-				error: function(xhr,status, error){
-					console.error('AJAX 요청 실패: ' + status, error);
-				}			
-			}); //ajax						
-	}); //#edit-my-profile-btn.click	
-});//ready
+        let formData = new FormData();
+        
+        if(newProfileImage !== null && newProfileImage !== undefined){
+            formData.append('profileImage', newProfileImage);
+        } else {
+            formData.append('profileImage', originalProfileImage);
+        }
+        
+        formData.append('userNickname', userNickname);
+        formData.append('userDistrictId', userDistrictId);
+        formData.append('userRegionId', userRegionId);
+        formData.append('profileIntro', profileIntro);
 
+        $.ajax({
+            type: 'POST',
+            url: '/editmyprofile',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {				
+				try {
+	                // JSON 응답을 파싱
+	                let jsonResponse = JSON.parse(response);                    
+	                      
+	                if (jsonResponse.status === 'success') {
+	                   //자바스크립트 변수를 jstl 형태로 보내기
+	                   //console.log($("#uploadedImage").attr("src"));
+	                   //$("#uploadedImage").attr("src", "/upload/"+jsonResponse.profileImage);
+	                   $("#uploadedImage").attr("src", jsonResponse.profileImage);
+	                   $('#edit-my-profile-confirm-message-modal').css('display', 'block');
+	                    
+	                    setTimeout(function() {
+	                        $('#edit-my-profile-confirm-message-modal').css('display', 'none');
+	                    }, 1100);
+	   
+	                } else {
+	                    console.log("실패response:" + response);
+	                }               
+               } catch (e) {
+                console.error('응답 파싱 실패:', e);
+               }            
+            },//success
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ' + status, error);
+                console.error('응답 상태 코드: ' + xhr.status);
+                console.error('응답 텍스트: ' + xhr.responseText);
+            },//error
+            cache: false
+        }); // ajax
+    }); // #edit-my-profile-btn.click
+}); // ready
+
+
+/*모달창 열고 닫기*/
 let openModifyPwModal = document.getElementById("open-modify-pw-btn");
 let modifyPwModal = document.getElementById("modify-pw-modal");
 let closeModifyPwModal = document.getElementById("modify-pw-modal-close");
 
-openModifyPwModal.addEventListener('click', function(){
-	modifyPwModal.style.display = "block";
-})
+let openDeleteAccountModal = document.getElementById("open-delete-modal-btn");
+let deleteAcoountModal = document.getElementById("delete-account-modal");
+let closeDeleteAccountModal = document.getElementById("delete-account-modal-close");
 
+function openModal(modal){
+	modal.classList.remove('fade-out');
+	modal.classList.add('fade-in');		
+		
+	modal.style.display = "block";
+	document.body.classList.add('modal-open');	
+	document.body.style.overflow = 'hidden';
+}
 
-closeModifyPwModal.addEventListener('click', function(){
-	modifyPwModal.style.display = "none";
-})
+function closeModal(modal){
+	modal.classList.remove('fade-in');
+    modal.classList.add('fade-out');
+    setTimeout(() => {
+        modal.style.display = "none";
+        let inputs = modal.getElementsByTagName('input');
+        for (let input of inputs) {
+            input.value = "";
+        }
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = 'auto';
+    }, 300);
+}
+
+window.addEventListener('click', (event) => {
+		//모달창 열린 상태에서 윈도우 클릭시 닫히는 속도 늦추기 - 이메일 회원가입 모달창부터 재설정 필요        
+        let target = event.target;
+    	setTimeout(() => {
+        if (target == modifyPwModal) {
+            closeModal(modifyPwModal);
+        }
+        if (target == deleteAcoountModal) {
+            closeModal(deleteAcoountModal);
+        }
+    }, 300);        
+});
+
+openModifyPwModal.addEventListener('click', ()=> openModal(modifyPwModal));
+closeModifyPwModal.addEventListener('click', ()=> closeModal(modifyPwModal));
+openDeleteAccountModal.addEventListener('click', ()=> openModal(deleteAcoountModal));
+closeDeleteAccountModal.addEventListener('click', ()=> closeModal(deleteAcoountModal));
+
 
 //비밀번호 수정 모달
-$(document).ready(function(){
-	$('#login-modal-button').click(function(){
-		let userEmail = $('#userEmail').val();
-        let userPw = $('#userPw').val();
-        //alert(userEmail +":"+userPw);
-        
-        $.ajax({
-			type: 'POST',
-            url: '/main',
-            data: {
-                userEmail: userEmail,
-                userPw: userPw
-            },
-            success: function(response){
-				if(response === 'success'){
-					window.location.href = "/mainLogin";
-				} else{
-					$('#errorMessage').text('아이디 혹은 비밀번호가 다릅니다.');
-					$('#userPw').focus(function(){
-			            $('#errorMessage').text('');
-			        });
-			        $('#userEmail').focus(function(){
-			            $('#errorMessage').text('');
-			        });
-					$('.modal-close').click(function(){
-						$('#errorMessage').text('');
-					}); //modal-close
-					$(window).click(function(event){
-						if($(event.target).hasClass('modal')){
-							$('#errorMessage').text('');
-						}//if
-					}); //window
-				}//else
-			},
-			error: function(xhr,status, error){
-				console.error('AJAX 요청 실패: ' + status, error);
-			}			
-		}); //ajax
-	}); //login-modal-button	
-});//ready
-
-
-//비밀번호 수정 모달 내 - 비밀번호 보이고 숨기기
-$('.password-input-container i').on('click',function(){
+//비밀번호 보이고 숨기기
+$('.password-input-container-in-modify-modal i').on('click',function(){
         $('input').toggleClass('active');
         if($('input').hasClass('active')){
             $(this).attr('class',"fa fa-eye")
@@ -186,21 +212,21 @@ $('.password-input-container i').on('click',function(){
         $('#modify-pw-modal-close').click(function(){
 			$("#modify-pw-modal-original-userPw-confirm").text("");
 			$("#modify-pw-modal-new-userPw-confirm-result").text("");
-			$('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-	        $('.password-input-container input').attr('type', 'password')
+			$('.password-input-container-in-modify-modal i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+	        $('.password-input-container-in-modify-modalr input').attr('type', 'password')
 		}); //modal-close
 		$(window).click(function(event){
 			if ($(event.target).hasClass('modal')) {
 		        $("#modify-pw-modal-original-userPw-confirm").text("");
 				$("#modify-pw-modal-new-userPw-confirm-result").text("");
-		        $('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-		        $('.password-input-container input').attr('type', 'password');    
+		        $('.password-input-container-in-modify-modal i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+		        $('.password-input-container-in-modify-modal input').attr('type', 'password');    
 			}//if
 		}); //window
     });//.password-input-container i
     
 //비밀번호가 텍스트로 보이는 상태에서 input창에 커서를 놓으면 다시 비밀번호 형태로 자동 변환
-$('.password-input-container input').on('focus', function() {
+$('.password-input-container-in-modify-modal input').on('focus', function() {
     if ($(this).hasClass('active')) {
         $(this).removeClass('active')
                .attr('type', 'password');
@@ -234,7 +260,7 @@ $('.password-input-container input').on('focus', function() {
 });//#email-signup-modal-userPw-confirm
 
 
-//비밀번호 수정 모달 내 - 기존 비밀번호 확인
+//기존 비밀번호 확인
 $(document).ready(function(){
 	$('#modify-pw-modal-original-userPw').on("input", function(){
 		let userPw = $(this).val();
@@ -255,7 +281,7 @@ $(document).ready(function(){
 				if(response=== 'success'){
 					$('#modify-pw-modal-original-userPw-confirm').text('');
 				}else{
-					$('#modify-pw-modal-original-userPw-confirm').text('비밀번호를 재확인해 주세요.');					
+					$('#modify-pw-modal-original-userPw-confirm').text('비밀번호를 재확인해 주세요.').css("color","red");					
 				}
 			},//success
 			error: function(xhr,status, error){
@@ -283,11 +309,10 @@ $(document).ready(function(){
 					},
 					success: function(response){
 						if(response === 'success'){
-							//모달창으로 바꾸기
-							alert("비빌번호가 수정되었습니다.");
+							$('#modify-pw-confirm-message-modal').css('display','block');
 							$('#modify-pw-modal').css('display', 'none');
 						}else{
-							$('#modify-pw-modal-final-confirm-result').text('기존 비밀번호와 동일합니다.');
+							$('#modify-pw-modal-final-confirm-result').text('기존 비밀번호와 동일합니다.').css("color","red");
 						}
 					},//success
 					error: function(xhr,status, error){
@@ -295,32 +320,23 @@ $(document).ready(function(){
 					}//error	
 				});//ajax		
 		}else{
-			$('#modify-pw-modal-final-confirm-result').text('비밀번호를 재확인해 주세요.');			
-		}		
+			$('#modify-pw-modal-final-confirm-result').text('비밀번호를 재확인해 주세요.').css("color","red");			
+		}			
+		$('#modify-pw-modal-close').click(function(){
+			$("#modify-pw-modal-final-confirm-result").text("");
+		}); //modal-close
+		
+		$(window).click(function(event) {
+			if ($(event.target).closest('#modify-pw-modal').length === 0) {  	      
+		        $('#modify-pw-modal-final-confirm-result').text(''); 
+ 		    }
+		});//window.click			
 	});//#modify-pw-modal-btn.click	
 });//ready
 
 
-//계정 삭제 모달
-let openDeleteAccountModal = document.getElementById("open-delete-modal-btn");
-let deleteAcoountModal = document.getElementById("delete-account-modal");
-let closeDeleteAccountModal = document.getElementById("delete-account-modal-close");
-
-openDeleteAccountModal.addEventListener('click',function(){
-	deleteAcoountModal.style.display = 'block';
-})
-
-
-closeDeleteAccountModal.addEventListener('click', function(){
-	deleteAcoountModal.style.display = "none";
-})
-
-/*
-//계정 삭제 모달 내 - 비밀번호 보이고 숨기기 - 위와 같은 내용으로 충돌일어남 -> 클래스 이름등 조정 필요
-$('.password-input-container i').on('click',function(){
-	
-	alert("clcick");
-	
+//계정 삭제 모달 내 - 비밀번호 보이고 숨기기
+$('.password-input-container-in-delete-account-modal i').on('click',function(){	
         $('input').toggleClass('active');
         if($('input').hasClass('active')){
             $(this).attr('class',"fa fa-eye")
@@ -331,28 +347,26 @@ $('.password-input-container i').on('click',function(){
         }
         $('#delete-account-modal-close').click(function(){
 			$("#delete-account-modal-pw-confirm").text("");
-			$('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-	        $('.password-input-container input').attr('type', 'password')
+			$('.password-input-container-in-delete-account-modal i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+	        $('.password-input-container-in-delete-account-modal input').attr('type', 'password')
 		}); //modal-close
 		$(window).click(function(event){
 			if ($(event.target).hasClass('modal')) {
 		        $("#delete-account-modal-pw-confirm").text("");
-		        $('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-		        $('.password-input-container input').attr('type', 'password');    
+		        $('.password-input-container-in-delete-account-modal i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+		        $('.password-input-container-in-delete-account-modal input').attr('type', 'password');    
 			}//if
 		}); //window
     });//.password-input-container i
     
 //비밀번호가 텍스트로 보이는 상태에서 input창에 커서를 놓으면 다시 비밀번호 형태로 자동 변환
-$('.password-input-container input').on('focus', function() {
+$('.password-input-container-in-delete-account-modal input').on('focus', function() {
     if ($(this).hasClass('active')) {
         $(this).removeClass('active')
                .attr('type', 'password');
         $(this).next('i').attr('class', "fa-regular fa-eye-slash");
     }
 });//.password-input-container input
-
-*/
 
 //계정 삭제 모달 
 $(document).ready(function(){
@@ -366,79 +380,29 @@ $(document).ready(function(){
 			},
 			success: function(response){
 				if(response === 'success'){
-					//모달창 추후 추가
-					alert("계정이 삭제되었습니다.")
-					window.location.href="/kkirikkiri";
+					$('#delete-account-modal').css('display','none');
+					$('#delete-account-confirm-message-modal').css('display','block');
 				}else{
-					$('#delete-account-modal-pw-confirm').text('비밀번호를 재확인해주세요.')
+					$('#delete-account-modal-pw-confirm').text('비밀번호를 재확인해주세요.').css('color','red');
 				}
 			},//success
 			error: function(xhr,status, error){
 				console.error('AJAX 요청 실패: ' + status, error);
 			}
-		});//ajax		
+		});//ajax	
+		$('#delete-account-modal-close').click(function(){
+			$("#delete-account-modal-pw-confirm").text("");
+			}); //modal-close
+		
+		$(window).click(function(event) {
+			if ($(event.target).closest('#delete-account-modal').length === 0) {  	      
+		        $('#delete-account-modal-pw-confirm').text(''); 
+ 		    }
+		});//window.click	
+		
+		$('#delete-account-modal-userPw').focus(function() {
+            $('#delete-account-modal-pw-confirm').text('');
+        });
 	});//click	
 });//ready
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

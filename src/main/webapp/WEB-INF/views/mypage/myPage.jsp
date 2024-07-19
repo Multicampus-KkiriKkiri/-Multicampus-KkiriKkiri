@@ -31,71 +31,91 @@ $(document).ready(function(){
 <%@ include file="/WEB-INF/views/mainpage/mainHeaderLogin.jsp" %>
 
 <main class="container">
-	<h1>안녕하세요 ${loginUser.userNickname}님!</h1>
+	<h1 class="myPage-title">안녕하세요 <b>${loginUser.userNickname}</b>님!</h1>
 	<div class="mypage-container">
-		<section class="col-3" style="border:1px solid red;">
+		<section class="col-3 my-info-area" style="border:1px solid red;">			
 			<div class="profile-img-container">
 		        <c:choose>
 		            <c:when test="${empty profileImage}">
 		                <img id="uploadedImage" src="/images/empty_profile_image.png" alt="기본 프로필 사진" style="width:300px;height:350px;">
 		            </c:when>
-		            <c:otherwise>
-		                <img id="uploadedImage" src="${profileImage}" alt="내 프로필 사진" style="width:300px;height:350px;">
+		            <c:otherwise>	
+		                <img id="uploadedImage" src="${profileImage }" alt="내 프로필 사진" style="width:300px;height:350px;">
 		            </c:otherwise>
 		        </c:choose> 
+		        
 				<div class="profile-overlay"></div>
+				
 				<div class="profile-text">
-					<div name="userNickname">${loginUser.userNickname}</div>
-					<div>${loginUserRegion} ${loginUserDistrict}</div>	
-				</div>							
-			</div>			
-				<div>
-					<div>내 관심사</div>	
+					<h4 class="my-page-userNickname" style=""><b>${loginUser.userNickname}</b></h4>					
+					<div>${loginUser.userEmail}</div>
+					<div class="my-page-region-area">
+						<i class="fa-solid fa-location-dot" style="margin-right:5px; margin-top:5px;"></i>
+						<div>${loginUserRegion} ${loginUserDistrict}</div>	
+					</div>					
+				</div>										
+			</div>	
+					
+				<div class="my-page-interest-area">
+					<button onclick=location.href="/editmypage" id="go-to-edit-my-page">
+						<i class="fa-solid fa-pen"></i>내 정보 수정하기
+					</button>
+					<p><b>내 관심사</b></p>	
 						<div id="user-interests">
 							<c:forEach items="${loginUserInterestNames}" var="interestName">
-				                     <div>${interestName}</div>
+				                     <div class="my-page-show-interest-area">
+				                     	<i class="fa-solid fa-paper-plane"></i>
+				                     	<div>${interestName}</div>
+			                     	 </div>
 			                 </c:forEach>
-						</div>	    						
-				</div>
+						</div>	
+						    						
+					<button id="show-modify-interest-btn">관심사 수정하기</button>				
+					
+					<div id="interest-list-area" style="display:none">
+						<div class="first-my-page-interest-checkbox-area">
+							<input class="interest-list" type="checkbox" id="cultureArt" name="cultureArt">
+		        			<label for="cultureArt">문화예술</label>			            
+					
+							<input class="interest-list" type="checkbox" id="activity" name="activity">
+							<label for="activity">액티비티</label>
+						</div>
 						
-				<button id="show-modify-interest-btn">내 관심사 수정하기</button>
-				<div>닫기버튼필요?</div>
-				<div id="interest-list-area" style="display:none">
-					<input class="interest-list" type="checkbox" id="cultureArt" name="cultureArt">
-	        		<label for="cultureArt">문화예술</label>			            
-				
-					<input class="interest-list" type="checkbox" id="selfStudy" name="selfStudy">
-					<label for="selfStudy">자기계발</label>
-				
-					<input class="interest-list" type="checkbox" id="etc" name="etc">
-	        		<label for="etc">기타</label>
-	        		
-	        		<input class="interest-list" type="checkbox" id="activity" name="activity">
-	        		<label for="activity">액티비티</label>
-	        		
-	        		<input class="interest-list" type="checkbox" id="foodDrink" name="foodDrink">
-	        		<label for="foodDrink">푸드/드링크</label> 		
-
-					<button id="modify-interest-btn">내 관심사 수정 완료</button>
+						<div class="second-my-page-interest-checkbox-area"> 
+							<input class="interest-list" type="checkbox" id="foodDrink" name="foodDrink">
+		        			<label for="foodDrink">푸드/드링크</label>
+		        		
+		        			<input class="interest-list" type="checkbox" id="selfStudy" name="selfStudy">
+		        			<label for="selfStudy">자기계발</label>
+		        		</div>
+		        		
+		        		<div class="third-my-page-interest-checkbox-area">
+		        			<input class="interest-list" type="checkbox" id="etc" name="etc">
+		        			<label for="etc">기타</label> 	
+						</div>
+						
+						<div id="my-page-interest-warning"><!-- 관심사 한 가지 이상 선택 안내 메시지 --></div>
+						<button id="modify-interest-btn">수정 완료</button>
+					</div>
 				</div>
-		
-				<button onclick=location.href="/editmypage">내 정보 수정</button>
+				
+				
 		</section>
 		
-		<section class="col-10" style="border:1px solid red;">		
+		<section class="col-10 my-group-area" style="border:1px solid red;">		
 				<div id="my-page-nav">
-					<a href="#" id="my-group-area">내 모임</a>
-					<a href="#" id="my-event-area">내 모임 일정</a>
+					<button id="my-group-area">내 모임</button>
+					<button id="my-event-area">내 모임 일정</button>
 				</div>
 				
 				<div id="my-groups">
 					<div id="my-group-area-nav">
-						<a href="#" id="as-member">모임원</a>
-						<a href="#" id="as-leader">모임장</a>
-						<a href="#" id="waiting-lists">신청 대기</a>
-						<a href="#" id="wishlists">찜</a>				
+						<button id="as-member">모임원</button>
+						<button id="as-leader">모임장</button>
+						<button id="waiting-lists">신청 대기</button>
+						<button id="wishlists">찜</button>				
 					</div>				
-					<div id="my-group-content">
+					<div id="my-group-content" class="row">
 					<!--모임메뉴탭에 따라 ajax를 통해 받은 내용이 달리 보여짐  -->					
 					</div>	
 				</div>
@@ -132,28 +152,28 @@ $(document).ready(function(){
 		 </script>
 		</c:if>  
 		
-		<c:if test="${interestName =='자기계발'}"> 
+		<c:if test="${interestName =='액티비티'}"> 
 		 <script>
 		 	$("#activity").attr("checked", "checked");
 		    interests.push("액티비티");
 		 </script>
 		</c:if>
 		
-		<c:if test="${interestName =='기타'}"> 
+		<c:if test="${interestName =='푸드/드링크'}"> 
 		 <script>		 	
 		 	$("#foodDrink").attr("checked", "checked");
 		    interests.push("푸드/드링크");	
 		 </script>
 		</c:if>
 		
-		<c:if test="${interestName =='푸드/드링크'}"> 
+		<c:if test="${interestName =='자기계발'}"> 
 		 <script>
 		 $("#selfStudy").attr("checked", "checked");
 		   interests.push("자기계발");
 		 </script>		 
 		</c:if>	
 		
-		 <c:if test="${interestName =='액티비티'}"> 
+		 <c:if test="${interestName =='기타'}"> 
 		 <script>
 		 $("#etc").attr("checked", "checked");
 		   interests.push("기타");

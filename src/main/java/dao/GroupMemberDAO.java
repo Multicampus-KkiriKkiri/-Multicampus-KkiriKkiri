@@ -78,6 +78,12 @@ public class GroupMemberDAO {
         return session.delete("rejectMember", params);
     }
     //groupsettings설정 끝
+
+	//마이페이지 - 신청대기 모임 가져오기 위해 groupId 받아오기
+	public List<Integer> getMyPendingGroupIdList(int userId) {
+		return session.selectList("getMyPendingGroupIdList", userId);
+	}
+
 }
 
 

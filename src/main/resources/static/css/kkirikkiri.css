@@ -1,6 +1,15 @@
 @charset "UTF-8";
 /*끼리끼리 웹사이트 공통 css파일*/
 /*페이지 전체*/
+
+/*구글 폰트 - kkirikkiri.css, mainFooter.jsp link부분확인*/
+body{
+	font-family: "Noto Sans KR", sans-serif;
+  	font-optical-sizing: auto;
+  	font-weight: 400;
+  	font-style: normal;
+}
+
 /*상단 네비게이션 바 고정*/
 .header-nav {
     position: fixed;
@@ -60,6 +69,14 @@ body a{
 
 /*상단 고정바-로그인 후*/
 /*상단 고정바-오른쪽*/
+.header-nav{
+	display: flex;
+	justify-content: space-between;
+	padding-top: 15px;
+	padding-right: 150px;
+	padding-left: 150px;
+}
+
 .header-nav-icon{
 	font-size: 35px;
 }
@@ -98,21 +115,48 @@ body a{
     height: 100%;
     object-fit: cover;
 }  
-  
-.header-nav-right .dropdown button i{
-    margin-left: 0px;
-}  
-  
-.dropdown button{
-	border: none;
-}  
  
-.header-nav{
-	display: flex;
-	justify-content: space-between;
-	padding-top: 15px;
-	padding-right: 150px;
-	padding-left: 150px;
+/*상단 오른쪽 - 드랍다운 버튼*/
+#main-header-login-dropdown-btn{
+	background-color: white;
+	border: none;
+	position: relative;
+	margin-top: 1.8rem;
+} 
+  
+#main-header-login-dropdown-btn i{
+    margin-left: 0px;
+    margin-bottom: 15px;
+    background-color: white;
+    color:#706F6F;
+}  
+
+#main-header-login-dropdown-menu{
+	display:none;
+	list-style: none;
+	border: 1.5px solid rgba(0, 0, 0, 0.1);
+	border-radius: 7px;
+	text-align: left;	
+	padding: 10px;	
+	padding-top: 13px;
+	padding-left: 13px;
+	position:absolute;
+	width: 140px;	
+	top: 100px;
+	right: 170px;
+	background-color: white;
+}
+
+#main-header-login-dropdown-menu li{
+	margin-bottom: 5px;
+}
+
+#main-header-login-dropdown-menu li:hover{
+	color: #e15c31;
+}
+
+#main-header-login-dropdown-menu a{
+	font-weight: 500;
 }
 
 /*상단 고정바-로그인 전*/
@@ -239,9 +283,8 @@ body {
 }
 
 .email-signup-form-checkbox {
-        transform: scale(1.4); 
+    transform: scale(1.4); 
 }
-
 
 .email-signup-form-checkbox:checked {
     transform: scale(1.4);
@@ -281,18 +324,16 @@ body {
 .file-input-container {
     position: relative;
     display: inline-block;
-    margin-top: 10px; /* Optional: Adjust spacing */
+    margin-top: 10px; 
 }
 
 .custom-file-label {
     display: inline-block;
     cursor: pointer;
-    font-size: 13px;
-    
+    font-size: 13px;    
     background-color:#3b5f3e;
-    color:white;
-    
-   padding: 3px 6px;
+    color:white;    
+    padding: 3px 6px;
     border-radius: 4px;
 }
 
@@ -300,45 +341,203 @@ body {
     display: none;
 }
 
+/*회원가입 내정보설정 모달 - 별명*/
+.nickName-title{
+	margin-top: 30px;
+	text-align: left;
+	margin-right: 19rem;
+}
 
+.check-nickName-input-area{
+	display: flex;
+	justify-content: space-between;
+}
 
+#userNickname{
+	width: 18em;
+	height: 45px;
+	border: 1px solid #e4e2dd;
+	border-radius: 7px;
+	margin-right: 10px;
+}
 
+#nickname-confirm-btn{
+	border-radius: 7px;
+	background-color:#3b5f3e;
+	color: white;
+	border:none;
+	font-size: 0.9rem;
+}
 
+#nickname-confirm-result{
+	text-align: left;
+	margin-right: 12rem;
+}
 
+/*회원가입 내정보설정 모달 - 사용자 위치(지역)*/
+.user-area-title{
+	margin-top: 30px;
+	text-align: left;
+	margin-right: 19rem;
+}
 
+.user-area-options{
+	width: 85%;
+	margin-bottom: 5px;
+}
 
+select{
+	width: 200px;
+	height: 40px;
+	padding: 5px;
+	border: 1px solid #e4e2dd;
+	border-radius: 7px;
+	font-size: 16px;
+	appearance: none; /*기본 화살표 제거*/
+	-webkit-appearance: none; /*Safari와 같은 웹킷 기반 브라우저에서 기본 화살표 제거*/
+	-moz-appearance: none; /*Firefox에서 기본 화살표 제거*/	
+}
 
+/*select 요소의 커스텀 화살표 추가 */
+select.user-area-options {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Angle_down_font_awesome.svg/512px-Angle_down_font_awesome.svg.png') no-repeat right 10px center;
+    background-size: 20px;
+}
 
+/*option 요소의 스타일 변경*/
+select option {
+    color: #333;
+    background-color: #fff;
+    padding: 10px;
+}
 
+/*회원가입 내정보설정 모달 - 관심사*/
+.interest-checkbox-title{
+	margin-top: 30px;
+	text-align: left;
+	margin-right: 18rem;
+}
 
+.interest-checkbox-info{
+	text-align:left;
+	margin-right: 8.5rem;
+}
 
+.signup-set-myprofile-modal-interest {
+    display: none;
+}
 
+.signup-set-myprofile-modal-interest + label {
+    display: inline-block;
+    width: 110px;
+    height: 40px;
+    border: 2px solid #e4e2dd;
+    position: relative;
+    cursor: pointer;
+    border-radius: 7px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    font-size: 1rem;
+}
 
+.signup-set-myprofile-modal-interest:checked + label {
+    background-color: #f0a375;
+    color: white;
+}
+     
+.first-interest-checkbox-area label {
+	margin-right: 100px; 
+}
 
+.first-interest-checkbox-area{
+	display: flex;	
+	margin-left: 100px;
+	margin-top: 5px;
+}
 
+.second-interest-checkbox-area {
+	display: flex;	
+	margin-top:5px;
+}
+
+.second-interest-checkbox-area label[for="foodDrink"] {
+    margin-right: 100px; 
+}
+
+.second-interest-checkbox-area label[for="selfStudy"] {
+    margin-right: 0px;
+}
+
+.third-interest-checkbox-area label[for="etc"]{
+	margin-right:210px;
+	margin-top: 5px;
+}
+
+/*회원가입 내정보설정 모달 - 자기소개*/
+.profile-intro-title{
+	margin-top: 30px;
+	text-align: left;
+	margin-right: 19rem;
+}
+
+#profileIntro{
+	width:85%;
+}
 
 
 /*하단 footer*/
 footer{
-	margin-top: 200px;
+	margin-top: 10rem;
 	background-color:#fbf7f3;	
+}
+
+footer ul{
+	list-style-type:none;
+	padding:0;
+	margin:0;
 }
 
 .footer-info{
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	padding-top: 60px;
 }
 
-/*
-.footer-bottom{
-	display: flex;
-            flex-direction: column;
-            
+.footer-title{
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: #717171;
 }
-*/
 
-.footer-bottom{
-	padding-bottom:30px;
-	padding-left: 100px;
+.footer-links li{
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+}
+
+.footer-company-info{
+	font-size: 0.9rem;
+}
+
+.kakao-link{
+	text-decoration: underline;
+}
+
+.container.footer-info {
+    margin-bottom: 30px; 
+}
+
+.container.footer-bottom {
+    margin-top: 50px; 
+    padding-bottom: 50px;
+}
+
+.social-media-icon-area{
+	margin-bottom: 15px;
+}
+
+.social-media-icon{
+	font-size: 2rem;
+	margin-right: 25px;
 }

@@ -35,53 +35,53 @@
 			<div class="banner-phrase col-5">
 				<h1>친구도 취미도<br> <b>끼리끼리</b>에서</h1>
 				<h6>나와 같은 관심사를 가진 사람들과 <br>가장 가까운 곳에서 소모임을 시작해보세요!</h6>
-				<button>모임 만들기</button>
+				<button onclick="location.href= 'groupregister/register'">모임 만들기</button>
 			</div>
 			<div class="col-1"></div>				
 		</section>
 		
 		<section class="container">
-			<div class="group-title">
+			<div class="my-group-list-title">
 				<h3><b>내 모임</b></h3>
-				<a href="#" id="go-to-my-group-list">내 모임 더보기</a>
+				<a href="#" id="go-to-my-group-list" class="group-more-btn">내 모임 더보기</a>
 			</div>			
             <div class="row" id="myGroupDetailContainer">
             	<!-- Ajax로 받아온 내 모임 정보 내용 -->			  		
 			</div>	
 			
-			<div class="interest-group-suggestion">
-				<div class="group-title">
-					<h3><b>관심사별 모임</b></h3>
-					<a href="#">모임 더보기</a>
+			<div class="interest-group-list">
+				<div class="interests-group-list-title">
+					<h3><b>관심사별 검색을 통해 꼭 맞는 모임을 빠르게 만나보세요</b></h3>
+					<a href="#" class="group-more-btn">모임 더보기</a>
 				</div>				
-				<div class="row">						  
-					<div class="col interest-nav" data-interest-id="1">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-solid fa-masks-theater"></i>    			    
+				<div class="row interest-nav-area">						  
+					<div class="col-sm-2 interest-nav continue-hover" data-interest-id="1">			    
+			      		<a href="#" class="interest-nav-a">			    
+				      		<i class="fa-solid fa-masks-theater" style="color:#CE6A00;"></i>    			    
 						    <p>문화예술</p>
 					    </a>
 					</div>
-					<div class="col interest-nav" data-interest-id="2">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-solid fa-person-running"></i>    			    
+					<div class="col-sm-2 interest-nav" data-interest-id="2">			    
+			      		<a href="#" class="interest-nav-a">			    
+				      		<i class="fa-solid fa-person-running" style="color:#039565;"></i>    			    
 						    <p>액티비티</p>
 					    </a>
 					</div>
-					<div class="col interest-nav" data-interest-id="3">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-solid fa-utensils"></i>   			    
+					<div class="col-sm-2 interest-nav" data-interest-id="3">			    
+			      		<a href="#" class="interest-nav-a">			    
+				      		<i class="fa-solid fa-utensils" style="color:#CE6A00;"></i>   			    
 						    <p>푸드&드링크</p>
 					    </a>
 					</div>
-					<div class="col interest-nav" data-interest-id="4">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-solid fa-building-columns"></i>    			    
+					<div class="col-sm-2 interest-nav" data-interest-id="4">			    
+			      		<a href="#" class="interest-nav-a">			    
+				      		<i class="fa-solid fa-building-columns" style="color:#039565;"></i>    			    
 						    <p>자기계발</p>
 					    </a>
 					</div>	
-					<div class="col interest-nav" data-interest-id="5">			    
-			      		<a href="#" alt="">			    
-				      		<i class="fa-brands fa-sketch"></i>   			    
+					<div class="col-sm-2 interest-nav" data-interest-id="5">			    
+			      		<a href="#" class="interest-nav-a">			    
+				      		<i class="fa-brands fa-sketch" style="color:#CE6A00;"></i>   			    
 						    <p>기타</p>
 					    </a>
 					</div>					  		
@@ -89,7 +89,7 @@
 				
 				<div id="groupDeatilsByInterest" class="row">
 					<!-- Ajax로 받아온 관심사별 모임 정보 내용 -->
-				</div>				
+				</div>		
 			</div>			
 		</section>		
 	</main>

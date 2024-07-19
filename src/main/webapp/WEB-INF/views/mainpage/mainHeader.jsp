@@ -125,8 +125,7 @@ $(document).ready(function(){
   	<div class="modal-content-container">
 	    <span class="modal-close" id="email-signup-modal-close">&times;</span><br><br>
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  
-	    
-	    
+	    	    
 	    <form id="email-signup-modal-form">
 		    <div class="email-login" style="margin-top: 25px">
 			    <h6 style="margin-right:290px"><b>이메일</b></h6>
@@ -134,7 +133,7 @@ $(document).ready(function(){
 			    <div class="email-signup-form warning" id="email-signup-modal-userEmail-confirm"><!--이메일 중복 결과창  --></div> 
 			    <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>	  	    
 			    <div class="password-input-container">
-				  <input type="password" placeholder=" 비밀번호를 입력하세요" id="email-signup-modal-userPw" name="userPw" required>
+				  <input type="password" placeholder=" 비밀번호 입력" id="email-signup-modal-userPw" name="userPw" required>
 				  <i class="fa-regular fa-eye-slash"></i>
 				</div>		    	
 			    <input type="password" placeholder=" 비밀번호 재입력" id="email-signup-modal-userPw-confirm">
@@ -147,8 +146,7 @@ $(document).ready(function(){
 		    </div>	    		    
 			<div class="email-signup-form warning" id="email-signup-modal-form-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
 		    <button type="button" class="login-modal-button" id="open-signup-set-myprofile-modal">회원가입</button>  	    
-	    </form>
-	    
+	    </form>	    
 	    
 	    <div class="signup-suggestion" style="margin-top: 25px;">
 		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
@@ -157,7 +155,6 @@ $(document).ready(function(){
   	</div>
   </div>
 </div>
-
 
 <!-- 회원가입 내정보설정 모달 -->
 <!-- 모달창 id,class 같이 css주입 받는 것 아니면 확인후 수정필요 -->
@@ -176,43 +173,47 @@ $(document).ready(function(){
             	<label class="custom-file-label" for="file-upload">사진 업로드</label>
             	<input type="file" id="file-upload" name="profileImage" class="file-input" accept="image/*" onchange="loadFile(this)">
         	</div>		 	    
-	    <div class="email-login" style="margin-top: 25px">
-		    <h6 style="margin-right:290px"><b>내 별명</b></h6>
-		    <input type="text" required id="userNickname" name="userNickname">
-		    <button type="button" id="nickname-confirm-btn">별명 중복검사</button>
-		    <div class="email-signup-form" id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 
-		    <h6 style="margin-right:270px; margin-top: 15px;"><b>내 위치</b></h6>	  	    
-		    <div>		    	
-				<select id="userRegion" name="userRegionId" required>
-			    	<option value="" disabled selected>도시 선택</option>
-			    </select>
+	    
+		    <h6 class="nickName-title"><b>내 별명</b></h6>
+		    <div class="check-nickName-input-area">
+		    	<input type="text" required id="userNickname" name="userNickname">
+		    	<button type="button" id="nickname-confirm-btn">중복확인</button>
 		    </div>
-		    <div>
-			    <select id="userDistrict" name="userDistrictId" required>
-			    	<option value="" disabled selected>구/동 선택</option>
-			    </select>			  
-			</div>		    	 	 
-	    </div>
-	    	<h6 style="margin-right:290px"><b>내 관심사</b></h6>
-	    	<div>한 개 이상 반드시 체크해주세요.</div>		    
-			  <input type="checkbox" id="cultureArt" name="cultureArt" value="cultureArt">
-			  <label for="vehicle1">문화예술</label> 	
-			  
-			  <input type="checkbox" id="activity" name="activity" value="activity">
-			  <label for="vehicle2">액티비티</label>
-			   
-			  <input type="checkbox" id="foodDrink" name="foodDrink" value="foodDrink">
-			  <label for="vehicle3">푸드&드링크</label><br>			   
-			 
-			  <input type="checkbox" id="selfStudy" name="selfStudy" value="selfStudy">
-			  <label for="vehicle3">자기계발</label>			  
-			  
-			  <input type="checkbox" id="etc" name="etc" value="etc">
-			  <label for="vehicle3">기타</label>			
+		    <div id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 	 	   
 		    
-		    <h6 style="margin-right:290px"><b>내 소개</b></h6>
-		    <textarea style="width:80%;"id="profileIntro" name="profileIntro" rows="4" placeholder="Enter your message"></textarea>       		    
-		<div class="email-signup-form" id="signup-set-myprofile-result"><!--전체 입력이 안됐을시 보여지는 창  --></div> 
+		    <h6 class="user-area-title"><b>내 위치</b></h6>			    		    	
+			<select class="user-area-options" id="userRegion" name="userRegionId" required>
+		    	<option value="" readOnly selected>도시 선택</option>
+		    </select>	    
+		    <select class="user-area-options" id="userDistrict" name="userDistrictId" required>
+		    	<option value="" readOnly selected>구/동 선택</option>
+		    </select>					    	 	 
+	    
+	    	<h6 class="interest-checkbox-title"><b>내 관심사</b></h6>
+	    	<div class="interest-checkbox-info">반드시 한 개 이상 선택해 주세요.</div>		
+	    	
+	    	<div class="first-interest-checkbox-area">    
+			  <input class="signup-set-myprofile-modal-interest" type="checkbox" id="cultureArt" name="cultureArt" value="cultureArt">
+			  <label for="cultureArt">문화예술</label> 	
+			  
+			  <input class="signup-set-myprofile-modal-interest" type="checkbox" id="activity" name="activity" value="activity">
+			  <label for="activity">액티비티</label>
+			</div>
+			
+			<div class="second-interest-checkbox-area">  
+			  <input class="signup-set-myprofile-modal-interest" type="checkbox" id="foodDrink" name="foodDrink" value="foodDrink">
+			  <label for="foodDrink">푸드&드링크</label><br>	 
+			  <input class="signup-set-myprofile-modal-interest" type="checkbox" id="selfStudy" name="selfStudy" value="selfStudy">
+			  <label for="selfStudy">자기계발</label>			  
+			</div> 
+			<div class="third-interest-checkbox-area">
+			  <input class="signup-set-myprofile-modal-interest" type="checkbox" id="etc" name="etc" value="etc">
+			  <label for="etc">기타</label>			
+		    </div>
+		    
+		    <h6 class="profile-intro-title"><b>내 소개</b></h6>
+		    <textarea id="profileIntro" name="profileIntro" rows="4" cols="50" placeholder=" 간단한 내 소개 입력"></textarea>       		    
+		<div id="signup-set-myprofile-result"><!--전체 입력이 안됐을시 보여지는 창 --></div> 
 	    <button type="button" id="signup-set-myprofile-modal-btn" class="login-modal-button">내 정보 등록하기</button> 
 	    </form> 	    	   
   	</div>

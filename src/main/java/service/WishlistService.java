@@ -1,6 +1,7 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface WishlistService {
 	
@@ -13,4 +14,6 @@ public interface WishlistService {
 	// 모임 찜목록에서 삭제
 	int deleteGroupToWishlist(HashMap map);
 	
+	//마이페이지 - 찜 모임 가져오기 위해 groupId 받아오기
+	List<Integer> getMyWishlistGroupId(int userId);
 }

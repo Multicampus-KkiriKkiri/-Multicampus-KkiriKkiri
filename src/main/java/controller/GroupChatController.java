@@ -16,7 +16,7 @@ import service.UserService;
 
 
 @Controller
-@RequestMapping("/groupdetail")
+@RequestMapping("/groupchat")
 public class GroupChatController {
 	
 	@Autowired

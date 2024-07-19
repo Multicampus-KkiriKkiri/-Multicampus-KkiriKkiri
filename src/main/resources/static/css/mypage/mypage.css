@@ -1,8 +1,222 @@
 @charset "UTF-8";
+/*상단 여백 & 화면 좌우 부분*/
+main{
+	margin-top: 2rem;
+}
 
 .mypage-container{
+	margin-top:20px;
 	display: flex;
 }
+
+.my-info-area{
+	padding: 10px;
+}
+
+.my-group-area{
+	padding: 10px;
+	padding-left: 50px;
+}
+
+/*프로필 사진*/
+.profile-img-container{
+	 position: relative;
+     width: fit-content;
+     display: inline-block;       
+}
+
+.profile-img-container img{
+	display: block;
+    width: 100%;
+    height: auto;   
+}
+
+.profile-overlay {
+   position: absolute;
+   top: 0;
+   left: 0;   
+   width: 100%;
+   height: 100%;  
+   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 10%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%);   
+	border-radius: 7px;
+}
+
+.my-page-region-area{
+	display: flex;
+}
+
+.profile-text {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    color: white;
+    text-align: center;    
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+/*관심사*/
+#go-to-edit-my-page{
+	border:none;
+	text-decoration: underline;
+	margin-bottom: 15px;
+	background-color: white;
+	color: #e15c31;
+	font-weight: bold;
+}
+
+#go-to-edit-my-page i{
+	margin-right: 5px;
+}
+
+.my-page-interest-area{
+	margin-top: 15px;
+	padding-left: 10px;
+}
+
+.my-page-interest-area p{
+	font-size: 17px;
+	margin-bottom: 5px;
+}
+
+#show-modify-interest-btn{
+	border: none;
+	background-color: white;
+	color: #3b5f3e;
+	font-weight: 600;
+	padding:0;
+	text-decoration: underline;
+		
+}
+
+.my-page-show-interest-area{
+	display: flex;
+	margin-bottom: 10px;
+	font-weight: 500;
+}
+
+.my-page-show-interest-area i{
+	margin-right: 5px;
+	margin-top: 5px;
+	color:#f0a375;
+}
+
+/*관심사 수정 드랍다운*/
+.interest-list {
+    display: none;
+}
+
+.interest-list + label {
+    display: inline-block;
+    width: 110px;
+    height: 40px;
+    border: 2px solid #e4e2dd;
+    position: relative;
+    cursor: pointer;
+    border-radius: 7px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    font-size: 1rem;
+}
+
+.interest-list:checked + label {
+    background-color: #f0a375;
+    color: white;
+}
+
+.first-my-page-interest-checkbox-area,
+.second-my-page-interest-checkbox-area{
+	display: flex;	
+	justify-content: space-around;
+	margin-top: 10px;
+}
+
+.third-my-page-interest-checkbox-area{
+	margin-left: 1rem;
+	margin-top: 10px;
+}
+
+#my-page-interest-warning{
+	text-align: center;
+	margin-top:5px;
+}
+
+#modify-interest-btn{
+	margin-top: 5px;
+	margin-left: 12.5rem;
+	width: 25%;
+	height: 30px;
+	background-color:white;
+	border-radius: 7px;
+	border: 1px solid #e15c31;
+	color: #e15c31;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+#modify-interest-btn:hover{
+	background-color:#e15c31;
+	color: white;
+}
+
+
+
+
+
+
+/*내 모임 목록*/
+/*모임 이미지 & 이름*/
+.my-group-image-name:hover{    
+    filter: contrast(80%) ;
+    text-decoration: underline;
+}
+
+.my-group-image {
+	width:100%;
+	height: 150px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 7px;
+    transition: box-shadow 0.3s ease, border-radius 0.3s ease;
+    text-align: center;
+}
+
+.my-group-name{
+	font-weight: bold;
+	margin-top: 7px;	
+	font-size: 15px;	
+	text-align: center;
+	/*텍스트 2줄까지만 보여주기*/
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #my-page-nav{
 	display:flex;
@@ -20,42 +234,6 @@
 	margin-right: 0;
 }
 
-.profile-img-container{
-	 position: relative;
-     width: fit-content;
-     display: inline-block;
-}
-
-.profile-img-container img{
-	display: block;
-            width: 100%;
-            height: auto;
-}
-
-.profile-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경색 */
-            text-align: center;
-        }
-
-.profile-overlay {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
-   /* 그라데이션 시작 지점과 끝 지점 설정 */
-}
 
         
 
@@ -97,23 +275,8 @@ text-align : center;
 }
  */       
         
-.interest-list {
-    display: none;
-}
 
-.interest-list + label {
-    display: inline-block;
-    width: 100px;
-    height: 30px;
-    border: 3px solid #707070;
-    position: relative;
-    cursor: pointer; /* 마우스를 올렸을 때 손가락 포인터로 변경 */
-    background-color: #c0c0c0; /* 기본 배경색 설정 */
-}
 
-.interest-list:checked + label {
-    background-color: pink; /* 체크된 상태일 때 배경색 변경 */
-}
         
         
         

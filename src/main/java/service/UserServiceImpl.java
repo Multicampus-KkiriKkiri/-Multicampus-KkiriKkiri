@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 	//마이페이지 - 별명 수정 - 모든 별명 가져오기	
 	@Override
 	public List<String> getAllUserNicknames() {
-		System.out.println(dao.getAllUserNicknames().size());
+		//System.out.println(dao.getAllUserNicknames().size());
 		return dao.getAllUserNicknames();
 	}
 
