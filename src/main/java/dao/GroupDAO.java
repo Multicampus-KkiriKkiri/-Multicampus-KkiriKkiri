@@ -98,6 +98,28 @@ public class GroupDAO {
     	return session.selectList("getGroupDetailAsLeader", userId);
     }
 
+    
+    //
+    // Logic to determine user's authority level
+    public String getUserAuthority(int userId, int groupId) {
+        // Mock implementation, replace with actual DB query
+        return "member";
+    }
+
+    public GroupDTO getGroupDetails(int groupId) {
+        // Mock implementation, replace with actual DB query
+        GroupDTO group = new GroupDTO();
+        group.setGroupId(groupId);
+        group.setGroupName("Sample Group");
+        group.setGroupDetail("This is a sample group.");
+        return group;
+    }
+
+    public boolean deleteGroup(int groupId) {
+        // Mock implementation, replace with actual DB query
+        return true;
+    }
+    
 }
 
 

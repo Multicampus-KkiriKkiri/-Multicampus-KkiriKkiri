@@ -22,18 +22,18 @@ import lombok.ToString;
 @ToString
 @Component
 public class GroupDTO {
-    private int groupId;
-    private int groupLeaderId;
-    private String groupName;
-    private String groupDetail;
+    private int groupId;//그룹 고유 id
+    private int groupLeaderId;//모임장 id
+    private String groupName;//모임 이름
+    private String groupDetail;//모임 설명
     private String groupImage; //저장하는 파일의 위치를 저장해서.
-    private String groupType;
-    private int groupRegionId;
-    private int groupDistrictId;
-    private int groupInterestId; 
-    private String groupSignUpType;
-    private int groupMaximum;
-    private String groupSignUpQuestion;
-    private Timestamp lastUpdateTime;
+    private String groupType;//온,오프라인
+    private int groupRegionId;//지역
+    private int groupDistrictId;//지역
+    private int groupInterestId; //모임 가테고리
+    private String groupSignUpType;//승인제,선착순
+    private int groupMaximum;//모임 최대 인원수
+    private String groupSignUpQuestion; //가입시 질문
+    private Timestamp lastUpdateTime;//모임등록시간
 }
 
