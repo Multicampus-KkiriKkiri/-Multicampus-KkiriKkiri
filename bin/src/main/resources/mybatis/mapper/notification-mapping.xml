@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="dao.NotificationDAO">
+
+	<select id="getNotification" resultType="notificationdto" parameterType="map">
+		select * from notification where userId=#{userId} LIMIT #{size} OFFSET #{offset}
+	</select>
+	 
+	<insert id="insertNotification" parameterType="notificationdto">
+		insert into notification values
+		(0, #{userId}, #{groupId}, now(), #{notificationText})
+	</insert>
+	
+	<delete id="deleteNotification" parameterType = "int">
+		delete from notification where notificationId = #{notificationId}
+	</delete>
+	
+	<delete id="deleteOldNotifications">
+    DELETE FROM notification WHERE notificationTime &lt; DATE_SUB(NOW(), INTERVAL 30 DAY)
+	</delete>
+
+</mapper>

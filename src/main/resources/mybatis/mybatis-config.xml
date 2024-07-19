@@ -6,7 +6,6 @@
     <!-- 타입 별칭 설정 -->
     <typeAliases>
         <typeAlias type="dto.ChatDTO" alias="chatdto"/>
-        <typeAlias type="dto.ChatVO" alias="chatvo"/>
         <typeAlias type="dto.EventDTO" alias="eventdto"/>
         <typeAlias type="dto.GroupDTO" alias="groupdto"/>
         <typeAlias type="dto.GroupDTO2" alias="groupdto2"/>

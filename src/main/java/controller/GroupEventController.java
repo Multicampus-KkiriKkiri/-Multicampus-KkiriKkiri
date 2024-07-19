@@ -23,7 +23,7 @@ import service.NotificationService;
 import service.UserService;
 
 @Controller
-@RequestMapping("/groupdetail")
+@RequestMapping("/groupevent")
 public class GroupEventController {
 	
 	@Autowired

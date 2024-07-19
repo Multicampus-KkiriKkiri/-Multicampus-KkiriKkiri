@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.ChatDAO">
+
+	<select id="getChats" resultType="chatdto" parameterType="int">
+		select * from chat where groupId=#{groupId}
+	</select>
+	
+    <!-- 특정 그룹의 최신 채팅 메시지 가져오기 -->
+    <select id="getLatestChatByGroupId" resultType="chatdto">
+        SELECT * FROM chat 
+        WHERE groupId = #{groupId}
+        ORDER BY chatTime DESC
+        LIMIT 1
+    </select>
+	
+	<insert id="insertChatMessage">
+		insert into `chat` values(0, #{groupId}, #{userId}, #{chatMessage}, #{chatTime})
+	</insert>
+	
+	<resultMap id="getChatHistoryByGroupId" type="java.util.HashMap">
+	    <result property="userId" column="userId"/>
+	    <result property="chatMessage" column="chatMessage"/>
+	    <result property="chatTime" column="chatTime"/>
+	    <result property="userNickname" column="userNickname"/>
+	    <result property="profileImage" column="profileImage"/>
+	</resultMap>
+	
+	<select id="getChatHistoryByGroupId" resultMap="getChatHistoryByGroupId">
+        SELECT 
+        	c.userId,
+	        c.chatMessage, 
+	        c.chatTime,
+	        u.userNickname,
+	        u.profileImage
+	    FROM 
+	        `chat` c 
+	    JOIN 
+	        `user` u 
+	    ON 
+	        c.userId = u.userId 
+	    WHERE 
+	        c.groupId = #{groupId}
+	    ORDER BY 
+	        c.chatTime DESC 
+	    LIMIT 
+	        #{offset}, #{limit}
+    </select>
+	
+</mapper>
