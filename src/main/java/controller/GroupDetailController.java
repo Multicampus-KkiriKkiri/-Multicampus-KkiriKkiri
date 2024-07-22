@@ -56,8 +56,8 @@ public class GroupDetailController {
 
 
 		if (session.getAttribute("sessionUserId") != null) { // 로그인 상태 시
-			mv.addObject("userId", (int) session.getAttribute("sessionUserId"));
-			mv.addObject("profileImage", session.getAttribute("sessionUserProfileImg"));
+			mv.addObject("userId", (int)session.getAttribute("sessionUserId"));
+			mv.addObject("profileImage", ((UserDTO)session.getAttribute("sessionUserInfo")).getProfileImage());
 		} else {
 			mv.addObject("userId", 0);
 		}
