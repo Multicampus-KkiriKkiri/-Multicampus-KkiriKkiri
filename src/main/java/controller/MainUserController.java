@@ -82,7 +82,8 @@ public class MainUserController {
 	@RequestMapping("/logout")
 	String logout(HttpSession session) {
 		if(session.getAttribute("sessionUserId") != null) {
-			session.removeAttribute("sessionUserId");				
+			session.removeAttribute("sessionUserId");
+			session.removeAttribute("sessionUserInfo");
 		}
 		return "/mainpage/main";
 	}
@@ -275,6 +276,3 @@ public class MainUserController {
 	}	
 
 }
-
-
-

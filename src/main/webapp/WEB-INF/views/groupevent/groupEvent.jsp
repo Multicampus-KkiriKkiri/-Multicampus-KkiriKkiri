@@ -10,7 +10,7 @@
 	</head>
 	
 	<section class="tapPageSection" id="eventTapPageSection">
-        <div id="groupEventContainerDiv">
+        <div id="groupEventPageDiv">
             <div id="groupEventNavDiv">
                 <button>리스트로 보여주기</button>
                 <button>달력으로 보여주기</button>
@@ -30,7 +30,7 @@
                             <c:forEach var="event" items="${upcomingEventList}">
 							    <div class="eventItemDiv row custom-margin d-flex align-items-stretch mb-3">
 							        <div class="groupEventImageDiv col-md-4 d-flex align-items-center justify-content-center">
-							            <img class="eventImg" src="${event.eventImage}" alt="${event.eventName}" class="img-fluid">
+							            <img class="eventImg" src="/upload/groupevent/${event.eventImage}" alt="${event.eventName}" class="img-fluid">
 							        </div>
 							        <div class="groupEventDetailDiv col-md-8 d-flex flex-column justify-content-center">
 							            <div>${event.eventDate}</div>
@@ -59,7 +59,7 @@
                             <c:forEach var="event" items="${pastEventList}">
 							    <div class="eventItemDiv row custom-margin d-flex align-items-stretch mb-3">
 							        <div class="groupEventImageDiv col-md-4 d-flex align-items-center justify-content-center">
-							            <img class="eventImg" src="${event.eventImage}" alt="${event.eventName}" class="img-fluid">
+							            <img class="eventImg" src="/upload/groupevent/${event.eventImage}" alt="${event.eventName}" class="img-fluid">
 							        </div>
 							        <div class="groupEventDetailDiv col-md-8 d-flex flex-column justify-content-center">
 							            <div>${event.eventDate}</div>

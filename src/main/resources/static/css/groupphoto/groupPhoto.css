@@ -1,2 +1,15 @@
 /* groupPhoto.css */
 
+.postImg {
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.postTitleP, .postUploadDateTimeP {
+	text-align: center;
+}
+
+#pageNumBtnDiv {
+	text-align: center;
+}

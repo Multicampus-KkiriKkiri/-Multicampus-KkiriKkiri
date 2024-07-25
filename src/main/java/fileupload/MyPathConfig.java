@@ -9,7 +9,7 @@ public class MyPathConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/image/**")
+		registry.addResourceHandler("/upload/**")
 	   .addResourceLocations(UploadInform.uploadLocation);		
 	}
 	
