@@ -83,7 +83,7 @@
             
             <div class="form-group">
                 <label for="groupMaximum">참가인원(모임장 포함)</label>
-                <input type="number" id="groupMaximum" name="groupMaximum" min="1" max="300" required>
+                <input type="number" id="groupMaximum" name="groupMaximum" min="2" max="300" required>
             </div>
             
             <div class="form-group">
@@ -94,11 +94,11 @@
                 </div>
                 <div class="application-description">
                     <div class="first-come-first-served active">
-                        <img src="<c:url value='/images/firstcome.png' />" alt="선착순 이미지">
+                        <!--  <img src="<c:url value='/images/firstcome.png' />" alt="선착순 이미지"> -->
                         <p>멤버들의 신청과 동시에 참여가 완료돼요. 누구나 참여할 수 있어서 신청률이 높아요.</p>
                     </div>
                     <div class="approval-system">
-                        <img src="<c:url value='/images/approval.png' />" alt="승인제 이미지">
+                        <!-- <img src="<c:url value='/images/approval.png' />" alt="승인제 이미지"> -->
                         <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
                         <div class="form-group">
                             <label for="groupSignUpQuestion">가입시 회원에게 물어볼 질문</label>

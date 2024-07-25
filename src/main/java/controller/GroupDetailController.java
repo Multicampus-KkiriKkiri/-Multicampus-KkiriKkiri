@@ -42,7 +42,7 @@ public class GroupDetailController {
 
 	// 모임 상세 첫 화면
 	@GetMapping("/info")
-	ModelAndView groupDetail(int groupId, HttpSession session) {
+	ModelAndView groupDetail(@RequestParam("groupId") int groupId, HttpSession session) {
 
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
@@ -51,6 +51,8 @@ public class GroupDetailController {
 		HashMap<String, String> regionMap = new HashMap<>();
 		regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
 		regionMap.put("groupDistrict", groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId()));
+		
+		session.setAttribute("currentGroupId", groupId); // groupId를 세션에 저장 --안병찬- groupSettingSController에서 groupId를 사용해야할것같아서.
 		
 		ModelAndView mv = new ModelAndView();
 

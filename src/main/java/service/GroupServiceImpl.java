@@ -14,6 +14,7 @@ import dao.GroupDAO;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
+import dto.UserDTO;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -98,20 +99,32 @@ public class GroupServiceImpl implements GroupService {
 	}    
 	
 	// 그룹 마지막 업데이트 시간 가져오기
-  @Override
-  public Timestamp getGroupLastUpdateTime(int groupId) {
-    return dao.getGroupLastUpdateTime(groupId);
-  }
+	  @Override
+	  public Timestamp getGroupLastUpdateTime(int groupId) {
+	    return dao.getGroupLastUpdateTime(groupId);
+	  }
 
 	//마이페이지 - 사용자가 모임장인 그룹 가져오기
 	@Override
 	public List<GroupDTO> getGroupDetailAsLeader(int userId) {
 		return dao.getGroupDetailAsLeader(userId);
 	}   
-    
-	
-	
-	
+	// 그룹 설정 페이지 ------------------------------------------------------------
+	// 그룹 정보 업데이트
+    @Transactional
+    @Override
+    public void updateGroup(GroupDTO groupDTO) {
+        dao.updateGroup(groupDTO);
+    }
+
+    // 그룹 삭제
+    @Transactional
+    @Override
+    public void deleteGroup(int groupId) {
+        dao.deleteGroup(groupId);
+    }
+
+    // 그룹 설정 페이지 끝 ------------------------------------------------------------
 }
 
 

@@ -66,9 +66,10 @@ public class MainUserController {
 	    Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");	    
 	    UserDTO sessionUserInfo = (UserDTO)session.getAttribute("sessionUserInfo");	    
 	    
-	    String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
+	    //String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
 	    
-	    if (sessionUserId != null && sessionUserInfo != null) {	    	
+	    if (sessionUserId != null && sessionUserInfo != null) {	    
+	    	String profileImage = "/upload/" + sessionUserInfo.getProfileImage();//오류떄매 수정해봄.-----------------
 	    	model.addAttribute("profileImage",profileImage);
 	    	model.addAttribute("sessionUserInfo", sessionUserInfo);
 	    	//model.addAttribute("profileImage", sessionUserInfo.getProfileImage());
