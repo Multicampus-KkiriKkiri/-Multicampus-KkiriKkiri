@@ -3,7 +3,6 @@
  */
 
 var userNickname; // 현재 로그인한 회원 별명 전역변수
-// var profileImage; // 현재 로그인한 회원 프로필 사진 전역변수
 
 var sock = new SockJS("/ws/multiRoom"); // 웹소켓 전역변수
 var offset = 0; // 채팅 불러올 기준 변수
@@ -112,7 +111,7 @@ function loadInitialChats() {
 					chat.chatTime = formatTimeToKorean(new Date(chat.chatTime));
  
                     // 불러온 메세지 순차적으로 추가
-                    chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage + "</p>";
+                    chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage + "</p>";
                 });
                 
                 $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -161,7 +160,7 @@ function loadMoreChats() {
                     // 불러온 메세지 순차적으로 newMessage에 저장
                     var newMessage = document.createElement("p");
                     newMessage.className = 'chatMessageP ' + messageClass;
-                    newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage;
+                    newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage;
                     
                     // groupChatLogDiv 앞쪽에 추가
                     chatLog.insertBefore(newMessage, chatLog.firstChild);

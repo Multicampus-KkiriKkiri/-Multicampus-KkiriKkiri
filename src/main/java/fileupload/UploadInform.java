@@ -14,8 +14,8 @@ public class UploadInform {
 	
 	// 병찬님 c:/kkirikkiri/group/
 	
-	public static final String groupPhotoUploadPath = "c:/kkirikkiri/groupphoto/";
-	public static final String groupPhotoUploadLocation = "file:///c:/kkirikkiri/groupphoto/";
+	public static final String groupPhotoUploadPath = "groupphoto/";
+	public static final String groupPhotoUploadLocation = "groupphoto/";
 	
 	
 	

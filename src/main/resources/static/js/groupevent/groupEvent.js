@@ -29,6 +29,7 @@
 
 // 사용자 권한에 따라 groupEventOptionBtn(참여 신청/참여 취소/일정 설정) 버튼 속성 설정 함수
 function setEventOptionBtn() {
+	
     if(auth === "nonuser") {
 		$(".groupEventOptionBtn").val("signup");
 		$(".groupEventOptionBtn").html("참여 신청");
@@ -44,6 +45,7 @@ function setEventOptionBtn() {
 	
 	// 일정 최대 참여 인원 수 확인 후 버튼 재설정
 	checkEventMaximumMember();
+	
 } // setGroupOptionBtn() end
 
 // 현재 로그인한 회원의 모임 내 일정 참여 신청 내역 확인 후 eventOptionBtn 버튼 속성 설정하는 함수
@@ -81,7 +83,17 @@ function checkEventMaximumMember() {
         type: 'POST',
         data: { groupId: groupId },
         success: function(data) {
-            
+            $('.groupEventOptionBtn').each(function() {
+                var eventId = parseInt($(this).data('eventid'));
+                var eventData = data.find(event => event.eventId === eventId);
+                
+                if (eventData.currentMemberCnt === eventData.maximumMemberCnt) {
+                    if (auth !== "leader") { // 모임장이 아닌 경우에만 신청 마감 처리
+                        $(this).val("close");
+                        $(this).html("신청 마감");
+                    }
+                }
+            });
         },
         error: function() {
             alert("일정 참여 최대인원 수를 가져오는데 실패했습니다.");
@@ -104,13 +116,36 @@ function setAttendMemberListByEventID() {
 	        data: { eventId: eventId, groupId: groupId },
 	        success: function(data) {
 	            var eventAttendMemberList = '<div class="eventAttendMembersListDiv">';
-	            data.forEach(function(member) {
-	                eventAttendMemberList += '<div class="eventAttendMemberItemDiv">';
-	                eventAttendMemberList += '<img src="' + member.profileImage + '" alt="' + member.userNickname + '">';
-	                eventAttendMemberList += '<p>' + member.userNickname + '</p>';
-	                eventAttendMemberList += '</div>';
-	            });
+	            
+	            // 각 일정 별 신청 인원이 10명이 안넘으면 목록 전부 보여짐
+	            if(data.length < 10) {
+					data.forEach(function(member) {
+		                eventAttendMemberList += '<div class="eventAttendMemberItemDiv">';
+		                eventAttendMemberList += '<img src="/upload/' + member.profileImage + '" alt="' + member.userNickname + '">';
+		                eventAttendMemberList += '<p>' + member.userNickname + '</p>';
+		                eventAttendMemberList += '</div>';
+		            });
+				} else { // 신청 인원이 10명 넘으면 '더보기' 만들고 생략
+		            var additionalMembers = 0;
+					data.forEach(function(member, index) {
+	                    if (index < 8) {
+	                        eventAttendMemberList += '<div class="eventAttendMemberItemDiv">';
+	                        eventAttendMemberList += '<img src="/upload/' + member.profileImage + '" alt="' + member.userNickname + '">';
+	                        eventAttendMemberList += '<p>' + member.userNickname + '</p>';
+	                        eventAttendMemberList += '</div>';
+	                    } else {
+	                        additionalMembers++;
+	                    }
+	                });
+	                if (additionalMembers > 0) {
+	                    eventAttendMemberList += '<div class="eventAttendMemberItemDiv">';
+	                    eventAttendMemberList += '<div class="additionalMembersCntDiv">+' + additionalMembers + '명</div>';
+	                    eventAttendMemberList += '</div>';
+	                }
+				}
+	            
 	            eventAttendMemberList += '</div>';
+	            
 	            $this.html(eventAttendMemberList);
 	        },
 	        error: function() {

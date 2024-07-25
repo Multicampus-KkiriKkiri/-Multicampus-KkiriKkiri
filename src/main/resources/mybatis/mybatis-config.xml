@@ -7,6 +7,7 @@
     <typeAliases>
         <typeAlias type="dto.ChatDTO" alias="chatdto"/>
         <typeAlias type="dto.EventDTO" alias="eventdto"/>
+        <typeAlias type="dto.EventDTO2" alias="eventdto2"/>
         <typeAlias type="dto.GroupDTO" alias="groupdto"/>
         <typeAlias type="dto.GroupDTO2" alias="groupdto2"/>
         <typeAlias type="dto.GroupMemberDTO" alias="groupmemberdto"/>
@@ -14,6 +15,7 @@
         <typeAlias type="dto.UserDTO" alias="userdto"/>
         <typeAlias type="dto.RegionDTO" alias="regiondto"/>
         <typeAlias type="dto.DistrictDTO" alias="districtdto"/>  
-        <typeAlias type="dto.UserInterestDTO" alias="userinterestdto"/>      
+        <typeAlias type="dto.UserInterestDTO" alias="userinterestdto"/>    
+        <typeAlias type="dto.PhotoBoardDTO" alias="photoboarddto"/>    
     </typeAliases>
 </configuration>
