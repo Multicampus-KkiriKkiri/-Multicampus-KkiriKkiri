@@ -2,22 +2,22 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,7 +76,8 @@ public class MyPageController {
 	        }		
 	        	        
 			mv.addObject("loginUser", loginUser);
-			mv.addObject("loginUserRegion", loginUserRegion);
+			//mv.addObject("loginUserRegion", loginUserRegion);
+			mv.addObject("userRegion", loginUserRegion);
 			mv.addObject("loginUserDistrict", loginUserDistrict);
 			mv.addObject("loginUserInterestNames", loginUserInterestNames);	
 			
@@ -93,14 +94,13 @@ public class MyPageController {
 	
 	//내 정보 수정 페이지로 가기 - editMyPage.jsp
 	@RequestMapping("/editmypage")
-	public ModelAndView editMyPage(HttpSession session) {
-		
+	public ModelAndView editMyPage(HttpSession session) {		
 		UserDTO user = userService.getUserInfo((Integer)session.getAttribute("sessionUserId"));
 		user.getUserRegionId();
 		user.getUserDistrictId();		
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("userRegion", groupService.getRegionNameByRegionId(user.getUserRegionId()));
+		mv.addObject("userRegion", groupService.getRegionNameByRegionId(user.getUserRegionId()));		
 		mv.addObject("userDistrict", groupService.getDistrictNameByDistrictId(user.getUserDistrictId()));
 		mv.addObject("userNickname", user.getUserNickname());
 		String profileImage = "/upload/" + user.getProfileImage();			
@@ -184,7 +184,7 @@ public class MyPageController {
                 
             } catch (IOException e) {
                 e.printStackTrace();
-                return "fail";
+                return "{\"status\": \"fail\"}";
             }
         } else {
             user.setProfileImage(sessionUser.getProfileImage());
@@ -210,16 +210,17 @@ public class MyPageController {
         } else {
             user.setUserDistrictId(sessionUser.getUserDistrictId());
         }
+        
+        String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
 
         if (isUpdated) {
             if (userService.signUpProfileUpdate(user) == 1) {
-            	return "{\"status\": \"success\", \"profileImage\": \"/upload/" + user.getProfileImage() + "\"}";
-            	//return "{\"status\": \"success\", \"profileImage\": \"" + user.getProfileImage() + "\"}";
+            	return "{\"status\": \"success\", \"profileImage\": \"/upload/" + user.getProfileImage() + "\", \"userRegion\": \"" + userRegion + "\"}";
             } else {
-                return "fail";
+            	return "{\"status\": \"fail\"}";
             }
         } else {
-            return "fail";
+        	return "{\"status\": \"fail\"}";
         }           
 	}
 	
@@ -319,34 +320,6 @@ public class MyPageController {
 		return result;
 	}	
 	
-	//내 일정 목록 가져오기
-	@ResponseBody
-	@GetMapping("/showmygroupeventlist")
-	public Map<String, Object> showMyGroupEventList(HttpSession session) {
-	    int sessionUserId = (Integer) session.getAttribute("sessionUserId");
-
-	    List<EventDTO> myGroupEventLists = eventService.getMyGroupEvent(sessionUserId);
-	    Map<String, List<EventDTO>> groupedEvents = new LinkedHashMap<>();
-
-	    if (myGroupEventLists != null) {
-	        for (EventDTO event : myGroupEventLists) {
-	            String eventDate = event.getEventDate();
-	            if (!groupedEvents.containsKey(eventDate)) {
-	                groupedEvents.put(eventDate, new ArrayList<>());
-	            }
-	            groupedEvents.get(eventDate).add(event);
-	        }
-
-	        Map<String, Object> hashMap = new HashMap<>();
-	        hashMap.put("groupedEvents", groupedEvents);
-
-	        return hashMap;
-	    } else {
-	        Map<String, Object> errorMap = new HashMap<>();
-	        errorMap.put("error", "아직 내 모임이 없습니다.");
-	        return errorMap;
-	    }
-	}
 	
 	//내 모임 목록 가져오기 - 모임원인 경우	
 	@ResponseBody
@@ -445,137 +418,181 @@ public class MyPageController {
 	    } else {
 	        return null;
 	    }	
-	}		
+	}
+	
 	
 	//내 모임 목록 가져오기 - 신청대기 모임
-		@ResponseBody
-		@GetMapping("/mypendinggroupdetail")
-		public List<GroupDTO2> myPendingGroupList(HttpSession session) {		
-			
-			Integer sessionUserId = (Integer) session.getAttribute("sessionUserId"); 
-			int userId = sessionUserId != null ? sessionUserId.intValue() : 0; 		
-			//System.out.println(userId);
-			
-			if(sessionUserId != null) {			
-				List<Integer> mygroupIds = groupMemberService.getMyPendingGroupIdList(userId);
-		        List<GroupDTO2> myPendingGroupDetails = new ArrayList<>();
-		        List<Integer> groupIds = new ArrayList<>();
-		        
-		        for (int mygroupId : mygroupIds) {	            
-		            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
-	                GroupDTO2 groupDetail2 = new GroupDTO2();
-	                groupDetail2.setGroupId(groupDetail.getGroupId());
-	                groupDetail2.setGroupName(groupDetail.getGroupName());
-	                groupDetail2.setGroupImage(groupDetail.getGroupImage());
-	                groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
-	                groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
-	                groupDetail2.setGroupType(groupDetail.getGroupType());
-	                myPendingGroupDetails.add(groupDetail2);
-	                groupIds.add(groupDetail.getGroupId()); 
-		        }
-		        
-	            for (GroupDTO2 myGroupDetail : myPendingGroupDetails) {
-	                int groupRegionId = myGroupDetail.getGroupRegionId();
-	                int groupDistrictId = myGroupDetail.getGroupDistrictId();
-	                List<String> regionNames = groupService.getRegionName(groupRegionId);
-	                List<String> districtNames = groupService.getDistrictName(groupDistrictId);
-
-	                if (regionNames != null && !regionNames.isEmpty()&& !regionNames.get(0).equals("온라인")) {
-	                    String regionName = regionNames.get(0); // 리스트의 첫 번째 항목을 가져옴
-	                    myGroupDetail.setRegionName(regionName);
-	                } else {
-	                    myGroupDetail.setRegionName("");
-	                }
-
-	                if (districtNames != null && !districtNames.isEmpty()&&!districtNames.get(0).equals("온라인")) {
-	                    String districtName = districtNames.get(0); 
-	                    myGroupDetail.setDistrictName(districtName);
-	                } else {
-	                    myGroupDetail.setDistrictName("");
-	                }
-	            } 	            
-				return myPendingGroupDetails;	
-			}else {						
-				return null;
-			}			
-		}
+	@ResponseBody
+	@GetMapping("/mypendinggroupdetail")
+	public List<GroupDTO2> myPendingGroupList(
+			HttpSession session,@RequestParam("page") int page, @RequestParam("size") int size) {		
 		
-		//내 모임 목록 가져오기 - 찜 모임
-				@ResponseBody
-				@GetMapping("/mywishlistgroupdetail")
-				public List<GroupDTO2> myWishlistGroupList(HttpSession session) {		
-					
-					Integer sessionUserId = (Integer) session.getAttribute("sessionUserId"); 
-					int userId = sessionUserId != null ? sessionUserId.intValue() : 0; 		
-					//System.out.println(userId);
-					
-					if(sessionUserId != null) {			
-						List<Integer> mygroupIds = wishlistService.getMyWishlistGroupId(userId);
-				        List<GroupDTO2> mywishlistGroupDetails = new ArrayList<>();
-				        List<Integer> groupIds = new ArrayList<>();
-				        
-				        for (int mygroupId : mygroupIds) {	            
-				            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
-			                GroupDTO2 groupDetail2 = new GroupDTO2();
-			                groupDetail2.setGroupId(groupDetail.getGroupId());
-			                groupDetail2.setGroupName(groupDetail.getGroupName());
-			                groupDetail2.setGroupImage(groupDetail.getGroupImage());
-			                groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
-			                groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
-			                groupDetail2.setGroupType(groupDetail.getGroupType());
-			                mywishlistGroupDetails.add(groupDetail2);
-			                groupIds.add(groupDetail.getGroupId()); 
-				        }
-				        
-			            for (GroupDTO2 myGroupDetail : mywishlistGroupDetails) {
-			                int groupRegionId = myGroupDetail.getGroupRegionId();
-			                int groupDistrictId = myGroupDetail.getGroupDistrictId();
-			                List<String> regionNames = groupService.getRegionName(groupRegionId);
-			                List<String> districtNames = groupService.getDistrictName(groupDistrictId);
+		Integer sessionUserId = (Integer) session.getAttribute("sessionUserId"); 
+		int userId = sessionUserId != null ? sessionUserId.intValue() : 0; 		
+		
+		List<Integer> mygroupIds = groupMemberService.getMyPendingGroupIdList(userId);
+		int startIndex = page * size;
+		int endIndex = Math.min(startIndex + size, mygroupIds.size());
+		
+		
+		if(sessionUserId != null && page * size < mygroupIds.size()) {			
+	        List<GroupDTO2> myPendingGroupDetails = new ArrayList<>();
+	        List<Integer> groupIds = new ArrayList<>();
+	        List<Integer> paginatedGroupDto = mygroupIds.subList(startIndex, endIndex);
+	        
+	        for (int mygroupId : paginatedGroupDto) {	            
+	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
+                GroupDTO2 groupDetail2 = new GroupDTO2();
+                groupDetail2.setGroupId(groupDetail.getGroupId());
+                groupDetail2.setGroupName(groupDetail.getGroupName());
+                groupDetail2.setGroupImage(groupDetail.getGroupImage());
+                groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
+                groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
+                groupDetail2.setGroupType(groupDetail.getGroupType());
+                myPendingGroupDetails.add(groupDetail2);
+                groupIds.add(groupDetail.getGroupId()); 
+	        }
+	        
+            for (GroupDTO2 myGroupDetail : myPendingGroupDetails) {
+                int groupRegionId = myGroupDetail.getGroupRegionId();
+                int groupDistrictId = myGroupDetail.getGroupDistrictId();
+                List<String> regionNames = groupService.getRegionName(groupRegionId);
+                List<String> districtNames = groupService.getDistrictName(groupDistrictId);
 
-			                if (regionNames != null && !regionNames.isEmpty()&& !regionNames.get(0).equals("온라인")) {
-			                    String regionName = regionNames.get(0); // 리스트의 첫 번째 항목을 가져옴
-			                    myGroupDetail.setRegionName(regionName);
-			                } else {
-			                    myGroupDetail.setRegionName("");
-			                }
+                if (regionNames != null && !regionNames.isEmpty()&& !regionNames.get(0).equals("온라인")) {
+                    String regionName = regionNames.get(0); // 리스트의 첫 번째 항목을 가져옴
+                    myGroupDetail.setRegionName(regionName);
+                } else {
+                    myGroupDetail.setRegionName("");
+                }
 
-			                if (districtNames != null && !districtNames.isEmpty()&&!districtNames.get(0).equals("온라인")) {
-			                    String districtName = districtNames.get(0); 
-			                    myGroupDetail.setDistrictName(districtName);
-			                } else {
-			                    myGroupDetail.setDistrictName("");
-			                }
-			            } 	            
-						return mywishlistGroupDetails;	
-					}else {					
-						return null;
-					}			
-				}	
+                if (districtNames != null && !districtNames.isEmpty()&&!districtNames.get(0).equals("온라인")) {
+                    String districtName = districtNames.get(0); 
+                    myGroupDetail.setDistrictName(districtName);
+                } else {
+                    myGroupDetail.setDistrictName("");
+                }
+            } 	            
+			return myPendingGroupDetails;	
+		}else {						
+			return null;
+		}			
+	}
 	
+	//내 모임 목록 가져오기 - 찜 모임
+	@ResponseBody
+	@GetMapping("/mywishlistgroupdetail")
+	public List<GroupDTO2> myWishlistGroupList(
+			HttpSession session,@RequestParam("page") int page, @RequestParam("size") int size) {		
+		
+		Integer sessionUserId = (Integer) session.getAttribute("sessionUserId"); 
+		int userId = sessionUserId != null ? sessionUserId.intValue() : 0; 		
+		
+		List<Integer> mygroupIds = wishlistService.getMyWishlistGroupId(userId);
+		int startIndex = page * size;
+		int endIndex = Math.min(startIndex + size, mygroupIds.size());
+		
+		if(sessionUserId != null&& page * size < mygroupIds.size()) {			
+	        List<GroupDTO2> mywishlistGroupDetails = new ArrayList<>();
+	        List<Integer> groupIds = new ArrayList<>();
+	        List<Integer> paginatedGroupDto = mygroupIds.subList(startIndex, endIndex);
+	        
+	        for (int mygroupId : paginatedGroupDto) {	            
+	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
+                GroupDTO2 groupDetail2 = new GroupDTO2();
+                groupDetail2.setGroupId(groupDetail.getGroupId());
+                groupDetail2.setGroupName(groupDetail.getGroupName());
+                groupDetail2.setGroupImage(groupDetail.getGroupImage());
+                groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
+                groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
+                groupDetail2.setGroupType(groupDetail.getGroupType());
+                mywishlistGroupDetails.add(groupDetail2);
+                groupIds.add(groupDetail.getGroupId()); 
+	        }
+	        
+            for (GroupDTO2 myGroupDetail : mywishlistGroupDetails) {
+                int groupRegionId = myGroupDetail.getGroupRegionId();
+                int groupDistrictId = myGroupDetail.getGroupDistrictId();
+                List<String> regionNames = groupService.getRegionName(groupRegionId);
+                List<String> districtNames = groupService.getDistrictName(groupDistrictId);
+
+                if (regionNames != null && !regionNames.isEmpty()&& !regionNames.get(0).equals("온라인")) {
+                    String regionName = regionNames.get(0); // 리스트의 첫 번째 항목을 가져옴
+                    myGroupDetail.setRegionName(regionName);
+                } else {
+                    myGroupDetail.setRegionName("");
+                }
+
+                if (districtNames != null && !districtNames.isEmpty()&&!districtNames.get(0).equals("온라인")) {
+                    String districtName = districtNames.get(0); 
+                    myGroupDetail.setDistrictName(districtName);
+                } else {
+                    myGroupDetail.setDistrictName("");
+                }
+            } 	            
+			return mywishlistGroupDetails;	
+		}else {					
+			return null;
+		}			
+	}
 	
+	//내 일정 목록 가져오기	 	
+	@ResponseBody
+	@GetMapping("/showmygroupeventlist")
+	public List<EventDTO> showMyGroupEventList(
+	        HttpSession session, 
+	        @RequestParam(value = "eventType", required = false) String eventType, 
+	        @RequestParam("page") int page, 
+	        @RequestParam("size") int size) {
+	    
+	    int sessionUserId = (Integer) session.getAttribute("sessionUserId");
+	    List<EventDTO> myGroupEventLists = eventService.getMyGroupEvent(sessionUserId);
+	    
+	    if (myGroupEventLists == null || myGroupEventLists.isEmpty()) {
+	        return Collections.emptyList(); // 빈 리스트 반환
+	    }
+
+	    List<EventDTO> filteredEvents = new ArrayList<>();
+	    LocalDate today = LocalDate.now();
+	    LocalDate threeYearsAgo = today.minusYears(3);
+	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	    //무한 스크롤 구현 전 '진행 중 일정', '지나간 일정' 구분
+	    for (EventDTO event : myGroupEventLists) {
+	        String dateString = event.getEventDate().split(" ")[0]; // "yyyy-MM-dd" 형식
+	        LocalDate eventDate = LocalDate.parse(dateString, dateFormatter); // LocalDate로 변환
+
+	        boolean isOngoing = eventDate.isAfter(today) || eventDate.isEqual(today);
+	        boolean isPast = eventDate.isBefore(today) && eventDate.isAfter(threeYearsAgo);
+
+	        if ("ongoing".equals(eventType) && isOngoing) {	        	
+	            filteredEvents.add(event);
+	        } else if ("past".equals(eventType) && isPast) {        	
+	            filteredEvents.add(event);
+	        } else if (eventType == null) {
+	            // eventType이 null인 경우 모든 이벤트 추가
+	            filteredEvents.add(event);
+	        }
+	    }
+	    
+	    //'지나간 일정' 내림차순 정렬
+	    if ("past".equals(eventType)) {
+	        filteredEvents.sort((e1, e2) -> {
+	            LocalDate date1 = LocalDate.parse(e1.getEventDate().split(" ")[0], dateFormatter);
+	            LocalDate date2 = LocalDate.parse(e2.getEventDate().split(" ")[0], dateFormatter);
+	            return date2.compareTo(date1);
+	        });
+	    }    
+
+	    // 무한스크롤 구현 관련
+	    int startIndex = page * size;
+	    int endIndex = Math.min(startIndex + size, filteredEvents.size());
+	    if (startIndex >= filteredEvents.size()) {
+	        return Collections.emptyList(); 
+	    }	    
+	    return filteredEvents.subList(startIndex, endIndex);
+	}
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

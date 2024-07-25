@@ -23,6 +23,6 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<EventDTO> getMyGroupEvent(int userId) {
 		return dao.getMyGroupEvent(userId);
-	}	
-
+	}
+		
 }

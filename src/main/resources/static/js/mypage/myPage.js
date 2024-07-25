@@ -1,37 +1,188 @@
 //관심사 수정 - 상단에 위치시키기
 let interests = [];
 
-/*모임목록 보여주기 + 무한 스크롤*/
-let page = 0;
-let pageSize = 12;
-let isLoading = false;
-let hasMoreData = true;
-let currentLoadFunction = () => loadMoreGroups('/mygroupdetailasmember'); // 초기값 설정
+// 모든 관심사 체크박스에 대한 공통 이벤트 핸들러
+$("input[type='checkbox'].interest-list").change(function() {
+    let labelText = $(this).next("label").text();
+    let isChecked = $(this).is(":checked");
 
+    if (isChecked) {
+        interests.push(labelText);
+    } else {
+        interests = interests.filter(item => item !== labelText);
+    }
+    console.log(interests); 
+});
+
+//관심사가 한 개 이상 선택 안돼 안내 메시지 나간후 다시 클릭하면 안내메시지 안보이기
+$('.interest-list').on('change', function() {
+    $('#my-page-interest-warning').text('').css('color', '');
+});   
+
+$("#modify-interest-btn").click(function(){
+console.log(interests.length);
+		$.ajax({
+		type: 'POST',
+		url: '/modifyInterestId',
+		data: {interests : interests},
+		success : function(response){					
+			if (response != '') {
+                $('#user-interests').empty(); 
+                response.forEach(function(interest) {
+                    $('#user-interests').append(
+						'<div class="my-page-show-interest-area">'+
+							'<i class="fa-solid fa-paper-plane"></i>'+
+							'<div>' + interest + '</div>'+
+						'</div>'
+					);
+				$('#interest-list-area').slideUp();
+                });
+			}else{
+				$('#my-page-interest-warning').text('한 개 이상 반드시 선택해주세요.').css('color','red');
+			}
+		},//success
+		error: function(xhr,status, error){
+			console.error('AJAX 요청 실패: ' + status, error);
+		}		
+	});//ajax			
+});//#modify-interest-btn.click    
+
+//관심사 수정 버튼 클릭 시 수정창 보여주고 닫기
+$('#show-modify-interest-btn').click(function(){
+    $('#interest-list-area').slideToggle();
+});
+
+
+//모임 목록 상단 메뉴탭 - 메뉴탭 클릭 후에도 hover 효과 유지
+document.addEventListener('DOMContentLoaded', function(){
+	const buttons = document.querySelectorAll('#my-page-nav button');
+	
+	buttons.forEach(button => {
+		button.addEventListener('click',function(){
+			buttons.forEach(btn=> btn.classList.remove('clicked'));
+			
+			this.classList.add('clicked');
+		});
+	});
+});//addEventListener
+
+
+// 메뉴탭 하단 메뉴 슬라이딩 메뉴
+const groupNavLine = document.getElementById('my-group-nav-underline');
+const eventNavLine = document.getElementById('my-event-nav-underline');
+const myGroupBottomNavBtns = document.getElementsByClassName('my-group-bottom-nav');
+const myEventBottomNavBtns = document.getElementsByClassName('my-event-bottom-nav');
+
+Array.from(myGroupBottomNavBtns).forEach(menu => menu.addEventListener('click', (e) => {
+	underlineIndicator(e, 'group');
+	hideEventNavLine(); 
+}));
+Array.from(myEventBottomNavBtns).forEach(menu => menu.addEventListener('click', (e) => {
+    underlineIndicator(e, 'event');
+    hideGroupNavLine(); 
+}));    
+    
+function underlineIndicator(e, type) {
+    const target = e.currentTarget;
+    if (type === 'group') {
+        groupNavLine.style.left = target.offsetLeft + "px";
+        groupNavLine.style.width = target.offsetWidth + "px";
+        groupNavLine.style.top = target.offsetTop + target.offsetHeight + "px";
+        groupNavLine.style.display = 'block'; 
+    } else if (type === 'event') {
+        eventNavLine.style.left = target.offsetLeft + "px";
+        eventNavLine.style.width = target.offsetWidth + "px";
+        eventNavLine.style.top = target.offsetTop + target.offsetHeight + "px";
+        eventNavLine.style.display = 'block'; 
+    }
+}
+function hideGroupNavLine() {
+    groupNavLine.style.display = 'none'; 
+}
+
+function hideEventNavLine() {
+    eventNavLine.style.display = 'none'; 
+}
+
+
+// 모임/일정 목록 보여주기 + 무한 스크롤
 $(document).ready(function() {
-    // 페이지가 로드되었을 때 '내 모임', '모임원' 버튼 클릭된 상태로 보여주기
-    $('#my-group-area').trigger('click').css('color', 'red');
-    $('#as-member').trigger('click').css('color', 'red');
-    $('#my-group-content').show();
+	//모임 목록
+    let page = 0;
+    let pageSize = 12;
+    let isLoading = false;
+    let hasMoreData = true;
+    let currentLoadFunction = () => loadMoreGroups('/mygroupdetailasmember'); // 초기값 설정
 
+    // '내 모임', '내 모임 일정' 버튼 작동
     $('#my-group-area').click(function() {
         $('#my-groups').show();
-        $('#as-member').trigger('click').css('color', 'red');
-        $('#my-group-content').show();
-        $('#my-event-content').hide();
-    });
+        $('#my-events').hide();        
+        // 기본적으로 '모임원' 버튼을 클릭한 상태로 설정
+        $('#as-member').trigger('click');
+    });    
 
+    $('#my-event-area').click(function() {
+        $('#my-groups').hide();
+        $('#my-events').show();
+        // 기본적으로 '진행중 일정' 버튼을 클릭한 상태로 설정
+        $('#ongoing-events').trigger('click');
+    });  
+
+    function loadMoreGroups(url) {    
+        if (isLoading) return;
+        isLoading = true;
+        
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: {
+                page: page,
+                size: pageSize
+            },
+            success: function(response) {
+                if (response && response.length > 0) {
+                    $.each(response, function(index, myGroupDetails) {
+                        var myGroupHtml =
+                            '<div class="col-sm-3 my-group-detail" style="margin-top: 2rem;">' +
+                                '<a href="/groupdetail/info?groupId=' + myGroupDetails.groupId + '">' +
+                                    '<div class="my-group-image-name">' +
+                                        '<img class="my-group-image" src="' + myGroupDetails.groupImage + '" alt="모임 대표 사진">' +
+                                        '<p class="my-group-name">' + myGroupDetails.groupName + '</p>' +
+                                    '</div>' +
+                                '</a>' +
+                            '</div>';
+                        $('#my-group-content').append(myGroupHtml);
+                    });
+                    page++;
+                    isLoading = false;
+                } else {
+                    if (page === 0) {
+                        var noneGroupHtml =
+                            '<div class="my-page-no-group-message">' +
+                                '<img src="/images/letsGo.jpg" alt="이모티콘">' +
+                                '<a href="#">지금 모임 둘러보기</a>' +
+                            '</div>';
+                        $('#my-group-content').empty().append(noneGroupHtml);
+                    }
+                    isLoading = false;
+                    hasMoreData = false;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ' + status, error);
+                $('#my-group-content').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
+                isLoading = false;
+                hasMoreData = false;
+            }
+        });//ajax
+    }//loadMoreGroups    
+    
     // '내 모임' -> '모임원' 모임 목록 페이지 로드되자마자 보여주기
+    $('#my-group-area').trigger('click');
     loadMoreGroups('/mygroupdetailasmember');
-
-    // 공통 스크롤 이벤트 핸들러
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading && hasMoreData) {
-            //console.log('Triggering loadMoreGroups'); 
-            currentLoadFunction();
-        }
-    });
-
+    
+    // 모임 목록 무한 스크롤 구현
     $('#as-member').click(function() {
         resetPagination();
         $('#my-group-content').empty();
@@ -45,278 +196,190 @@ $(document).ready(function() {
         currentLoadFunction = () => loadMoreGroups('/mygroupasleader');
         loadMoreGroups('/mygroupasleader');
     });
-});
-
-function resetPagination() {
-    page = 0;
-    isLoading = false;
-    hasMoreData = true;
-}
-
-function loadMoreGroups(url) {	
-	if (isLoading) return;
-	//console.log(`Loading page ${page} from ${url}`); 	
-    isLoading = true;
     
-    $.ajax({
-        type: 'GET',
-        url: url,
-        data: {
-            page: page,
-            size: pageSize
-        },
-        success: function(response) {
-            if (response && response.length > 0) {
-                $.each(response, function(index, myGroupDetails) {
-                    var myGroupHtml =
-                        '<div class="col-sm-3 my-group-detail" style="margin-top: 2rem;">' +
-                            '<a href="/groupdetail/info?groupId=' + myGroupDetails.groupId + '">' +
-                                '<div class="my-group-image-name">' +
-                                    '<img class="my-group-image" src="' + myGroupDetails.groupImage + '" alt="모임 대표 사진">' +
-                                    '<p class="my-group-name">' + myGroupDetails.groupName + '</p>' +
-                                '</div>' +
-                            '</a>' +
-                        '</div>';
-                    $('#my-group-content').append(myGroupHtml);
-                });
-                page++;
-                isLoading = false;
-            } else {
-                if (page === 0) {
-                    var noneGroupHtml =
-                        '<div>' +
-                            '<img src="/images/letsGo.jpg" alt="이모티콘" style="width: 250px; height: 250px;">' +
-                            '<a href="#">지금 모임 둘러보기</a>' +
-                        '</div>';
-                    $('#my-group-content').empty().append(noneGroupHtml);
-                }
-                isLoading = false;
-                hasMoreData = false;
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX 요청 실패: ' + status, error);
-            $('#my-group-content').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
-            isLoading = false;
-            hasMoreData = false;
-        }
-    });
-}
-
-
-//'내 모임' -> '신청대기' 모임 목록 보여주기
-//$(document).ready(function(){
-	$('#waiting-lists').click(function(){
-	    $.ajax({
-		    type: 'GET',
-		    url: '/mypendinggroupdetail',
-		    success: function(response){
-				//alert(response[0].groupName);
-		        if(response && response.length > 0){
-		            $('#my-group-content').empty();
-		            $.each(response, function(index, myGroupDetails){					
-		                if(index <= 10){    //이부분 무한 스크롤링 구현하면 수정 필요
-		                    var myGroupHtml = 
-		                    	'<div class="col-3">' +
-		                        '<a href="#">' +
-		                            '<img class="my-group-image" style="width:300px; height:300px;" src="' + myGroupDetails.groupImage + '" alt="모임 대표 사진">' +
-		                            '<h5>' + myGroupDetails.groupName + '</h5>' +
-		                            '<div>'+
-		                                '<div>' + myGroupDetails.groupType + '</div>' +
-		                                '<div>' + myGroupDetails.regionName + ' ' + myGroupDetails.districtName + '</div>' +
-		                            '<div>' +
-		                        '</a>' +
-		                    '</div>';
-		                    $('#my-group-content').append(myGroupHtml);
-		                }
-		            });
-		        } else {
-					var noneGroupHtml = 
-						`<div>
-							<img src="/images/letsGo.jpg" alt="이모티콘" style="width: 250px; height: 250px;">
-							<a href="#">지금 모임 둘러보기</a>
-						</div>`;
-		            $('#my-group-content').empty().append(noneGroupHtml);
-		            //$('#go-to-my-group-list').hide();
-		        }
-		    },
-		    error: function(xhr, status, error){
-		        console.error('AJAX 요청 실패: ' + status, error);
-		        $('#my-group-content').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
-		    }
-		});//ajax		
-	});//as-leader click
-//});//ready
-
-//'내 모임' -> '쨈' 모임 목록 보여주기
-//$(document).ready(function(){
-	$('#wishlists').click(function(){
-	    $.ajax({
-		    type: 'GET',
-		    url: '/mywishlistgroupdetail',
-		    success: function(response){
-				//alert(response[0].groupName);
-		        if(response && response.length > 0){
-		            $('#my-group-content').empty();
-		            $.each(response, function(index, myGroupDetails){					
-		                if(index <= 10){    //이부분 무한 스크롤링 구현하면 수정 필요
-		                    var myGroupHtml = 
-		                    	'<div class="col-3">' +
-		                        '<a href="#">' +
-		                            '<img class="my-group-image" style="width:300px; height:300px;" src="' + myGroupDetails.groupImage + '" alt="모임 대표 사진">' +
-		                            '<h5>' + myGroupDetails.groupName + '</h5>' +
-		                            '<div>'+
-		                                '<div>' + myGroupDetails.groupType + '</div>' +
-		                                '<div>' + myGroupDetails.regionName + ' ' + myGroupDetails.districtName + '</div>' +
-		                            '<div>' +
-		                        '</a>' +
-		                    '</div>';
-		                    $('#my-group-content').append(myGroupHtml);
-		                }
-		            });
-		        } else {
-					var noneGroupHtml = 
-						`<div>
-							<img src="/images/letsGo.jpg" alt="이모티콘" style="width: 250px; height: 250px;">
-							<a href="#">지금 모임 둘러보기</a>
-						</div>`;
-		            $('#my-group-content').empty().append(noneGroupHtml);
-		            //$('#go-to-my-group-list').hide();
-		        }
-		    },
-		    error: function(xhr, status, error){
-		        console.error('AJAX 요청 실패: ' + status, error);
-		        $('#my-group-content').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
-		    }
-		});//ajax		
-	});//as-leader click
-//});//ready
-
-				         
-    // 모든 관심사 체크박스에 대한 공통 이벤트 핸들러
-    $("input[type='checkbox'].interest-list").change(function() {
-        let labelText = $(this).next("label").text();
-        let isChecked = $(this).is(":checked");
-
-        if (isChecked) {
-            interests.push(labelText);
-        } else {
-            interests = interests.filter(item => item !== labelText);
-        }
-        console.log(interests); 
+    $('#waiting-lists').click(function() {
+        resetPagination();
+        $('#my-group-content').empty();
+        currentLoadFunction = () => loadMoreGroups('/mypendinggroupdetail');
+        loadMoreGroups('/mypendinggroupdetail');
     });
     
-    //관심사가 한 개 이상 선택 안돼 안내 메시지 나간후 다시 클릭하면 안내메시지 안보이기
-    $('.interest-list').on('change', function() {
-        $('#my-page-interest-warning').text('').css('color', '');
-    });   
+    $('#wishlists').click(function() {
+        resetPagination();
+        $('#my-group-content').empty();
+        currentLoadFunction = () => loadMoreGroups('/mywishlistgroupdetail');
+        loadMoreGroups('/mywishlistgroupdetail');
+    });    
 
-    $("#modify-interest-btn").click(function(){
-	console.log(interests.length);
-			$.ajax({
-			type: 'POST',
-			url: '/modifyInterestId',
-			data: {interests : interests},
-			success : function(response){					
-				if (response != '') {
-                    $('#user-interests').empty(); 
-                    response.forEach(function(interest) {
-                        $('#user-interests').append(
-							'<div class="my-page-show-interest-area">'+
-								'<i class="fa-solid fa-paper-plane"></i>'+
-								'<div>' + interest + '</div>'+
-							'</div>'
-						);
-					$('#interest-list-area').slideUp();
-                    });
-				}else{
-					$('#my-page-interest-warning').text('한 개 이상 반드시 선택해주세요.').css('color','red');
-				}
-			},//success
-			error: function(xhr,status, error){
-				console.error('AJAX 요청 실패: ' + status, error);
-			}		
-		});//ajax			
-	});//#modify-interest-btn.click   
-//});//ready  
+    function resetPagination() {
+        page = 0;
+        isLoading = false;
+        hasMoreData = true;
+    }
+    
 
-//관심사 수정 버튼 클릭 시 수정창 보여주고 닫기
-$('#show-modify-interest-btn').click(function(){
-    $('#interest-list-area').slideToggle();
-});
+    // 내 일정 보여주기
+    let eventPage = 0;
+    let eventPageSize = 4;
+    let eventIsLoading = false;
+    let eventType = null;   
+    let eventHasMoreData = true;
+    let previousYears = new Set();
+    let previousDates = new Set(); 
 
+    // 진행중 일정, 지나간 일정 버튼 클릭 시
+    $('#ongoing-events').click(function() {
+        $('#my-groups').hide();
+        eventType = 'ongoing';
+        eventPage = 0; 
+        $('#my-event-content').empty(); 
+        previousYears.clear(); 
+        previousDates.clear();
+        eventHasMoreData = true;  
+        loadEvents(); 
+    });
 
-//내 일정 보여주기
-//$(document).ready(function() {	
-    $('#my-event-area').click(function() {
-		$('#my-groups').hide();
+    $('#past-events').click(function() {
+        $('#my-groups').hide();
+        eventType = 'past';
+        eventPage = 0; 
+        $('#my-event-content').empty(); 
+        previousYears.clear(); 
+        previousDates.clear();
+        eventHasMoreData = true;
+        loadEvents(); 
+    });
+
+    function loadEvents() {
+        if (eventIsLoading || !eventHasMoreData) return;          
+        eventIsLoading = true;         
+        
         $.ajax({
             type: 'GET',
-            url: '/showmygroupeventlist',
+            url: '/showmygroupeventlist',            
+            data: { eventType: eventType, page: eventPage, size: eventPageSize },
             success: function(response) {
                 if (response.error) {
                     $('#my-event-content').html(response.error);
                     $('#my-event-content').show();
                 } else {
-                    let groupedEvents = response.groupedEvents;
-                    let eventListHtml = '';
-                    let previousYear = null;
+                    let groupedEvents = response;
+                    let eventListHtml = '';  
+                    
+  	                if (groupedEvents.length === 0) {
+						  console.log("groupEvents: ", groupedEvents);
+						  
+	                    if (eventPage === 0) {
+	                        // 일정이 없을 경우 메시지 표시
+	                        var noneGroupHtml =
+	                            '<div class="my-page-no-group-message">' +
+	                                '<img src="/images/letsGo.jpg" alt="이모티콘">' +
+	                                '<a href="#">지금 모임 둘러보기</a>' +
+	                            '</div>';
+	                        $('#my-event-content').empty().append(noneGroupHtml);
+	                    }
+	                    eventIsLoading = false;
+	                    eventHasMoreData = false;
+	                    return; 
+	                } 		                       
 
-                    $.each(groupedEvents, function(date, events) {
-						let dateObj = new Date(date);
-                        let year = dateObj.getFullYear();
-                        let formattedDate = formatDate(dateObj);
-
-                        if (year !== previousYear) {
-                            eventListHtml += '<div class="event-year-group">';
-                            eventListHtml += '<div>일정 연도: ' + year + '</div>';
-                            eventListHtml += '</div>';
-                            previousYear = year;
-                        }
-
-                        eventListHtml += '<div class="event-date-group">';
-                        eventListHtml += '<div>일정 날짜: ' + formattedDate + '</div>';
+				        $.each(groupedEvents, function(index, event) {
+                        let date = new Date(event.eventDate);
+                        let year = date.getFullYear();
+                        let formattedDate = formatDate(date);        
+                        let dateKey = `${year}-${date.getMonth() + 1}-${date.getDate()}`;                       
+              
+                        // 현재 날짜 확인
+                   		let today = new Date();
+                   		let todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+                   		let isToday = (dateKey === todayKey);
+                 
+                        //console.log("Current Event Year: ", year);
+                  		//console.log("Previous Years: ", previousYears);                       
                         
-                        $.each(events, function(index, event) {
-                            eventListHtml += '<div class="event-item">';
-                            eventListHtml += '<img src="' + event.eventImage + '" alt="일정 사진">';
-                            eventListHtml += '<div>일정위치: ' + event.eventLocation + '</div>';
-                            eventListHtml += '<div>일정이름: ' + event.eventName + '</div>';
-                            eventListHtml += '<div>모임이름: ' + event.groupName + '</div>';
-                            eventListHtml += '</div>';
-                        });
+                        //같은 연도의 일정일 경우 연도를 한 번만 표시
+                        if(!previousYears.has(year)){							
+							if (previousYears.size > 0) {
+	                            eventListHtml += '</div>'; // 이전 연도의 날짜 그룹을 닫음
+	                        }       
+				            eventListHtml += '<div class="event-year-group">';
+                            eventListHtml += '<h4 class="event-year">' + year + '</h4>';
+                            eventListHtml += '<div class="event-date-group">';
+                            previousYears.add(year);							
+						}		
+						
+	                    // 같은 날짜의 일정일 경우 날짜를 한 번만 표시 + 현재 날짜는 '오늘' 텍스트로 대체
+	                    if (!previousDates.has(dateKey)) {
+	                        if (isToday) {
+	                            eventListHtml += '<h5 class="event-date">오늘</h5>';
+	                        } else {
+	                            eventListHtml += '<h5 class="event-date">' + formattedDate + '</h5>';
+	                        }
+	                        eventListHtml += '<div class="event-date-hr"></div>';
+	                        previousDates.add(dateKey); 
+	                    }
+	                                 
+                        eventListHtml += '<a class="event-item" href="/groupdetail/info?groupId=' + event.groupId + '">';                       
+                        eventListHtml += '<img src="' + event.eventImage + '" alt="일정 사진">';                        
+                        eventListHtml += '<div class="event-item-content">';
+                        eventListHtml += '<div class="event-item-location">' + event.eventLocation + '</div>';
+                        eventListHtml += '<div class="event-item-name">' + event.eventName + '</div>';             
+                        eventListHtml += '<div class="event-item-group-name">' + event.groupName + '</div>';                        
                         eventListHtml += '</div>';
-                    });
+                        eventListHtml += '</a>';                        
+                    });//each
+                    
+                  	if (previousYears.size > 0) {
+                    	eventListHtml += '</div>'; // 마지막 연도의 날짜 그룹을 닫음
+                	}
 
-                    $('#my-event-content').html(eventListHtml);
+                    $('#my-event-content').append(eventListHtml);                                        
                     $('#my-event-content').show();
-                }
+                    eventPage++;
+                }//외부 else     
+                eventIsLoading = false;           
             },
             error: function(xhr, status, error) {
                 console.error('AJAX 요청 실패: ' + status, error);
+                $('#my-event-content').html('<p>서버와의 통신에 문제가 발생했습니다.</p>');
+                eventIsLoading = false;
             }
-        });
-    });
-//});
+        });//ajax
+    }//loadEvents
+   
+    // 날짜 형식을 변경하는 함수
+    function formatDate(date) {
+        const months = [
+            '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'
+        ];
+        const weekdays = [
+            '일', '월', '화', '수', '목', '금', '토'
+        ];
 
-// 날짜 형식을 변경하는 함수 추가
-function formatDate(date) {
-    const options = { month: 'long', day: 'numeric', weekday: 'short' };
-    const formatter = new Intl.DateTimeFormat('ko-KR', options);
-    const parts = formatter.formatToParts(date);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const weekday = weekdays[date.getDay()];
 
-    let formattedDate = '';
-    parts.forEach((part) => {
-        if (part.type === 'month') {
-            formattedDate += part.value + ' ';
-        } else if (part.type === 'day') {
-            formattedDate += part.value + '일 ';
-        } else if (part.type === 'weekday') {
-            formattedDate += '(' + part.value + ')';
+        return `${month} ${day}일(${weekday})`;
+    }
+
+    // 모임/일정 무한 스크롤 이벤트 통합
+    $(window).on('scroll', function() {
+        let scrollTop = $(window).scrollTop();
+        let windowHeight = $(window).height();
+        let documentHeight = $(document).height();
+
+        if (scrollTop + windowHeight >= documentHeight - 100) {
+            if ($('#my-groups').is(':visible') && !isLoading && hasMoreData) {
+                currentLoadFunction();
+            }
+
+            if ($('#my-events').is(':visible') && !eventIsLoading) {
+                loadEvents();
+            }
         }
-    });
+    });//scroll
+});//ready
 
-    return formattedDate;
-}
 
     

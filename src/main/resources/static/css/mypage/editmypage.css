@@ -33,6 +33,7 @@ main{
 	width: 300px;
 	height: 350px;
 	border-radius: 7px;
+	/* object-fit: cover;  이미지 비율에 맞추기 */
 }
 
 .edit-my-profile-image-area{
@@ -49,6 +50,13 @@ file-input-container{
 	filter:contrast(90%);
 }
 
+.edit-mypage-img-save-message{
+	margin-top: 5px;
+	color: #2f4f3b;
+	font-weight: 450;
+}
+
+
 /*별명 수정*/
 .edit-mypage-nickName-area{
 	display: flex;
@@ -57,6 +65,38 @@ file-input-container{
 #nickname-confirm-btn:hover{
 	filter:contrast(90%);
 }
+
+.mypage-check-nickName-input-count-num-area{
+	position: relative;
+}
+
+#mypage-nickName-count-num{
+	position: absolute;
+	top: 10px;
+	left: 265px;
+	color:#707070;
+}
+
+#nickname-confirm-result{
+	color: red;
+}
+
+/*자기소개 글자 수 제한*/
+.mypage-prfile-intro-input-count-num-area{
+	position: relative;
+}
+
+#mypage-profile-intro-count-num{
+	position: absolute;
+	top: 90px;
+	right: 65px;
+	color:#707070;
+}
+
+#mypage-profile-intro-count-result{
+	color:red;
+}
+
 
 /*지역 수정*/
 .edit-user-area-title{

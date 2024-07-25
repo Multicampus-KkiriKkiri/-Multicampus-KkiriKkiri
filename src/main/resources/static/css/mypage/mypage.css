@@ -18,17 +18,48 @@ main{
 	padding-left: 50px;
 }
 
+/*구역별 디자인*/
+.my-info-area-deco-box{
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	padding: 15px;
+	position: absolute;
+	border-radius: 7px;
+}
+
+/*사용자 이름 보이는 제목*/
+.myPage-title{
+	display: flex;
+	text-align: center;
+	margin-right: 100px;
+}
+.myPage-subTitle i{
+	color: #8fbc8f;
+	margin-left: 2px;
+}
+
+.myPage-subTitle{
+	display: flex;
+	margin-left: 10px;
+}
+
+.myPage-subTitle h1{
+	position: relative;
+	top: -8px;	
+}
+
 /*프로필 사진*/
 .profile-img-container{
 	 position: relative;
      width: fit-content;
-     display: inline-block;       
+     display: inline-block;  
 }
 
 .profile-img-container img{
 	display: block;
     width: 100%;
-    height: auto;   
+    height: auto;  
+    border-radius: 7px;
 }
 
 .profile-overlay {
@@ -38,7 +69,7 @@ main{
    width: 100%;
    height: 100%;  
    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 10%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%);   
-	border-radius: 7px;
+   border-radius: 7px;
 }
 
 .my-page-region-area{
@@ -91,8 +122,7 @@ main{
 	color: #3b5f3e;
 	font-weight: 600;
 	padding:0;
-	text-decoration: underline;
-		
+	text-decoration: underline;		
 }
 
 .my-page-show-interest-area{
@@ -116,15 +146,16 @@ main{
     display: inline-block;
     width: 110px;
     height: 40px;
-    border: 2px solid #e4e2dd;
     position: relative;
     cursor: pointer;
-    border-radius: 7px;
-    background-color: #f2f2f2;
+    border-radius: 7px;    
+    background-color:#fbf7f3;    
     display: flex;
     justify-content: center; 
     align-items: center;
     font-size: 1rem;
+    font-weight:450;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .interest-list:checked + label {
@@ -140,7 +171,7 @@ main{
 }
 
 .third-my-page-interest-checkbox-area{
-	margin-left: 1rem;
+	margin-left: 1.2rem;
 	margin-top: 10px;
 }
 
@@ -167,10 +198,74 @@ main{
 	color: white;
 }
 
+/*모임&일정 메뉴탭*/
+/*상단 메뉴탭*/
+#my-page-nav{
+	display:flex;	
+}
 
+#my-page-nav button{
+	margin-right:2px;
+	padding: 10px;
+	width: 11%;
+	height: 8%;
+	border-radius: 7px;	
+	border:none;
+	background-color: #eaf2ea;
+	font-weight: 500;	
+	color:#3b5f3e;
+}
 
+#my-page-nav button:hover{
+	background-color: #8fbc8f;
+	color: white;
+}
+/*myPage.js에서 사용*/
+#my-page-nav button.clicked {
+    background-color: #8fbc8f;
+	color: white;
+}
 
+.my-page-top-nav-line{
+	height: 2px;
+	background-color:#eaf2ea;	
+}
 
+/*모임 보여지는 공간*/
+#my-groups,
+#my-events{
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	border-radius: 7px;
+	margin-top: 2rem;
+	padding: 30px 40px;
+}
+
+/*하단 메뉴탭*/
+#my-group-area-nav,
+#my-event-area-nav{
+	display:flex;	
+}
+
+#my-group-area-nav button,
+#my-event-area-nav button{
+	margin-right:2px;
+	padding: 10px;
+	width: 11%;
+	height: 8%;		
+	border:none;
+	background-color: white;
+	font-weight: 500;	
+	color:#3b5f3e;	
+}
+
+#my-group-nav-underline,
+#my-event-nav-underline{	
+	height: 4px;
+	background-color:#eaf2ea;
+    position: absolute;   
+    transition: 0.5s;
+    bottom: 0;
+}
 
 /*내 모임 목록*/
 /*모임 이미지 & 이름*/
@@ -201,89 +296,96 @@ main{
     text-overflow: ellipsis;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#my-page-nav{
-	display:flex;
+/*내 그룹이 없을 경우 보여지는 메시지*/
+.my-page-no-group-message img{
+	width: 20%;
+	height: 65%;
 }
 
-#my-group-area-nav{
-	display:flex;
-}
-   
-#my-group-area-nav a{
-	margin-right: 50px;
-}
-
-#my-group-area-nav a:last-child{
-	margin-right: 0;
+.my-page-no-group-message{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
 }
 
-
-        
-
-/*관심사 설정 체크박스*/
-/*
-    .checkbox_class {
-
-    display : none;
+.my-page-no-group-message a{
+	margin-top: 10px;
+	color: #3b5f3e;
+	font-weight: bold;
+	text-decoration: underline;
 }
 
-.checkbox_label {
-
-color : #404040;
-background-color : #c0c0c0;    
-border-radius : 1rem;
-font-size : 12px;
-line-height : 16px;
-padding : 8px;
-margin : 4px;    
-text-align : center;
+/*일정 목록*/
+#my-events{
+	display: none;
 }
 
-.checkbox_label:hover {
-
-background-color : #A0A0A0;
+.event-year{
+	margin-top:2rem;
 }
 
-
-.checkbox_label_click {
-
-color : #FFFFFF;
-background-color : #404040;    
-border-radius : 1rem;
-font-size : 12px;
-line-height : 16px;
-padding : 8px;
-margin : 4px;    
-text-align : center;
+.event-date{	
+	margin-top: 1rem;
+	font-weight: bold;
 }
- */       
-        
 
+.event-date-hr{
+	height: 2px;
+	background-color:#e0e0e0;
+	margin-bottom: 1.5rem;
+	width: 90%;
+}
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+.event-item{
+	display: flex;
+	align-items: flex-start;
+	box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
+	width: 90%;
+	margin: 1rem 0;
+	overflow: hidden;
+}
+
+.event-item img{	
+	width: 200px;
+	height: 150px;	
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.event-item-content{		
+	padding: 10px 30px;
+	flex: 1;
+	box-sizing: border-box;
+	overflow: hidden;
+    flex-shrink: 0;
+}
+
+.event-item-location{
+	color: #2f4f3b;
+	font-weight: 600;
+}
+
+.event-item-name{
+	font-size: 20px;
+	font-weight: 600;
+	display: block;	
+	/*텍스트 2줄까지만 보여주기*/
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;   
+    padding-bottom: 5px;
+    margin: 0;
+}
+
+.event-item-group-name{
+	font-size: 18px;
+	font-weight: 500;
+	color: #7d7d7d;
+}
+
+     

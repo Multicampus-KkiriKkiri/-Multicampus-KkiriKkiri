@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
     
 <!DOCTYPE html>
 <html>
@@ -54,26 +55,35 @@ $(document).ready(function(){
 		        <label class="custom-file-label" for="file-upload">사진 업로드</label>
 		        <input type="file" id="file-upload" name="profileImage" class="file-input" accept="image/*" onchange="loadFile(this)">
 		    </div>
+		    <div class="edit-mypage-img-save-message">* '사진 업로드' 후 '변경 내용 저장' 버튼을 <br>눌러 저장해 주세요.</div>
 		</form>								
 	
 		<div class="edit-my-info-area">		
 			<h6><b>별명</b></h6>
 			<div class="edit-mypage-nickName-area">
-				<input id="userNickname" type="text" value="${userNickname}"> 
+				<div class="mypage-check-nickName-input-count-num-area">
+					<input id="userNickname" type="text" value="${userNickname}" maxLength=26> 
+					<span id="mypage-nickName-count-num">${25 - fn:length(userNickname)}</span>
+				</div>
 				<button id="nickname-confirm-btn">중복확인</button>
 			</div>
-			<div id="nickname-confirm-result"><!--별명중복검사 결과창  --></div><br>		
+			<div id="nickname-confirm-result"><!--별명중복검사 결과창  --></div><br>
+			<div id="mypage-nickname-count-confirm-result"><!-- 별명 글자수 제한 결과창 --></div>		
 			
 			<h6><b>자기소개</b></h6>
-			<textarea id="profileIntro" rows="4" cols="5">${userProfileIntro}</textarea><br>
-			
+			<div class="mypage-prfile-intro-input-count-num-area">
+				<textarea id="profileIntro" rows="4" cols="5" maxLength=201>${userProfileIntro}</textarea><br>
+				<span id="mypage-profile-intro-count-num">${200 - fn:length(userProfileIntro)}</span>
+			</div>
+			<div id="mypage-profile-intro-count-result"><!--자기소개 글자수 제한 결과창--></div>
 			<h6 class="edit-user-area-title"><b>지역</b></h6>			
 			<select class="edit-user-area-options" id="userRegion" name="userRegionId">
-				<option value="" readOnly selected>${userRegion}</option>
+				<option value="${userRegion}">${userRegion}</option>
 			</select>		
 			<select class="edit-user-area-options" id="userDistrict" name="userDistrictId">
-				<option value="" readOnly selected>${userDistrict}</option>
-			</select>			
+				<option value="${userDistrict}">${userDistrict}</option>
+			</select>		
+			<div id="mypage-confirm-result-before-edit"><!-- 별명 미입력시 안내창 --></div>	
 			<button id="edit-my-profile-btn">변경 내용 저장</button>
 			
 			<div class="edit-pw-delete-account">

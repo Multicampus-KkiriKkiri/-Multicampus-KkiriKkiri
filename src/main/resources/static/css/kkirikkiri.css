@@ -42,10 +42,15 @@ body a{
 	height: 80px;
 }
 
+.search-area{
+	margin-top:20px;
+}
+
 .search-area input{	
 	border: 1px solid #e4e2dd;
 	height: 40px;
 	width: 250px;
+	padding: 10px;
 }
 
 .search-area .first-input:first-of-type {
@@ -54,8 +59,21 @@ body a{
     border-bottom-left-radius: 7px;
 }
 
-.search-area .second-input {
-    border-right: none;   
+.region-input{	
+	border-right: none;
+	border-radius: 0px;
+	width: 250px;
+	padding-left: 10px;	
+	appearance: none; /*기본 화살표 제거*/
+	-webkit-appearance: none; /*Safari와 같은 웹킷 기반 브라우저에서 기본 화살표 제거*/
+	-moz-appearance: none; /*Firefox에서 기본 화살표 제거*/	
+}
+
+/*option 요소의 스타일 변경*/
+.region-input option {
+    color: #333;
+    background-color: #fff;
+    padding: 10px;
 }
 
 .search-area button{
@@ -216,6 +234,10 @@ body a{
 	text-align: center;
 }
 
+body {
+    overflow: auto; 
+}
+
 body.modal-open {
     overflow: hidden; 
 }
@@ -224,9 +246,6 @@ body.modal-open2 {
     overflow: hidden; 
 }
 
-body {
-    overflow: auto; 
-}
 
 .signup-suggestion{
 	display: flex;
@@ -353,12 +372,26 @@ body {
 	justify-content: space-between;
 }
 
+
+.check-nickName-input-count-num-area{
+	position: relative;	
+}
+
+#signup-nickName-count-number{
+	position: absolute; 
+	right:20px; 
+	top:8px;
+	color:#707070;
+}	
+
 #userNickname{
 	width: 18em;
 	height: 45px;
 	border: 1px solid #e4e2dd;
 	border-radius: 7px;
-	margin-right: 10px;
+	margin-right: 10px;	
+	padding-left: 8px;
+	padding-right: 25px;
 }
 
 #nickname-confirm-btn{
@@ -372,6 +405,12 @@ body {
 #nickname-confirm-result{
 	text-align: left;
 	margin-right: 12rem;
+}
+
+#nickname-count-confirm-result{
+	text-align: left;
+	margin-right: 130px;
+	color: red;
 }
 
 /*회원가입 내정보설정 모달 - 사용자 위치(지역)*/
@@ -431,15 +470,16 @@ select option {
     display: inline-block;
     width: 110px;
     height: 40px;
-    border: 2px solid #e4e2dd;
     position: relative;
     cursor: pointer;
     border-radius: 7px;
-    background-color: #f2f2f2;
+    background-color:#fbf7f3;
     display: flex;
     justify-content: center; 
     align-items: center;
     font-size: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+	margin-top: 10px;
 }
 
 .signup-set-myprofile-modal-interest:checked + label {
@@ -454,12 +494,10 @@ select option {
 .first-interest-checkbox-area{
 	display: flex;	
 	margin-left: 100px;
-	margin-top: 5px;
 }
 
 .second-interest-checkbox-area {
 	display: flex;	
-	margin-top:5px;
 }
 
 .second-interest-checkbox-area label[for="foodDrink"] {
@@ -472,7 +510,6 @@ select option {
 
 .third-interest-checkbox-area label[for="etc"]{
 	margin-right:210px;
-	margin-top: 5px;
 }
 
 /*회원가입 내정보설정 모달 - 자기소개*/
@@ -484,6 +521,24 @@ select option {
 
 #profileIntro{
 	width:85%;
+	overflow: hidden; 
+    resize: none;
+    padding: 10px;
+}
+
+.signup-prfile-intro-input-count-num-area{
+	position: relative;
+}
+
+#signup-profile-intro-count-num{
+	position: absolute;
+	top: 90px;
+	right: 40px;
+}
+
+#signup-profile-intro-count-result{
+	color:red;
+	margin-right: 130px;
 }
 
 

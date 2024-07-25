@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import dto.DistrictDTO;
@@ -64,13 +66,15 @@ public class MainUserController {
 	@GetMapping("/mainLogin")
 	public String loginForm(Model model, HttpSession session) {
 	    Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");	    
-	    UserDTO sessionUserInfo = (UserDTO)session.getAttribute("sessionUserInfo");	    
+	    UserDTO sessionUserInfo = (UserDTO)session.getAttribute("sessionUserInfo");	 	    
 	    
+	    UserDTO user = userService.getUserInfo((Integer)session.getAttribute("sessionUserId"));	    
 	    String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
-	    
+    
 	    if (sessionUserId != null && sessionUserInfo != null) {	    	
 	    	model.addAttribute("profileImage",profileImage);
 	    	model.addAttribute("sessionUserInfo", sessionUserInfo);
+	    	model.addAttribute("userRegion", groupService.getRegionNameByRegionId(user.getUserRegionId()));
 	    	//model.addAttribute("profileImage", sessionUserInfo.getProfileImage());
 	    }else {
 	        System.out.println("sessionUserInfo = null");
@@ -272,8 +276,8 @@ public class MainUserController {
 			System.out.println("오류");			
 			return null;
 		}			
-	}	
-
+	}			
+	
 }
 
 
