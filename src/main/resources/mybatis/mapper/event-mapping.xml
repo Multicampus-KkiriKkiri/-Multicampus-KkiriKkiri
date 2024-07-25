@@ -23,32 +23,12 @@
 	
 	<!-- 마이페이지 내 일정 가져오기 
 	<select id="getMyGroupEvent" resultType="eventdto">
-		select * 
-		from event e
-		where e.eventId in (
-			select em.eventId
-			from event_member em
-			where em.userId = ${userId}
-		)
+	    select e.*, g.groupName
+	    from event e
+	    join event_member em on e.eventId = em.eventId
+	    join `group` g on e.groupId = g.groupId
+	    where em.userId = #{userId}
+	    order by e.eventDate
 	</select>
-	-->
-	
-	<select id="getMyGroupEvent" resultType="eventdto">
-    select e.*, g.groupName
-    from event e
-    join event_member em on e.eventId = em.eventId
-    join `group` g on e.groupId = g.groupId
-    where em.userId = #{userId}
-    order by e.eventDate
-</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 </mapper>

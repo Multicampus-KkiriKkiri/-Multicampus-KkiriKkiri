@@ -32,9 +32,11 @@ $(document).ready(function(){
 		<a href="/kkirikkiri" class="logo">
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>	
-		<form action="/groupsearch" method="get" class="search-area" style="margin-top:20px;"> 	       
+		<form action="/groupsearch" method="get" class="search-area"> 	       
 	       <input type="text" class="first-input" id="search-input-keyword" name="keyword" placeholder="검색어 입력" /><!--  
-	       --><input type="text" class="second-input" id="search-input-region" name="region" placeholder="지역 입력" /><!--
+	       --><select class="region-input" id="search-userRegion" name="userRegionId">
+				<option><!-- ajax로 받은 지역 보여짐 --></option>
+			 </select><!--
 	       --><button id="search-button">
 	       <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:white"></i>
 	       </button>       	
@@ -176,10 +178,17 @@ $(document).ready(function(){
 	    
 		    <h6 class="nickName-title"><b>내 별명</b></h6>
 		    <div class="check-nickName-input-area">
-		    	<input type="text" required id="userNickname" name="userNickname">
+		    	<div class="check-nickName-input-count-num-area">
+		    		<input type="text" required id="userNickname" name="userNickname" maxlength="26">
+		    		<span id="signup-nickName-count-number">25</span>
+		    	</div>
 		    	<button type="button" id="nickname-confirm-btn">중복확인</button>
 		    </div>
-		    <div id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 	 	   
+		    <div id="nickname-confirm-result"><!--별명 중복 결과창 --></div> 	
+		    <div id="nickname-count-confirm-result"><!-- 별명 글자수 제한 결과창 --></div>
+		    
+			    
+			 	   
 		    
 		    <h6 class="user-area-title"><b>내 위치</b></h6>			    		    	
 			<select class="user-area-options" id="userRegion" name="userRegionId" required>
@@ -212,7 +221,11 @@ $(document).ready(function(){
 		    </div>
 		    
 		    <h6 class="profile-intro-title"><b>내 소개</b></h6>
-		    <textarea id="profileIntro" name="profileIntro" rows="4" cols="50" placeholder=" 간단한 내 소개 입력"></textarea>       		    
+		    <div class="signup-prfile-intro-input-count-num-area">
+		    	<textarea id="profileIntro" name="profileIntro" rows="4" cols="50" placeholder=" 간단한 내 소개 입력" maxlength= "201"></textarea> 
+		    	<span id="signup-profile-intro-count-num">200</span> 
+		    </div>     	
+		    <div id="signup-profile-intro-count-result"><!--자기소개 글자수 제한 결과창--></div> 	    
 		<div id="signup-set-myprofile-result"><!--전체 입력이 안됐을시 보여지는 창 --></div> 
 	    <button type="button" id="signup-set-myprofile-modal-btn" class="login-modal-button">내 정보 등록하기</button> 
 	    </form> 	    	   

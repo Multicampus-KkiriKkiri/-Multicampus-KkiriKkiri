@@ -1,4 +1,30 @@
 //mainHeader.jsp
+//지역정보 가져오기 - MainUserController에서 처리
+$(document).ready(function() {
+    // 모든 지역 정보를 가져와서 "city" 셀렉트 박스에 추가
+    $.ajax({
+        url: '/regions',
+        method: 'GET',
+        success: function(data) {
+            let citySelect = $('#search-userRegion'); 
+            
+            //'대한민국 전체' 옵션 추가
+            citySelect.append('<option value="0">대한민국 전체</option>');
+            
+            // 첫 번째 옵션(공백) 삭제
+            citySelect.find('option:first').remove();
+
+            data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+                .forEach(region => {                    
+                    citySelect.append('<option value="' + region.regionId + '"' + '>' + region.regionName + '</option>');
+                });                    
+        },
+        error: function(error) {
+            console.log("Error fetching regions:", error);
+        }
+    });//ajax
+});//ready 
+
 //상단바 로그인, 회원가입 버튼 누를 시 모달창
 let loginButton = document.getElementById("login-button");
 let signupButton = document.getElementById("signup-button");
@@ -14,11 +40,10 @@ let emailSignupModal = document.getElementById("email-signup-modal");
 
 function openModal(modal){
 	modal.classList.remove('fade-out');
-	modal.classList.add('fade-in');		
-		
+	modal.classList.add('fade-in');			
 	modal.style.display = "block";
 	document.body.classList.add('modal-open');	
-	document.body.style.overflow = 'hidden';
+	//document.body.style.overflow = 'hidden'; 위 코드와 중복
 }
 
 function closeModal(modal){
@@ -30,8 +55,9 @@ function closeModal(modal){
         for (let input of inputs) {
             input.value = "";
         }
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = 'auto';
+        //여러개 모달을 연달아 열 때 overflow:hidden 속성 없애면 화면 스크롤 생김
+        //document.body.classList.remove('modal-open'); 
+        //document.body.style.overflow = 'auto';        
     }, 300);
 }
 
@@ -365,34 +391,73 @@ function loadFile(input){
 }
 
 //회원가입 직후 내정보 설정 모달 내
+//글자 수 제한(별명, 자기소개)
+document.addEventListener('DOMContentLoaded', function () {
+		
+	function updateCountNum(inputElement, maxLength, countElement, confirmElement, errorMessage){
+		inputElement.addEventListener('input', function(){
+			const currentLength = inputElement.value.length;
+			const remainingLength = maxLength - currentLength-1;
+			
+			countElement.textContent = remainingLength;
+			
+			if(remainingLength < 0){
+				confirmElement.textContent = errorMessage;
+			}else{
+				confirmElement.textContent = '';
+			}
+		});
+	}//updateCountNum
+
+	//별명 글자 제한
+	const signupUserNicknameInput = document.getElementById('userNickname');
+    const signupNicknameCount = document.getElementById('signup-nickName-count-number');
+    const nicknameCountConfirm = document.getElementById('nickname-count-confirm-result');
+    updateCountNum(signupUserNicknameInput, 26, signupNicknameCount, nicknameCountConfirm, '최대 25자까지 입력 가능합니다.');
+ 
+ 	//자기소개 글자 수 제한
+	const signupProfileIntroInput = document.getElementById('profileIntro');
+	const signupProfileIntroCount = document.getElementById('signup-profile-intro-count-num');
+	const signupProfileCountConfirm = document.getElementById('signup-profile-intro-count-result');
+	updateCountNum(signupProfileIntroInput, 201, signupProfileIntroCount, signupProfileCountConfirm, '최대 200자까지 입력 가능합니다.');
+});
+
 $(document).ready(function(){
     // 별명 중복 검사
     $('#nickname-confirm-btn').click(function(event){
         event.preventDefault();
-        let userNickname = $('#userNickname').val();        
-        $.ajax({
-            type: 'POST',
-            url: '/nicknameconfirm',
-            data: {
-                userNickname: userNickname 
-            },
-            success: function(response){                
-                if(response === 'success'){
-                    $('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
-                } else {
-                    $('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");                    
-                }
-            },
-            error: function(xhr, status, error){
-                console.error('AJAX 요청 실패: ' + status, error);
-            }           
-        }); // ajax
-    }); // #nickname-confirm-btn.click
+        let userNickname = $('#userNickname').val();      
+        
+        if(userNickname == ''){
+			$('#nickname-confirm-result').text('별명을 입력해 주세요.').css("color","red");
+		}else{	
+	        $.ajax({
+	            type: 'POST',
+	            url: '/nicknameconfirm',
+	            data: {
+	                userNickname: userNickname 
+	            },
+	            success: function(response){ 
+					
+					console.log("response: ", response);
+					               
+	                if(response === 'success'){
+	                    $('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
+	                } else {
+	                    $('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");                    
+	                }
+	            },
+	            error: function(xhr, status, error){
+	                console.error('AJAX 요청 실패: ' + status, error);
+	            }           
+	        }); // ajax			
+		}//else       
+    });// #nickname-confirm-btn.click
     
     // 별명창에 포커스 갈 때 별명 중복 확인창 비우기
     $('#userNickname').focus(function(){
         $('#nickname-confirm-result').text('');
-    });
+    });  
     
     // 사용자 입력 정보 모두 받아오기
     $('#signup-set-myprofile-modal-btn').click(function(){
@@ -476,7 +541,9 @@ function kakaoLogin() {
       },
     })
   }  
-
+  
+  */
+/*
 //구글 로그인 
 //처음 실행하는 함수
 function init() {
@@ -513,4 +580,28 @@ function onSignIn(googleUser) {
 function onSignInFailure(t){		
 	console.log(t);
 }
+*/
+
+//gpt 코드
+/*
+//이때 controller 코드   - jsp 코드 쪽도 재확인 필요
+@RestController
+@RequestMapping("/api/user")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/register")
+    public String registerUser(@RequestBody UserDTO user) {
+        userService.registerUser(user);
+        return "User registered successfully";
+    }
+
+    @GetMapping("/find")
+    public UserDTO getUserByEmail(@RequestParam String email) {
+        return userService.getUserByEmail(email);
+    }
+}
+
 */

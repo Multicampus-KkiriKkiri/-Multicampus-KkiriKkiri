@@ -76,12 +76,18 @@
 .group-name{
 	font-weight: bold;
 	margin-top: 7px;	
+	/*텍스트 3줄까지만 보여주기*/
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;	
 }
 
 /*모임 타입, 지역정보*/
 .group-info{
-	color: rgb(112 112 112);
 	font-weight: 500;
+	color: #7d7d7d;
 }
 
 .group-type{
@@ -112,12 +118,16 @@
 
 .interest-nav:hover{
 	background-color:#fbf7f3;
-	transform: scale(0.98); 
+	transform: scale(0.98); 	
+	background-color:#eaf2ea;
+	color: #2f4f3b;
 }
 
 .continue-hover {	
     background-color:#fbf7f3;
-	transform: scale(0.98);
+	transform: scale(0.98);	
+	background-color:#eaf2ea;
+	color: #2f4f3b;
 }
 
 .interest-nav i{
