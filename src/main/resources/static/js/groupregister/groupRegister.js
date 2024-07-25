@@ -8,7 +8,7 @@ $(document).ready(function() {
         $('#regionSelect').hide(500);
     });
 
-    // 지역 정보 불러오기
+    // 지역 정보를 불러오는 AJAX 호출
     $.ajax({
         url: '/groupregister/regions',
         type: 'GET',
@@ -16,20 +16,18 @@ $(document).ready(function() {
             const regionSelect = $('#groupRegionId');
             regionSelect.empty();
 
-            // 데이터 필터링하여 온라인 지역 제외하고 옵션 추가
             data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
                 .forEach(region => {
                     regionSelect.append(new Option(region.regionName, region.regionId));
                 });
 
-            // 최초 로드 시 첫 번째 지역의 구 정보 불러오기
             if (data.length > 0) {
                 loadDistricts(data[0].regionId);
             }
         }
     });
 
-    // 지역 선택 시 구 정보 불러오기
+    // 지역 선택 시 구를 불러오는 함수 호출
     $('#groupRegionId').on('change', function() {
         const regionId = $(this).val();
         loadDistricts(regionId);
@@ -49,7 +47,7 @@ $(document).ready(function() {
         });
     }
 
-    // 승인제 선택 시 질문 입력란 표시/숨기기 및 호스트 질문 로드
+    // 승인제와 선착순 버튼 클릭 이벤트 처리
     $('.approval-type').on('click', function() {
         var value = $(this).data('value');
         $('.approval-type').removeClass('active');
@@ -65,116 +63,135 @@ $(document).ready(function() {
         }
     });
 
-    // 기본적으로 선착순 버튼이 눌러져 있도록 설정
     $('.approval-type[data-value="선착순"]').addClass('active');
-    $('#questionBox').hide(); // 초기에 숨김 처리
+    $('#questionBox').hide();
 
-    // 이미지 추가 버튼 클릭 시 파일 선택 이벤트 트리거
+    // 이미지 업로드 버튼 클릭 시 파일 입력 클릭
     $('#addImageButton').on('click', function() {
         $('#groupImage').click();
     });
 
-    // 이미지 선택, 미리보기 보여주기
+    // 이미지 파일 선택 시 미리보기 표시
     $('#groupImage').on('change', function(event) {
         var reader = new FileReader();
         reader.onload = function() {
-            var img = new Image();
-            img.onload = function() {
-                // 이미지 크기 조정
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var MAX_WIDTH = 200;
-                var MAX_HEIGHT = 200;
-                var width = img.width;
-                var height = img.height;
-
-                if (width > height) {
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                } else {
-                    if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-
-                $('#preview').attr('src', canvas.toDataURL('image/jpeg')).show();
-                $('.plus-icon').hide();
-            };
-            img.src = reader.result;
+            $('#preview').show().attr('src', reader.result);
         };
         reader.readAsDataURL(event.target.files[0]);
     });
 
-    // 참가인원에 숫자만 입력 가능하도록 설정
+    // 참가인원 필드 초기값 설정
+    $('#groupMaximum').val(2);
+
+    // 참가인원 필드의 값이 변경될 때마다 확인
     $('#groupMaximum').on('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, ''); // 숫자 이외의 입력 제거
-        if (parseInt(this.value) > 300) {
-            this.value = '300'; // 최대값 제한
-        } else if (parseInt(this.value) < 1) {
-            this.value = '1'; // 최소값 제한
+        var value = $(this).val();
+        if (value > 300) {
+            $(this).val(300);
+        } else if (value < 2) {
+            $(this).val(2);
         }
     });
-  // 금칙어 설정 단어 넣기
-    const forbiddenWords = ["금칙어1", "금칙어2", "금칙어3"];
 
-    // 금칙어 체크 함수
-    function checkForbiddenWords(groupName, groupDetail) {
-        for (let word of forbiddenWords) {
-            if (groupName.includes(word) || groupDetail.includes(word)) {
-                return true;
-            }
+    // 참가인원 필드의 최대값 설정
+    $('#groupMaximum').attr('max', 300);
+
+    // 등록 버튼 클릭 시
+    $('#register_submit').on('click', function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        var groupName = $('#groupName').val();
+        var groupDetail = $('#groupDetail').val();
+        var groupSignUpType = $('input[name="groupSignUpType"]:checked').val();
+        var groupImage = $('#groupImage')[0].files[0];
+        var groupSignUpQuestion = $('#groupSignUpQuestion').val();
+        var groupRegionId = $('#groupRegionId').val();
+        var groupDistrictId = $('#groupDistrictId').val();
+        var groupMaximum = $('#groupMaximum').val();
+        var groupInterestId = $('#groupInterestId').val();
+
+        // 참가인원 유효성 검사
+        if (!groupName || !groupDetail || !groupRegionId || !groupDistrictId || !groupMaximum || !groupInterestId ||
+            (groupSignUpType === '승인제' && !groupSignUpQuestion)) {
+            alert("모임 가입에 필요한 요소를 채워주세요.");
+            return;
         }
-        return false;
+
+        // 금칙어 체크
+        checkForbiddenWords(groupName, groupDetail).done(function(hasForbiddenWords) {
+            if (hasForbiddenWords) {
+                return; // 금칙어가 발견되면 등록을 하지 않음
+            }
+
+            // 그룹 이름 중복 체크
+            checkGroupName(groupName).done(function(exists) {
+                if (exists) {
+                    alert("이미 존재하는 모임 이름입니다. 다른 이름을 입력하세요.");
+                } else {
+                    // 폼 제출
+                    var formData = new FormData($('#groupForm')[0]);
+                    if (!groupImage) {
+                        if (confirm("이미지를 등록하지 않았습니다. 등록 하시겠습니까?")) {
+                            formData.append('groupImage', ''); // 이미지 필드 빈값으로 설정
+                            submitForm(formData);
+                        }
+                    } else {
+                        formData.append('groupImage', groupImage); // 이미지 추가
+                        submitForm(formData);
+                    }
+                }
+            }).fail(function() {
+                alert("모임 이름 중복 체크에 실패했습니다. 다시 시도해 주세요.");
+            });
+        });
+    });
+
+    function submitForm(formData) {
+        $.ajax({
+            url: '/groupregister/register',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response && response.groupId) {
+                    window.location.href = "/groupdetail/info?groupId=" + response.groupId; // 서버에서 반환된 그룹 ID로 리디렉션
+                } else {
+                    alert("등록된 그룹 정보를 찾을 수 없습니다.");
+                }
+            },
+            error: function() {
+                alert("모임 등록에 실패했습니다.");
+            }
+        });
     }
 
-    // 모임 이름 중복 체크 함수
     function checkGroupName(groupName) {
         return $.ajax({
             url: '/groupregister/checkGroupName',
             type: 'POST',
             data: { groupName: groupName },
+            dataType: 'json'
         });
     }
 
-    // 모임 등록 버튼 클릭 시 처리
-    $('#register_submit').on('click', function(event) {
-        event.preventDefault(); // 폼 제출 중지
+    function checkForbiddenWords(groupName, groupDetail) {
+        // 금칙어 리스트
+        var forbiddenWords = ["금칙어1", "금칙어2", "금칙어3"]; // 실제 금칙어로 교체
 
-        var groupName = $('#groupName').val();
-        var groupDetail = $('#groupDetail').val();
-        var groupImage = $('#groupImage').val();
+        // 금칙어가 포함되어 있는지 검사
+        var hasForbiddenWords = forbiddenWords.some(word => {
+            return groupName.includes(word) || groupDetail.includes(word);
+        });
 
-        // 금칙어 체크
-        if (checkForbiddenWords(groupName, groupDetail)) {
-            alert("모임 이름이나 설명에 금칙어가 포함되어 있습니다.");
-            return;
+        if (hasForbiddenWords) {
+            var message = forbiddenWords.find(word => groupName.includes(word))
+                ? "그룹 이름에 금칙어가 포함되어있습니다! 다른 이름으로 설정해주세요."
+                : "그룹 설명에 금칙어가 포함되어있습니다! 다른 설명으로 설정해주세요.";
+
+            alert(message);
         }
 
-        // 모임 이름 중복 체크
-        checkGroupName(groupName).done(function(response) {
-            if (response) {
-                alert("이미 존재하는 모임 이름입니다. 다른 이름을 입력하세요.");
-            } else {
-                // 이미지 체크
-                if (!groupImage) {
-                    if (confirm("이미지를 등록하지 않았습니다. 등록 하시겠습니까?")) {
-                        // 이미지 없이 등록
-                        $('#groupImage').val(''); // null 값 설정
-                        $('#groupForm').submit(); // 폼 제출
-                    }
-                } else {
-                    $('#groupForm').submit(); // 폼 제출
-                }
-            }
-        }).fail(function() {
-            alert("모임 이름 중복 체크에 실패했습니다. 다시 시도해 주세요.");
-        });
-    });
-
+        return $.Deferred().resolve(hasForbiddenWords);
+    }
 });

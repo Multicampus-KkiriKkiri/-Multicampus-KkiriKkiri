@@ -178,7 +178,8 @@ function openGroupQuitPopup() {
 // 모임 설정 페이지 열기 함수
 function openGroupSettingPage() {
 	// 새 탭으로 모임 설정 페이지 열기
-	window.open('/groupset', '_blank');
+	window.open('/settings/main', '_blank');
+	//groupset--> settings/main
 }
 
 // 모임원 목록 불러오는 함수

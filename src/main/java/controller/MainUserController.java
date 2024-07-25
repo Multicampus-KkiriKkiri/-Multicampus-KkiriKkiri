@@ -69,9 +69,9 @@ public class MainUserController {
 	    UserDTO sessionUserInfo = (UserDTO)session.getAttribute("sessionUserInfo");	 	    
 	    
 	    UserDTO user = userService.getUserInfo((Integer)session.getAttribute("sessionUserId"));	    
-	    String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
     
 	    if (sessionUserId != null && sessionUserInfo != null) {	    	
+        String profileImage = "/upload/" + sessionUserInfo.getProfileImage();
 	    	model.addAttribute("profileImage",profileImage);
 	    	model.addAttribute("sessionUserInfo", sessionUserInfo);
 	    	model.addAttribute("userRegion", groupService.getRegionNameByRegionId(user.getUserRegionId()));

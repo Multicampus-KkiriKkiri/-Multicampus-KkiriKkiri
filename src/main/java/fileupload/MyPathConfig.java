@@ -7,10 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MyPathConfig implements WebMvcConfigurer {
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/upload/**")
-	   .addResourceLocations(UploadInform.uploadLocation);		
-	}
-	
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations(UploadInform.uploadLocation);
+
+        registry.addResourceHandler("/groupregister/uploads/**")
+                .addResourceLocations(UploadInform.groupRegisterUploadLocation);
+    }
+    
 }

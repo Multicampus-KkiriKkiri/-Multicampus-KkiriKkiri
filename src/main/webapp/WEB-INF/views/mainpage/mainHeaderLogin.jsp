@@ -65,7 +65,7 @@ $(document).ready(function(){
 		  </button>		  
 		  <ul id="main-header-login-dropdown-menu">
 		    <li><a class="dropdown-item" href="/mypage">마이페이지</a></li>
-		    <li><a class="dropdown-item" href="#">모임 만들기</a></li>
+		    <li><a class="dropdown-item" href="/groupregister/register">모임 만들기</a></li>
 		    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 		  </ul>		  		  
 		</span>		

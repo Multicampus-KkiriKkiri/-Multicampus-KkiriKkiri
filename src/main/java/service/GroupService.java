@@ -9,6 +9,7 @@ import java.util.List;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
+import dto.UserDTO;
 
 public interface GroupService {
 
@@ -52,6 +53,12 @@ public interface GroupService {
 
 	//마이페이지 - 사용자가 모임장인 그룹 가져오기
 	List<GroupDTO> getGroupDetailAsLeader(int userId);
+	//모임 설정페이지-
+	 // 그룹 정보 업데이트
+    void updateGroup(GroupDTO groupDTO);
+
+    // 그룹 삭제
+    void deleteGroup(int groupId);
 
 }
 

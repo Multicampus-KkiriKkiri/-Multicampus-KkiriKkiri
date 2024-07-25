@@ -5,9 +5,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
-    <script src="/jquery-3.7.1.min.js"></script>
-    <script src="/js/groupSettings/groupSettingsMain.js"></script>
+    <title>Group Settings Main</title>
+    <script src="<c:url value='/jquery-3.7.1.min.js' />"></script>
+    <script src="<c:url value='/js/groupsettings/groupSettingsMain.js' />"></script>
     <script>
         var groupId = ${groupId};
         var userId = ${userId};
@@ -30,17 +30,17 @@
         <input type="hidden" id="userId" value="${userId}">
         <section id="groupNavSection">
             <nav class="groupDetailNav" id="groupTapNav">
-                <button class="tapBtn" value="group">모임 관리</button>
-                <button class="tapBtn" value="member">멤버 관리</button>
-                <button class="tapBtn" value="event">일정 관리</button>
-                <button class="tapBtn" value="photo">사진 관리</button>
+                <button class="tapBtn" data-tab="group">모임 관리</button>
+                <button class="tapBtn" data-tab="member">멤버 관리</button>
+                <button class="tapBtn" data-tab="event">일정 관리</button>
+                <button class="tapBtn" data-tab="photo">사진 관리</button>
             </nav>
         </section>
         <section id="groupSettingTapPageSection">
-            <%-- 기본 탭 콘텐츠 로드 --%>
+            <!-- 기본 탭 콘텐츠 로드 -->
             <jsp:include page="groupManage.jsp"/>
         </section>
-    </main>
+    </main>    
 
     <footer>
         <jsp:include page="../mainpage/mainFooter.jsp" />

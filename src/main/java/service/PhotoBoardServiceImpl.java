@@ -28,7 +28,7 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
 		map.put("limitArr", limitArr);
 		
 		return dao.getPagingBoardListByGroupId(map);
-		
+    
 	}
 	
 	@Override

@@ -1,15 +1,17 @@
 package controller;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
+import dto.UserDTO;
 import jakarta.servlet.http.HttpSession;
 import service.GroupService;
 import net.coobird.thumbnailator.Thumbnails;
+import fileupload.UploadInform;
 
 @Controller
 @RequestMapping("/groupregister")
@@ -28,8 +32,6 @@ public class GroupRegisterController {
 
     @Autowired
     private GroupService groupService;
-    
-    private static final String UPLOAD_DIR = "C:/groupUpload/";
 
     @GetMapping("/register")
     public ModelAndView showGroupRegisterPage() {
@@ -37,61 +39,71 @@ public class GroupRegisterController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerGroup(HttpSession session, 
-                                      @RequestParam("groupType1") String groupType, 
-                                      @ModelAttribute GroupDTO groupDTO, 
-                                      @RequestParam("groupRegisterImage") MultipartFile groupImageFile) {
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> registerGroup(HttpSession session,
+                                                              @RequestParam("groupType1") String groupType,
+                                                              @ModelAttribute GroupDTO groupDTO,
+                                                              @RequestParam(value = "groupRegisterImage", required = false) MultipartFile groupImageFile) {
         Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
-        if (sessionUserId == null) {
-            return new ModelAndView("redirect:/kkirikkiri");
+        UserDTO sessionUserInfo = (UserDTO) session.getAttribute("sessionUserInfo");
+
+        if (sessionUserId == null || sessionUserInfo == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("message", "Session invalid"));
         }
 
         groupDTO.setGroupType(groupType);
         groupDTO.setGroupLeaderId(sessionUserId);
 
-        // 모임 이름 중복 체크
         if (groupService.checkGroupNameExists(groupDTO.getGroupName())) {
-            ModelAndView mav = new ModelAndView("groupregister/groupRegister");
-            mav.addObject("message", "이미 존재하는 모임 이름입니다. 다른 이름을 입력하세요.");
-            return mav;
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "이미 존재하는 모임 이름입니다. 다른 이름을 입력하세요."));
         }
 
-        if (!groupImageFile.isEmpty()) {
+        String imagePath = UploadInform.groupRegisterWebPath + "blank.png"; // 기본 이미지 경로
+
+        if (groupImageFile != null && !groupImageFile.isEmpty()) {
             try {
                 String uniqueFilename = saveGroupImage(groupImageFile);
-                groupDTO.setGroupImage(UPLOAD_DIR + "resized_" + uniqueFilename);
+                imagePath = UploadInform.groupRegisterWebPath + uniqueFilename; // 저장된 이미지 경로
             } catch (IOException e) {
                 e.printStackTrace();
-                ModelAndView mav = new ModelAndView("groupregister/groupRegister");
-                mav.addObject("message", "이미지 업로드 중 오류가 발생했습니다.");
-                return mav;
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "이미지 업로드 중 오류가 발생했습니다."));
             }
         }
 
+        groupDTO.setGroupImage(imagePath);
+
         try {
             int groupId = groupService.registerGroup(groupDTO);
-            return new ModelAndView("redirect:/groupdetail/info?groupId=" + groupId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("groupId", groupId);
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            ModelAndView mav = new ModelAndView("groupregister/groupRegister");
-            mav.addObject("message", "모임 등록 중 오류가 발생했습니다.");
-            return mav;
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "모임 등록 중 오류가 발생했습니다: " + e.getMessage()));
         }
     }
 
     private String saveGroupImage(MultipartFile groupImageFile) throws IOException {
-        String originalFilename = groupImageFile.getOriginalFilename();
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        if (groupImageFile.isEmpty()) {
+            throw new IOException("Uploaded file is empty");
+        }
+
+        String fileExtension = ".png";
         String uniqueFilename = generateUniqueFilename(fileExtension);
 
-        File originalFile = new File(UPLOAD_DIR + uniqueFilename);
-        groupImageFile.transferTo(originalFile);
+        File uploadDir = new File(UploadInform.groupRegisterUploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
-        BufferedImage originalImage = ImageIO.read(originalFile);
-        BufferedImage resizedImage = Thumbnails.of(originalImage)
-                                               .size(300, 300)
-                                               .asBufferedImage();
-        File resizedFile = new File(UPLOAD_DIR + "resized_" + uniqueFilename);
-        ImageIO.write(resizedImage, "jpg", resizedFile);
+        File resizedFile = new File(uploadDir, uniqueFilename);
+
+        try (InputStream inputStream = groupImageFile.getInputStream()) {
+            Thumbnails.of(inputStream)
+                      .size(400, 300)
+                      .outputFormat("png")
+                      .toFile(resizedFile);
+        }
 
         return uniqueFilename;
     }
@@ -101,7 +113,7 @@ public class GroupRegisterController {
         File file;
         do {
             uniqueFilename = UUID.randomUUID().toString() + fileExtension;
-            file = new File(UPLOAD_DIR + uniqueFilename);
+            file = new File(UploadInform.groupRegisterUploadPath + uniqueFilename);
         } while (file.exists());
 
         return uniqueFilename;
