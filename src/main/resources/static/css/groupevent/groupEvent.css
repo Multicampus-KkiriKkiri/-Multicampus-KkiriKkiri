@@ -1,6 +1,6 @@
 /* groupEvent.css */
 
-#groupEventContainerDiv {
+#groupEventPageDiv {
     display: grid;
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
@@ -82,4 +82,13 @@
 .groupEventOptionBtnDiv {
 	display: flex;
     justify-content: right;
+}
+
+/* 추가된 부분: 추가 모임원 수 스타일 */
+.additionalMembersCntDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 50px;
+    margin: 0 0;
 }

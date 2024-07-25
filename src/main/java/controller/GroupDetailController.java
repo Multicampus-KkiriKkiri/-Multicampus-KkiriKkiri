@@ -48,16 +48,17 @@ public class GroupDetailController {
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
 		String category = interestService.getInterestField(groupDTO.getGroupInterestId());
 		int groupMemberCnt = groupMemberService.getMemberCountInGroup(groupId);
+		
 		HashMap<String, String> regionMap = new HashMap<>();
 		regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
 		regionMap.put("groupDistrict", groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId()));
 		
 		ModelAndView mv = new ModelAndView();
 
-
-		if (session.getAttribute("sessionUserId") != null) { // 로그인 상태 시
-			mv.addObject("userId", (int) session.getAttribute("sessionUserId"));
-			mv.addObject("profileImage", session.getAttribute("sessionUserProfileImg"));
+		if (session.getAttribute("sessionUserInfo") != null) { // 로그인 상태 시
+			mv.addObject("userId", (int)session.getAttribute("sessionUserId"));
+			mv.addObject("profileImage", "/upload/" + ((UserDTO)session.getAttribute("sessionUserInfo")).getProfileImage());
+			mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO)session.getAttribute("sessionUserInfo")).getUserDistrictId()));
 		} else {
 			mv.addObject("userId", 0);
 		}
@@ -65,7 +66,7 @@ public class GroupDetailController {
 		mv.addObject("groupLeaderDTO", groupLeaderDTO);
 		mv.addObject("category", category);
 		mv.addObject("groupMemberCnt", groupMemberCnt);
-		mv.addObject("regionMap", regionMap);		
+		mv.addObject("regionMap", regionMap);
 		mv.addObject("memberList", groupMemberService.getGroupMemberList(groupId));
 
 		mv.setViewName("groupdetail/groupDetail");
@@ -106,7 +107,7 @@ public class GroupDetailController {
 		if(groupMemberService.getMemberCountInGroup(groupId) == 1) { // 모임원 0명일때
 			 return null; 
 		} else { // 모임원 있을때
-			return groupMemberService.getGroupMemberList(groupId); 
+			return groupMemberService.getGroupMemberList(groupId);
 		}
 		
 

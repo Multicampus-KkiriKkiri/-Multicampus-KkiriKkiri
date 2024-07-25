@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.EventDTO;
+import dto.EventDTO2;
 import dto.GroupDTO;
 import dto.UserDTO;
 import service.EventMemberService;
@@ -99,8 +100,17 @@ public class GroupEventController {
             formattedDate.append(String.format(" %d분", minute));
         }
 
-        return formattedDate.toString();
-    }
+		return formattedDate.toString();
+	}
+
+	// 모임 내 일정의 참여 마감 여부 가져오기
+	@PostMapping("/checkeventmaxmember")
+	@ResponseBody
+	List<EventDTO2> checkEventMaxMember(int groupId) {
+
+		return eventService.getEventCurrentMemberAndMaximumMember(groupId);
+
+	}
 	
 	// 현재 로그인한 회원의 모임 내 일정 참여 신청 내역 가져오기
 	@PostMapping("/eventattendapplyhistory")

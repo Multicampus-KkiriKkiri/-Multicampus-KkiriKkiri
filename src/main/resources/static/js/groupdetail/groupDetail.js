@@ -191,8 +191,11 @@ function loadGroupMembers() {
 			$('#memberListDiv').empty(); // 기존 내용을 지움
 			
             if (!members || members.length === 0) {
-                $('#memberListDiv').append("가입한 모임원이 아직 없습니다.");
+                $('#groupMembersDiv').addClass('no-members'); // 멤버가 없을 경우 클래스 추가
+                $('#memberListDiv').html("<div class='memberItemDiv'>가입한 모임원이 아직 없습니다.</div>");
             } else {
+				$('#memberListDiv').addClass('is-members'); // 멤버가 있을 경우 클래스 추가
+				
 				 // 처음에 보여줄 3명의 멤버와 그 외의 숨겨진 멤버 설정
                 let visibleMembers = members.slice(0, 6); // 처음에 보여줄 모임원 3명
                 let hiddenMembers = members.slice(6); // 숨겨진 모임원
@@ -201,7 +204,7 @@ function loadGroupMembers() {
                 visibleMembers.forEach(member => {
                     let memberDiv = `
                         <div class="memberItemDiv">
-                            <div id="memberImageDiv"><img src="${member.profileImage}" alt="${member.userNickname}" class="memberProfileImage" /></div>
+                            <div id="memberImageDiv"><img src="/upload/${member.profileImage}" alt="${member.userNickname}" class="memberProfileImage" /></div>
                             <div class="memberNickname" id="memberNicknameDiv">${member.userNickname}</div>
                         </div>`;
                     $('#memberListDiv').append(memberDiv);
@@ -219,7 +222,7 @@ function loadGroupMembers() {
                             hiddenMembers.forEach(member => {
                                 let memberDiv = `
                                     <div class="memberItemDiv hiddenMember">
-                                        <div id="memberImageDiv"><img src="${member.profileImage}" alt="${member.userNickname}" class="memberProfileImage" /></div>
+                                        <div id="memberImageDiv"><img src="/upload/${member.profileImage}" alt="${member.userNickname}" class="memberProfileImage" /></div>
                           	  			<div class="memberNickname" id="memberNicknameDiv">${member.userNickname}</div>
                                     </div>`;
                                 $('#memberListDiv').append(memberDiv);

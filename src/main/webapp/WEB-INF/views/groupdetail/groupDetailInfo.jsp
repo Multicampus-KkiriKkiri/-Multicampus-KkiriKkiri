@@ -18,7 +18,7 @@
 				  	</div>
 					<div id="leaderInfoDiv">
 						<div id="leaderImageDiv">
-							<img id="leaderImg" src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
+							<img id="leaderImg" src="/upload/${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
 						</div>
 						<div id="leaderNicknameDiv">
 							${groupLeaderDTO.userNickname}

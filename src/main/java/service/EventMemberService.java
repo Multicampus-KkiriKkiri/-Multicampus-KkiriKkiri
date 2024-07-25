@@ -3,6 +3,7 @@ package service;
 import java.util.HashMap;
 import java.util.List;
 
+import dto.EventDTO2;
 import dto.UserDTO;
 
 public interface EventMemberService {
@@ -15,7 +16,7 @@ public interface EventMemberService {
 
 	// 모임원의 모임 내 일정 참여 신청 내역 가져오기
 	List<Integer> getMemberEventAttendApplyHistory(HashMap map);
-	
+
 	// 일정 참여 신청한 모임원 목록 가져오기
 	List<UserDTO> getAttendMemberListByEventId(int eventId);
 
