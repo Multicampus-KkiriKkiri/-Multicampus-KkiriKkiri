@@ -22,7 +22,9 @@ public class PhotoBoardDAO {
 	public List<PhotoBoardDTO> getPagingBoardListByGroupId(HashMap map) {
 		return session.selectList("getPagingBoardListByGroupId", map);
 	}
-	
-	
+
+	public List<PhotoBoardDTO> getPhotoListByPhotoBoardId(int photoBoardId) {
+		return session.selectList("getPhotoListByPhotoBoardId", photoBoardId);
+	}
 	
 }

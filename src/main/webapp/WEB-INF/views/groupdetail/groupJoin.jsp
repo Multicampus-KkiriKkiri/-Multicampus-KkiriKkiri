@@ -26,7 +26,7 @@
 	            <div id="questionDiv">
 	                <div id="leaderInfoDiv">
 	                    <div id="leaderProfileDiv">
-	                        <img src="${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
+	                        <img src="/upload/${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
 	                    </div>
 	                    <div id="leaderNameDiv">
 	                        ${groupLeaderDTO.userNickname}

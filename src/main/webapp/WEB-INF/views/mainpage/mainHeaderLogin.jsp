@@ -26,24 +26,26 @@ $(document).ready(function(){
 </head>
 <body>
 <header class="header-nav">
-	<div>
+	<div class="header-nav-left">
 		<a href="/mainLogin" class="logo">
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>		 
-	       <span class="search-area">
+	       <form action="/groupsearch" method="get" class="search-area">
 	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  
-	        --><input type="text" class="second-input" id="search-input" placeholder="지역 입력" /><!--
+	        --><select class="region-input" id="search-userRegion" name="userRegionId">
+				<option id="show-user-region" value="${userRegion}">${userRegion}</option>
+			 </select><!--
 	         --><button>
 	         <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:#e4e2dd"></i>
 	         </button>
-	       </span>	       
+	       </form>	       
 	</div>
 	
 	<div class="header-nav-right">
-		<a href="#">
+		<a href="/notificationgrouplist">
 			<i class="fa-regular fa-bell header-nav-icon fa-thin"></i>
 		</a>
-		<a href="#">
+		<a href="/notificationchatlist">
 			<i class="fa-regular fa-comment header-nav-icon fa-thin"></i>
 		</a>
 		<a>

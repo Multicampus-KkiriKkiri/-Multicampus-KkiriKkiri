@@ -1,16 +1,29 @@
 //지역정보 가져오기 - MainUserController에서 처리
 $(document).ready(function() {
+	
+	let userOriginalRegion = $('#userRegion').val();
+	let userOriginaldDistrict = $('#userDistrict').val();
+	
     // 모든 지역 정보를 가져와서 "city" 셀렉트 박스에 추가
     $.ajax({
         url: '/regions',
         method: 'GET',
         success: function(data) {
-            let citySelect = $('#userRegion');            
-         	// 데이터 필터링하여 온라인 지역 제외하고 옵션 추가
+            let citySelect = $('#userRegion');   
+     
+            // 기존 옵션 태그 내용 제거
+            citySelect.find('option').remove();
+
             data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
                 .forEach(region => {
-                    citySelect.append('<option value="' + region.regionId + '">' + region.regionName + '</option>');
+                    let isSelected = (region.regionName === userOriginalRegion) ? ' selected' : '';
+                    citySelect.append('<option value="' + region.regionId + '"' + isSelected + '>' + region.regionName + '</option>');
                 });
+
+            //기존 사용자 지역에 대해 district를 자동 로드
+            if (userOriginalRegion) {
+                citySelect.val(data.find(region => region.regionName === userOriginalRegion).regionId).change();
+            }
         },
         error: function(error) {
             console.log("Error fetching regions:", error);
@@ -26,9 +39,10 @@ $(document).ready(function() {
             success: function(data) {
                 var districtSelect = $('#userDistrict');
                 districtSelect.empty();
-                districtSelect.append('<option value="" readOnly selected>구/동 선택</option>');
+
                 data.forEach(function(district) {
-                    districtSelect.append('<option value="' + district.districtId + '">' + district.districtName + '</option>');
+                    let isSelected = (district.districtName === userOriginaldDistrict) ? ' selected' : '';
+                    districtSelect.append('<option value="' + district.districtId + '"' + isSelected + '>' + district.districtName + '</option>');
                 });
             },
             error: function(error) {
@@ -46,43 +60,80 @@ function loadFile(input) {
 
     if (file) {
         uploadedImage.src = URL.createObjectURL(file);
-        uploadedImage.style.width = "300";
-        uploadedImage.style.height = "350";
-        uploadedImage.style.objectFit = "cover";
+        uploadedImage.style.width = "300px";
+        uploadedImage.style.height = "350px";
+        //uploadedImage.style.objectFit = "cover";
     }
 }
 
 //내 프로필 수정
+//글자 수 제한(별명, 자기소개)
+document.addEventListener('DOMContentLoaded', function () {
+		
+	function updateCountNum(inputElement, maxLength, countElement, confirmElement, errorMessage){
+		inputElement.addEventListener('input', function(){
+			const currentLength = inputElement.value.length;
+			const remainingLength = maxLength - currentLength-1;		
+			
+			countElement.textContent = remainingLength;		
+			
+			if(remainingLength < 0){
+				confirmElement.textContent = errorMessage;
+			}else{
+				confirmElement.textContent = '';
+			}
+		});
+	}//updateCountNum
+
+	//별명 글자 제한
+	const myPageNicknameInput = document.getElementById('userNickname');
+    const myPageNicknameCount = document.getElementById('mypage-nickName-count-num');
+    const myPageNicknameCountConfirm = document.getElementById('nickname-confirm-result');
+    updateCountNum(myPageNicknameInput, 26, myPageNicknameCount, myPageNicknameCountConfirm, '최대 25자까지 입력 가능합니다.');
+ 
+ 	//자기소개 글자 수 제한
+	const myPageProfileIntroInput = document.getElementById('profileIntro');
+	const myPageProfileIntroCount = document.getElementById('mypage-profile-intro-count-num');
+	const myPageProfileCountConfirm = document.getElementById('mypage-profile-intro-count-result');
+	updateCountNum(myPageProfileIntroInput, 201, myPageProfileIntroCount, myPageProfileCountConfirm, '최대 200자까지 입력 가능합니다.');
+});
+
+
 $(document).ready(function(){
     // 별명 중복 검사 - MainUserController에서 처리
     $('#nickname-confirm-btn').click(function(event){
         event.preventDefault();
         let userNickname = $('#userNickname').val();
         
-        $.ajax({
-            type: 'POST',
-            url: '/editmynickname',
-            data: {
-                userNickname: userNickname 
-            },
-            success: function(response){         
-                if(response === 'success'){
-                    $('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
-                } else if(response === 'same'){
-                    $('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");
-                } else {
-                    $('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");                  
-                }
-            },
-            error: function(xhr, status, error){
-                console.error('AJAX 요청 실패: ' + status, error);
-            }           
-        }); // ajax
+        if(userNickname == ''){
+			$('#nickname-confirm-result').text('별명을 입력해 주세요.').css("color","red");
+		}else{
+	        $.ajax({
+	            type: 'POST',
+	            url: '/editmynickname',
+	            data: {
+	                userNickname: userNickname 
+	            },
+	            success: function(response){         
+	                if(response === 'success'){
+	                    $('#nickname-confirm-result').text('사용 가능한 별명입니다.').css("color","#3b5f3e");
+	                } else if(response === 'same'){
+	                    $('#nickname-confirm-result').text('기존 별명과 동일합니다.').css("color","#3b5f3e");
+	                } else {
+	                    $('#nickname-confirm-result').text('사용 불가능한 별명입니다.').css("color","red");                  
+	                }
+	            },
+	            error: function(xhr, status, error){
+	                console.error('AJAX 요청 실패: ' + status, error);
+	            }           
+	        }); // ajax			
+		}//else        
     }); // #nickname-confirm-btn.click
     
     // 별명 창에 포커스 갈 때 별명 중복 확인 창 비우기
     $('#userNickname').focus(function(){
         $('#nickname-confirm-result').text('');
+        $('#mypage-confirm-result-before-edit').text('');
     });
     
     // 사용자 입력 정보 모두 받아오기 
@@ -96,13 +147,20 @@ $(document).ready(function(){
         
         let formData = new FormData();
         
+        //프로필 이미지 기존/새로운 이미지 구분
         if(newProfileImage !== null && newProfileImage !== undefined){
             formData.append('profileImage', newProfileImage);
         } else {
             formData.append('profileImage', originalProfileImage);
         }
         
-        formData.append('userNickname', userNickname);
+        //별명 사용자 입력 공백 검사
+        if(userNickname == ''){
+			$('#mypage-confirm-result-before-edit').text('별명 입력은 필수입니다.').css("color","red");
+		}else{
+			formData.append('userNickname', userNickname);
+		}       
+       
         formData.append('userDistrictId', userDistrictId);
         formData.append('userRegionId', userRegionId);
         formData.append('profileIntro', profileIntro);
@@ -123,13 +181,28 @@ $(document).ready(function(){
 	                   //console.log($("#uploadedImage").attr("src"));
 	                   //$("#uploadedImage").attr("src", "/upload/"+jsonResponse.profileImage);
 	                   $("#uploadedImage").attr("src", jsonResponse.profileImage);
+	                   
+					   //상단 검색창에 변경된 지역 업데이트
+					   let regionSelect = $('#search-userRegion');
+					   
+					   //기존의 선택된 옵션을 제거
+					   regionSelect.find('option').removeAttr('selected');
+					
+					   let userRegion = jsonResponse.userRegion;
+					
+					   //모든 옵션을 검사하여 일치하는 항목을 선택
+					   regionSelect.find('option').each(function() {
+					       if ($(this).text() === userRegion) {
+					           $(this).attr('selected', 'selected');
+					       }
+					   });                
+	                   
 	                   $('#edit-my-profile-confirm-message-modal').css('display', 'block');
 	                    
-	                    setTimeout(function() {
-	                        $('#edit-my-profile-confirm-message-modal').css('display', 'none');
-	                    }, 1100);
-	   
-	                } else {
+	                   setTimeout(function() {
+	                       $('#edit-my-profile-confirm-message-modal').css('display', 'none');
+	                   }, 1100);	   
+	                }else {
 	                    console.log("실패response:" + response);
 	                }               
                } catch (e) {
