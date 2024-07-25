@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +35,7 @@ public class MainController {
 		mv.setViewName("mainpage/main");
 		return mv;
 	}	
-	
-	//상단 검색 후 이동
-	@GetMapping("/groupsearch")
-	ModelAndView groupSearch(@RequestParam(required = false) String keyword, @RequestParam(required = false) String region) {		
-		System.out.println(keyword);
-		System.out.println(region);
-		
-		ModelAndView mv = new ModelAndView();
-		
-		/* 검색 페이지 내용... */
-		
-		return mv;		
-	}	
+
 	
 	//메인페이지 - 관심사별 그룹 내용 가져오기
 	@ResponseBody

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.SearchDAO">
+
+  <select id="getGroups" resultType="map" parameterType="map">
+    SELECT 
+      g.groupName,
+      g.groupDetail,
+      g.groupImage,
+      g.groupType,
+      g.groupSignUpType,
+      g.groupMaximum,
+      r.regionName,
+      d.districtName,
+      i.interestField,
+      (SELECT COUNT(*) FROM group_member gm WHERE gm.groupId = g.groupId AND gm.status = '승인') AS approvedCount
+    FROM 
+      `group` g
+      JOIN regions r ON g.groupRegionId = r.regionId
+      JOIN districts d ON g.groupDistrictId = d.districtId
+      JOIN interest i ON g.groupInterestId = i.interestId
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND (g.groupName LIKE CONCAT('%', #{keyword}, '%') OR g.groupDetail LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+      <if test="region != null and region != ''">
+        AND r.regionName LIKE CONCAT('%', #{region}, '%')
+      </if>
+      <if test="district != null and district != ''">
+        AND d.districtName LIKE CONCAT('%', #{district}, '%')
+      </if>
+      <if test="interest != null and interest != ''">
+        AND i.interestField = #{interest}
+      </if>
+      <if test="onlineOffline != null and onlineOffline != ''">
+        AND g.groupType = #{onlineOffline}
+      </if>
+    </where>
+    ORDER BY 
+      <choose>
+        <when test="sortOrder == 'new'">
+          g.groupId DESC
+        </when>
+        <when test="sortOrder == 'old'">
+          g.groupId ASC
+        </when>
+        <otherwise>
+          g.groupId DESC
+        </otherwise>
+      </choose>
+    LIMIT #{limit} OFFSET #{offset}
+  </select>
+
+  <select id="getEvents" resultType="map" parameterType="map">
+    SELECT 
+      e.eventImage,
+      g.groupName,
+      e.eventDate,
+      e.eventLocation,
+      e.eventName,
+      e.eventDetail,
+      e.eventMaximum,
+      (SELECT COUNT(*) FROM event_member em WHERE em.eventId = e.eventId) AS participantCount
+    FROM 
+      `event` e
+      JOIN `group` g ON e.groupId = g.groupId
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND (e.eventName LIKE CONCAT('%', #{keyword}, '%') OR e.eventDetail LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+      <if test="region != null and region != ''">
+        AND g.groupRegionId IN (SELECT regionId FROM regions WHERE regionName LIKE CONCAT('%', #{region}, '%'))
+      </if>
+      <if test="district != null and district != ''">
+        AND g.groupDistrictId IN (SELECT districtId FROM districts WHERE districtName LIKE CONCAT('%', #{district}, '%'))
+      </if>
+      <if test="interest != null and interest != ''">
+        AND g.groupInterestId IN (SELECT interestId FROM interest WHERE interestField = #{interest})
+      </if>
+      <if test="onlineOffline != null and onlineOffline != ''">
+        AND g.groupType = #{onlineOffline}
+      </if>
+    </where>
+    ORDER BY 
+      <choose>
+        <when test="sortOrder == 'new'">
+          e.eventId DESC
+        </when>
+        <when test="sortOrder == 'old'">
+          e.eventId ASC
+        </when>
+        <otherwise>
+          e.eventId DESC
+        </otherwise>
+      </choose>
+    LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <select id="getGroupsCount" resultType="int" parameterType="map">
+    SELECT 
+      COUNT(*) 
+    FROM 
+      `group` g
+      JOIN regions r ON g.groupRegionId = r.regionId
+      JOIN districts d ON g.groupDistrictId = d.districtId
+      JOIN interest i ON g.groupInterestId = i.interestId
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND (g.groupName LIKE CONCAT('%', #{keyword}, '%') OR g.groupDetail LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+      <if test="region != null and region != ''">
+        AND r.regionName LIKE CONCAT('%', #{region}, '%')
+      </if>
+      <if test="district != null and district != ''">
+        AND d.districtName LIKE CONCAT('%', #{district}, '%')
+      </if>
+      <if test="interest != null and interest != ''">
+        AND i.interestField = #{interest}
+      </if>
+      <if test="onlineOffline != null and onlineOffline != ''">
+        AND g.groupType = #{onlineOffline}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getEventsCount" resultType="int" parameterType="map">
+    SELECT 
+      COUNT(*) 
+    FROM 
+      `event` e
+      JOIN `group` g ON e.groupId = g.groupId
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND (e.eventName LIKE CONCAT('%', #{keyword}, '%') OR e.eventDetail LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+      <if test="region != null and region != ''">
+        AND g.groupRegionId IN (SELECT regionId FROM regions WHERE regionName LIKE CONCAT('%', #{region}, '%'))
+      </if>
+      <if test="district != null and district != ''">
+        AND g.groupDistrictId IN (SELECT districtId FROM districts WHERE districtName LIKE CONCAT('%', #{district}, '%'))
+      </if>
+      <if test="interest != null and interest != ''">
+        AND g.groupInterestId IN (SELECT interestId FROM interest WHERE interestField = #{interest})
+      </if>
+      <if test="onlineOffline != null and onlineOffline != ''">
+        AND g.groupType = #{onlineOffline}
+      </if>
+    </where>
+  </select>
+
+</mapper>
