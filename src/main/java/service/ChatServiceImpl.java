@@ -36,4 +36,13 @@ public class ChatServiceImpl implements ChatService {
 		return dao.getChatHistoryByGroupId(map);
 	}
 
+	@Override
+	public int moveOldChatsToHistory() {
+		// 30일 지난 채팅 메세지 'chat_history' 테이블로 이동
+		dao.moveOldChatsToHistory();
+
+		// 30일 지난 채팅 메세지 'chat' 테이블에서 삭제
+		return dao.deleteOldChatsFromChat();
+	}
+
 }

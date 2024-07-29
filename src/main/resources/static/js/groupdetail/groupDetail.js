@@ -16,7 +16,7 @@ $(document).ready(function() {
 	checkUserWishlist();
 
 	// 모임 상세페이지에서 각 탭 클릭 시 이벤트 처리
-    $(".tapBtn").click(function() {
+    $(".groupDetailTapBtn").click(function() {
 		loadTabContent($(this).val());
     });
     

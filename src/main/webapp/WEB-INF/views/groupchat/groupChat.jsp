@@ -15,7 +15,6 @@
 	<div id="groupChatPageDiv">
 		<div id="groupChatHeaderDiv">끼리끼리 이야기</div>
 		<div id="groupChatLogDiv">
-			<!-- 채팅내역 표시 공간 -->
 		</div>
 		<div id="chatTextSendDiv">
 			<div id="chatTextInputDiv">

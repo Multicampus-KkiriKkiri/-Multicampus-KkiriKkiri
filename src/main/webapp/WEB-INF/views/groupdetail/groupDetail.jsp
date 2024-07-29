@@ -18,6 +18,7 @@
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
 </script>
+<link rel="stylesheet" type="text/css" href="/css/mypage/mypage.css">
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -34,9 +35,9 @@
 	
 	<!-- main -->
 	<main id="groupDetailMain">
-		<section id="groupHeaderSection">
+		<section id="groupHeaderSection" class="groupDetailSection">
 			<div id="groupImgDiv">
-				<img id="groupImg" src="/upload/groupupload/${groupDTO.groupImage}" alt="${groupDTO.groupName}">
+				<img id="groupImg" src="/upload/groupregister/${groupDTO.groupImage}" alt="${groupDTO.groupName}">
 			</div>
 			<div id="groupDetailDiv">
 				<div>${groupDTO.groupName}</div>
@@ -49,10 +50,10 @@
 		</section>
 		<section id="groupNavSection">
 			<nav class="groupDetailNav" id="groupTapNav">
-				<button class="tapBtn" value="info" >모임 상세</button>
-				<button class="tapBtn" value="event">모임 일정</button>
-				<button class="tapBtn" value="photo">모임 사진</button>
-				<button class="tapBtn" value="chat" id="chatBtn">모임 채팅</button>
+				<button class="groupDetailTapBtn" value="info" >모임 상세</button>
+				<button class="groupDetailTapBtn" value="event">모임 일정</button>
+				<button class="groupDetailTapBtn" value="photo">모임 사진</button>
+				<button class="groupDetailTapBtn" value="chat" id="chatBtn">모임 채팅</button>
 			</nav>
 			<nav class="groupDetailNav" id="groupOptionNav">
 				<button id="groupShareBtn">공유</button>
@@ -60,7 +61,7 @@
 				<button id="groupOptionBtn" value=""></button>
 			</nav>
 		</section>
-		<section id="groupTapPageSection">
+		<section id="groupTapPageSection"  class="groupDetailSection">
 			<%@ include file="../groupdetail/groupDetailInfo.jsp" %>
 		</section>
 	</main>
