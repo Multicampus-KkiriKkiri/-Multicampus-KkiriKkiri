@@ -32,10 +32,9 @@ $(document).ready(function(){
     
 </head>
 <body>
-<footer>
-	
+<footer>	
 	<div class="container footer-info">		
-	 	<div class="column">
+	 	<div class="column footer-info-part-first">
 	           <p class="footer-title">끼리끼리</p>
 	           <ul class="footer-links">
 	               <li><a href="#">회사정보</a></li>
@@ -53,7 +52,7 @@ $(document).ready(function(){
                 <li><a href="#">제휴 문의</a></li>	   
             </ul>
         </div> 	                
-		<div class="column">
+		<div class="column footer-info-part-three">
 			<p class="footer-title">끼리끼리(Kkiri Kkiri)</p>
 			<p class="footer-company-info">
 			대표 : 4조 | 개인정보관리책임자 : 4조<br>
@@ -63,8 +62,7 @@ $(document).ready(function(){
 			고객센터 :&nbsp;<a href="#" class="kakao-link">@카카오톡채널</a> | 운영 시간 : (월~금) 오전 11:00 ~ 오후 5:00
 			</p>
 		</div>		
-	</div>  
-	      
+	</div>  	      
 	            
 	<div class="container footer-bottom">
 		<div class="footer-title">소셜 미디어</div>
@@ -79,9 +77,7 @@ $(document).ready(function(){
 		<span>
 		<a href="#">이용약관</a> | <a href="#">개인정보처리방침</a> | <a href="#">사업자정보확인</a>
 		</span>
-	</div> 
-	
-	           
+	</div> 	           
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>

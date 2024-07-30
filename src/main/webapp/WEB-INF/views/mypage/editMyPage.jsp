@@ -42,7 +42,7 @@ $(document).ready(function(){
 		    <div  id="edit-myprofile-show-img">
 		        <!-- 이미지가 보여지는 공간 -->
 		        <c:choose>
-		            <c:when test="${empty profileImage}">
+		            <c:when test="${empty profileImage or profileImage == '/upload/null'}">
 		                <img class="edit-mypage-uploaded-image" id="edit-mypage-uploadedImage" src="/images/empty_profile_image.png" alt="기본 프로필 사진"">
 		            </c:when>
 		            <c:otherwise>
@@ -158,24 +158,18 @@ $(document).ready(function(){
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h5><b><i class="fa-solid fa-triangle-exclamation" style="margin-right:7px; color: #F2DD00;"></i>계정 삭제하기</b></h5>
 		<p>가입/주최한 모임 및 알림 내용을 포함한 <br>모든 데이터가 삭제됩니다.</p>
-		<h6>정말 삭제 하시겠습니까?</h6>
-	    <form id="modify-pw-modal-form">
-	    
-		    <div class="delete-account" style="margin-top: 25px">
-			    
-		        <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>	 
-		         	    
+		<h6 class="delete-account-double-check-message">정말 삭제 하시겠습니까?</h6>
+	    <form id="modify-pw-modal-form">	    
+		    <div class="delete-account" style="margin-top: 25px">			    
+		        <h6 style="margin-right:270px; margin-top: 15px;"><b>비밀번호</b></h6>			         	    
 			    <div class="password-input-container-in-delete-account-modal">
 				  <input type="password" placeholder=" 비밀번호를 입력하세요" id="delete-account-modal-userPw" name="userPw" required>
 				  <i class="fa-regular fa-eye-slash" id="pw-icon"></i>
-				</div> 
-				
+				</div> 				
 				<div class="delete-account-modal-form-warning warning" id="delete-account-modal-pw-confirm"><!--비밀번호 확인 결과창  --></div>			    
-		    </div>
-		    	    		    
+		    </div>		    	    		    
 		    <button type="button" id="delete-account-modal-btn" class="login-modal-button">계정 삭제</button>	  
-	    </form>  
-	    	
+	    </form>  	    	
   	</div>       
   </div>
 </div>

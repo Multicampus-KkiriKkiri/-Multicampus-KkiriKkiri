@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Main header before login</title>
 <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,9 +16,6 @@
       crossorigin="anonymous"
     />
 <link rel="stylesheet" href="/css/kkirikkiri.css" />
-
-<!-- 구글 로그인 -->
-<meta name ="google-signin-client_id" content="592800938088-7p3at2tql9q7fandc48m3fllfolbkd78.apps.googleusercontent.com">
 
 <script src="/jquery-3.7.1.min.js"></script>   
 <script>
@@ -27,13 +25,15 @@ $(document).ready(function(){
 </script>    
 </head>
 <body>
+<div class="modal-overlay" id="modal-overlay"></div>
+
 <header class="header-nav">
 	<div class="header-nav-left">
-		<a href="/kkirikkiri" class="logo">
+		<a href="/kkirikkiri" class="logo" id="mainHeader-logo-media">
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>	
-		<form action="/groupsearch" method="get" class="search-area"> 	       
-	       <input type="text" class="first-input" id="search-input-keyword" name="keyword" placeholder="검색어 입력" /><!--  
+		<form id="header-nav-region-form-media" action="/groupsearch" method="get" class="search-area"> 	       
+	       <input type="text" class="first-input" id="search-input-keyword" name="keyword" placeholder="모임 검색" /><!--  
 	       --><select class="region-input" id="search-userRegion" name="userRegionId">
 				<option><!-- ajax로 받은 지역 보여짐 --></option>
 			 </select><!--
@@ -57,7 +57,7 @@ $(document).ready(function(){
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>로그인</b></h2>
 	    <div class="signup-suggestion">
-		    <h6 style="margin-right:7px">아직 계정이 없다면?</h6>
+		    <h6 style="margin-right:7px; margin-top: 3px;">아직 계정이 없다면?</h6>
 		    <a href="#" id="creat-account-btn" style="color:#3b5f3e"><b>계정 만들기</b></a>
 	    </div>
 	    <form id="login-modal-form">
@@ -84,7 +84,7 @@ $(document).ready(function(){
 	    <!-- 구글 로그인-->  
 		<div id="GgCustomLogin" style="height: 100px; padding:0px">
 			<a href="javascript:void(0)">
-				<img src="/images/google_login.png" alt="구글 로그인 버튼" style="width:350px; margin-top: 13px;">
+				<img src="/images/google_login.png" alt="구글 로그인 버튼" style="width:80%; margin-top: 13px;">
 			</a>
 		</div>	
 		<a href="#" style="text-decoration:underline; margin-top:0px;">로그인에 어려움이 있으신가요?</a>     		
@@ -100,7 +100,7 @@ $(document).ready(function(){
 	    <img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" style="width:50px; height:50px">  	    
 	    <h2><b>회원가입</b></h2>
 	    <div class="signup-suggestion">
-		    <h6 style="margin-right:7px">이미 회원이신가요?</h6>
+		    <h6 style="margin-right:7px; margin-top: 3px;">이미 회원이신가요?</h6>
 		    <a href="#" id="open-login-modal1" style="color:#3b5f3e"><b>로그인 하기</b></a>
 	    </div>
 		<!-- 카카오 회원가입 -->
@@ -109,7 +109,7 @@ $(document).ready(function(){
 		    	<button class="signup-button" style="margin-top:25px; background-color:#F7E600"><i class="fa-solid fa-comment" style="margin-right:10px;"></i>카카오로 계속하기</button>  
 		    </a>	
 	    </div>
-	    <!-- 구글 회원가입 -->
+	    <!-- 구글 회원가입 -->    
 		<div id="GgCustomLogin" >
 			<a href="javascript:void(0)">
 				<button class="signup-button"><img src="/images/google_logo.png" alt="구글 로고" style="margin-right:15px;">구글로 계속하기</button>  
@@ -244,10 +244,10 @@ $(document).ready(function(){
   src="https://kit.fontawesome.com/2c827c8cca.js"
   crossorigin="anonymous"
 ></script>
-<!-- 카카오톡 api -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<!-- 구글 api-->
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+<!-- 카카오톡 api 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>-->
+<!-- 구글 api
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>-->
 <script src="<c:url value='/js/mainpage/mainHeader.js'/>"></script>
 </body>
 </html>

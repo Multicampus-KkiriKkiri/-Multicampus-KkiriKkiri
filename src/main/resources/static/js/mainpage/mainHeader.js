@@ -37,28 +37,44 @@ let openLoginModal1 = document.getElementById("open-login-modal1");
 let openLoginModal2 = document.getElementById("open-login-modal2");
 let emailSignupModal = document.getElementById("email-signup-modal");
 //let signupModalClose = signupModal.getElementsByClassName("modal-close")[0];
+let loginModalButton = document.getElementById("login-modal-button");
+let modalOverlay = document.getElementById("modal-overlay");
 
 function openModal(modal){
 	modal.classList.remove('fade-out');
 	modal.classList.add('fade-in');			
 	modal.style.display = "block";
 	document.body.classList.add('modal-open');	
-	//document.body.style.overflow = 'hidden'; 위 코드와 중복
+	document.body.style.overflow = 'hidden'; //위 코드와 중복 -> 필요함	
+	
+	//상단 고정바 로그인, 회원가입 버튼 클릭 시 비활성화 시키기
+	modalOverlay.style.display = "block"; 
+    document.querySelector('header').classList.add('disabled'); 
+    document.querySelector('form').classList.add('disabled'); // 폼 비활성화	
 }
 
-function closeModal(modal){
-	modal.classList.remove('fade-in');
+
+//헤더 활성화 시킬시 애니메이션 없애기 추가
+function closeModal(modal) {
+    modal.classList.remove('fade-in');
     modal.classList.add('fade-out');
-    setTimeout(() => {
+    
+    // 모달의 애니메이션이 완료된 후에 헤더와 폼의 상태를 변경
+    modal.addEventListener('animationend', () => {
         modal.style.display = "none";
         let inputs = modal.getElementsByTagName('input');
         for (let input of inputs) {
             input.value = "";
         }
-        //여러개 모달을 연달아 열 때 overflow:hidden 속성 없애면 화면 스크롤 생김
-        //document.body.classList.remove('modal-open'); 
-        //document.body.style.overflow = 'auto';        
-    }, 300);
+
+        // 모든 모달이 닫힐 때 스크롤 복구
+        if (![loginModal, signupModal, emailSignupModal].some(m => m.style.display === "block")) {
+            document.body.style.overflow = 'auto';
+            modalOverlay.style.display = "none";
+            document.querySelector('header').classList.remove('disabled'); // 헤더 활성화
+            document.querySelector('form').classList.remove('disabled'); // 폼 활성화
+        }        
+    }, { once: true }); // 한번만 이벤트 리스너 실행
 }
 
 loginButton.addEventListener('click', ()=> openModal(loginModal));
@@ -98,32 +114,32 @@ $('#open-email-signup-modal').click(function(){
 }); //#open-email-signup-modal click 
 */
 
-window.addEventListener('click', (event) => {
-		//모달창 열린 상태에서 윈도우 클릭시 닫히는 속도 늦추기 - 이메일 회원가입 모달창부터 재설정 필요        
+window.addEventListener('click', (event) => {        
         let target = event.target;
-    	setTimeout(() => {
+    	//setTimeout(() => {
         if (target == loginModal) {
             closeModal(loginModal);
         }
         if (target == signupModal) {
             closeModal(signupModal);
         }
-        //이 부분 동작 안함
-        if (target == emailSignupModal) {
-            closeModal(emailSignupModal);
-        }
-    }, 300);        
-        
-        /*
-        기존 코드
-        if (event.target == loginModal) {
-            closeModal(loginModal);
-        }
-        if (event.target == signupModal) {
-            closeModal(signupModal);
-        }
-        */
+    //}, 3000);//기존 모달 닫히는 속도 늦추는 코드 - 상단 오버레이 생기면서 삭제 
 });
+
+// 로그인 버튼 Enter 키 입력 
+function handleEnterKey(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); 
+        loginModalButton.click();
+    }
+}
+
+let emailInput = document.getElementById("userEmail");
+let passwordInput = document.getElementById("userPw");
+
+emailInput.addEventListener('keydown', handleEnterKey);
+passwordInput.addEventListener('keydown', handleEnterKey);
+
 
 //로그인 모달창 - 로그인 기능 구현
 $(document).ready(function(){
@@ -178,20 +194,35 @@ $('.password-input-container i').on('click',function(){
             $(this).attr('class',"fa-regular fa-eye-slash")
             .prev('input').attr('type','password');
         }
-        $('#email-signup-modal-close').click(function(){
-			$("#email-signup-modal-userPw-confirm-result").text("");
-			$('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-	        $('.password-input-container input').attr('type', 'password')
-		}); //modal-close
-		$(window).click(function(event){
-			if ($(event.target).hasClass('modal')) {
-		        $("#email-signup-modal-userPw-confirm-result").text("");
-		        $('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
-		        $('.password-input-container input').attr('type', 'password');    
-			}//if
-		}); //window
-    });//.password-input-container i
+});//.password-input-container i
     
+//이메일 회원가입 모달 닫을 때 비밀번호 입력 내용 없애기
+$('#email-signup-modal-close').click(function(){
+	$("#email-signup-modal-userPw-confirm-result").text("");
+	$('#email-signup-modal-userPw').val(''); 
+    $('#email-signup-modal-userPw-confirm').val(''); 
+	$('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+    $('.password-input-container input').attr('type', 'password')
+    
+    //상단 고정바 활성화
+    $('header').removeClass('disabled');
+    $('form').removeClass('disabled');
+});//modal-close
+
+$(window).click(function(event){
+	if ($(event.target).hasClass('modal')) {
+        $("#email-signup-modal-userPw-confirm-result").text("");
+        $('#email-signup-modal-userPw').val(''); 
+    	$('#email-signup-modal-userPw-confirm').val('');
+        $('.password-input-container i').removeClass('fa fa-eye').addClass('fa-regular fa-eye-slash');
+        $('.password-input-container input').attr('type', 'password'); 
+        
+        //상단 고정바 활성화
+   		$('header').removeClass('disabled');
+   		$('form').removeClass('disabled');   
+	}//if
+});//window
+
 //비밀번호가 텍스트로 보이는 상태에서 input창에 커서를 놓으면 다시 비밀번호 형태로 자동 변환
 $('.password-input-container input').on('focus', function() {
     if ($(this).hasClass('active')) {
@@ -200,7 +231,8 @@ $('.password-input-container input').on('focus', function() {
         $(this).next('i').attr('class', "fa-regular fa-eye-slash");
     }
 });//.password-input-container input
-    
+		
+
 //이메일 회원가입 모달 내 - 비밀번호 일치 확인
  $("#email-signup-modal-userPw-confirm").on("input", function() {
         let password = $("#email-signup-modal-userPw").val();
@@ -213,7 +245,7 @@ $('.password-input-container input').on('focus', function() {
         }
         
         $('#email-signup-modal-close').click(function(){
-			$("#email-signup-modal-userPw-confirm-result").text("");
+			$("#email-signup-modal-userPw-confirm-result").text("");	
 		}); //modal-close
 		
 		$(window).click(function(event) {
@@ -231,7 +263,6 @@ $('.password-input-container input').on('focus', function() {
 		    }
 		});		
 });//#email-signup-modal-userPw-confirm
-
 
 //이메일 회원가입 모달창
 $(document).ready(function(){
@@ -529,20 +560,20 @@ function kakaoLogin() {
         Kakao.API.request({
           url: '/v2/user/me',
           success: function (response) {
-        	  console.log(response)
+        	  console.log("success: ",response)
           },
           fail: function (error) {
-            console.log(error)
+            console.log("fail: ", error)
           },
         })
       },
       fail: function (error) {
-        console.log(error)
+        console.log("fail down: ",error)
       },
     })
   }  
-  
-  */
+*/ 
+
 /*
 //구글 로그인 
 //처음 실행하는 함수
@@ -571,37 +602,13 @@ function onSignIn(googleUser) {
 	.done(function(e){
         //프로필을 가져온다.
 		var profile = googleUser.getBasicProfile();
-		console.log(profile)
+		console.log("profile: ", profile);
 	})
 	.fail(function(e){
-		console.log(e);
+		console.log("error: ", e);
 	})
 }
 function onSignInFailure(t){		
-	console.log(t);
+	console.log("t: ", t);
 }
-*/
-
-//gpt 코드
-/*
-//이때 controller 코드   - jsp 코드 쪽도 재확인 필요
-@RestController
-@RequestMapping("/api/user")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @PostMapping("/register")
-    public String registerUser(@RequestBody UserDTO user) {
-        userService.registerUser(user);
-        return "User registered successfully";
-    }
-
-    @GetMapping("/find")
-    public UserDTO getUserByEmail(@RequestParam String email) {
-        return userService.getUserByEmail(email);
-    }
-}
-
 */

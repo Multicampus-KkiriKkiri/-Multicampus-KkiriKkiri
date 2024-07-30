@@ -56,6 +56,11 @@
 	text-decoration:underline;
 }
 
+#interests-group-list-title-media,
+#new-group-list-title-media{	
+	display: none;
+}
+
 /*모임 목록 마진 조정 - main.js에서 직접 구현*/
 
 /*모임 이미지 & 이름*/
@@ -177,7 +182,109 @@
 	text-decoration:underline;
 }
 
+/*미디어 쿼리*/
+/* Mobile - Portrait */
+@media (max-width: 575px) {	
+	/*배너 부분*/
+	#main-banner-img-media{
+		width: 22rem;		
+		margin-left: -250px;		
+	}
+	
+	.main-banner-col1,
+	.main-banner-col2{
+		display: none;
+	}
+	
+	.banner-phrase{		
+		position: absolute;		
+		right: -1px;	
+	}	
+	
+	.banner-phrase h1{		
+		font-size: 22px;
+		padding-right: 7px;
+		font-weight: 600;		
+	}
 
+	.banner-phrase h6{
+		display: none;
+	}
+	
+	#start-now-btn{
+		padding: 6px 13px;
+    	font-size: 16px;      	
+	}
+	
+	/*모임목록 컨테이너 상단 마진*/
+	.container{
+		margin-top: 80px;
+	}
+	
+	/*신상 모임, 관심사별 모임 제목&링크*/
+	/*기존 display: flex; 를 다시 block으로 바꿈*/
+	.new-group-list-title,
+	.interests-group-list-title{
+		display: block;
+	}
+
+	.group-more-btn{
+		margin-left: 280px;
+	}
+	
+	#interests-group-list-title-origin,
+	#new-group-list-title-origin{
+		display: none;
+	}
+	
+	#interests-group-list-title-media,
+	#new-group-list-title-media{
+		display: block;
+		font-size: 25px;
+		text-align: center;
+	}
+	
+	/*로그인 전 신상 모임*/
+	.group-image{
+		height: 130px;
+	}
+	
+	.group-name{
+		font-size: 18px;
+	}
+	
+	.group-info{
+		font-size: 15px;
+	}
+		
+	/*관심사 버튼*/
+	.interest-group-list{
+		margin-top: 130px;
+	}
+	
+	.interest-nav{
+		width: 150px !important;
+		height: 80px;		
+	}
+	
+	.interest-nav-a p{
+		font-size: 15px;
+	}
+	
+	.interest-nav-area{
+		padding-left: 10px;		
+		padding-right: 0px;
+	}	
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {}
+
+/* Desktop */
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+/* Desktop (Large) */
+@media (min-width: 1200px) {}
 
 
 
