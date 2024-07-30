@@ -99,7 +99,7 @@ textarea {
 
 .application-description .first-come-first-served,
 .application-description .approval-system {
-    display: none;
+    display: none; /* 기본적으로 숨김 */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -107,7 +107,7 @@ textarea {
 
 .application-description .first-come-first-served.active,
 .application-description .approval-system.active {
-    display: block;
+    display: block; /* active 클래스가 있을 때 표시 */
 }
 
 .application-type .active {

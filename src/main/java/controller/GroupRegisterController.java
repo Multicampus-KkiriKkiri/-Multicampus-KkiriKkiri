@@ -58,19 +58,19 @@ public class GroupRegisterController {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", "이미 존재하는 모임 이름입니다. 다른 이름을 입력하세요."));
         }
 
-        String imagePath = UploadInform.groupRegisterWebPath + "blank.png"; // 기본 이미지 경로
-
+        //String imagePath = UploadInform.uploadPath+ "groupregister/" + "blank.png"; // 기본 이미지 경로
+        String imageName = "blank.png"; // 기본 이미지 dlfma
         if (groupImageFile != null && !groupImageFile.isEmpty()) {
             try {
                 String uniqueFilename = saveGroupImage(groupImageFile);
-                imagePath = UploadInform.groupRegisterWebPath + uniqueFilename; // 저장된 이미지 경로
+                imageName = uniqueFilename; // 저장된 이미지 경로
             } catch (IOException e) {
                 e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("message", "이미지 업로드 중 오류가 발생했습니다."));
             }
         }
 
-        groupDTO.setGroupImage(imagePath);
+        groupDTO.setGroupImage(imageName);
 
         try {
             int groupId = groupService.registerGroup(groupDTO);
@@ -91,7 +91,7 @@ public class GroupRegisterController {
         String fileExtension = ".png";
         String uniqueFilename = generateUniqueFilename(fileExtension);
 
-        File uploadDir = new File(UploadInform.groupRegisterUploadPath);
+        File uploadDir = new File(UploadInform.uploadPath+"groupregister/");
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
@@ -113,7 +113,7 @@ public class GroupRegisterController {
         File file;
         do {
             uniqueFilename = UUID.randomUUID().toString() + fileExtension;
-            file = new File(UploadInform.groupRegisterUploadPath + uniqueFilename);
+            file = new File(UploadInform.uploadPath +"groupregister/" + uniqueFilename);//원래 코드 c://fullstack/upload/groupregister/b6c604d9-03f5-4b3f-a024-9fd8592a19ce.png이런식으로 저장. 이름만 저장하게 행햐ㅏㅁ
         } while (file.exists());
 
         return uniqueFilename;

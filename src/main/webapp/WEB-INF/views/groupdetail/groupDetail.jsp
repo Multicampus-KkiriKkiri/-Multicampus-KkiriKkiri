@@ -36,7 +36,7 @@
 	<main id="groupDetailMain">
 		<section id="groupHeaderSection">
 			<div id="groupImgDiv">
-				<img id="groupImg" src="/upload/groupupload/${groupDTO.groupImage}" alt="${groupDTO.groupName}">
+				<img id="groupImg" src="/upload/groupregister/${groupDTO.groupImage}" alt="${groupDTO.groupName}">
 			</div>
 			<div id="groupDetailDiv">
 				<div>${groupDTO.groupName}</div>

@@ -9,7 +9,7 @@
     <script src="<c:url value='/jquery-3.7.1.min.js' />"></script>
     <script src="<c:url value='/js/groupsettings/groupSettingsMain.js' />"></script>
     <script>
-        var groupId = ${groupId};
+        var groupId = ${groupDTO.groupId};  // 서버에서 전달된 groupId
         var userId = ${userId};
     </script>
 </head>
@@ -26,7 +26,7 @@
     </header>
 
     <main id="groupSettingsMain">
-        <input type="hidden" id="groupId" value="${groupId}">
+        <input type="hidden" id="groupId" value="${groupDTO.groupId}">
         <input type="hidden" id="userId" value="${userId}">
         <section id="groupNavSection">
             <nav class="groupDetailNav" id="groupTapNav">
