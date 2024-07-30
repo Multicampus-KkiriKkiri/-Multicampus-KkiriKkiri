@@ -6,17 +6,19 @@
 <html>
 	<section class="tapPageSection" id="infoTapPageSection" >
 			<div id="groupDescriptionDiv">
-				<div class="groupDetailheaderDiv" id="groupInfoHeader">
+				<div class="groupInfoHeaderDiv" id="groupInfoHeader">
 				  		<span>모임 설명</span>
 				</div>
-	            <div>${groupDTO.groupDetail}</div>
+	            <div class="groupInfoSectionDiv">
+	            	${groupDTO.groupDetail}
+	            </div>
 			</div>
 			<div id="groupMembersDiv">
 				<div>
-					<div class="groupDetailheaderDiv" id="leaderInfoHeader">
+					<div class="groupInfoHeaderDiv" id="leaderInfoHeader">
 				  		<span>모임장</span>
 				  	</div>
-					<div id="leaderInfoDiv">
+					<div id="leaderInfoDiv" class="groupInfoSectionDiv">
 						<div id="leaderImageDiv">
 							<img id="leaderImg" src="/upload/${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
 						</div>
@@ -26,12 +28,12 @@
 					</div>
 				</div>
 				<div>
-				  	<div class="groupDetailheaderDiv" id="memberListHeader">
-				  		<span>모임원</span>
+				  	<div class="groupInfoHeaderDiv" id="memberListHeader">
+				  		<span>모임원(${groupMemberCnt - 1})</span>
 				  		<button id="toggleMembersBtn"></button>
 				  	</div>
-		            <div id="memberListDiv">
-		            	<!-- groupDetail.js -->
+		            <div id="memberListDiv"  class="groupInfoSectionDiv">
+		            	<!-- 모임원 목록(groupDetail.js) -->
 		            </div>
 				</div>
 			</div>

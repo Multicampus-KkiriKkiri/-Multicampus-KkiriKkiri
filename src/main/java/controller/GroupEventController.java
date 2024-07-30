@@ -19,6 +19,7 @@ import dto.GroupDTO;
 import dto.UserDTO;
 import service.EventMemberService;
 import service.EventService;
+import service.GroupMemberService;
 import service.GroupService;
 import service.NotificationService;
 import service.UserService;
@@ -29,6 +30,9 @@ public class GroupEventController {
 	
 	@Autowired
 	GroupService groupService;
+	
+	@Autowired
+	GroupMemberService groupMemberService;
 	
 	@Autowired
 	EventService eventService;
@@ -67,9 +71,22 @@ public class GroupEventController {
             }
         }
 		
+		// 모임 가입 인원 확인
+		int groupMemberCnt = groupMemberService.getMemberCountInGroup(groupId);
+		int groupMaximumMemberCnt = groupService.getGroupDetail(groupId).getGroupMaximum();
+		String checkGroupMemberCnt = "";
+		
+		if(groupMemberCnt == groupMaximumMemberCnt) {
+			checkGroupMemberCnt = "가입 불가";
+		} else {
+			checkGroupMemberCnt = "가입 가능";
+		}
+		
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("upcomingEventList", upcomingEventList);
 		mv.addObject("pastEventList", pastEventList);
+		mv.addObject("checkGroupMemberCnt", checkGroupMemberCnt);
 		mv.setViewName("groupevent/groupEvent");
 		
 		return mv;

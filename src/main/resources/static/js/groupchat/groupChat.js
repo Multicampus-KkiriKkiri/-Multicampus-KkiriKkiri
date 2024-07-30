@@ -7,6 +7,7 @@ var userNickname; // 현재 로그인한 회원 별명 전역변수
 var sock = new SockJS("/ws/multiRoom"); // 웹소켓 전역변수
 var offset = 0; // 채팅 불러올 기준 변수
 var previousDate = ''; // 메세지 날짜를 추적할 변수
+var lastDate = ''; // 메세지 날짜를 추적할 변수
 
 $(document).ready(function() {
 	
@@ -28,14 +29,24 @@ $(document).ready(function() {
 	
     // 모임 채팅 페이지에서 '전송' 버튼 클릭 시 이벤트 처리
     $('#chatSendBtn').click(function() {
-        sendMessage();
+		if($("#chatMessageInput").val() !== "") {
+        	sendMessage();			
+		} else {
+			// 안내 모달 창 보여주기
+	        Swal.fire({
+	            title: '메세지를 입력해주세요.',
+	            text: '',
+	            icon: 'info',
+	            confirmButtonText: '확인'
+	        });
+		}
     }); // chatSendBtn onclick end
     
     // 채팅 입력란에서 엔터 키 누를때 이벤트 처리
     $('#chatMessageInput').keydown(function(event) {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && $("#chatMessageInput").val() !== "") {
             event.preventDefault(); // 기본 엔터 키 동작 방지
-            sendMessage();
+        	sendMessage();			
         }
     }); // chatMessageInput keydown end
     
@@ -58,7 +69,6 @@ function getUserNincknameAndProfileImage() {
         },
         success: function(data) {
 			userNickname = data.userNickname;
-			// profileImage = data.profileImage;
         },
         error: function() {
             alert("채팅 사용자 프로필 정보를 가져오는데 실패했습니다.");
@@ -88,30 +98,52 @@ function loadInitialChats() {
             if (data.length > 0) {
                 offset += data.length;
                 
-                var chatLog = document.getElementById("groupChatLogDiv");
+				// 전역 날짜 추적 변수
+				previousDate = data[data.length - 1].chatTime.split('T')[0];
+				lastDate = data[0].chatTime.split('T')[0];
+				
+                // loadInitialChats 함수 내 날짜 추적 변수
+				var tempDate = '';
+
+				// groupChatLogDiv 객체 불러오기
+                var chatLog = document.getElementById("groupChatLogDiv");                	
                 
                 data.reverse().forEach(function(chat) {
 					
-					// 메세지 날짜 확인
+					// 현재 메세지 날짜 가져오기
 					var messageDate = chat.chatTime.split('T')[0];
-					
+
 					// 채팅 메시지 날짜가 변경되었는지 확인
-					if(messageDate !== previousDate) {
-						if(previousDate !== '') {
+					if(messageDate !== tempDate) {
+						if (tempDate !== '' || data.length < 20) {
 							// 날짜 변경되었으면 날짜 메시지 삽입
                         	insertDateMessage(chatLog, messageDate);
 						}
-						previousDate = messageDate; // 이전 메시지 날짜 변수에 저장
+						
+                   		// 현재 메시지 날짜를 추적 변수에 저장
+						tempDate = messageDate; 
 					}
 					
-					// 현재 사용자의 메세지 구분
-                    var messageClass = chat.userId === userId ? 'sentMessageP' : 'receivedMessageP';
-
 					// 날짜 형식 변환
 					chat.chatTime = formatTimeToKorean(new Date(chat.chatTime));
- 
-                    // 불러온 메세지 순차적으로 추가
-                    chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage + "</p>";
+					
+                	// 메세지 보낸 회원 구분할 클래스
+                	var messageClass = '';
+                	
+                	// 메세지 보낸 회원 구분
+                	if(chat.userId === userId) { // 현재 로그인한 회원의 메세지인 경우
+						messageClass = 	'sentMessageP';
+						
+						// 불러온 메세지 순차적으로 추가
+                    	chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chat.chatTime + "</span><span class='chatMessageSpan'>" + chat.chatMessage + "</span></p>";
+					} else { // 다른 회원의 메세지인 경우
+						messageClass = 	'receivedMessageP';
+						
+						// 불러온 메세지 순차적으로 추가
+                    	chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "'/> <span class='userNicknameSpan'>" + chat.userNickname + "</span><span class='chatMessageSpan'>" + chat.chatMessage + "</span><span class='chatTimeSpan'>" + chat.chatTime + "</span></p>";
+
+					}
+                
                 });
                 
                 $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -132,44 +164,60 @@ function loadMoreChats() {
         success: function(data) {
             if (data.length > 0) {
                 offset += data.length;
-                
-                var chatLog = document.getElementById("groupChatLogDiv");
-                
-                var previousHeight = chatLog.scrollHeight;
-                
-                data.forEach(function(chat, index) {
-					
+
+				var chatLog = document.getElementById("groupChatLogDiv");
+
+				var previousHeight = chatLog.scrollHeight;
+
+				// 메세지 20개씩 추가로 불러올때 날짜 메세지 겹치지 않도록 맨 위 날짜 메세지는 삭제
+				var firstChild = chatLog.firstChild;
+				if (firstChild && firstChild.tagName === 'P' && firstChild.classList.contains('dateMessageP')) {
+					chatLog.removeChild(firstChild);
+				}
+
+				data.forEach(function(chat, index) {
+
 					// 메세지 날짜 확인
 					var messageDate = chat.chatTime.split('T')[0];
-					
+
 					// 채팅 메시지 날짜가 변경되었는지 확인
-					if(messageDate !== previousDate) {
-						if(previousDate !== '') {
+					if (messageDate !== previousDate) {
+						if (previousDate !== '') {
 							// 날짜 변경되었으면 날짜 메시지 삽입
-                        	insertDateMessage(chatLog, previousDate, true);
+							insertDateMessage(chatLog, previousDate, true);
 						}
 						previousDate = messageDate; // 이전 메시지 날짜 변수에 저장
 					}
-					
-					// 현재 사용자의 메세지 구분
-					var messageClass = chat.userId === userId ? 'sentMessageP' : 'receivedMessageP';
-					
+
 					// 날짜 형식 변환
 					chat.chatTime = formatTimeToKorean(new Date(chat.chatTime));
-					
-                    // 불러온 메세지 순차적으로 newMessage에 저장
-                    var newMessage = document.createElement("p");
-                    newMessage.className = 'chatMessageP ' + messageClass;
-                    newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span><img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "' /> <span class='userNicknameSpan'>" + chat.userNickname + "</span> " + chat.chatMessage;
-                    
-                    // groupChatLogDiv 앞쪽에 추가
-                    chatLog.insertBefore(newMessage, chatLog.firstChild);
-                    
-                    // db 마지막 메시지일 때 날짜 메시지 추가
-                    if (index === data.length - 1) {
-                        insertDateMessage(chatLog, messageDate, true);
-                    }
-                });
+                	
+                	// 불러온 메세지 추가할 p 태그 객체 생성
+					var newMessage = document.createElement("p");
+                	
+                	// 메세지 보낸 회원 구분
+                	if(chat.userId === userId) { // 현재 로그인한 회원의 메세지인 경우
+						// 메세지 구분할 클래스 추가
+						newMessage.className = 'chatMessageP ' + 'sentMessageP';
+						
+						// 불러온 메세지 순차적으로 newMessage에 저장
+						newMessage.innerHTML = "<span class='chatTimeSpan'>" + chat.chatTime + "</span><span class='chatMessageSpan'>" + chat.chatMessage + "</span>";
+					} else { // 다른 회원의 메세지인 경우
+						// 메세지 구분할 클래스 추가
+						newMessage.className = 'chatMessageP ' + 'receivedMessageP';
+						
+						// 불러온 메세지 순차적으로 newMessage에 저장
+						newMessage.innerHTML = "<img class='chatUserProfileImg' src='/upload/" + chat.profileImage + "' alt='" + chat.profileImage + "'/> <span class='userNicknameSpan'>" + chat.userNickname + "</span><span class='chatMessageSpan'>" + chat.chatMessage + "</span><span class='chatTimeSpan'>" + chat.chatTime + "</span>";
+					}
+
+					// groupChatLogDiv 앞쪽에 추가
+					chatLog.insertBefore(newMessage, chatLog.firstChild);
+
+					// db 마지막 메시지일 때 날짜 메시지 추가
+					if (index === data.length - 1) {
+						insertDateMessage(chatLog, messageDate, true);
+					}
+				});
                 
                 $('#groupChatLogDiv').scrollTop(chatLog.scrollHeight - previousHeight);
             }
@@ -194,7 +242,7 @@ function joinToChat() {
 
 // 메시지 수신 처리 함수
 function receiveMessage(e) {
-   
+	   
     var content = JSON.parse(e.data);
     var message = content.message; // 메세지 내용
     var type = content.type; // 메세지 타입
@@ -203,10 +251,20 @@ function receiveMessage(e) {
     // 현재 로그인 사용자의 메세지 구분  
     var messageClass = content.userId == userId ? 'sentMessageP' : 'receivedMessageP';
 
+	// groupChatLogDiv 객체 불러오기
+	var chatLog = document.getElementById("groupChatLogDiv");
+
+	// 채팅 메시지 날짜가 변경되었는지 확인
+	var messageDate = content.chatTime.split(' ')[0];
+	if (messageDate !== lastDate) {
+		// 날짜 변경되었으면 날짜 메시지 삽입
+		insertDateMessage(chatLog, messageDate);
+		lastDate = messageDate; // 현재 메시지 날짜를 추적 변수에 저장
+	}
+
 	// 수신 메세지 groupChatLogDiv에 추가
-    var chatLog = document.getElementById("groupChatLogDiv");
     if (type == "SEND")
-        chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span><img class='chatUserProfileImg' src='" + profileImage + "' alt='" + profileImage + "' /> <span class='userNicknameSpan'>" + userNickname + "</span> " + message + "</p>";
+        chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span><span class='chatMessageSpan'>" + message + "</span></p>";
     
 	// 새 메시지 수신 시 맨 아래로 스크롤
     $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -218,12 +276,13 @@ function sendMessage() {
 	
     var textarea = document.getElementById("chatMessageInput");
     var myMessage = textarea.value;
-    // var currentTime = formatDate(new Date()); // 현재 시간을 형식에 맞게 변환
     var currentTime = formatDate(new Date()); // 현재 시간을 형식에 맞게 변환
     
     sendChatMessageSoket(myMessage, currentTime); // 채팅 메세지 전송
     saveChatMessage(myMessage, currentTime); // 채팅 메세지 db에 저장
     textarea.value = ''; // 전송 후 입력란 초기화
+    
+    offset++;
     
     $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
 
