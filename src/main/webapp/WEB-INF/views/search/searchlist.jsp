@@ -82,7 +82,7 @@
 			        <c:forEach var="data" items="${groups}">
 			            <div class="resultContainer" data-groupid="${data.groupId}">
 			                <div class="imageContainer">
-			                    <img src="${data.groupImage}" alt="${data.groupName}" />
+			                    <img src="/upload/groupregister/${data.groupImage}" alt="${data.groupName}" />
 			                </div>
 			                <div class="contentContainer">
 			                    <div class="infoRow">
@@ -94,7 +94,8 @@
 			                        <div class="infoItem"><span>${data.groupName}</span></div>
 			                    </div>
 			                    <div class="details" data-groupdetail="${data.groupDetail}">
-                                    ${fn:length(data.groupDetail) > 200 ? (fn:substring(data.groupDetail, 0, 200) + "...") : data.groupDetail}
+                                    <%-- ${fn:length(data.groupDetail) > 200 ? (fn:substring(data.groupDetail, 0, 200) + "...") : data.groupDetail} --%>
+                                    <c:choose> <c:when test="${fn:length(data.groupDetail) > 200}"> ${fn:escapeXml(fn:substring(data.groupDetail, 0, 200))}... </c:when> <c:otherwise> ${fn:escapeXml(data.groupDetail)} </c:otherwise> </c:choose>
                                 </div>
 			                    <div class="infoRow">
 			                        <div class="infoItem"><span>${data.approvedCount}/${data.groupMaximum}</span></div>
@@ -108,7 +109,7 @@
 			        <c:forEach var="data" items="${events}">
 			            <div class="resultContainer" data-groupid="${data.groupId}" data-eventid="${data.eventId}">
 			                <div class="imageContainer">
-			                    <img src="${data.eventImage}" alt="${data.eventName}" />
+			                    <img src="/upload/groupregister/${data.eventImage}" alt="${data.eventName}" />
 			                </div>
 			                <div class="contentContainer">
 			                    <div class="infoRow">
