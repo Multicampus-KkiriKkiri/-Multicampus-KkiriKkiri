@@ -105,7 +105,7 @@ function hideEventNavLine() {
 }
 
 
-// 모임/일정 목록 보여주기 + 무한 스크롤
+// 모임일정 목록 보여주기 + 무한 스크롤
 $(document).ready(function() {
 	//모임 목록
     let page = 0;
