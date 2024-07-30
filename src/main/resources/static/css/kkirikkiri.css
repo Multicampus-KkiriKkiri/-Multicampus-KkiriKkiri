@@ -1,7 +1,6 @@
 @charset "UTF-8";
 /*끼리끼리 웹사이트 공통 css파일*/
 /*페이지 전체*/
-
 /*구글 폰트 - kkirikkiri.css, mainFooter.jsp link부분확인*/
 body{
 	font-family: "Noto Sans KR", sans-serif;
@@ -20,6 +19,28 @@ body{
     z-index: 1000;     
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
+
+/* 모달 열릴 시 상단바 비활성화 오버레이*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    z-index: 998;
+    display: none;
+}
+
+.modal-open .modal-overlay {
+    display: block; 
+}
+
+/* 모달 열릴 시 상단바 비활성화 오버레이 - 페이지 비활성화 스타일 */
+.disabled {
+    pointer-events: none; /* 클릭 비활성화 */
+    opacity: 0.3; 
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
 
 /* 네비게이션 바의 높이만큼 body의 패딩을 추가 */
 body {
@@ -324,6 +345,11 @@ body.modal-open2 {
 	left: 82%
 }
 
+/*회원가입 내정보설정 모달 상단바 오버레이보다 앞으로 보이게 설정*/
+#signup-set-myprofile-modal{
+	z-index: 1000;
+}
+
 /*회원가입 내정보설정 모달 내 프로필 사진 업로드*/
 .signup-myprofile-img{
 	display: flex;
@@ -596,3 +622,95 @@ footer ul{
 	font-size: 2rem;
 	margin-right: 25px;
 }
+
+/*미디어 쿼리*/
+/* Mobile - Portrait */
+@media (max-width: 575px) {	
+	/*상단 전체 마진*/	
+	body {
+	    padding-top: 200px; 
+	}
+	
+	#mainHeader-logo-media{
+		margin-left: -110px;	
+	}		
+	
+	#mainHeader-logo-media img{
+		width: 80px;
+		height: 80px;		
+		margin-left: -20px;
+	}
+	
+	.header-nav{
+		padding-bottom: 20px;
+	}
+	
+	/*로그인, 회원가입 버튼*/
+	.before-login-header-nav-right {	
+	    display: flex;
+	    justify-content: flex-start; 
+	    gap: 5px; 
+	    margin-left: -200px;  
+	    padding-left: 50px;
+	}
+
+	.before-login-header-nav-right button{		
+		padding: 6px 13px;		
+		padding: 0px;
+	    font-size: 16px;
+	    margin-top: 20px;	    
+	    width: 70px;
+	    height: 40px;
+	}
+	
+	/*검색창*/
+	#header-nav-region-form-media{		
+		margin-top: 110px;		
+		display: flex;	
+		margin-left: -100px;		
+	}
+	
+	#header-nav-region-form-media input,
+	#header-nav-region-form-media select{
+		width: 150px;
+		height: 45px;
+		font-size: 16px;
+	}
+	
+	#header-nav-region-form-media select option{
+		font-size: 15px;
+	}
+	
+	#header-nav-region-form-media button{
+		width: 50px;
+		height: 45px;
+		font-size: 20px;
+	}	
+	
+	/*푸터*/
+	footer{
+		padding-left: 20px;
+	}
+	.footer-info{
+		justify-content: flex-start;
+	}
+	
+	.footer-info-part-first{
+		padding-right: 100px;
+	}
+	
+	.footer-info-part-three{
+		display: none;
+	}	
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {}
+
+/* Desktop */
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+/* Desktop (Large) */
+@media (min-width: 1200px) {}
+
+

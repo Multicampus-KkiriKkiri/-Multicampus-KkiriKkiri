@@ -249,7 +249,7 @@ function closeModal(modal){
         }
         document.body.classList.remove('modal-open');
         document.body.style.overflow = 'auto';
-    }, 300);
+    }, 200);
 }
 
 window.addEventListener('click', (event) => {
@@ -262,7 +262,7 @@ window.addEventListener('click', (event) => {
         if (target == deleteAcoountModal) {
             closeModal(deleteAcoountModal);
         }
-    }, 300);        
+    }, 200);        
 });
 
 openModifyPwModal.addEventListener('click', ()=> openModal(modifyPwModal));
@@ -332,9 +332,14 @@ $('.password-input-container-in-modify-modal input').on('focus', function() {
 		});		
 });//#email-signup-modal-userPw-confirm
 
-
-//기존 비밀번호 확인
 $(document).ready(function(){
+	//새로운 비밀번호 input에 포커스 가면 결과창 텍스트 없애기
+	$('#modify-pw-modal-new-userPw, #modify-pw-modal-new-userPw-confirm').on('focus', function() {
+        $('#modify-pw-modal-final-confirm-result').text('');
+        $('#modify-pw-modal-new-userPw-confirm-result').text('');
+    });
+    	
+	//기존 비밀번호 확인
 	$('#modify-pw-modal-original-userPw').on("input", function(){
 		let userPw = $(this).val();
 		

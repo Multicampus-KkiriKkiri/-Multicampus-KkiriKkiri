@@ -1,35 +1,72 @@
 /* groupJoin.css */
 
+/* 모임 가입 팝업창 body */
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-color: #F6F7F8;
 }
 
-main {
-    border: 1px solid #000;
-    padding: 20px;
-    height: auto;
-    width: 450px;
-}
-
-section div {
-    border: 1px solid #000;
+/* 모임 가입 팝업 secion */
+#joinPageSection div {
     padding: 10px;
 }
 
-#joinPageSection {
+/* 모임 가입창 헤더 */
+#groupJoinHeaderDiv {
+	background-color: white;
+    padding: 20px;
+    width: 500px;
     text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #ccc;
 }
 
-img {
-	width: 50px;
-	height: 50px;
+#joinHeaderGuideDiv1 {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#joinHeaderGuideDiv2 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+/* 모임장 프로필, 가입 질문 */
+#questionDiv {
+	background-color: white;
+    padding: 20px;
+    width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #ccc; /* 메세지 테두리 */
+}
+
+/* 모임장 프로필 */
+#leaderInfoDiv div{
+	width: 105px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모임장 프로필 사진 */
+#leaderImgDiv img {
+	width: 65px;
+	height: 65px;
 	border-radius: 50%; /* 이미지 동그랗게 만듬 */
     object-fit: cover; /* 이미지의 비율을 유지하면서 요소의 크기에 맞춤 */
+}
+
+/* 모임장 이름 */
+#leaderNameDiv {
+	font-size: 18px;
+	font-weight: bold;
 }
 
 #questionDiv {
@@ -57,9 +94,40 @@ img {
     text-align: left; /* 텍스트를 왼쪽으로 정렬 */
 }
 
-#joinPageSection textarea {
+/* 가입 질문 답변, 신청 버튼 */
+#answerDiv {
+	background-color: white;
+    padding: 20px;
+    width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #ccc; /* 메세지 테두리 */
+}
+
+#signUpAnswerTxt {
+	border-radius: 5px;
     width: calc(100% - 20px); /* 부모 요소의 너비에 맞추고 padding을 고려 */
     height: 100px; /* 원하는 높이 설정 */
     padding: 10px;
     box-sizing: border-box; /* 패딩을 포함한 전체 너비와 높이 계산 */
+}
+
+#joinApplyBtnDiv button{
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 10px;
+	width: 150px;
+	height: 48px;
+	border-radius: 7px;	
+	border: none;
+	background-color: #eaf2ea;
+	font-weight: bold;	
+	color:#3b5f3e;
+	cursor: pointer;
+}
+
+#joinApplyBtnDiv button:hover {
+	background-color: #8fbc8f;
+	color: white;
 }

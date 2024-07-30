@@ -97,12 +97,34 @@
 	</select>
 	
     <!-- GroupSettings 관련 메서드 추가 -->
-   <!-- 그룹 정보 업데이트 -->
-    <update id="updateGroup" parameterType="dto.GroupDTO">
-        UPDATE Groups 
-        SET group_name = #{groupName}, region_id = #{regionId}, district_id = #{districtId}, ...
-        WHERE group_id = #{groupId}
-    </update>
+  <!-- 
+	   <select id="countByGroupNameAndExcludeId" parameterType="map" resultType="int">
+	    SELECT COUNT(*)
+	    FROM groups
+	    WHERE group_name = #{groupName}
+	    <if test="groupId != null">
+	        AND group_id != #{groupId}
+	    </if>
+	</select>
+ -->
+ <!-- 그룹 정보 업데이트 -->
+   <update id="updateGroup" parameterType="dto.GroupDTO">
+	    UPDATE `group`
+	    SET 
+	        groupName = #{groupName},
+	        groupInterestId = #{groupInterestId},
+	        groupType = #{groupType},
+	        groupRegionId = #{groupRegionId},
+	        groupDistrictId = #{groupDistrictId},
+	        groupDetail = #{groupDetail},
+	        groupImage = #{groupImage},
+	        groupMaximum = #{groupMaximum},
+	        groupSignUpType = #{groupSignUpType},
+	        groupSignUpQuestion = #{groupSignUpQuestion},
+	        lastUpdateTime = CURRENT_TIMESTAMP
+	    WHERE groupId = #{groupId}
+	</update>
+
 
     <!-- 그룹 삭제 -->
     <delete id="deleteGroup" parameterType="int">

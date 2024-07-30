@@ -45,7 +45,7 @@ $(document).ready(function(){
 			<div class="my-info-area-deco-box">			
 				<div class="profile-img-container">
 			        <c:choose>
-			            <c:when test="${empty profileImage}">
+			            <c:when test="${empty profileImage or profileImage == '/upload/null'}">
 			                <img id="uploadedImage" src="/images/empty_profile_image.png" alt="기본 프로필 사진" style="width:300px;height:350px;">
 			            </c:when>
 			            <c:otherwise>	

@@ -83,9 +83,11 @@ public class GroupDetailController {
 		
 		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
 		UserDTO groupLeaderDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
+		int groupMemberCnt = groupMemberService.getMemberCountInGroup(groupId);
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("groupDTO", groupDTO);
+		mv.addObject("groupMemberCnt", groupMemberCnt);
 		mv.addObject("groupLeaderDTO", groupLeaderDTO);
 		
 		if(groupMemberService.getMemberCountInGroup(groupId) > 1) { // 모임원 있을때

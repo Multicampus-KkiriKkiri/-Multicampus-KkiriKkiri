@@ -1,45 +1,109 @@
 /* groupEvent.css */
 
+/* 모임 일정 탭 페이지 */
+#eventTapPageSection {
+	width: 100% !important;
+	display: flex;          /* Flexbox를 사용하여 자식 요소를 정렬 */
+    flex-direction: column; /* 자식 요소를 세로로 나열 */
+    align-items: center;	
+}
+
 #groupEventPageDiv {
     display: grid;
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
     gap: 10px;
     padding: 10px;
+    width: 1220px;
+    margin: 10px;
 }
 
+/* 모임 일정 리스트/달력 보기 네비게이션 */
 #groupEventNavDiv {
+	background-color: white;
+	width: 100%;
+	display: flex;          /* Flexbox를 사용하여 자식 요소를 정렬 */
+    flex-direction: column; /* 자식 요소를 세로로 나열 */
+    align-items: center;
+    border-top: 1px solid #B7B7B7;
+}
+
+/* 모임 일정 리스트/달력 보기 버튼 */
+#groupEventNavBtnDiv {
+	width: 1207px;
     grid-column: span 2;
     display: flex;
     justify-content: flex-start;
     gap: 10px;
+    padding-left: 0px !important;
 }
 
-#groupEventNavDiv button {
-    padding: 10px;
+/* 모임 일정 리스트/달력 보기 버튼 */
+#groupEventNavBtnDiv button {
+    margin-left: 5px;
+	margin-right: 5px;
+	padding: 10px;
+	width: 200px;
+	height: 48px;
+	border-radius: 7px;	
+	border: 1px solid #7d7d7d;
+	background-color: white;
+	font-weight: 500;	
+	color:#3b5f3e;
 }
 
+#groupEventNavBtnDiv button:hover {
+	background-color: #EFEFEF;
+}
+
+#groupEventNavBtnDiv button.clicked {
+    background-color: #EFEFEF;
+}
+
+/* 모임 일정 예정된/지난 일정 사이드바 */
+#groupEventSidebarDiv {
+    border: none;
+	border-radius: 7px;
+	background-color: white;
+	height: 100px;
+	padding: 0px;
+}
+
+/* 모임 일정 예정된/지난 일정 버튼 */
 #groupEventSidebarDiv button {
-    padding: 10px;
-    width: 150px;
+	height: 40px;
+	width: 100px;
+	border: none;
+	background-color: white;
+	font-weight: 500;	
+	color:#3b5f3e;
+	text-align: left;
+}
+
+#groupEventSidebarDiv button.clicked {
+    color:#E15C31;
+}
+
+/* 예정된/지난 일정 목록 */
+#groupEventListDiv {
+	padding-top: 0px !important;
 }
 
 #upcomingEventsDiv, #pastEventsDiv {
 	width: 100%;
 	box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기를 부모 요소에 맞춤 */
-	gap: 10px;
+	gap: 50px;
+	padding-top: 0px !important;
 }
 
 #pastEventsDiv {
 	display: none;	
 }
 
-#upcomingEventsDiv .custom-margin {
-    margin: 10px 0px 0px 0px !important; /* Bootstrap의 기본 스타일 덮어씀 */
-}
-
+/* 모임 일정들 */
 .eventItemDiv {
-	align-items: center;
+	background-color: white;
+	border-radius: 7px;
 }
 
 .groupEventImageDiv {
@@ -49,8 +113,18 @@
 }
 
 .eventImg {
-	width: 200px;
+	width: 300px;
 	height: 200px;
+	border-radius: 10px;
+}
+
+#eventNameDiv {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.groupEventAttendMembersDiv {
+	width: 800px;
 }
 
 .groupEventMembersDiv {
@@ -82,13 +156,41 @@
 .groupEventOptionBtnDiv {
 	display: flex;
     justify-content: right;
+    align-items: center;
 }
 
-/* 추가된 부분: 추가 모임원 수 스타일 */
 .additionalMembersCntDiv {
     display: flex;
     align-items: center;
     justify-content: center;
     line-height: 50px;
     margin: 0 0;
+}
+
+.groupEventOptionBtn {
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 10px;
+	width: 100px;
+	height: 48px;
+	border-radius: 7px;	
+	border: 2px solid #E15C31;
+	background-color: white;
+	font-weight: 500;	
+	color: #E15C31;
+}
+
+.groupEventOptionBtn:hover {
+	background-color: #E15C31;
+	color: white;
+}
+
+/* 일정 없을 때 */
+#noEventsDiv {
+	background-color: white;
+	border-radius: 7px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	padding: 0px 30px !important;
 }

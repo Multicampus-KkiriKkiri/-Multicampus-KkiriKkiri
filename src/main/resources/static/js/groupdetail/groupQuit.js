@@ -15,7 +15,12 @@ $(document).ready(function() {
 		if($("#checkbox").is(":checked")) { // 체크됨
 	        submitGroupQuit();		
 		} else { // 체크 안됨
-			alert("안내사항을 확인해주세요");
+			Swal.fire({
+	            title: '안내사항을 확인해주세요.',
+	            text: '',
+	            icon: 'warning',
+            	confirmButtonText: '확인'
+        	});
 		}
     }); // groupQuitBtn onclick end
 
@@ -33,9 +38,17 @@ function submitGroupQuit() {
         },
         success: function(data) {
 			if(data == 1) {
-				alert("모임 나가기 완료");
-				window.opener.location.reload(); // 부모 창 새로고침
-				window.close(); // 팝업창 닫기
+				Swal.fire({
+			            title: '모임 나가기가 완료되었습니다.',
+			            text: '',
+			            icon: 'success',
+			            confirmButtonText: '확인'
+			        }).then((result) => {
+				        if (result.isConfirmed) {
+				            window.opener.location.reload(); // 부모 창 새로고침
+							window.close(); // 팝업창 닫기
+				        }
+				});
 			}
         },
         error: function() {

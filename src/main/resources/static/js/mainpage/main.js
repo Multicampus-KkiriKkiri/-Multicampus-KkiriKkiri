@@ -34,7 +34,7 @@ $(document).ready(function(){
 	                    }				
 						
                         var newestGroupHtml = 
-                        	'<div class="col-3 group-detail" style="' + marginStyle + '">' +
+                        	'<div class="col-6 col-sm-3 group-detail" style="' + marginStyle + '">' +
 	                            '<a href="/groupdetail/info?groupId=' + newestGroupDetails2.groupId + '">' +
 	                            	'<div class="group-image-name">' +
 		                                '<img class="group-image" src="' + newestGroupDetails2.groupImage + '" alt="모임 대표 사진">' +
@@ -90,7 +90,7 @@ $(document).ready(function(){
                 if(response && response.length > 0){
                     $('#groupDeatilsByInterest').empty();
                     
-                    $.each(response, function(index, groupDetailsByInterest){	
+                    $.each(response, function(index, groupDetailsByInterest){				
 						//온라인, 오프라인에 따른 아이콘 추가
 						var onOfflineIcon = '';
                         var locationIcon = ''; 
@@ -110,39 +110,39 @@ $(document).ready(function(){
 	                        marginStyle = 'margin-top: 4em;'; 
 	                    }						
 						
-						if (groupDetailsByInterest.regionName !== "온라인" && groupDetailsByInterest.districtName !== "온라인"){					                        
-	                        if(index <= 7){ 															
-	                            var myGroupHtml = 
-	                                '<div class="col-3 group-detail" style="' + marginStyle + '">' +
-	                                '<a href="/groupdetail/info?groupId=' + groupDetailsByInterest.groupId + '">' +
-	                                	'<div class="group-image-name">' +
-		                                    '<img class="group-image" src="' + groupDetailsByInterest.groupImage + '" alt="모임 대표 사진">' +
-		                                    '<h5 class="group-name">' + groupDetailsByInterest.groupName + '</h5>' +
-	                                    '</div>'+
-	                                    '<div class="group-info">'+
-	                                        '<div class="group-type">' + onOfflineIcon + ' '+ groupDetailsByInterest.groupType + '</div>' +
-	                                        '<div>' + locationIcon + ' '+ groupDetailsByInterest.regionName + ' ' + groupDetailsByInterest.districtName + '</div>' +
-	                                    '</div>' +
-	                                '</a>' +
-	                            '</div>';
-	                            $('#groupDeatilsByInterest').append(myGroupHtml);
-	                        }//inner if
-                        } else{
-							 var myGroupHtml = 
-	                                '<div class="col-3 group-detail" style="' + marginStyle + '">' +
-	                                '<a href="/groupdetail/info?groupId=' + groupDetailsByInterest.groupId + '">' +
-	                                	'<div class="group-image-name">' +
-		                                    '<img class="group-image" src="' + groupDetailsByInterest.groupImage + '" alt="모임 대표 사진">' +
-		                                    '<h5 class="group-name">' + groupDetailsByInterest.groupName + '</h5>' +
-	                                    '</div>'+
-	                                    '<div class="group-info">'+
-	                                        '<div class="group-type">' + onOfflineIcon + ' '+ groupDetailsByInterest.groupType + '</div>' +
-	                                        '<div></div>' +
-	                                    '</div>' +
-	                                '</a>' +
-	                            '</div>';
-	                            $('#groupDeatilsByInterest').append(myGroupHtml);                      
-						}//iner else*/
+                        if(index < 8){ 															
+							if (groupDetailsByInterest.regionName !== "온라인" && groupDetailsByInterest.districtName !== "온라인"){					                        
+		                            var myGroupHtml = 
+		                                '<div class="col-6 col-sm-3 group-detail" style="' + marginStyle + '">' +
+		                                '<a href="/groupdetail/info?groupId=' + groupDetailsByInterest.groupId + '">' +
+		                                	'<div class="group-image-name">' +
+			                                    '<img class="group-image" src="' + groupDetailsByInterest.groupImage + '" alt="모임 대표 사진">' +
+			                                    '<h5 class="group-name">' + groupDetailsByInterest.groupName + '</h5>' +
+		                                    '</div>'+
+		                                    '<div class="group-info">'+
+		                                        '<div class="group-type">' + onOfflineIcon + ' '+ groupDetailsByInterest.groupType + '</div>' +
+		                                        '<div>' + locationIcon + ' '+ groupDetailsByInterest.regionName + ' ' + groupDetailsByInterest.districtName + '</div>' +
+		                                    '</div>' +
+		                                '</a>' +
+		                            '</div>';
+		                            $('#groupDeatilsByInterest').append(myGroupHtml);	                        
+	                        } else{
+								 var myGroupHtml = 
+		                                '<div class="col-6 col-sm-3 group-detail" style="' + marginStyle + '">' +
+		                                '<a href="/groupdetail/info?groupId=' + groupDetailsByInterest.groupId + '">' +
+		                                	'<div class="group-image-name">' +
+			                                    '<img class="group-image" src="' + groupDetailsByInterest.groupImage + '" alt="모임 대표 사진">' +
+			                                    '<h5 class="group-name">' + groupDetailsByInterest.groupName + '</h5>' +
+		                                    '</div>'+
+		                                    '<div class="group-info">'+
+		                                        '<div class="group-type">' + onOfflineIcon + ' '+ groupDetailsByInterest.groupType + '</div>' +
+		                                        '<div></div>' +
+		                                    '</div>' +
+		                                '</a>' +
+		                            '</div>';
+		                            $('#groupDeatilsByInterest').append(myGroupHtml);                      
+							}//iner else
+						}//if (index<8)
                     });//each
                 } else {
                     $('#groupDeatilsByInterest').html(

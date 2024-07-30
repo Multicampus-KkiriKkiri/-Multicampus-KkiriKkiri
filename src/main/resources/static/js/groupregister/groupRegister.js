@@ -1,14 +1,72 @@
 $(document).ready(function() {
-    // 활동 방식 선택에 따른 지역 선택 영역 표시/숨기기
-    $('#offlineButton').on('click', function() {
-        $('#regionSelect').show(500);
+    // 초기 상태 설정
+    $('#regionSelect').hide(); // 초기 로딩 시 지역 선택 영역 숨김
+    $('#groupRegionId').val(''); // 기본값 설정
+    $('#groupDistrictId').val(''); // 기본값 설정
+
+    // '온라인' 버튼 클릭 시 동작
+    $('#onlineButton').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#regionSelect').hide(500);
+            $('#groupRegionId').val('17');
+            $('#groupDistrictId').val('304');
+
+            // 온라인 지역 선택 시 지역 선택 옵션에서 '온라인' 추가
+            $.ajax({
+                url: '/groupregister/regions',
+                type: 'GET',
+                success: function(data) {
+                    const regionSelect = $('#groupRegionId');
+                    regionSelect.empty();
+
+                    data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+                        .forEach(region => {
+                            regionSelect.append(new Option(region.regionName, region.regionId));
+                        });
+
+                    // 온라인 지역을 추가
+                    regionSelect.append(new Option("온라인", 17));
+
+                    // 온라인 지역 ID를 설정하고 구를 로드
+                    $('#groupRegionId').val('17');
+                    loadDistricts('17').done(function() {
+                        if ($('#groupDistrictId').find('option[value="304"]').length > 0) {
+                            $('#groupDistrictId').val('304');
+                        } else {
+                            console.error('District ID 304 not found in the select options.');
+                        }
+                    });
+                }
+            });
+        }
     });
 
-    $('#onlineButton').on('click', function() {
-        $('#regionSelect').hide(500);
+    // '오프라인' 버튼 클릭 시 동작
+    $('#offlineButton').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#regionSelect').show(500);
+            $('#groupRegionId').val('1'); // 오프라인일 때 기본값 설정
+            $('#groupDistrictId').val(''); // 구 선택 초기화
+            loadDistricts($('#groupRegionId').val()); // 지역에 따른 구 로드
+
+            // 지역 정보 불러오기
+            $.ajax({
+                url: '/groupregister/regions',
+                type: 'GET',
+                success: function(data) {
+                    const regionSelect = $('#groupRegionId');
+                    regionSelect.empty();
+
+                    data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+                        .forEach(region => {
+                            regionSelect.append(new Option(region.regionName, region.regionId));
+                        });
+                }
+            });
+        }
     });
 
-    // 지역 정보를 불러오는 AJAX 호출
+    // 페이지 로드 시 지역 정보 불러오기
     $.ajax({
         url: '/groupregister/regions',
         type: 'GET',
@@ -34,6 +92,7 @@ $(document).ready(function() {
     });
 
     function loadDistricts(regionId) {
+        var deferred = $.Deferred();
         $.ajax({
             url: `/groupregister/regions/${regionId}`,
             type: 'GET',
@@ -43,28 +102,30 @@ $(document).ready(function() {
                 data.forEach(district => {
                     districtSelect.append(new Option(district.districtName, district.districtId));
                 });
+                deferred.resolve(); // 성공적으로 로드된 후 resolve
+            },
+            error: function() {
+                deferred.reject(); // 오류가 발생한 경우 reject
             }
         });
+        return deferred.promise();
     }
 
     // 승인제와 선착순 버튼 클릭 이벤트 처리
-    $('.approval-type').on('click', function() {
-        var value = $(this).data('value');
+    $('input[name="groupSignUpType"]').on('change', function() {
+        var value = $(this).val();
         $('.approval-type').removeClass('active');
-        $(this).addClass('active');
-        if (value === '가입제') {
+        $(this).parent().addClass('active');
+        if (value === '승인제') {
             $('.first-come-first-served').hide(500);
             $('.approval-system').show(500);
-            $('#questionBox').show(500);
         } else {
             $('.approval-system').hide(500);
             $('.first-come-first-served').show(500);
-            $('#questionBox').hide(500);
         }
     });
-
-    $('.approval-type[data-value="선착순"]').addClass('active');
-    $('#questionBox').hide();
+    // 기본적으로 '선착순' 버튼 활성화
+    $('input[name="groupSignUpType"][value="선착순"]').prop('checked', true).trigger('change');
 
     // 이미지 업로드 버튼 클릭 시 파일 입력 클릭
     $('#addImageButton').on('click', function() {
@@ -84,8 +145,17 @@ $(document).ready(function() {
     $('#groupMaximum').val(2);
 
     // 참가인원 필드의 값이 변경될 때마다 확인
-    $('#groupMaximum').on('input', function() {
+    $('#groupMaximum').on('blur', function() {
         var value = $(this).val();
+        
+        // 빈 값이나 0은 허용
+        if (value === '' || value === '0') {
+            return;
+        }
+
+        // 숫자로 변환
+        value = parseInt(value);
+
         if (value > 300) {
             $(this).val(300);
         } else if (value < 2) {
@@ -111,7 +181,7 @@ $(document).ready(function() {
         var groupInterestId = $('#groupInterestId').val();
 
         // 참가인원 유효성 검사
-        if (!groupName || !groupDetail || !groupRegionId || !groupDistrictId || !groupMaximum || !groupInterestId ||
+        if (!groupName || !groupDetail || !groupInterestId || !groupMaximum ||
             (groupSignUpType === '승인제' && !groupSignUpQuestion)) {
             alert("모임 가입에 필요한 요소를 채워주세요.");
             return;
@@ -130,13 +200,23 @@ $(document).ready(function() {
                 } else {
                     // 폼 제출
                     var formData = new FormData($('#groupForm')[0]);
+
+                    // 활동 방식에 따라 지역 및 구 값 설정
+                    if ($('#onlineButton').is(':checked')) {
+                        formData.append('groupRegionId', '17');
+                        formData.append('groupDistrictId', '304');
+                    } else {
+                        formData.append('groupRegionId', $('#groupRegionId').val());
+                        formData.append('groupDistrictId', $('#groupDistrictId').val());
+                    }
+
                     if (!groupImage) {
                         if (confirm("이미지를 등록하지 않았습니다. 등록 하시겠습니까?")) {
-                            formData.append('groupImage', ''); // 이미지 필드 빈값으로 설정
+                            formData.append('groupRegisterImage', new Blob([], {type: 'image/png'})); // 빈 이미지 파일 추가
                             submitForm(formData);
                         }
                     } else {
-                        formData.append('groupImage', groupImage); // 이미지 추가
+                        formData.append('groupRegisterImage', groupImage); // 이미지 추가
                         submitForm(formData);
                     }
                 }
@@ -151,6 +231,7 @@ $(document).ready(function() {
             url: '/groupregister/register',
             type: 'POST',
             data: formData,
+            encType: "multipart/form-data",
             processData: false,
             contentType: false,
             success: function(response) {

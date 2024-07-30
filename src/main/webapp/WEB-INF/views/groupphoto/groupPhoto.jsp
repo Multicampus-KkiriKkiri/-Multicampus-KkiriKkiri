@@ -17,14 +17,22 @@
 
 <section class="tapPageSection" id="photoTapPageSection">
 	<div id="groupPhotoPageDiv">
-		<div id="groupPhotoHeaderDiv">모임 사진(${totalPostCount})</div>
+		<div id="groupPhotoHeaderDiv">
+			<span>모임 사진(${totalPostCount})</span>
+		</div>
 		<div id="groupPhotoBoardDiv">
 			<!-- js 파일에서 모임 사진 게시물 내용 추가 -->
 		</div>
 
 		<div id="pageNumBtnDiv">
+			<% 
+			int totalPostCount = (Integer) request.getAttribute("totalPostCount"); 
+			if(totalPostCount >= 1) {
+			%>
+				<button class="movePageBtn" id="previousBtn">이전</button>
 			<%
-			int totalPostCount = (Integer) request.getAttribute("totalPostCount");
+			}
+			int pageNum = (Integer) request.getAttribute("pageNum");
 			int totalpage = 0;
 			if (totalPostCount % 9 == 0) {
 				totalpage = totalPostCount / 9;
@@ -33,13 +41,28 @@
 			} // if-else end
 
 			for (int i = 1; i <= totalpage; i++) {
-			%>
-				<button class="pageNumBtn" data-pageNum="<%=i%>" value="<%=i%>"><%=i%></button>
-			<%
+				if(pageNum == i) {
+				%>
+					<button class="pageNumBtn clicked" data-pageNum="<%=i%>" value="<%=i%>"><%=i%></button>
+				<%
+				} else {
+				%>
+					<button class="pageNumBtn" data-pageNum="<%=i%>" value="<%=i%>"><%=i%></button>
+				<%
+				} // if end
 			} // for end
+			if(totalPostCount >= 1) {
+			%>
+				<button class="movePageBtn" id="nextBtn">다음</button>
+			<%
+			}
 			%>
 		</div>
 	</div>
 </section>
+
+<script>
+	var totalPage = <%= totalpage %>;
+</script>
 
 </html>

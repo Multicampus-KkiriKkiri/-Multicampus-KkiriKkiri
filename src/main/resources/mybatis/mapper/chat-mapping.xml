@@ -36,5 +36,20 @@
 	    LIMIT 
 	        #{offset}, #{limit}
     </select>
+    
+    <insert id="moveOldChatsToHistory">
+    	<![CDATA[
+    	INSERT INTO `chat_history`
+        	SELECT * 
+        	FROM `chat` 
+        	WHERE chatTime < DATE_SUB(NOW(), INTERVAL 30 DAY)
+    	]]>
+    </insert>
+    
+    <delete id="deleteOldChatsFromChat">
+    	<![CDATA[
+    	DELETE FROM `chat` WHERE chatTime < DATE_SUB(NOW(), INTERVAL 30 DAY)
+    	]]>
+    </delete>
 	
 </mapper>

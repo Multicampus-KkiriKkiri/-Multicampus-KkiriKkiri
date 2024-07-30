@@ -1,10 +1,11 @@
-@charset "UTF-8";
+/* groupManage.css */
+
 body {
     font-family: Arial, sans-serif;
 }
 
 .container {
-    width: 60%;
+    width: 70%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -77,21 +78,19 @@ textarea {
     resize: none;
 }
 
+.activity-type {
+    display: flex;
+    gap: 10px;
+}
+
 .activity-type input {
-    display: inline-block;
-    width: 45%;
-    padding: 10px;
-    margin: 5px 0;
-    cursor: pointer;
+    margin-right: 5px;
 }
 
 .application-type {
     display: flex;
     flex-direction: column;
-}
-
-.application-type input {
-    margin-bottom: 10px;
+    gap: 10px;
 }
 
 .application-description {
@@ -101,6 +100,9 @@ textarea {
 .application-description .first-come-first-served,
 .application-description .approval-system {
     display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .application-description .first-come-first-served.active,
@@ -108,44 +110,40 @@ textarea {
     display: block;
 }
 
-#updateGroupButton,
-#deleteGroupButton {
-    display: inline-block;
-    width: 48%;
-    padding: 10px;
-    margin-top: 10px;
+.application-type .active {
+    background-color: #ddd;
 }
 
-#deleteGroupButton {
-    float: left;
+.region-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-#updateGroupButton {
-    float: right;
-}
-
-#deletePopup,
-#updatePopup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-}
-
-#deletePopup button,
-#updatePopup button {
+.region-container select {
     width: 100%;
-    padding: 10px;
+}
+
+.districts-container {
     margin-top: 10px;
 }
 
-#deletePopup button:last-child,
-#updatePopup button:last-child {
-    background-color: #ccc;
+#register_submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }

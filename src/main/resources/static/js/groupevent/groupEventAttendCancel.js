@@ -11,7 +11,17 @@
 	
 	// '참여 취소' 버튼 눌렀을때 이벤트 처리
     $('#eventAttendCancelBtn').click(function() {
-        cancelAttendApplyToEvent();
+		// 체크박스 체크 여부 확인
+		if($("#checkbox").is(":checked")) { // 체크됨
+	        cancelAttendApplyToEvent();		
+		} else { // 체크 안됨
+			Swal.fire({
+	            title: '안내사항을 확인해주세요.',
+	            text: '',
+	            icon: 'warning',
+            	confirmButtonText: '확인'
+        	});
+		}
     });
     
 }); // ready() end
@@ -28,11 +38,19 @@ function cancelAttendApplyToEvent() {
         },
         success: function(data) {
 			if(data == 1) {
-				alert("일정 참여 취소 완료");
-				if (window.opener && !window.opener.closed) {
-					window.opener.loadTabContent("event"); // tabSection 새로고침
-				}
-				window.close(); // 팝업창 닫기
+				Swal.fire({
+			            title: '신청 취소가 완료되었습니다.',
+			            text: '',
+			            icon: 'success',
+			            confirmButtonText: '확인'
+			    }).then((result) => {
+				        if (result.isConfirmed) {
+				            if (window.opener && !window.opener.closed) {
+								window.opener.loadTabContent("event"); // tabSection 새로고침
+							}
+							window.close(); // 팝업창 닫기
+				        }
+				});
 			}
         },
         error: function() {

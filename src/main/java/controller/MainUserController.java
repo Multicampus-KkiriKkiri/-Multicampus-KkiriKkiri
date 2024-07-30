@@ -88,9 +88,10 @@ public class MainUserController {
 		if(session.getAttribute("sessionUserId") != null) {
 			session.removeAttribute("sessionUserId");
 			session.removeAttribute("sessionUserInfo");
+			session.removeAttribute("sessionUserEmail");
 		}
 		return "/mainpage/main";
-	}
+	}	
 		
 	//회원가입
 	@ResponseBody

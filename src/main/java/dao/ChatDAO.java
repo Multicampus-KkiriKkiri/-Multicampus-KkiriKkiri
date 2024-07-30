@@ -32,5 +32,13 @@ public class ChatDAO {
 		
 		return chatHistoryList;
 	}
+
+	public int moveOldChatsToHistory() {
+		return session.insert("moveOldChatsToHistory");
+	}
+
+	public int deleteOldChatsFromChat() {
+		return session.delete("deleteOldChatsFromChat");
+	}
 	
 }
