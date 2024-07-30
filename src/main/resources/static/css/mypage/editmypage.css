@@ -183,7 +183,7 @@ select option {
 	margin-top: 25px;
 }
 
-/*비밀번호 수정 모달*/
+/*비밀번호 수정 & 계정삭제 모달*/
 .password-input-container-in-modify-modal,
 .password-input-container-in-delete-account-modal{
 	display: flex;
@@ -212,6 +212,11 @@ select option {
 	margin-top:20px;
 	text-align: left;
 	margin-left: 2.8rem;
+}
+
+.delete-account-double-check-message{
+	color: #e15c31;
+	font-weight: 600;
 }
 
 .modify-pw-modal-warning,

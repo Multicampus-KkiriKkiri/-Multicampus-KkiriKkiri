@@ -40,9 +40,8 @@ public class MainController {
 	//메인페이지 - 관심사별 그룹 내용 가져오기
 	@ResponseBody
 	@GetMapping("/groupDetailsByInterest")
-	public List<HashMap<String, Object>> getGroupDetailsByInterestId(@RequestParam int interestId, Model model/*, HttpSession session*/) {
-		ArrayList<HashMap<String, Object>> groupDetailsByInterest = groupService.getGroupDetailsByInterestId(interestId);
-		//model.addAttribute("groupDetailsByInterest", groupDetailsByInterest);	
+	public List<HashMap<String, Object>> getGroupDetailsByInterestId(@RequestParam int interestId, Model model) {
+		ArrayList<HashMap<String, Object>> groupDetailsByInterest = groupService.getGroupDetailsByInterestId(interestId);	
 		
 	    List<Integer> groupIds = new ArrayList<>();
 	    for (HashMap<String, Object> groupDetail : groupDetailsByInterest) {
@@ -50,8 +49,7 @@ public class MainController {
 	        if (groupId != null) {
 	            groupIds.add(groupId);
 	        }
-	    }
-	    //session.setAttribute("groupIds", groupIds);		
+	    }		
 		return groupDetailsByInterest;		
 	}
 	

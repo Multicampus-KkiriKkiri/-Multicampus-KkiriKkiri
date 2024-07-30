@@ -31,7 +31,7 @@ $(document).ready(function(){
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>		 
 	       <form action="/groupsearch" method="get" class="search-area">
-	         <input type="text" class="first-input" id="search-input" placeholder="검색어 입력" /><!--  
+	         <input type="text" class="first-input" id="search-input" placeholder="모임 검색" /><!--  
 	        --><select class="region-input" id="search-userRegion" name="userRegionId">
 				<option id="show-user-region" value="${userRegion}">${userRegion}</option>
 			 </select><!--
@@ -50,7 +50,7 @@ $(document).ready(function(){
 		</a>
 		<a>
 			<c:choose>
-	            <c:when test="${empty profileImage}">
+	            <c:when test="${empty profileImage or profileImage == '/upload/null'}">
 	                <img id="uploadedImage" class="profile-circle" src="/images/empty_profile_image.png" alt="기본 프로필 사진">
 	            </c:when>
 	            <c:otherwise>

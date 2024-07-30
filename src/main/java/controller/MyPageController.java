@@ -82,7 +82,7 @@ public class MyPageController {
 			mv.addObject("loginUserInterestNames", loginUserInterestNames);	
 			
 			String profileImage = "/upload/" + loginUser.getProfileImage();			
-			mv.addObject("profileImage", profileImage);						
+			mv.addObject("profileImage", profileImage);					
 			//mv.addObject("profileImage", loginUser.getProfileImage());		
 			
 			mv.setViewName("/mypage/myPage");
@@ -177,11 +177,7 @@ public class MyPageController {
                 isUpdated = true;
                 //session.setAttribute("profileImage", newFileName);
                 UserDTO userDTO = (UserDTO)session.getAttribute("sessionUserInfo");
-                userDTO.setProfileImage(newFileName);
-                
-                System.out.println(newFileName);
-                
-                
+                userDTO.setProfileImage(newFileName);                
             } catch (IOException e) {
                 e.printStackTrace();
                 return "{\"status\": \"fail\"}";
@@ -373,8 +369,7 @@ public class MyPageController {
 	            }
 	        }     
 	        return myGroupDetails;    
-	    } else {            
-	        System.out.println("오류");            
+	    } else {                        
 	        return null;
 	    }            
 	}
