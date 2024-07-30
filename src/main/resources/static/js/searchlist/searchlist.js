@@ -1,57 +1,74 @@
-(function() {
-    // 중복 선언을 피하기 위해 let이나 const 사용
-    let searchType = 'group';
-    let sortOrder = 'new';
+$(document).ready(function() {
+    // 페이지가 로드되면 모든 지역 정보를 가져와서 id = regions 셀렉트 태그에 추가
+    $.ajax({
+        url: '/regions',
+        method: 'GET',
+        success: function(data) {
+            let citySelect = $('#regions'); 
+            
+            //'대한민국 전체' 옵션 추가
+            citySelect.append('<option value=0>대한민국 전체</option>');
+            
+            // 첫 번째 옵션(공백) 삭제
+            citySelect.find('option:first').remove();
 
-    // 검색 타입 설정 함수
-    window.setSearchType = function(type) {
-        searchType = type;
-        search(); // searchType이 변경될 때 즉시 검색
-    }
+            data.filter(region => region.regionName !== "온라인" && region.regionId !== 17)
+                .forEach(region => {                    
+                    let isSelected = (region.regionId == selectedRegionId) ? 'selected' : '';
+                    citySelect.append('<option value=' + region.regionId + ' ' + isSelected + '>' + region.regionName + '</option>');
+                });
 
-    // 검색 함수
-    window.search = function() {
-        const keyword = $('#searchInput').val();
-        const region = $('#regions').val();
-        const district = $('#districts').val();
-        const interest = $('#interests').val();
-        const onlineOffline = $('#onlineOffline').val();
-        
-        loadPage(1, { keyword, region, district, interest, onlineOffline });
-    }
+            // 지역 선택 시 구를 불러오는 함수 호출
+            $('#regions').trigger('change');
+        },
+        error: function(error) {
+            console.log("Error fetching regions:", error);
+        }
+    });
 
-    // 정렬 결과 함수
-    window.sortResults = function(order) {
-        sortOrder = order;
-        search(); // 기존 검색 조건으로 다시 검색
-    }
-
-    // 페이지 로드 함수
-    window.loadPage = function(page, filters = {}) {
-        const params = {
-            ...filters,
-            sortOrder: sortOrder,
-            page: page,
-            pageSize: 15
-        };
-
+    // 지역 선택 시 구를 불러오는 함수 호출
+    $('#regions').on('change', function() {
+        const regionId = $(this).val();
         $.ajax({
-            url: `/${searchType}search`,
+            url: `/regions/${regionId}`,
             type: 'GET',
-            data: params,
-            success: function(response) {
-                // 서버에서 헤더와 푸터를 포함한 전체 HTML을 반환할 경우 이를 전체 페이지에 적용
-                $('html').html(response);
-            },
-            error: function(error) {
-                console.error('Error:', error);
-                $('#resultsContainer').html('<p>오류가 발생했습니다. 다시 시도해 주세요.</p>');
+            success: function(data) {
+                const districtSelect = $('#districts');
+                districtSelect.empty();
+                data.forEach(district => {
+                    let isSelected = (district.districtId == selectedDistrictId) ? 'selected' : '';
+                    districtSelect.append('<option value=' + district.districtId + ' ' + isSelected + '>' + district.districtName + '</option>');
+                });
             }
         });
-    }
-
-    $(document).ready(function() {
-        // 초기 검색 실행
-        search();
     });
-})();
+
+    // 검색 유형 선택 시 폼 액션 변경
+    $('input[name="searchType"]').on('change', function() {
+        $('#searchForm').attr('action', $(this).val() + 'searchatlist');
+    });
+
+    // 검색 버튼 클릭 시 폼 제출
+    $('#searchForm').on('submit', function(e) {
+        e.preventDefault();
+        $(this).attr('action', $('input[name="searchType"]:checked').val() + 'searchatlist');
+        this.submit();
+    });
+
+    // 결과 컨테이너 클릭 시 그룹 상세 페이지로 이동
+    $('#resultsContainer').on('click', '.resultContainer', function() {
+        const groupId = $(this).data('groupid');
+        if (groupId) {
+            window.location.href = `/groupdetail/info?groupId=${groupId}`;
+        }
+    });
+
+    // Truncate details text
+    $('.details').each(function() {
+        const maxLength = 200;
+        const text = $(this).text();
+        if (text.length > maxLength) {
+            $(this).text(text.substring(0, maxLength) + '...');
+        }
+    });
+});

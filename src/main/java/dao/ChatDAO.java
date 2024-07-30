@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import dto.ChatDTO;
 import dto.ChatVO;
 
 @Repository
@@ -20,14 +19,6 @@ public class ChatDAO {
 	public int insertChatMessage(HashMap map) {
 		return session.insert("insertChatMessage", map);
 	}
-	
-	public List<ChatDTO> getChats(int groupId) {
-		return session.selectList("getChats", groupId);
-	}
-	
-	public ChatDTO getLatestChatByGroupId(int groupId) {
-        return session.selectOne("getLatestChatByGroupId", groupId);
-    }
 
 	public ArrayList<HashMap<String, Object>> getChatHistoryByGroupId(HashMap map) {
 		List<ChatVO> resultList = session.selectList("getChatHistoryByGroupId", map);

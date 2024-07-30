@@ -5,6 +5,7 @@
 var userNickname; // 현재 로그인한 회원 별명 전역변수
 
 var sock = new SockJS("/ws/multiRoom"); // 웹소켓 전역변수
+var notificationSock = new SockJS("/ws/notifications"); // 채팅 알림을 위한 전역 변수
 var offset = 0; // 채팅 불러올 기준 변수
 var previousDate = ''; // 메세지 날짜를 추적할 변수
 
@@ -45,7 +46,7 @@ $(document).ready(function() {
             loadMoreChats(); // 채팅 내역 추가로 불러오기
         }
     }); // groupChatLogDiv scroll end
-    
+        
 }); // ready() end
 
 // 사용자 별명, 프로필 이미지 가져오는 함수
@@ -224,10 +225,31 @@ function sendMessage() {
     sendChatMessageSoket(myMessage, currentTime); // 채팅 메세지 전송
     saveChatMessage(myMessage, currentTime); // 채팅 메세지 db에 저장
     textarea.value = ''; // 전송 후 입력란 초기화
+    sendChatToNoti(myMessage, currentTime); // 채팅 메세지 알림으로 전송
     
     $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
-
 } // sendMessage() end
+
+function sendChatToNoti(myMessage,currentTime) {
+    var messageData = JSON.stringify({
+        groupId: groupId,
+			userId: userId,
+			type: "SEND",
+			message: myMessage, // 메세지 내용
+			chatTime: currentTime, // 메세지 전송 시간
+			profileImage: profileImage // 사용자 프로필
+    });
+
+    if (notificationSock.readyState === WebSocket.OPEN) {
+        notificationSock.send(messageData);
+    } else {
+        notificationSock.onopen = function() {
+            notificationSock.send(messageData);
+            // onopen 핸들러를 해제하여 중복 방지
+            notificationSock.onopen = null;
+        };
+    }
+}
 
 // 채팅 메세지 소켓 전송하는 함수
 function sendChatMessageSoket(myMessage, currentTime) {	

@@ -15,23 +15,23 @@ public class SearchServiceImpl implements SearchService {
 	SearchDAO dao;
 	
 	@Override
-	public List<Map<String, Object>> getGroups(Map<String, Object> params) {
-        return dao.getGroups(params);
+	public List<Map<String, Object>> getGroups(Map<String, Object> map) {
+        return dao.getGroups(map);
     }
 
 	@Override
-	public List<Map<String, Object>> getEvents(Map<String, Object> params) {
-		return dao.getEvents(params);
+	public List<Map<String, Object>> getEvents(Map<String, Object> map) {
+		return dao.getEvents(map);
 	}
 
 	@Override
-	public int getGroupsCount(Map<String, Object> params) {
-		return dao.getGroupsCount(params);
+	public int getGroupsCount(Map<String, Object> map) {
+		return dao.getGroupsCount(map);
 	}
 
 	@Override
-	public int getEventsCount(Map<String, Object> params) {
-		return dao.getEventsCount(params);
+	public int getEventsCount(Map<String, Object> map) {
+		return dao.getEventsCount(map);
 	}
 	
 
