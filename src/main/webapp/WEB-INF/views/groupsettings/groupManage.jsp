@@ -19,7 +19,7 @@
         <h2>모임 관리</h2>
 
         <!-- 모임 관리 폼 -->
-        <form id="groupForm" action="<c:url value='/groupmanage/update'/>" method="post" enctype="multipart/form-data">
+        <form id="groupForm" action="<c:url value='/groupsettings/update'/>" method="post" enctype="multipart/form-data">
             <input type="hidden" id="groupId" name="groupId" value="${groupDTO.groupId}">
 
             <div class="form-group">
@@ -41,31 +41,32 @@
             <div class="form-group">
                 <label>활동 방식</label>
                 <div class="activity-type">
-                    <input type="radio" id="onlineButton" name="groupType1" value="온라인" ${groupDTO.groupType1 == '온라인' ? 'checked' : ''}> 온라인
-                    <input type="radio" id="offlineButton" name="groupType1" value="오프라인" ${groupDTO.groupType1 == '오프라인' ? 'checked' : ''}> 오프라인
+                    <input type="radio" id="onlineButton" name="groupType" value="온라인" ${groupDTO.groupType == '온라인' ? 'checked' : ''}> 온라인
+                    <input type="radio" id="offlineButton" name="groupType" value="오프라인" ${groupDTO.groupType == '오프라인' ? 'checked' : ''}> 오프라인
                 </div>
             </div>
 
-            <div class="form-group" id="regionSelect" style="display: ${groupDTO.groupType1 == '오프라인' ? 'block' : 'none'};">
-                <label for="groupRegionId">모임 지역 선택</label>
-                <div class="region-container">
-                    <select id="groupRegionId" name="groupRegionId">
-                        <!-- 지역 정보가 여기에 추가됨 -->
-                    </select>
-                </div>
-                <div class="districts-container">
-                    <select id="groupDistrictId" name="groupDistrictId">
-                        <!-- 구 정보가 여기에 추가됨 -->
-                    </select>
-                </div>
-            </div>
+           <div class="form-group" id="regionSelect" style="display: ${groupDTO.groupType == '오프라인' ? 'block' : 'none'};">
+         	  <label for="groupRegionId">모임 지역 선택</label>
+              	 <div class="region-container">
+                   <select id="groupRegionId" name="groupRegionId"   data-initial-region-id="${groupDTO.groupRegionId}">
+                               <!-- 지역 정보가 여기에 추가됨 -->
+                   </select>
+				</div>
+			    <div class="districts-container">
+			        <select id="groupDistrictId" name="groupDistrictId" data-initial-district-id="${groupDTO.groupDistrictId}">
+			            <!-- 구 정보가 여기에 추가됨 -->
+			        </select>
+			    </div>
+			</div>
+
 
             <div class="form-group">
                 <label>모임 설명 & 이미지 수정</label>
                 <div class="description-image-box">
                     <div class="image-box">
                         <label for="groupImage" class="image-placeholder">
-                            <img id="preview" src="${groupDTO.groupImage}" alt="이미지 미리보기" style="max-width: 200px; max-height: 200px;">
+                            <img id="preview" src="/upload/groupregister/${groupDTO.groupImage}" alt="이미지 미리보기" style="max-width: 200px; max-height: 200px;">
                             <span class="plus-icon" style="display: none;">+</span>
                             <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" style="display:none;">
                         </label>
@@ -81,10 +82,28 @@
                 <input type="number" id="groupMaximum" name="groupMaximum" value="${groupDTO.groupMaximum}" min="1" max="300" required>
             </div>
 
-            <!-- 비밀번호 필드 삭제 -->
-
             <div class="form-group">
-                <button type="button" id="saveGroupButton">저장</button>
+                <label>신청 방식</label>
+                <div class="application-type">
+                    <input type="radio" class="approval-type" data-value="선착순" name="groupSignUpType" value="선착순" ${groupDTO.groupSignUpType == '선착순' ? 'checked' : ''}>선착순
+                    <input type="radio" class="approval-type" data-value="승인제" name="groupSignUpType" value="승인제" ${groupDTO.groupSignUpType == '승인제' ? 'checked' : ''}>승인제
+                </div>
+                <div class="application-description">
+                    <div class="first-come-first-served ${groupDTO.groupSignUpType == '선착순' ? 'active' : ''}">
+                        <p>멤버들의 신청과 동시에 참여가 완료돼요. 누구나 참여할 수 있어서 신청률이 높아요.</p>
+                    </div>
+                    <div class="approval-system ${groupDTO.groupSignUpType == '승인제' ? 'active' : ''}">
+                        <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
+                        <div class="form-group">
+                            <label for="groupSignUpQuestion">가입시 회원에게 물어볼 질문</label>
+                            <input type="text" id="groupSignUpQuestion" name="groupSignUpQuestion" value="${groupDTO.groupSignUpQuestion}" style="width: 100%; height: 50px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+            	<button type="button" id="deleteGroupButton" style="float: left;">모임 삭제</button>
+            	<button type="button" id="saveGroupButton" style="float: right;">수정 저장</button>
             </div>
         </form>
     </div>

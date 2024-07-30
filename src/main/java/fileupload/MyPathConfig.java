@@ -12,8 +12,8 @@ public class MyPathConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations(UploadInform.uploadLocation);
 
-        registry.addResourceHandler("/groupregister/uploads/**")
-                .addResourceLocations(UploadInform.groupRegisterUploadLocation);
+        //registry.addResourceHandler("/groupregister/uploads/**")
+        //        .addResourceLocations(UploadInform.groupRegisterUploadLocation);
     }
     
 }

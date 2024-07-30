@@ -1,6 +1,10 @@
 var isChanged = false; // Global variable to track if there are unsaved changes
+var groupId = $("#groupId").val(); // 그룹 ID를 폼에서 가져오기
 
 $(document).ready(function () {
+	 // Debugging: check the value of groupId
+	
+    //console.log("groupId on document ready: " + groupId);
     // 탭 클릭 시 페이지 내용 로드
     $(".tapBtn").click(function(event) {
         if (isChanged) {

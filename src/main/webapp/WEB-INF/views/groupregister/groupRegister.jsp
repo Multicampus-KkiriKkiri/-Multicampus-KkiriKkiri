@@ -44,7 +44,7 @@
                 
                     <input type="button" id="onlineButton"  name="groupType1" value="온라인">-->
                      <input type="radio" id="onlineButton"  name="groupType1" value="온라인">  온라인                   
-                    <input type="radio" id="offlineButton"  name="groupType1" value="오프라인" checked> 오프라인
+                    <input type="radio" id="offlineButton"  name="groupType1" value="오프라인" > 오프라인
                    
                 </div>
             </div>
