@@ -1,0 +1,75 @@
+@charset "UTF-8";
+/* 채팅 알림 페이지 css파일 */
+
+/* 페이지 전체 */
+
+body.noti-body {
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    padding-top: 98px; /* 네비게이션 바의 높이만큼 패딩 추가 */
+}
+
+.noti-chats-container {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 1200px;
+}
+
+.chatContainer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.chatContainer:last-child {
+    border-bottom: none;
+}
+
+.groupImage {
+    margin-right: 15px;
+}
+
+.groupImage img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.groupName {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.chatTime {
+    color: #999;
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+.profileImage {
+    margin-right: 10px;
+}
+
+.profileImage img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.userNickname {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.chatMessage {
+    flex: 1;
+}
+
+/* 기타 스타일 */
+.noti-header, .noti-footer {
+    width: 100%;
+    background-color: #fff;
+}

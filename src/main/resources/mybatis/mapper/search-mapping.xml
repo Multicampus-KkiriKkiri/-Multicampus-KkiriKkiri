@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="dao.SearchDAO">
 
   <select id="getGroups" resultType="map" parameterType="map">
     SELECT 
+      g.groupId,
       g.groupName,
       g.groupDetail,
       g.groupImage,
@@ -24,11 +26,11 @@
       <if test="keyword != null and keyword != ''">
         AND (g.groupName LIKE CONCAT('%', #{keyword}, '%') OR g.groupDetail LIKE CONCAT('%', #{keyword}, '%'))
       </if>
-      <if test="region != null and region != ''">
-        AND r.regionName LIKE CONCAT('%', #{region}, '%')
+      <if test="regionId != null and regionId != 0">
+        AND g.groupRegionId = #{regionId}
       </if>
-      <if test="district != null and district != ''">
-        AND d.districtName LIKE CONCAT('%', #{district}, '%')
+      <if test="districtId != null and districtId != 0">
+        AND g.groupDistrictId = #{districtId}
       </if>
       <if test="interest != null and interest != ''">
         AND i.interestField = #{interest}
@@ -53,8 +55,10 @@
   </select>
 
   <select id="getEvents" resultType="map" parameterType="map">
-    SELECT 
+    SELECT
+      e.eventId,
       e.eventImage,
+      g.groupId,
       g.groupName,
       e.eventDate,
       e.eventLocation,
@@ -62,18 +66,18 @@
       e.eventDetail,
       e.eventMaximum,
       (SELECT COUNT(*) FROM event_member em WHERE em.eventId = e.eventId) AS participantCount
-    FROM 
+    FROM
       `event` e
       JOIN `group` g ON e.groupId = g.groupId
     <where>
       <if test="keyword != null and keyword != ''">
         AND (e.eventName LIKE CONCAT('%', #{keyword}, '%') OR e.eventDetail LIKE CONCAT('%', #{keyword}, '%'))
       </if>
-      <if test="region != null and region != ''">
-        AND g.groupRegionId IN (SELECT regionId FROM regions WHERE regionName LIKE CONCAT('%', #{region}, '%'))
+      <if test="regionId != null and regionId != 0">
+        AND g.groupRegionId = #{regionId}
       </if>
-      <if test="district != null and district != ''">
-        AND g.groupDistrictId IN (SELECT districtId FROM districts WHERE districtName LIKE CONCAT('%', #{district}, '%'))
+      <if test="districtId != null and districtId != 0">
+        AND g.groupDistrictId = #{districtId}
       </if>
       <if test="interest != null and interest != ''">
         AND g.groupInterestId IN (SELECT interestId FROM interest WHERE interestField = #{interest})
@@ -82,7 +86,7 @@
         AND g.groupType = #{onlineOffline}
       </if>
     </where>
-    ORDER BY 
+    ORDER BY
       <choose>
         <when test="sortOrder == 'new'">
           e.eventId DESC
@@ -93,7 +97,7 @@
         <otherwise>
           e.eventId DESC
         </otherwise>
-      </choose>
+    </choose>
     LIMIT #{limit} OFFSET #{offset}
   </select>
   
@@ -109,11 +113,11 @@
       <if test="keyword != null and keyword != ''">
         AND (g.groupName LIKE CONCAT('%', #{keyword}, '%') OR g.groupDetail LIKE CONCAT('%', #{keyword}, '%'))
       </if>
-      <if test="region != null and region != ''">
-        AND r.regionName LIKE CONCAT('%', #{region}, '%')
+      <if test="regionId != null and regionId != 0">
+        AND g.groupRegionId = #{regionId}
       </if>
-      <if test="district != null and district != ''">
-        AND d.districtName LIKE CONCAT('%', #{district}, '%')
+      <if test="districtId != null and districtId != 0">
+        AND g.groupDistrictId = #{districtId}
       </if>
       <if test="interest != null and interest != ''">
         AND i.interestField = #{interest}
@@ -134,11 +138,11 @@
       <if test="keyword != null and keyword != ''">
         AND (e.eventName LIKE CONCAT('%', #{keyword}, '%') OR e.eventDetail LIKE CONCAT('%', #{keyword}, '%'))
       </if>
-      <if test="region != null and region != ''">
-        AND g.groupRegionId IN (SELECT regionId FROM regions WHERE regionName LIKE CONCAT('%', #{region}, '%'))
+      <if test="regionId != null and regionId != 0">
+        AND g.groupRegionId = #{regionId}
       </if>
-      <if test="district != null and district != ''">
-        AND g.groupDistrictId IN (SELECT districtId FROM districts WHERE districtName LIKE CONCAT('%', #{district}, '%'))
+      <if test="districtId != null and districtId != 0">
+        AND g.groupDistrictId = #{districtId}
       </if>
       <if test="interest != null and interest != ''">
         AND g.groupInterestId IN (SELECT interestId FROM interest WHERE interestField = #{interest})

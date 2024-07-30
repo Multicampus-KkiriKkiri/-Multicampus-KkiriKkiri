@@ -1,17 +1,20 @@
 package chat;
  
-
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
- 
+
+
+@Component 
 public class ChatHandler extends TextWebSocketHandler {
-    
+	
     ObjectMapper objectMapper = new ObjectMapper();
     ChatRoomRepository repository = new ChatRoomRepository();
+    
     
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {  

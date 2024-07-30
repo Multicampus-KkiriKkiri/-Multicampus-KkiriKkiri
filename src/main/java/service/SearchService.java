@@ -5,12 +5,12 @@ import java.util.Map;
 
 public interface SearchService {
 	
-	List<Map<String, Object>> getGroups(Map<String, Object> params);
+	List<Map<String, Object>> getGroups(Map<String, Object> map);
 	
-	List<Map<String, Object>> getEvents(Map<String, Object> params);
+	List<Map<String, Object>> getEvents(Map<String, Object> map);
 	
-	int getGroupsCount(Map<String, Object> params);
+	int getGroupsCount(Map<String, Object> map);
 	
-	int getEventsCount(Map<String, Object> params);
+	int getEventsCount(Map<String, Object> map);
 	
 }

@@ -17,14 +17,13 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.log("Error loading notifications: ", error);
-                /*alert('알림을 불러오는데 실패했습니다.');*/
                 loading = false;
             }
         });
     }
 
     function appendNotifications(notification) {
-        var container = $("#notification-container");
+        var container = $("#ajax-notifications");
 
         if (notification.length === 0 && container.children().length === 0) {
             container.append('<div>알림이 없습니다.</div><br>');
@@ -34,12 +33,12 @@ $(document).ready(function() {
                     var notificationItem = `
                         <div class="notification-item" data-id="${dto.notificationId}">
                             <div>${dto.notificationTime}</div>
-                            <div>${dto.notificationText} 입니다.</div>
+                            <div>${dto.notificationText}</div>
                             <div>
                                 <form class="delete-form">
-                                    <input type="hidden" name="notificationId" value="${dto.notificationId}" />
+                                    <input type="hidden" name="notificationId" value="${dto.notificationId}">
                                     <button type="button" class="delete-button">삭제</button>
-                                </form><br>
+                                </form>
                             </div>
                         </div>
                     `;

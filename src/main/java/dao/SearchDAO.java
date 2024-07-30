@@ -13,19 +13,19 @@ public class SearchDAO {
     @Autowired
     SqlSession session;
 
-    public List<Map<String, Object>> getGroups(Map<String, Object> params) {
-        return session.selectList("getGroups", params);
+    public List<Map<String, Object>> getGroups(Map<String, Object> map) {
+        return session.selectList("getGroups", map);
     }
 
-    public List<Map<String, Object>> getEvents(Map<String, Object> params) {
-        return session.selectList("getEvents", params);
+    public List<Map<String, Object>> getEvents(Map<String, Object> map) {
+        return session.selectList("getEvents", map);
     }
 
-    public int getGroupsCount(Map<String, Object> params) {
-        return session.selectOne("getGroupsCount", params);
+    public int getGroupsCount(Map<String, Object> map) {
+        return session.selectOne("getGroupsCount", map);
     }
 
-    public int getEventsCount(Map<String, Object> params) {
-        return session.selectOne("getEventsCount", params);
+    public int getEventsCount(Map<String, Object> map) {
+        return session.selectOne("getEventsCount", map);
     }
 }

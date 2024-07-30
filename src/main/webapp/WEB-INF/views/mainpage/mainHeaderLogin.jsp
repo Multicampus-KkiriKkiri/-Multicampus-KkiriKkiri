@@ -31,8 +31,10 @@ $(document).ready(function(){
 			<img src="/images/kkirikkiri_logo.png" alt="끼리끼리 로고" class="logo">
 		</a>		 
 	       <form action="/groupsearch" method="get" class="search-area">
-	         <input type="text" class="first-input" id="search-input" placeholder="모임 검색" /><!--  
-	        --><select class="region-input" id="search-userRegion" name="userRegionId">
+
+	         <input type="text" class="first-input" id="search-input" name = "keyword" placeholder="모임 검색" />
+           <!--  
+--><select class="region-input" id="search-userRegion" name="userRegionId">
 				<option id="show-user-region" value="${userRegion}">${userRegion}</option>
 			 </select><!--
 	         --><button>
