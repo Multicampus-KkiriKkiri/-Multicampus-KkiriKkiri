@@ -1,35 +1,60 @@
 /* photoPost.css */
 
+/* 모임 사진 게시물 body */
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    padding: 0;
+    background-color: #F6F7F8;
     overflow-y: auto; /* 세로 스크롤바 표시 */
 }
 
-main {
-    border: 1px solid #000;
+/* 모임 사진 게시물 div */
+#photoPostDetailPageDiv {
+    background-color: white;
+    width: 900px;
+    border-radius: 7px;
     padding: 20px;
-    height: auto;
-    width: 800px;
+    border: 2px solid #B7B7B7;
 }
 
-section div {
-    border: 1px solid #000;
-    padding: 10px;
+/* 사진 게시물 제목 */
+#photoPostHeaderDiv {
+	padding: 10px 0px;
+	border-bottom: 2px solid #B7B7B7;
+}
+
+#photoPostTileDiv {
+	font-size: 25px;
+	font-weight: bold;
+	padding: 5px 2px;
+}
+
+/* 사진 게시물 정보 */
+#photoPostInfoDiv {
+	padding-left: 2px;	
+}
+
+#photoPostInfoDiv span {
+	padding: 5px 2px;
+	font-size: 15px;
 }
 
 #photoContentDiv {
 	max-height: 700px; /* 팝업창의 높이와 동일하게 설정 */
     overflow-y: auto; /* 세로 스크롤바 표시 */
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 15px;
 }
 
 .photoImg {
-	width: 600px;
-	height: 400px;
-	object-fit: cover;
+    width: calc(33.333% - 10px);
+    min-width: 250px; /* 최소 가로 길이 설정 */
+    height: 165px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
 }

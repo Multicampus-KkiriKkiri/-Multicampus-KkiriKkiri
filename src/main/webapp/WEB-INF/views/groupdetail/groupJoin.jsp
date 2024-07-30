@@ -7,8 +7,14 @@
 <head>
 <meta charset="utf-8">
 <title>${groupDTO.groupName} 가입 신청</title>
+<link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
 <script src="/jquery-3.7.1.min.js"></script>
-<script src="/js/groupdetail/groupDetail.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/groupdetail/groupJoin.js"></script>
 <script>
 	var groupId = ${groupDTO.groupId};
@@ -19,13 +25,14 @@
 <body>
 	<main>
 		<section id="joinPageSection">
-				<div>
-					<h2>모임장의 질문에 답변을 작성해 주세요</h2>
-					<p>작성한 답변은 모임장에게만 공개돼요.</p>
+			<div id="joinPageDiv">
+				<div id="groupJoinHeaderDiv">
+					<div id="joinHeaderGuideDiv1">모임장의 질문에 답변을 작성해 주세요</div>
+					<div id="joinHeaderGuideDiv2">✔작성한 답변은 모임장에게만 공개돼요.</div>
 				</div>
 	            <div id="questionDiv">
 	                <div id="leaderInfoDiv">
-	                    <div id="leaderProfileDiv">
+	                    <div id="leaderImgDiv">
 	                        <img src="/upload/${groupLeaderDTO.profileImage}" alt="${groupLeaderDTO.userNickname}">
 	                    </div>
 	                    <div id="leaderNameDiv">
@@ -36,12 +43,13 @@
 	                    ${groupDTO.groupSignUpQuestion}
 	                </div>
 	            </div>
-				<div>
+				<div id="answerDiv">
 					<form>
-						<div><textarea id="signUpAnswerTxt">5글자 이상 답변을 작성해주세요.</textarea></div>
-						<div><button id="joinApplyBtn">모임 가입 신청</button></div>		
+						<div><textarea id="signUpAnswerTxt" placeholder="5글자 이상 답변을 작성해주세요."></textarea></div>
+						<div id="joinApplyBtnDiv"><button id="joinApplyBtn">모임 가입 신청</button></div>		
 					</form>
 				</div>
+			</div>
 		</section>
 	</main>
 </body>

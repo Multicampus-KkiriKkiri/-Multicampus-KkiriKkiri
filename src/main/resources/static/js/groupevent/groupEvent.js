@@ -9,14 +9,35 @@
 	
 	// 일정 별 참여 신청한 모임원 목록 보여주기
 	setAttendMemberListByEventID();
+	
+	// 모임 일정페이지에서 '달력으로 보기' 버튼 눌렀을때 이벤트 처리
+    $('#eventCalenderBtn').click(function() {
+		// 안내 모달 창 보여주기
+        Swal.fire({
+            title: '준비중입니다',
+            text: '',
+            icon: 'info',
+            confirmButtonText: '확인'
+        });
+    });
 
 	// 모임 일정페이지에서 '예정된 일정' 버튼 눌렀을때 이벤트 처리
     $('#upcomingEventBtn').click(function() {
+		// 버튼 글자 색 변경 위한 클래스 삭제/추가
+		$("#pastEventBtn").removeClass('clicked');
+		$(this).addClass('clicked');
+		
+		// 예정된 일정 목록 보여주기
         showUpcomingEvents();
     });
     
     // 모임 일정페이지에서 '지난 일정' 버튼 눌렀을때 이벤트 처리
     $('#pastEventBtn').click(function() {
+		// 버튼 글자 색 변경 위한 클래스 삭제/추가
+		$("#upcomingEventBtn").removeClass('clicked');
+		$(this).addClass('clicked');
+		
+		// 지난 일정 목록 보여주기
         showPastEvents();
     });
     
@@ -170,13 +191,34 @@ function showPastEvents() {
 // groupOptionBtn 클릭 시 권한 별 기능
 function eventOptionProcess(eventId, btnValue) {
 	if(btnValue === "signup") {
-		alert("로그인 후 이용해주세요.");
-		/* 로그인 페이지로 이동 */
+		Swal.fire({
+            title: "로그인 후 이용해주세요.",
+            text: '',
+            icon: 'info',
+            confirmButtonText: '확인'
+        });
 	} else if (btnValue === "join") {
-		var userConfirm = confirm("모임 가입 후 일정 참여 신청이 가능합니다. 지금 가입하시겠습니까?");
-		if(userConfirm) {
-			groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupevent.js 파일 내 함수)
-		}
+		Swal.fire({
+			title: '',
+			html: '모임 가입 후 일정 참여가 가능합니다.<br>모임에 가입하시겠습니까?',
+			icon: 'question',
+			showCancelButton: true,
+			confirmButtonText: '예',
+			cancelButtonText: '아니오'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				if(checkGroupMemberCnt === "가입 가능") {
+					groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupevent.js 파일 내 함수)					
+				} else {
+					Swal.fire({
+			            title: "최대 가입 인원이 초과되어 가입이 불가합니다.",
+			            text: '',
+			            icon: 'error',
+			            confirmButtonText: '확인'
+			        });
+				}
+			}
+		});
     } else if(btnValue === "attend") {
 		openEventAttendPopup(eventId);
 	} else if(btnValue === "cancel") {

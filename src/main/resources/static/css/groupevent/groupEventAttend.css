@@ -1,31 +1,69 @@
 /* groupEventAttend.css */
 
+/* 일정 참여신청 팝업창 body */
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-color: #F6F7F8;
 }
 
-main {
-    border: 1px solid #000;
+/* 일정 참여신청 팝업 헤더 */
+#eventAttendHeaderDiv div {
+	background-color: white;
     padding: 20px;
-    height: auto;
-    width: 450px;
-}
-
-section div {
-    border: 1px solid #000;
-    padding: 10px;
-}
-
-h2 {
+    width: 500px;
     text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #ccc;
 }
 
-#eventAttendbtnsDiv {
-    display: flex;
+#eventAttendGuideDiv1 {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#eventAttendGuideDiv2 li{
+	font-size: 15px;
+	text-align: left;
+}
+
+#eventAttendGuideDiv2 ul{
+	text-align: center;
+	margin: 0 auto;
+}
+
+#checkDiv, #eventAttendbtnsDiv {
+	display: flex;
     justify-content: center;
+    align-items: center;
+	background-color: white;
+    padding: 20px;
+    width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    gap: 200px;
+}
+
+#eventAttendbtnsDiv button{
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 10px;
+	width: 100px;
+	height: 48px;
+	border-radius: 7px;	
+	border: none;
+	background-color: #eaf2ea;
+	font-weight: bold;	
+	color:#3b5f3e;
+}
+
+#eventAttendbtnsDiv button:hover {
+	background-color: #8fbc8f;
+	color: white;
 }

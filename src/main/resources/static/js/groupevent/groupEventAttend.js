@@ -11,7 +11,17 @@
 	
 	// '참여 신청' 버튼 눌렀을때 이벤트 처리
     $('#eventAttendBtn').click(function() {
-        submitAttendApplyToEvent();
+		// 체크박스 체크 여부 확인
+		if($("#checkbox").is(":checked")) { // 체크됨
+	        submitAttendApplyToEvent();		
+		} else { // 체크 안됨
+			Swal.fire({
+	            title: '안내사항을 확인해주세요.',
+	            text: '',
+	            icon: 'warning',
+            	confirmButtonText: '확인'
+        	});
+		}
     });
     
 }); // ready() end
@@ -29,11 +39,21 @@ function submitAttendApplyToEvent() {
         },
         success: function(data) {
 			if(data == 1) {
-				alert("일정 참여 신청 완료");
-				if (window.opener && !window.opener.closed) {
-					window.opener.loadTabContent("event"); // tabSection 새로고침
-				}
-				window.close(); // 팝업창 닫기
+				Swal.fire({
+			            title: '참여 신청이 완료되었습니다.',
+			            text: '',
+			            icon: 'success',
+			            confirmButtonText: '확인'
+			    }).then((result) => {
+				        if (result.isConfirmed) {
+				            if (window.opener && !window.opener.closed) {
+								window.opener.loadTabContent("event"); // tabSection 새로고침
+							}
+							window.close(); // 팝업창 닫기
+				        } else if (result.dismiss === Swal.DismissReason.cancel) {
+				            // '아니오'를 클릭 시 바로 종료
+				        }
+				});
 			}
         },
         error: function() {

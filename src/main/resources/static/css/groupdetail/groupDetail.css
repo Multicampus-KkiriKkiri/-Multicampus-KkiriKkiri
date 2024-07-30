@@ -1,123 +1,159 @@
 /* groupDetail.css */
 
-
+/* 모임 상세 페이지 main */
 #groupDetailMain {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     justify-content: center; /* 자식 요소의 내용을 수평 중앙 정렬 */
     align-items: center; /* 자식 요소의 내용을 수직 중앙 정렬 */
     width: 100%;
-    padding: 10px;
 }
 
-#groupHeaderSection, #groupNavSection {
-    display: flex;
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    justify-content: center;
-    align-items: center; /* 자식 요소의 내용을 수직 중앙 정렬 */
-    
+/* 모임 상세 페이지 헤더, 탭 페이지 section */
+.groupDetailSection {
+    min-width: 1200px; /* 최소 가로 사이즈를 1320px로 설정 */
 }
 
+/* 모임 상세 페이지 헤더(모임 대표 이미지, 정보) */
 #groupHeaderSection {
-    gap: 70px;
+    display: flex; /* Flexbox를 사용하여 div들을 정렬 */
+    flex-direction: row; /* 가로 방향으로 나열 */
+    gap: 100px; /* div들 사이의 간격 설정 */
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    padding: 10px; /* 섹션 내부의 패딩 설정 */
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
-#groupDetailDiv > div {
-	padding: 10px; 
-	border: 1px solid #000;
+/* 모임 대표 이미지 */
+#groupImg {
+	width: 600px;
+	height: 300px;
+	object-fit: cover;
+	border-radius: 10px; /* 이미지 동그랗게 만듬 */
 }
 
+/* 모임 상세페이지 헤더 내 모임 정보 표 */
+#groupDetailDiv div {
+	width: 400px;
+}
+
+/* 모임 이름 */
+#groupNameDiv {
+	font-weight: bold;
+    font-size: 60px;
+}
+
+#groupCategoryDiv {
+	font-weight: bold;
+    font-size: 35px;
+    padding-bottom: 10px; 
+}
+
+/* 모임 이름 제외 div들 */
+.groupInfoDiv {
+	font-size: 20px;
+	padding: 2.5px;
+}
+
+/* 모임 상세 페이지 네비게이션 바 */
 #groupNavSection {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 90px; /* 상단에서 떨어진 거리 설정 */
-    background-color: #fff; /* 배경색 설정 (필요 시) */
-    /* z-index: 1000; 다른 요소들보다 위에 보이도록 설정 */
-    border-top: 1px solid black; /* 위쪽 테두리 */
-    border-bottom: 1px solid black; /* 아래쪽 테두리 */
+    top: 95px;
+    background-color: #fff;
+    width: 110%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    border-top: 1px solid #B7B7B7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.groupDetailNav {
-	width: 500px;
+#groupDetailNav {
 	display: flex;
-    flex-direction: row; /* 버튼들을 가로로 나열 */
-    gap: 10px; /* 버튼들 사이의 간격 설정 */
+    flex-direction: row;
+    gap: 415px;
 }
 
-#groupTapNav {
-	justify-content: left; /* 버튼들 사이의 간격을 균등하게 */
+#groupTapNavDiv {
+	width: 455px;
 }
 
-#groupTapNav button{
-	margin-right:2px;
+.groupDetailNavDiv button{
+	margin-left: 5px;
+	margin-right: 5px;
 	padding: 10px;
 	width: 100px;
+	height: 48px;
 	border-radius: 7px;	
-	border:none;
+	border: none;
 	background-color: #eaf2ea;
 	font-weight: 500;	
 	color:#3b5f3e;
 }
 
-#groupTapNav button:hover {
+.groupDetailNavDiv button:hover {
 	background-color: #8fbc8f;
 	color: white;
 }
 
-#groupOptionNav {
-	justify-content: right; /* 버튼들 사이의 간격을 균등하게 */
-}
-
-#groupOptionNav button{
-	margin-right:2px;
-	padding: 10px;
-	width: 100px;
-	border-radius: 7px;	
-	border:none;
-	background-color: #eaf2ea;
-	font-weight: 500;	
-	color:#3b5f3e;
-}
-
-#groupOptionNav button:hover {
-	background-color: #8fbc8f;
+.groupDetailNavDiv button.clicked {
+    background-color: #8fbc8f;
 	color: white;
-}
-
-#groupTapPageSection div {
-	padding: 10px; 
-	border: 1px solid #000;
-}
-
-.tapPageSection {
-	width: 1000px;
-}
-
-#groupImg {
-	width: 600px;
-	height: 350px;
-	object-fit: cover;
-}
-
-#groupDetailDiv > div {
-	width: 307px;
 }
 
 button {
 	cursor: pointer;
 }
 
-#chatBtn {
+#chatTapBtn {
 	display: none;
 }
 
+/* 탭 페이지 */
+#groupTapPageSection {
+	display: flex;
+	width: 100%;
+	min-height: 600px;
+	background-color: #F6F7F8;
+	justify-content: center;
+	padding-bottom: 10px;
+}
+
+#groupTapPageSection div {
+	padding: 10px;
+}
+
+.tapPageSection {
+	width: 1220px;
+	padding-bottom: 20px;
+}
+
+/* [모임 상세] 탭 페이지 */
 #infoTapPageSection {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* 1열과 2열로 나눔 */
-  gap: 0px; /* 열 간의 간격 설정 */
+	padding-top: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr; /* 1열과 2열로 나눔 */
+	gap: 0px; /* 열 간의 간격 설정 */
+}
+
+.groupInfoHeaderDiv {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.groupInfoHeaderDiv span {
+	font-weight: bold;
+    font-size: 20px;
+}
+
+.groupInfoSectionDiv {
+	background-color: white;
+	border-radius: 7px;
 }
 
 #groupDescriptionDiv {
@@ -148,11 +184,13 @@ button {
 #leaderNicknameDiv {
     flex: 1; /* 남은 공간 모두 차지 */
     text-align: center; /* 텍스트 중앙 정렬 */
+    font-size: 18px;
+    font-weight: bold;
 }
 
 #leaderImg, .memberProfileImage {
-	width: 50px;
-	height: 50px;
+	width: 60px;
+	height: 60px;
 	border-radius: 50%; /* 이미지 동그랗게 만듬 */
     object-fit: cover; /* 이미지의 비율을 유지하면서 요소의 크기에 맞춤 */
 }
@@ -167,14 +205,10 @@ button {
     display: block; /* 멤버가 없을 때는 flex 설정을 해제 */
 }
 
-.groupDetailheaderDiv {
-	display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 #toggleMembersBtn {
 	display: none;
+	border: none;
+	background-color: transparent; /* 배경색을 투명하게 설정 */
 }
 
 .memberItemDiv {
