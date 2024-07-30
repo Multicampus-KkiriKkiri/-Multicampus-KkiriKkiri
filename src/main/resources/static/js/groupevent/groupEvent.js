@@ -196,7 +196,12 @@ function eventOptionProcess(eventId, btnValue) {
             text: '',
             icon: 'info',
             confirmButtonText: '확인'
-        });
+        }).then((result) => {
+			if (result.isConfirmed) {
+				// 로그인 버튼 자동 클릭되어 로그인 모달창 보임
+				document.getElementById('login-button').click();
+			}
+		});
 	} else if (btnValue === "join") {
 		Swal.fire({
 			title: '',

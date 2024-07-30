@@ -50,8 +50,15 @@ public class GroupDetailController {
 		int groupMemberCnt = groupMemberService.getMemberCountInGroup(groupId);
 		
 		HashMap<String, String> regionMap = new HashMap<>();
-		regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
-		regionMap.put("groupDistrict", groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId()));
+		
+		String groupDistrictName = groupService.getDistrictNameByDistrictId(groupDTO.getGroupDistrictId());
+		if(groupDistrictName.contains(" 전체") || groupDistrictName.contains("온라인")) {
+			regionMap.put("groupDistrict", groupDistrictName);
+		} else { // districtName에 " 전체"가 포함되어있지 않으면 region도 함께 put
+			regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
+			regionMap.put("groupDistrict", groupDistrictName);
+		}
+		
 		
 		session.setAttribute("currentGroupId", groupId); // groupId를 세션에 저장 --안병찬- groupSettingSController에서 groupId를 사용해야할것같아서.
 		
@@ -93,7 +100,6 @@ public class GroupDetailController {
 		if(groupMemberService.getMemberCountInGroup(groupId) > 1) { // 모임원 있을때
 			mv.addObject("memberList", groupMemberService.getGroupMemberList(groupId));
 		} else { // 없을때
-			System.out.println("null");
 			mv.addObject("memberList", null);
 		}
 		

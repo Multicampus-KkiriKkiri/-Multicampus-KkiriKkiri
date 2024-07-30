@@ -6,6 +6,8 @@ var auth = null; // 전역변수(사용자 권한)
 
 $(document).ready(function() {
 	
+	adjustFontSize();
+	
 	// 사용자 권한 확인(비회원/회원/모임원/모임장)
 	checkUserAuthority();
 	
@@ -190,8 +192,13 @@ function groupOptionProcess(btnValue) {
             title: "로그인 후 이용해주세요.",
             text: '',
             icon: 'info',
-            confirmButtonText: '확인'
-        });
+			confirmButtonText: '확인'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				// 로그인 버튼 자동 클릭되어 로그인 모달창 보임
+				document.getElementById('login-button').click();
+			}
+		});
 	} else if (btnValue === "join") {
 		groupJoinProcessByType();
     } else if(btnValue === "standby") {
@@ -355,7 +362,12 @@ function switchWishlistBtn() {
             text: '',
             icon: 'info',
             confirmButtonText: '확인'
-        });
+        }).then((result) => {
+			if (result.isConfirmed) {
+				// 로그인 버튼 자동 클릭되어 로그인 모달창 보임
+				document.getElementById('login-button').click();
+			}
+		});
 	} else { // 회원
 		if($("#groupWishBtn").val() == "on") { // 찜해놓은 상태
 			// 찜 삭제
@@ -423,3 +435,17 @@ function copyPageUrlToClipboard() {
 		});
 	});
 } // copyPageUrlToClipboard() end
+
+// 모임 이름 길어지는 경우 글자 크기 조정하는 함수
+function adjustFontSize() {
+	const groupNameDiv = document.getElementById('groupNameDiv');
+	const maxHeight = 150; // 고정된 세로 크기
+	let fontSize = 50; // 초기 글자 크기
+	groupNameDiv.style.fontSize = `${fontSize}px`;
+
+	// 글자 크기를 줄이면서 내용이 div 내에 모두 표시될 때까지 반복
+	while (groupNameDiv.scrollHeight > maxHeight && fontSize > 10) {
+		fontSize -= 5;
+		groupNameDiv.style.fontSize = `${fontSize}px`;
+	}
+}

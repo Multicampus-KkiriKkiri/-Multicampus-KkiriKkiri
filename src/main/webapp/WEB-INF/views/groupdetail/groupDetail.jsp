@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Map" %>
 
 <!DOCTYPE html>
 <html>
@@ -51,14 +52,23 @@
 						${category}
 					</span>
 				</div>
+				<%
+				Map<String, String> regionMap = (Map<String, String>)request.getAttribute("regionMap");
+				String groupDistrictName = regionMap.get("groupDistrict");
+				// groupDistrictName 이 '온라인'이 아닐때
+				if(!groupDistrictName.equals("온라인")) {
+				%>
 				<div id="groupRegionDiv" class="groupInfoDiv">
 					<span class="groupInfoIconSpan">
 						<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#7d7d7d"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"/></svg>
 					</span>
-					<span> 
+					<span>
 						${regionMap.groupRegion} ${regionMap.groupDistrict}
 					</span>
 				</div>
+				<%
+				}
+				%>
 				<div id="groupTypeDiv" class="groupInfoDiv">
 					<span class="groupInfoIconSpan" id="groupTypeIconSpan"> 
 						<!-- groupDetail.js 에서 추가 -->
