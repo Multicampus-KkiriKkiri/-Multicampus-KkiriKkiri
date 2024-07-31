@@ -130,7 +130,7 @@ $(document).ready(function(){
 				
 				<div id="my-events">
 					<div id="my-event-area-nav">
-						<button class="my-event-bottom-nav" id="ongoing-events">예전된 일정</button>
+						<button class="my-event-bottom-nav" id="ongoing-events">예정된 일정</button>
 						<button class="my-event-bottom-nav" id="past-events">지난 일정</button>				
 						<div id="my-event-nav-underline"><!--메뉴탭 아래 슬라이딩 선--> </div>
 					</div>			
