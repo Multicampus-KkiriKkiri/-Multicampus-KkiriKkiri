@@ -136,9 +136,11 @@ $(document).ready(function() {
     $('#groupImage').on('change', function(event) {
         var reader = new FileReader();
         reader.onload = function() {
-            $('#preview').show().attr('src', reader.result);
+            $('#preview').removeClass('d-none').attr('src', reader.result); // d-none 클래스를 제거하여 이미지 표시
         };
-        reader.readAsDataURL(event.target.files[0]);
+        if (event.target.files[0]) { // 파일이 선택되었는지 확인
+            reader.readAsDataURL(event.target.files[0]);
+        }
     });
 
     // 참가인원 필드 초기값 설정

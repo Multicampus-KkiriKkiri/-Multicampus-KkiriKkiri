@@ -3,6 +3,7 @@ package controller;
 import dto.DistrictDTO;
 import dto.GroupDTO;
 import dto.RegionDTO;
+import dto.UserDTO;
 import fileupload.UploadInform;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,23 @@ public class GroupSettingsController {
 
     @GetMapping("/main")
     public ModelAndView groupSettingsMain(@RequestParam("groupId") int groupId, HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
         session.setAttribute("currentGroupId", groupId);
-
+        if (session.getAttribute("sessionUserInfo") != null) { // 로그인 상태 시
+            int userId = (int) session.getAttribute("sessionUserId");
+            mv.addObject("userId", userId);
+            mv.addObject("profileImage", "/upload/" + ((UserDTO) session.getAttribute("sessionUserInfo")).getProfileImage());
+            mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO) session.getAttribute("sessionUserInfo")).getUserRegionId()));
+        } else {
+            mv.addObject("userId", 0);
+        }
         GroupDTO groupDTO = groupService.getGroupDetail(groupId);
+        //System.out.println(groupId+":"+groupDTO);
         if (groupDTO == null) {
-            throw new IllegalArgumentException("등록된 그룹 정보를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("등록된 그룹 정보를 찾을 수 없습니다.main");
         }
 
-        ModelAndView mv = new ModelAndView("groupsettings/groupSettingsMain");
+        mv.setViewName("groupsettings/groupSettingsMain");
         mv.addObject("groupDTO", groupDTO);
         mv.addObject("userId", session.getAttribute("sessionUserId"));
         return mv;
@@ -68,7 +78,7 @@ public class GroupSettingsController {
     @ResponseBody
     public Map<String, Object> updateGroup(HttpSession session,
                                             @RequestParam Map<String, String> params,
-                                            @RequestParam(value = "groupImageFile", required = false) MultipartFile groupImageFile) throws IOException {
+                                            @RequestParam(value = "groupRegisterImage", required = false) MultipartFile groupImageFile) throws IOException {
         // 세션에서 groupId를 가져옵니다.
         Integer groupId = (Integer) session.getAttribute("currentGroupId");
         if (groupId == null) {
@@ -93,6 +103,7 @@ public class GroupSettingsController {
         groupService.updateGroupInfo(groupId, params, imageFilename);
 
         Map<String, Object> response = new HashMap<>();
+        response.put("groupId",groupId);
         response.put("status", "success");
         response.put("imageFilename", imageFilename);
         return response;

@@ -18,6 +18,19 @@ body {
     object-fit: cover;
 }
 
+.d-none {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.me-3 {
+    margin-right: 1rem;
+}
+
+
 .description-image-box {
     display: flex;
     flex-direction: row;

@@ -7,11 +7,18 @@
     <meta charset="UTF-8">
     <title>모임 등록</title>
     <link rel="stylesheet" href="<c:url value='/css/groupRegister.css'/>">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <!-- 최신 Bootstrap CSS 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     <script src="<c:url value='/js/groupregister/groupRegister.js'/>"></script>
 </head>
+
+
 <body>
     <header>
         <c:choose>
@@ -67,21 +74,22 @@
                 </select>
             </div>
             
-            <div class="mb-3">
-                <label class="form-label">모임 설명 & 이미지</label>
-                <div class="d-flex">
-                    <div class="image-box me-3">
-                        <label for="groupImage" class="d-flex justify-content-center align-items-center h-100 text-muted cursor-pointer">
-                            <img id="preview" src="#" alt="이미지 미리보기" class="img-fluid d-none" style="max-width: 200px; max-height: 200px;">
-                            <span class="fs-1">+</span>
-                            <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" class="d-none">
-                        </label>
-                    </div>
-                    <textarea id="groupDetail" name="groupDetail" class="form-control" placeholder="모임 설명을 입력하세요" rows="5" required></textarea>
-                </div>
-            </div>
-            
-            <button type="button" id="addImageButton" class="btn btn-secondary mb-3">이미지 추가</button>
+			          <div class="mb-3">
+			    <label class="form-label">모임 설명 & 이미지</label>
+			    <div class="d-flex">
+			        <div class="image-box me-3">
+			            <label for="groupImage" class="d-flex justify-content-center align-items-center h-100 text-muted cursor-pointer">
+			                <img id="preview" src="#" alt="이미지 미리보기" class="img-fluid d-none" style="max-width: 200px; max-height: 200px;">
+			                <span class="fs-1">+</span>
+			                <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" class="d-none">
+			            </label>
+			        </div>
+			        <textarea id="groupDetail" name="groupDetail" class="form-control" placeholder="모임 설명을 입력하세요" rows="5" required></textarea>
+			    </div>
+			</div>
+			
+			<button type="button" id="addImageButton" class="btn btn-secondary mb-3">이미지 추가</button>
+
             
             <div class="mb-3">
                 <label for="groupMaximum" class="form-label">참가인원(모임장 포함)</label>
