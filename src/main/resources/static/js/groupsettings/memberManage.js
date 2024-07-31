@@ -1,10 +1,4 @@
-/**
- * 
- */
-$(document).ready(function () {
-	
 
-});
  /*
 function setApproveMember(groupId, userId) {
     $.ajax({

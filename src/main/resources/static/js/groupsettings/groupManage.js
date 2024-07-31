@@ -255,7 +255,7 @@ $(document).ready(function () {
                 if (response && response.groupId) {
                     window.location.href = "/settings/main?groupId=" + response.groupId;
                 } else {
-                    alert("등록된 그룹 정보를 찾을 수 없습니다.");
+                    alert("등록된 그룹 정보를 찾을 수 없습니다.sumbitform");
                 }
             },
             error: function (xhr, status, error) {

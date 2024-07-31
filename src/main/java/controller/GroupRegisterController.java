@@ -34,9 +34,20 @@ public class GroupRegisterController {
     private GroupService groupService;
 
     @GetMapping("/register")
-    public ModelAndView showGroupRegisterPage() {
-        return new ModelAndView("groupregister/groupRegister");
+    public ModelAndView showGroupRegisterPage(HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("sessionUserInfo") != null) { // 로그인 상태 시
+            int userId = (int) session.getAttribute("sessionUserId");
+            mv.addObject("userId", userId);
+            mv.addObject("profileImage", "/upload/" + ((UserDTO) session.getAttribute("sessionUserInfo")).getProfileImage());
+            mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO) session.getAttribute("sessionUserInfo")).getUserRegionId()));
+        } else {
+            mv.addObject("userId", 0);
+        }
+        mv.setViewName("groupregister/groupRegister");
+        return mv;
     }
+
 
     @PostMapping("/register")
     @ResponseBody

@@ -128,7 +128,7 @@
 
     <!-- 그룹 삭제 -->
     <delete id="deleteGroup" parameterType="int">
-        DELETE FROM Groups WHERE group_id = #{groupId}
+        DELETE FROM `group` WHERE groupId = #{groupId}
     </delete>
     <!-- 그룹 이미지 파일 이름 조회 -->
 	<select id="getGroupImageById" parameterType="int" resultType="String">

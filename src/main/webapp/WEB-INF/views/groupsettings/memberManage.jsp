@@ -30,55 +30,5 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $(".kickMemberBtn").click(function() {
-            var userId = $(this).data("user-id");
-            if (confirm("해당 회원을 내보내시겠습니까?")) {
-                $.ajax({
-                    url: "/groupsettings/kickMember",
-                    method: "POST",
-                    data: { groupId: ${groupDTO.groupId}, userId: userId },
-                    success: function() {
-                        alert("회원이 내보내졌습니다.");
-                        location.reload();
-                    },
-                    error: function() {
-                        alert("회원 내보내기에 실패했습니다.");
-                    }
-                });
-            }
-        });
-
-        $(".approveMemberBtn").click(function() {
-            var userId = $(this).data("user-id");
-            $.ajax({
-                url: "/groupsettings/approveMember",
-                method: "POST",
-                data: { groupId: ${groupDTO.groupId}, userId: userId },
-                success: function() {
-                    alert("회원이 승인되었습니다.");
-                    location.reload();
-                },
-                error: function() {
-                    alert("회원 승인에 실패했습니다.");
-                }
-            });
-        });
-
-        $(".rejectMemberBtn").click(function() {
-            var userId = $(this).data("user-id");
-            $.ajax({
-                url: "/groupsettings/rejectMember",
-                method: "POST",
-                data: { groupId: ${groupDTO.groupId}, userId: userId },
-                success: function() {
-                    alert("회원이 거절되었습니다.");
-                    location.reload();
-                },
-                error: function() {
-                    alert("회원 거절에 실패했습니다.");
-                }
-            });
-        });
-    });
+    
 </script>
