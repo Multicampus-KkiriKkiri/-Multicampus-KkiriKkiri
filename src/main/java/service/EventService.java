@@ -10,6 +10,9 @@ public interface EventService {
 	// 모임의 일정 목록 가져오기
 	List<EventDTO> getGroupEventList(int groupId);
 	
+	// 모임의 일정 목록 가져오기2(현재 신청 인원 포함)
+	List<EventDTO> getGroupEventList2(int groupId);
+	
 	// 모임 내 일정들의 현재 신청 인원과 최대 인원 가져오기
 	List<EventDTO2> getEventCurrentMemberAndMaximumMember(int groupId);
 	

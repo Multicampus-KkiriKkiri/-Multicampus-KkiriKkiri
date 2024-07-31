@@ -7,6 +7,7 @@ public class ChatMessage {
     private String userId;
     private String chatTime;
     private String profileImage;
+    private String chatUserNickname;
     
 	public String getChatRoomId() {
 		return chatRoomId;
@@ -30,6 +31,10 @@ public class ChatMessage {
 	
 	public String getProfileImage() {
         return profileImage;
+    }
+	
+	public String getChatUserNickname() {
+        return chatUserNickname;
     }
      
 }

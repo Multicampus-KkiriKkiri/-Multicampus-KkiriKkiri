@@ -50,7 +50,7 @@ public class GroupEventController {
 	ModelAndView groupEvent(int groupId, HttpSession session) {
 				
 		// 모임 일정 목록 가져오기
-		List<EventDTO> eventList = eventService.getGroupEventList(groupId);
+		List<EventDTO> eventList = eventService.getGroupEventList2(groupId);
 
 		// 예정된 일정 / 지난 일정 목록 리스트
 		List<EventDTO> upcomingEventList = new ArrayList<>();
@@ -58,6 +58,8 @@ public class GroupEventController {
 		
 		// 일정 목록 나누기
 		for (EventDTO event : eventList) {
+			System.out.println(event.getEventId() + " , " + event.getCurrentMemberCnt());
+			
 			LocalDateTime eventLocalDateTime = event.getEventDateAsLocalDateTime();
 			
 			// 모임 일정 시간 문자 포맷 변경해서 다시 저장

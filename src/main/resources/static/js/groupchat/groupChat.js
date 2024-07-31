@@ -249,8 +249,7 @@ function receiveMessage(e) {
     var type = content.type; // 메세지 타입
     var chatTime = formatTimeToKorean(new Date(content.chatTime)); // 메세지 전송 시간 형식 변환
     var profileImage = content.profileImage; // 메세지 보낸 사용자 프로필 사진
-    // 현재 로그인 사용자의 메세지 구분  
-    var messageClass = content.userId == userId ? 'sentMessageP' : 'receivedMessageP';
+    var chatUserNickname = content.chatUserNickname; // 메세지 보낸 사용자 닉네임
 
 	// groupChatLogDiv 객체 불러오기
 	var chatLog = document.getElementById("groupChatLogDiv");
@@ -264,8 +263,17 @@ function receiveMessage(e) {
 	}
 
 	// 수신 메세지 groupChatLogDiv에 추가
-    if (type == "SEND")
-        chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span><span class='chatMessageSpan'>" + message + "</span></p>";
+    if (type == "SEND") {
+		// 현재 로그인한 회원의 메세지 구분
+		var messageClass = '';
+		if(content.userId == userId) { 
+			messageClass = 'sentMessageP';
+	        chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><span class='chatTimeSpan'>" + chatTime + "</span><span class='chatMessageSpan'>" + message + "</span></p>";
+		} else {
+			messageClass = 'receivedMessageP';
+			chatLog.innerHTML += "<p class='chatMessageP " + messageClass + "'><img class='chatUserProfileImg' src='" + profileImage + "' alt='" + profileImage + "' /><span class='userNicknameSpan'>" + chatUserNickname + "</span><span class='chatMessageSpan'>" + message + "</span><span class='chatTimeSpan'>" + chatTime + "</span></p>";
+		}
+	}
     
 	// 새 메시지 수신 시 맨 아래로 스크롤
     $('#groupChatLogDiv').scrollTop($('#groupChatLogDiv')[0].scrollHeight);
@@ -319,7 +327,8 @@ function sendChatMessageSoket(myMessage, currentTime) {
 			type: "SEND",
 			message: myMessage, // 메세지 내용
 			chatTime: currentTime, // 메세지 전송 시간
-			profileImage: profileImage // 사용자 프로필
+			profileImage: profileImage, // 사용자 프로필
+			chatUserNickname: userNickname // 사용자 닉네임
 		})
 	);
 } // sendChatMessageSoket() end
