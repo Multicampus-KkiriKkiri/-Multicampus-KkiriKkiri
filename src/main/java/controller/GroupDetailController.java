@@ -75,7 +75,7 @@ public class GroupDetailController {
 			int userId = (int)session.getAttribute("sessionUserId");
 			mv.addObject("userId", userId);
 			mv.addObject("profileImage", "/upload/" + ((UserDTO)session.getAttribute("sessionUserInfo")).getProfileImage());
-			mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO)session.getAttribute("sessionUserInfo")).getUserDistrictId()));
+			mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO)session.getAttribute("sessionUserInfo")).getUserRegionId()));
 			
 			// 모임 내 다가올 일정에 참여 신청한 내역 가져오기
 			HashMap<String, Integer> map = new HashMap<>();
@@ -227,6 +227,10 @@ public class GroupDetailController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("groupId", groupId);
+
+		// `chat`, `chat_history` 테이블에서 해당 회원 채팅 내역 삭제
+		chatService.deleteQuitMemberChatHistory(map);
+				
 		map.put("status", "탈퇴");
 		
 		// `group_member` 테이블에서 해당 회원 '탈퇴'로 수정
