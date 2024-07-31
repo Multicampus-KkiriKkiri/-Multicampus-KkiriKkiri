@@ -60,7 +60,7 @@ public class MainUserController {
         } else { // 로그인 실패
             return "fail"; 
         }
-    }
+    }	
 		
 	//로그인 완료된 화면 + 프로필 이미지 url 가져오기
 	@GetMapping("/mainLogin")
