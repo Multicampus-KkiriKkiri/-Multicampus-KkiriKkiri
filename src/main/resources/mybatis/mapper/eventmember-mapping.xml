@@ -13,7 +13,12 @@
 	</delete>
 	
 	<select id="getMemberEventAttendApplyHistory" resultType="Integer">
-		select eventId from `event_member` where userId = #{userId} and groupId = #{groupId}
+		SELECT *
+		FROM `event_member` em
+		JOIN `event` e ON em.eventId = e.eventId
+		WHERE em.userId = #{userId}
+		AND em.groupId = #{groupId}
+		AND e.eventDate > NOW()
 	</select>
 	
 	<select id="getAttendMemberListByEventId" resultType="userdto">

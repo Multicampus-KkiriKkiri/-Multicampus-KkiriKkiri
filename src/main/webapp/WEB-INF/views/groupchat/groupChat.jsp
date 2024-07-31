@@ -24,15 +24,17 @@
 		</span>
 	</div>
 	<div id="groupChatPageDiv">
-		<div id="groupChatLogDiv">
-			<!-- 채팅방(groupChat.js) -->
-		</div>
-		<div id="chatTextSendDiv">
-			<div id="chatTextInputDiv">
-				<input type="text" id="chatMessageInput">
-				<button id="chatSendBtn">
-					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#3B5F3E"><path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/></svg>
-				</button>
+		<div id="groupChatBorderDiv">
+			<div id="groupChatLogDiv">
+				<!-- 채팅방(groupChat.js) -->
+			</div>
+			<div id="chatTextSendDiv">
+				<div id="chatTextInputDiv">
+					<input type="text" id="chatMessageInput">
+					<button id="chatSendBtn">
+						<svg xmlns="http://www.w3.org/2000/svg" width="45px" hegiht="45px" fill="none" viewBox="0 0 24 24" id="Arrowup"><path fill="#8fbc8f" fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm0 5a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-1.414 1.414L13 10.414V16a1 1 0 1 1-2 0v-5.586l-2.293 2.293a1 1 0 0 1-1.414-1.414l4-4A1 1 0 0 1 12 7Z" clip-rule="evenodd" class="color000000 svgShape"></path></svg>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

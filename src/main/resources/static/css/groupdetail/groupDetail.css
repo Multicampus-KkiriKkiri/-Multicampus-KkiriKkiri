@@ -35,25 +35,30 @@
 }
 
 /* 모임 상세페이지 헤더 내 모임 정보 표 */
-#groupDetailDiv div {
-	width: 400px;
+#groupDetailDiv {
+	width: 500px;
+	height: auto;
 }
+
 
 /* 모임 이름 */
 #groupNameDiv {
+	min-height: 75px;
+	max-height: 150px;
 	font-weight: bold;
-    font-size: 60px;
+    font-size: 50px;
+    overflow-wrap: break-word;
 }
 
 #groupCategoryDiv {
 	font-weight: bold;
-    font-size: 35px;
+    font-size: 30px;
     padding-bottom: 10px; 
 }
 
 /* 모임 이름 제외 div들 */
 .groupInfoDiv {
-	font-size: 20px;
+	font-size: 18px;
 	padding: 2.5px;
 }
 
@@ -225,4 +230,8 @@ button {
 
 .memberItemDiv > div {
 	text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.memberNickname {
+	overflow: hidden; /* 내용이 넘치지 않도록 */
 }
