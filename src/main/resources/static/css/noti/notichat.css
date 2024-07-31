@@ -2,70 +2,76 @@
 /* 채팅 알림 페이지 css파일 */
 
 /* 페이지 전체 */
-
 body.noti-body {
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
     padding-top: 98px; /* 네비게이션 바의 높이만큼 패딩 추가 */
+    background-color: #f5f5f5;
 }
 
 .noti-chats-container {
     margin: 20px auto;
-    width: 80%;
+    width: 90%;
     max-width: 1200px;
 }
 
 .chatContainer {
     display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.chatContainer:last-child {
-    border-bottom: none;
+    align-items: flex-start;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .groupImage {
-    margin-right: 15px;
+    flex: 0 0 150px;
+    text-align: center;
 }
 
 .groupImage img {
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .groupName {
     font-weight: bold;
-    margin-right: 10px;
+    text-align: center;
+    margin: 10px 0;
+    flex: 0 0 150px;
+}
+
+.chatContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.userNickname {
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .chatTime {
     color: #999;
     font-size: 0.9em;
-    margin-right: 10px;
-}
-
-.profileImage {
-    margin-right: 10px;
-}
-
-.profileImage img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
-
-.userNickname {
-    font-weight: bold;
-    margin-right: 10px;
+    margin-top: 5px;
 }
 
 .chatMessage {
-    flex: 1;
+    margin-top: 10px;
+    font-size: 1em;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* 기타 스타일 */

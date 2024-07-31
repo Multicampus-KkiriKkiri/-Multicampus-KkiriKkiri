@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,12 @@ public class ChatServiceImpl implements ChatService {
 
 	@Autowired
 	ChatDAO dao;
+	
+	@Override
+	public List<Integer> getGroupIds(int userId) {
+		return dao.getGroupIds(userId);
+	}
+
 	
 	@Override
 	public int insertChatMessage(HashMap map) {

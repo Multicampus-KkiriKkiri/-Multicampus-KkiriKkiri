@@ -22,10 +22,18 @@
 	var groupSignUpType = "${groupDTO.groupSignUpType}";
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
-	var leaderProfileImg = "${groupLeaderDTO.profileImage}";
+  var leaderProfileImg = "${groupLeaderDTO.profileImage}";
 	var leaderName = "${groupLeaderDTO.userNickname}";
 	var groupSignUpQuestion = "${groupDTO.groupSignUpQuestion}";
 	var userEventAttendApplyHistory = "${userEventAttendApplyHistory}";
+
+  $(document).ready(function() {
+	        // URL에 #chatTapBtn이 있으면 자동으로 채팅 탭으로 이동
+	        if (window.location.hash === '#chatTapBtn') {
+	            $('#chatTapBtn').click();
+	        }
+	    });
+
 </script>
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupQuit.css">
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupJoin.css">

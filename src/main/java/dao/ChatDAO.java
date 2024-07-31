@@ -15,6 +15,10 @@ public class ChatDAO {
 	
 	@Autowired
 	SqlSession session;
+	
+	public List<Integer> getGroupIds(int userId) {
+		return session.selectList("getGroupIds", userId);
+	}
 
 	public int insertChatMessage(HashMap map) {
 		return session.insert("insertChatMessage", map);
