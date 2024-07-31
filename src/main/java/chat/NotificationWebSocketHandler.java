@@ -10,9 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import dto.GroupDTO;
-import dto.UserDTO;
 import service.GroupService;
-import service.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,14 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class NotificationWebSocketHandler extends TextWebSocketHandler {
 
-    private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-    private ObjectMapper objectMapper;
+    private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+    private final ObjectMapper objectMapper;
 
     @Autowired
     GroupService groupService;
-    
-    @Autowired
-    UserService userService;
 
     public NotificationWebSocketHandler() {
         this.objectMapper = new ObjectMapper();
@@ -46,17 +41,21 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
         Map<String, Object> messageMap = objectMapper.readValue(payload, Map.class);
 
         Integer groupId = (Integer) messageMap.get("groupId");
+        Integer userId = (Integer) messageMap.get("userId");
+
+        if (groupId == null || userId == null) {
+            return;
+        }
+
         GroupDTO groupDetail = groupService.getGroupDetail(groupId);
+        if (groupDetail == null) {
+            return;
+        }
 
         String groupImage = groupDetail.getGroupImage();
         String groupName = groupDetail.getGroupName();
-
-        Integer userId = (Integer) messageMap.get("userId");
-        UserDTO userInfo = userService.getUserInfo(userId);
-        
-        String userNickname = userInfo.getUserNickname();
-        
-        String chat = (String) messageMap.get("message");
+        String userNickname = (String) messageMap.get("userNickname");
+        String chatMessage = (String) messageMap.get("message");
         String chatTime = (String) messageMap.get("chatTime");
         String profileImage = (String) messageMap.get("profileImage");
 
@@ -65,7 +64,7 @@ public class NotificationWebSocketHandler extends TextWebSocketHandler {
         latestChat.put("groupImage", groupImage);
         latestChat.put("groupName", groupName);
         latestChat.put("userNickname", userNickname);
-        latestChat.put("chatMessage", chat);
+        latestChat.put("chatMessage", chatMessage);
         latestChat.put("chatTime", chatTime);
         latestChat.put("profileImage", profileImage);
 

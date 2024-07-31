@@ -3,6 +3,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dao.ChatDAO">
+
+	<select id = "getGroupIds" resultType = "int" parameterType = "int">
+		SELECT groupId
+        FROM `group`
+        WHERE groupLeaderId = #{userId}
+        
+        UNION
+        
+        SELECT groupId
+        FROM `group_member`
+        WHERE userId = #{userId}
+	</select> 
 		
 	<insert id="insertChatMessage">
 		insert into `chat` values(0, #{groupId}, #{userId}, #{chatMessage}, #{chatTime})

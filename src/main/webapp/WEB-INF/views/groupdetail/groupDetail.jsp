@@ -20,6 +20,12 @@
 	var groupSignUpType = "${groupDTO.groupSignUpType}";
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
+	 $(document).ready(function() {
+	        // URL에 #chatTapBtn이 있으면 자동으로 채팅 탭으로 이동
+	        if (window.location.hash === '#chatTapBtn') {
+	            $('#chatTapBtn').click();
+	        }
+	    });
 </script>
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />

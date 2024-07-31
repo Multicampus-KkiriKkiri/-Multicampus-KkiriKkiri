@@ -50,7 +50,7 @@ $(document).ready(function() {
 
     // 검색 버튼 클릭 시 폼 제출
     $('#searchForm').on('submit', function(e) {
-        e.preventDefault();
+        // e.preventDefault(); // 기본 동작 유지하여 폼 제출
         $(this).attr('action', $('input[name="searchType"]:checked').val() + 'searchatlist');
         this.submit();
     });
@@ -58,8 +58,11 @@ $(document).ready(function() {
     // 결과 컨테이너 클릭 시 그룹 상세 페이지로 이동
     $('#resultsContainer').on('click', '.resultContainer', function() {
         const groupId = $(this).data('groupid');
+        const eventId = $(this).data('eventid');
         if (groupId) {
             window.location.href = `/groupdetail/info?groupId=${groupId}`;
+        } else if (eventId) {
+            window.location.href = `/eventdetail/info?eventId=${eventId}`;
         }
     });
 

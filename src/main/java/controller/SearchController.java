@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import dto.UserDTO;
+import jakarta.servlet.http.HttpSession;
 import service.GroupService;
 import service.SearchService;
+import service.UserService;
 
 @Controller
 public class SearchController {
@@ -22,6 +25,9 @@ public class SearchController {
     @Autowired
     GroupService groupService;
     
+    @Autowired
+    UserService userService;
+    
     @GetMapping("/groupsearch")
     public ModelAndView getGroupsAtHeader(
             @RequestParam(required = false) String keyword,
@@ -29,7 +35,7 @@ public class SearchController {
         
         Integer regionId = (userRegionId == null || userRegionId == 0) ? null : userRegionId;
         
-        String district = "";
+        String districtId = "";
         String interest = "";
         String onlineOffline = "";
         String sortOrder = "new";
@@ -43,7 +49,7 @@ public class SearchController {
         Map<String, Object> map = new HashMap<>();
         map.put("keyword", keyword);
         map.put("regionId", regionId);
-        map.put("districtId", null);
+        map.put("districtId", districtId);
         map.put("interest", interest);
         map.put("onlineOffline", onlineOffline);
         map.put("sortOrder", sortOrder);
@@ -61,7 +67,6 @@ public class SearchController {
         mv.addObject("currentPage", page);
         mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
         mv.addObject("userRegionId", userRegionId); // Add userRegionId to the model
-
         return mv;
     }
 

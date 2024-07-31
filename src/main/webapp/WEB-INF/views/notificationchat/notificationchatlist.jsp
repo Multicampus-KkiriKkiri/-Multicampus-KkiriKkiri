@@ -24,7 +24,7 @@
     <main>
         <div id="chatsContainer" class="noti-chats-container">
             <c:choose>
-                <c:when test="${empty groupIds}">
+                <c:when test="${empty message}">
                     <div>${message}</div>
                 </c:when>
                 <c:otherwise>
