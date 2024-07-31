@@ -19,6 +19,10 @@ public class EventDAO {
 		return session.selectList("getGroupEventList", groupId);
 	}
 	
+	public List<EventDTO> getGroupEventList2(int groupId) {
+		return session.selectList("getGroupEventList2", groupId);
+	}
+	
 	public List<EventDTO2> getEventCurrentMemberAndMaximumMember(int groupId) {
 		return session.selectList("getEventCurrentMemberAndMaximumMember", groupId);
 	}
