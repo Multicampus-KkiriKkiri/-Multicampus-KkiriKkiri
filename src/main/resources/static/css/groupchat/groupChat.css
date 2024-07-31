@@ -78,10 +78,9 @@
     align-items: center; /* 수직 중앙 정렬 */
     justify-content: center; /* 수평 중앙 정렬 */
     clear: both;
-    padding: 5px 10px;
     height: 42px;
     margin-bottom: 15px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* 현재 로그인한 회원의 메세지 */
@@ -92,7 +91,6 @@
 }
 
 .sentMessageP .chatMessageSpan {
-	padding: 5px 10px;
 	border-radius: 20px;
 	background-color: #E15C31; /* 자신의 메시지 배경색 */
 	color: white;
@@ -106,9 +104,13 @@
 }
 
 .receivedMessageP .chatMessageSpan {
-	padding: 5px 10px;
 	border-radius: 20px;
 	background-color: #eef0f2; /* 다른 회원의 메시지 배경색 */
+}
+
+/* 메세지 말풍선 */
+.chatMessageSpan {
+	padding: 8px 12px;
 }
 
 /* 날짜 메시지 스타일 추가 */

@@ -21,6 +21,11 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
+	public List<EventDTO> getGroupEventList2(int groupId) {
+		return dao.getGroupEventList2(groupId);
+	}
+	
+	@Override
 	public List<EventDTO2> getEventCurrentMemberAndMaximumMember(int groupId) {
 		return dao.getEventCurrentMemberAndMaximumMember(groupId);
 	}	

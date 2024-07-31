@@ -8,6 +8,14 @@
 		select * from `event` where groupId = #{groupId}
 	</select>
 	
+	<select id="getGroupEventList2" resultType="eventdto">
+		SELECT e.*, COUNT(em.userId) + 1 AS currentMemberCnt
+		FROM `event` e
+		LEFT JOIN `event_member` em ON e.eventId = em.eventId
+		WHERE e.groupId = #{groupId}
+		GROUP BY e.eventId;
+	</select>
+	
 	<select id="getEventCurrentMemberAndMaximumMember" resultType="eventdto2">
 		SELECT 
 		    e.eventId,
