@@ -19,14 +19,12 @@
 </head>
 
 <body>
-    <header>
-        <c:if test="${not empty sessionScope.sessionUserId}">
-            <%@ include file="../mainpage/mainHeaderLogin.jsp" %>
-        </c:if>
-        <c:if test="${empty sessionScope.sessionUserId}">
-            <%@ include file="../mainpage/mainHeader.jsp" %>
-        </c:if>
-    </header>
+    <c:if test="${not empty sessionScope.sessionUserId}">
+        <%@ include file="../mainpage/mainHeaderLogin.jsp" %>
+    </c:if>
+    <c:if test="${empty sessionScope.sessionUserId}">
+        <%@ include file="../mainpage/mainHeader.jsp" %>
+    </c:if>
 
     <main>
         <div id="contentContainer">
@@ -83,7 +81,7 @@
                             </li>
                             <li class="search-bar">
                                 <!-- <label for="keyword"></label> -->
-                                <input type="text" id="keyword" name="keyword" value="${map.keyword}">
+                                <input type="text" id="keyword" name="keyword" placeholder = "검색어" value="${map.keyword}">
                                 <button type="submit">검색</button>
                             </li>
                         </ul>
@@ -103,7 +101,9 @@
                                     <div class="infoRow">
                                         <div class="infoItem"><span>${data.interestField}</span></div>
                                         <div class="infoItem"><span>${data.groupType}</span></div>
-                                        <div class="infoItem"><span>${data.regionName} ${data.districtName}</span></div>
+                                        <c:if test="${data.groupType != '온라인'}">
+                                            <div class="infoItem"><span>${data.regionName} ${data.districtName}</span></div>
+                                        </c:if>
                                     </div>
                                     <div class="infoRow">
                                         <div class="infoItem"><span>${data.groupName}</span></div>
@@ -128,33 +128,36 @@
                     </c:when>
                     <c:when test="${not empty events}">
                         <c:forEach var="data" items="${events}">
-                            <div class="resultContainer" data-groupid="${data.groupId}" data-eventid="${data.eventId}">
-                                <div class="imageContainer">
-                                    <img src="/upload/groupevent/${data.eventImage}" alt="${data.eventName}" />
-                                </div>
-                                <div class="contentContainer">
-                                    <div class="infoRow">
-                                        <div class="infoItem"><span>${data.groupName}</span></div>
-                                        <div class="infoItem"><span>${fn:replace(data.eventDate, 'T', ' ')}</span></div>
-                                        <div class="infoItem"><span>${data.eventLocation}</span></div>
-                                    </div>
-                                    <div class="infoRow">
-                                        <div class="infoItem"><span>${data.eventName}</span></div>
-                                    </div>
-                                    <div class="details" data-groupdetail="${data.eventDetail}">
-                                        <c:choose>
-                                            <c:when test="${fn:length(data.eventDetail) > 200}">
-                                                ${fn:substring(data.eventDetail, 0, 200)}...
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${data.eventDetail}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                    <div class="participants">${data.participantCount}/${data.eventMaximum}</div>
-                                </div>
-                            </div>
-                        </c:forEach>
+						    <div class="resultContainer" data-groupid="${data.groupId}" data-eventid="${data.eventId}">
+						        <div class="imageContainer">
+						            <img src="/upload/groupevent/${data.eventImage}" alt="${data.eventName}" />
+						        </div>
+						        <div class="contentContainer">
+						            <div class="infoRow">
+						                <div class="infoItem"><span>${data.groupName}</span></div>
+						                <div class="infoItem"><span>${fn:replace(data.eventDate, 'T', ' ')}</span></div>
+						                <div class="infoItem"><span>${data.participantCount}/${data.eventMaximum}</span></div> <!-- participants 위치 변경 -->
+						            </div>
+						            <div class="infoRow">
+						                <div class="infoItem"><span>${data.eventLocation}</span></div> <!-- eventLocation 위치 변경 -->
+						            </div>
+						            <div class="infoRow">
+						                <div class="infoItem"><span>${data.eventName}</span></div>
+						            </div>
+						            <div class="details" data-groupdetail="${data.eventDetail}">
+						                <c:choose>
+						                    <c:when test="${fn:length(data.eventDetail) > 200}">
+						                        ${fn:substring(data.eventDetail, 0, 200)}...
+						                    </c:when>
+						                    <c:otherwise>
+						                        ${data.eventDetail}
+						                    </c:otherwise>
+						                </c:choose>
+						            </div>
+						        </div>
+						    </div>
+						</c:forEach>
+
                     </c:when>
                     <c:otherwise>
                         <p>결과가 없습니다.</p>

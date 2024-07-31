@@ -17,17 +17,6 @@ body.noti-body {
     max-width: 1200px;
 }
 
-/* .chatContainer {
-    display: flex;
-    align-items: flex-start;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-} */
-
 .chatContainer {
     display: flex;
     align-items: flex-start;
@@ -47,13 +36,14 @@ body.noti-body {
 }
 
 .groupImage {
-    flex: 0 0 150px;
+    flex: 0 0 100px; /* 크기 조정 */
     text-align: center;
 }
 
 .groupImage img {
-    width: 150px;
-    height: 150px;
+    width: 100px; /* 크기 조정 */
+    height: 100px; /* 크기 조정 */
+    object-fit: cover;
     border-radius: 10px; /* 타원형을 네모 모양으로 변경 */
     margin-bottom: 10px;
 }
@@ -62,7 +52,7 @@ body.noti-body {
     font-weight: bold;
     text-align: center;
     margin: 10px 0;
-    flex: 0 0 150px;
+    flex: 0 0 100px; /* 크기 조정 */
 }
 
 .chatContent {
@@ -79,6 +69,13 @@ body.noti-body {
 
 .profileImage {
     margin-right: 10px; /* 요소 간 간격 추가 */
+}
+
+.profileImage img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%; /* 동그란 모양으로 변경 */
 }
 
 .userNickname {

@@ -46,11 +46,10 @@ public class NotificationGroupController {
             UserDTO user = userService.getUserInfo(userId);
             
             String profileImage = "/upload/" + user.getProfileImage();
-            
-        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+            String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
         	
-        	mv.addObject("profileImage", profileImage);
-        	mv.addObject("userRegion", userRegion);
+            mv.addObject("profileImage", profileImage);
+            mv.addObject("userRegion", userRegion);
 
             if (notification.isEmpty() && page == 0) {
                 mv.addObject("notificationMessage", "알림이 없습니다.");
