@@ -101,8 +101,8 @@ function loadTabContent(tab) {
         success: function(data) {
             $("#groupTapPageSection").html(data);
             
-            // 모임설명&가입멤버 탭일 경우, 모임원 목록 다시 로드
-            if (tab === 'info') {
+            // [모임 상세] 탭일 경우, 모임원 목록 다시 로드
+            if (tab === 'info') { 
                 loadGroupMembers();
             }
             
