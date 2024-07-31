@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let isOnlineMode = false;
+
     function loadInitialData() {
         // 지역 데이터 로드
         $.ajax({
@@ -10,9 +12,9 @@ $(document).ready(function () {
 
                 // '온라인' 지역을 제외한 지역만 추가
                 regions.filter(region => region.regionName !== "온라인")
-                       .forEach(region => {
-                           regionSelect.append(new Option(region.regionName, region.regionId));
-                       });
+                    .forEach(region => {
+                        regionSelect.append(new Option(region.regionName, region.regionId));
+                    });
 
                 // 초기 지역 및 구 설정
                 const initialRegionId = regionSelect.data('initial-region-id');
@@ -40,7 +42,7 @@ $(document).ready(function () {
             success: function (districts) {
                 const districtSelect = $('#groupDistrictId');
                 districtSelect.empty();
-                
+
                 // '온라인' 지역 구 제외
                 if (regionId !== '17') {
                     districts.forEach(district => {
@@ -61,53 +63,56 @@ $(document).ready(function () {
         return deferred.promise();
     }
 
-    // 활동 방식 선택에 따른 지역 선택 영역 표시/숨기기
-    $('#offlineButton').on('click', function () {
-        $('#regionSelect').show(500);
-        loadDistricts($('#groupRegionId').val()); // 지역에 따른 구 로드
-    });
-
-    $('#onlineButton').on('click', function () {
-        $('#regionSelect').hide(500);
-
-        // 온라인 지역을 추가
-        const onlineRegionId = '17';
-        const onlineRegionName = '온라인';
-
+    function updateRegionOptions(isOnline) {
         $.ajax({
             url: '/settings/regions',
             type: 'GET',
-            success: function (data) {
+            success: function (regions) {
                 const regionSelect = $('#groupRegionId');
                 regionSelect.empty();
 
-                data.filter(region => region.regionName !== onlineRegionName && region.regionId !== parseInt(onlineRegionId))
-                    .forEach(region => {
-                        regionSelect.append(new Option(region.regionName, region.regionId));
-                    });
+                if (isOnline) {
+                    regionSelect.append(new Option('온라인', '17'));
+                    $('#groupDistrictId').empty().append(new Option('온라인 구', '304'));
+                } else {
+                    regions.filter(region => region.regionName !== "온라인")
+                        .forEach(region => {
+                            regionSelect.append(new Option(region.regionName, region.regionId));
+                        });
 
-                // 온라인 지역을 추가
-                regionSelect.append(new Option(onlineRegionName, onlineRegionId));
-
-                // 온라인 지역 ID를 설정하고 구를 로드
-                $('#groupRegionId').val(onlineRegionId);
-                loadDistricts(onlineRegionId).done(function () {
-                    $('#groupDistrictId').val('304'); // 온라인 지역에 대한 기본 구 설정
-                });
+                    const currentRegionId = regionSelect.val();
+                    if (currentRegionId) {
+                        loadDistricts(currentRegionId);
+                    }
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Failed to load regions:', error);
             }
         });
+    }
+
+    // '온라인' 버튼 클릭 시 동작
+    $('#onlineButton').on('click', function () {
+        isOnlineMode = true;
+        $('#regionSelect').hide(500);
+        updateRegionOptions(true);
+    });
+
+    // '오프라인' 버튼 클릭 시 동작
+    $('#offlineButton').on('click', function () {
+        isOnlineMode = false;
+        $('#regionSelect').show(500);
+        updateRegionOptions(false);
     });
 
     // 지역 선택 시 구를 불러오는 함수 호출
     $('#groupRegionId').on('change', function () {
         const regionId = $(this).val();
-        if (regionId) {
+        if (regionId && !isOnlineMode) {
             loadDistricts(regionId);
-        } else {
-            $('#groupDistrictId').empty();
+        } else if (isOnlineMode) {
+            $('#groupDistrictId').val('304'); // 온라인 모드에서 구는 항상 '온라인 구'
         }
     });
 
@@ -166,6 +171,26 @@ $(document).ready(function () {
     // 참가인원 필드의 최대값 설정
     $('#groupMaximum').attr('max', 300);
 
+    // 삭제 버튼 클릭 시
+    $('#deleteGroupButton').on('click', function () {
+        var groupId = $('#groupId').val();
+    
+        if (confirm('정말로 이 모임을 삭제하시겠습니까?')) {
+            $.ajax({
+                url: '/settings/deleteGroup',
+                type: 'POST',
+                data: { groupId: groupId },
+                success: function (response) {
+                    window.location.href = '/mypage'; // 삭제 후 리다이렉션
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error deleting group:', error);
+                    alert('그룹 삭제에 실패했습니다. 다시 시도해 주세요.');
+                }
+            });
+        }
+    });
+
     // 저장 버튼 클릭 시
     $('#saveGroupButton').on('click', function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
@@ -181,7 +206,7 @@ $(document).ready(function () {
         var groupInterestId = $('#groupInterestId').val();
 
         // 참가인원 유효성 검사
-        if (!groupName || !groupDetail || !groupRegionId || !groupDistrictId || !groupMaximum || !groupInterestId ||
+        if (!groupName || !groupDetail || !groupInterestId ||
             (groupSignUpType === '승인제' && !groupSignUpQuestion)) {
             alert("모임 가입에 필요한 요소를 채워주세요.");
             return;
@@ -190,6 +215,7 @@ $(document).ready(function () {
         // 금칙어 체크
         checkForbiddenWords(groupName, groupDetail).done(function (hasForbiddenWords) {
             if (hasForbiddenWords) {
+                alert("금칙어가 포함되어 있습니다. 다시 확인해 주세요.");
                 return; // 금칙어가 발견되면 등록을 하지 않음
             }
 
@@ -200,6 +226,9 @@ $(document).ready(function () {
                 } else {
                     // 폼 제출
                     var formData = new FormData($('#groupForm')[0]);
+                    formData.append('groupRegionId', isOnlineMode ? '17' : groupRegionId); // 온라인 모드일 때 온라인 지역 ID 전송
+                    formData.append('groupDistrictId', isOnlineMode ? '304' : groupDistrictId); // 온라인 모드일 때 온라인 구 ID 전송
+                    
                     if (!groupImage) {
                         if (confirm("이미지를 등록하지 않았습니다. 등록 하시겠습니까?")) {
                             formData.append('groupRegisterImage', new Blob([], { type: 'image/png' })); // 빈 이미지 파일 추가
@@ -224,7 +253,7 @@ $(document).ready(function () {
             contentType: false,
             success: function (response) {
                 if (response && response.groupId) {
-                    window.location.href = "/groupdetail/info?groupId=" + response.groupId;
+                    window.location.href = "/settings/main?groupId=" + response.groupId;
                 } else {
                     alert("등록된 그룹 정보를 찾을 수 없습니다.");
                 }
@@ -241,9 +270,9 @@ $(document).ready(function () {
         var forbiddenWords = ["금칙어1", "금칙어2", "금칙어3"]; // 실제 금칙어 리스트로 교체
 
         var checkContent = groupName + " " + groupDetail;
-        return $.Deferred(function (deferred) {
+        return $.Deferred(function (def) {
             var hasForbiddenWords = forbiddenWords.some(word => checkContent.includes(word));
-            deferred.resolve(hasForbiddenWords);
+            def.resolve(hasForbiddenWords);
         }).promise();
     }
 
@@ -251,10 +280,17 @@ $(document).ready(function () {
         return $.ajax({
             url: '/settings/checkGroupName',
             type: 'GET',
-            data: { groupName: groupName }
+            data: { groupName: groupName },
+            success: function (response) {
+                return response.exists;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error checking group name:', error);
+                return false;
+            }
         });
     }
 
-    // 페이지 로드 시 데이터 초기화
+    // 초기 데이터 로드
     loadInitialData();
 });

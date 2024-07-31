@@ -108,7 +108,12 @@ public class GroupDAO {
     public void deleteGroup(int groupId) {
         session.delete("group-mapping.deleteGroup", groupId);
     }
-
+    
+    // 기존 그룹 이미지 파일 이름 조회
+    public String getExistingGroupImageFilename(int groupId) {
+        return session.selectOne("group-mapping.getGroupImageById", groupId);
+    }
+    
     // 현재 멤버 가져오기
     public List<UserDTO> getCurrentMembers(int groupId) {
         return session.selectList("group-mapping.getCurrentMembers", groupId);

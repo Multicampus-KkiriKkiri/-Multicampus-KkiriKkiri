@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dto.DistrictDTO;
 import dto.GroupDTO;
@@ -59,6 +60,12 @@ public interface GroupService {
 
     // 그룹 삭제
     void deleteGroup(int groupId);
+
+	String getExistingGroupImageFilename(int groupId);
+	
+	void updateGroupInfo(int groupId, Map<String, String> params, String newImageFilename);
+
+
 
 }
 

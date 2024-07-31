@@ -1,1 +1,47 @@
-@charset "UTF-8";
+/* groupSettingsMain.css */
+
+/* 네비게이션 바 */
+#groupNavSection {
+    position: sticky;
+    top: 95px;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    border-top: 1px solid #B7B7B7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#groupTapNav {
+    display: flex;
+    gap: 15px;
+}
+
+.tapBtn {
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: none;
+    background-color: #eaf2ea;
+    color: #3b5f3e;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tapBtn:hover {
+    background-color: #8fbc8f;
+    color: white;
+}
+
+.tapBtn.active {
+    background-color: #8fbc8f;
+    color: white;
+}
+
+/* 기본 부트스트랩 버튼 제거 */
+.btn-primary {
+    background-color: transparent;
+    border: none;
+}

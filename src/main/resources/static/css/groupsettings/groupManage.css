@@ -1,149 +1,125 @@
 /* groupManage.css */
 
+/* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
+    background-color: #F6F7F8;
 }
 
+/* 컨테이너 */
 .container {
-    width: 70%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
 }
 
-h2 {
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
+/* 폼 그룹 */
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="number"],
 .form-group select,
 .form-group textarea {
+    border-radius: 7px;
+    border: 1px solid #ced4da;
+    padding: 10px;
     width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
 }
 
+/* 버튼 */
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button#addImageButton {
+    background-color: #8fbc8f;
+}
+
+button#addImageButton:hover {
+    background-color: #7a9a7a;
+}
+
+button#deleteGroupButton {
+    background-color: #dc3545;
+    float: left;
+}
+
+button#deleteGroupButton:hover {
+    background-color: #c82333;
+}
+
+button#saveGroupButton {
+    background-color: #28a745;
+    float: right;
+}
+
+button#saveGroupButton:hover {
+    background-color: #218838;
+}
+
+/* 설명 및 이미지 박스 */
 .description-image-box {
     display: flex;
-    flex-direction: row;
     gap: 20px;
 }
 
 .image-box {
-    width: 100%;
-    max-width: 200px;
-    height: 200px;
-    border: 1px dashed #ccc;
     position: relative;
-    text-align: center;
-    overflow: hidden;
+}
+
+.image-box img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 7px;
 }
 
 .image-placeholder {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-#addImageButton {
-    margin-bottom: 10px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    background-color: #eaf2ea;
+    color: #3b5f3e;
 }
 
 .plus-icon {
-    font-size: 50px;
-    color: #ccc;
+    font-size: 24px;
+    color: #3b5f3e;
 }
 
-#preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* 활동 방식 및 신청 방식 */
+.activity-type input[type="radio"] {
+    margin-right: 10px;
 }
 
-textarea {
-    height: 200px;
-    resize: none;
+.application-type input[type="radio"] {
+    margin-right: 10px;
 }
 
-.activity-type {
-    display: flex;
-    gap: 10px;
+.application-description p {
+    margin: 10px 0;
 }
 
-.activity-type input {
-    margin-right: 5px;
-}
-
-.application-type {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.application-description {
-    margin-top: 10px;
-}
-
-.application-description .first-come-first-served,
-.application-description .approval-system {
-    display: none;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.application-description .first-come-first-served.active,
-.application-description .approval-system.active {
+/* 활성화된 설명 박스 */
+.first-come-first-served.active,
+.approval-system.active {
     display: block;
 }
 
-.application-type .active {
-    background-color: #ddd;
-}
-
-.region-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.region-container select {
-    width: 100%;
-}
-
-.districts-container {
-    margin-top: 10px;
-}
-
-#register_submit {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
+.first-come-first-served,
+.approval-system {
+    display: none;
 }

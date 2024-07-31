@@ -130,7 +130,12 @@
     <delete id="deleteGroup" parameterType="int">
         DELETE FROM Groups WHERE group_id = #{groupId}
     </delete>
-
+    <!-- 그룹 이미지 파일 이름 조회 -->
+	<select id="getGroupImageById" parameterType="int" resultType="String">
+	    SELECT groupImage
+	    FROM `group`
+	    WHERE groupId = #{groupId}
+	</select>
     <!-- 현재 멤버 가져오기 -->
     <select id="getCurrentMembers" parameterType="int" resultType="dto.UserDTO">
         SELECT * FROM Users WHERE group_id = #{groupId} AND status = 'active'
