@@ -241,9 +241,14 @@ public class MainUserController {
 	        for (int mygroupId : mygroupIds) {	            
 	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
                 GroupDTO2 groupDetail2 = new GroupDTO2();
+                
+                String originalGroupImagePath = groupDetail.getGroupImage();
+				String groupImage = "/upload/groupregister/" + originalGroupImagePath;                
+				groupDetail2.setGroupImage(groupImage);              
+				//groupDetail2.setGroupImage(groupDetail.getGroupImage());
+				
                 groupDetail2.setGroupId(groupDetail.getGroupId());
-                groupDetail2.setGroupName(groupDetail.getGroupName());
-                groupDetail2.setGroupImage(groupDetail.getGroupImage());
+                groupDetail2.setGroupName(groupDetail.getGroupName());                
                 groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
                 groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
                 groupDetail2.setGroupType(groupDetail.getGroupType());

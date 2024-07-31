@@ -338,16 +338,20 @@ public class MyPageController {
 	        for (int mygroupId : paginatedGroupIds) {    
 	        	GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
 	            GroupDTO2 groupDetail2 = new GroupDTO2();
+	            
+	            String originalGroupImagePath = groupDetail.getGroupImage();
+				String groupImage = "/upload/groupregister/" + originalGroupImagePath;	            
+				groupDetail2.setGroupImage(groupImage);
+	            //groupDetail2.setGroupImage(groupDetail.getGroupImage());	            
+	            
 	            groupDetail2.setGroupId(groupDetail.getGroupId());
 	            groupDetail2.setGroupName(groupDetail.getGroupName());
-	            groupDetail2.setGroupImage(groupDetail.getGroupImage());
 	            groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
 	            groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
 	            groupDetail2.setGroupType(groupDetail.getGroupType());
 	            myGroupDetails.add(groupDetail2);
 	            groupIds.add(groupDetail.getGroupId()); 
 	        }
-
 	        for (GroupDTO2 myGroupDetail : myGroupDetails) {
 	            int groupRegionId = myGroupDetail.getGroupRegionId();
 	            int groupDistrictId = myGroupDetail.getGroupDistrictId();
@@ -392,8 +396,12 @@ public class MyPageController {
 
 	        for (GroupDTO group : paginatedGroupDto) {
 	            GroupDTO2 myGroupAsLeader = new GroupDTO2();
-	            System.out.println("grouplist:" + group);
-	            myGroupAsLeader.setGroupImage(group.getGroupImage());
+	            
+	            String originalGroupImagePath = group.getGroupImage();
+				String groupImage = "/upload/groupregister/" + originalGroupImagePath;				
+				myGroupAsLeader.setGroupImage(groupImage);	            
+	            //myGroupAsLeader.setGroupImage(group.getGroupImage());	            
+	            
 	            myGroupAsLeader.setGroupName(group.getGroupName());
 	            myGroupAsLeader.setGroupType(group.getGroupType());
 
@@ -427,8 +435,7 @@ public class MyPageController {
 		
 		List<Integer> mygroupIds = groupMemberService.getMyPendingGroupIdList(userId);
 		int startIndex = page * size;
-		int endIndex = Math.min(startIndex + size, mygroupIds.size());
-		
+		int endIndex = Math.min(startIndex + size, mygroupIds.size());		
 		
 		if(sessionUserId != null && page * size < mygroupIds.size()) {			
 	        List<GroupDTO2> myPendingGroupDetails = new ArrayList<>();
@@ -438,16 +445,20 @@ public class MyPageController {
 	        for (int mygroupId : paginatedGroupDto) {	            
 	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
                 GroupDTO2 groupDetail2 = new GroupDTO2();
+                
+                String originalGroupImagePath = groupDetail.getGroupImage();
+				String groupImage = "/upload/groupregister/" + originalGroupImagePath;                
+				groupDetail2.setGroupImage(groupImage);
+                //groupDetail2.setGroupImage(groupDetail.getGroupImage());               
+                
                 groupDetail2.setGroupId(groupDetail.getGroupId());
                 groupDetail2.setGroupName(groupDetail.getGroupName());
-                groupDetail2.setGroupImage(groupDetail.getGroupImage());
                 groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
                 groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
                 groupDetail2.setGroupType(groupDetail.getGroupType());
                 myPendingGroupDetails.add(groupDetail2);
                 groupIds.add(groupDetail.getGroupId()); 
 	        }
-	        
             for (GroupDTO2 myGroupDetail : myPendingGroupDetails) {
                 int groupRegionId = myGroupDetail.getGroupRegionId();
                 int groupDistrictId = myGroupDetail.getGroupDistrictId();
@@ -494,10 +505,15 @@ public class MyPageController {
 	        
 	        for (int mygroupId : paginatedGroupDto) {	            
 	            GroupDTO groupDetail = groupService.getGroupDetail(mygroupId);
-                GroupDTO2 groupDetail2 = new GroupDTO2();
+                GroupDTO2 groupDetail2 = new GroupDTO2();                
+                
+                String originalGroupImagePath = groupDetail.getGroupImage();
+				String groupImage = "/upload/groupregister/" + originalGroupImagePath;                
+				groupDetail2.setGroupImage(groupImage);
+				//groupDetail2.setGroupImage(groupDetail.getGroupImage());                
+                
                 groupDetail2.setGroupId(groupDetail.getGroupId());
                 groupDetail2.setGroupName(groupDetail.getGroupName());
-                groupDetail2.setGroupImage(groupDetail.getGroupImage());
                 groupDetail2.setGroupRegionId(groupDetail.getGroupRegionId());
                 groupDetail2.setGroupDistrictId(groupDetail.getGroupDistrictId());
                 groupDetail2.setGroupType(groupDetail.getGroupType());
@@ -558,13 +574,19 @@ public class MyPageController {
 	        LocalDate eventDate = LocalDate.parse(dateString, dateFormatter); // LocalDate로 변환
 
 	        boolean isOngoing = eventDate.isAfter(today) || eventDate.isEqual(today);
-	        boolean isPast = eventDate.isBefore(today) && eventDate.isAfter(threeYearsAgo);
+	        boolean isPast = eventDate.isBefore(today) && eventDate.isAfter(threeYearsAgo);	        
+	        
+	        String originalEventImagePath = event.getEventImage();
+			String eventImage = "/upload/groupevent/" + originalEventImagePath;                	        
 
-	        if ("ongoing".equals(eventType) && isOngoing) {	        	
+	        if ("ongoing".equals(eventType) && isOngoing) {	 	        	
+	        	event.setEventImage(eventImage);
 	            filteredEvents.add(event);
-	        } else if ("past".equals(eventType) && isPast) {        	
+	        } else if ("past".equals(eventType) && isPast) {    
+	        	event.setEventImage(eventImage);
 	            filteredEvents.add(event);
 	        } else if (eventType == null) {
+	        	event.setEventImage(eventImage);
 	            // eventType이 null인 경우 모든 이벤트 추가
 	            filteredEvents.add(event);
 	        }

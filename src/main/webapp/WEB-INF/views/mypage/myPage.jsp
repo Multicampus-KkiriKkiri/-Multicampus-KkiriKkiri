@@ -38,9 +38,8 @@ $(document).ready(function(){
 			<h2>님<i class="fa-brands fa-fly"></i></h2>		
 		</div>	
 	</div>
-	
-	<div class="mypage-container">
-	
+		
+	<div class="mypage-container">	
 		<section class="col-3 my-info-area">		
 			<div class="my-info-area-deco-box">			
 				<div class="profile-img-container">
@@ -65,50 +64,48 @@ $(document).ready(function(){
 					</div>										
 				</div>	
 						
-					<div class="my-page-interest-area">
-						<button onclick=location.href="/editmypage" id="go-to-edit-my-page">
-							<i class="fa-solid fa-pen"></i>내 정보 수정하기
-						</button>
-						<p><b>내 관심사</b></p>	
-							<div id="user-interests">
-								<c:forEach items="${loginUserInterestNames}" var="interestName">
-					                     <div class="my-page-show-interest-area">
-					                     	<i class="fa-solid fa-paper-plane"></i>
-					                     	<div>${interestName}</div>
-				                     	 </div>
-				                 </c:forEach>
-							</div>	
-							    						
-						<button id="show-modify-interest-btn">관심사 수정하기</button>	
-					</div> 			
+				<div class="my-page-interest-area">
+					<button onclick=location.href="/editmypage" id="go-to-edit-my-page">
+						<i class="fa-solid fa-pen"></i>내 정보 수정하기
+					</button>
+					<p><b>내 관심사</b></p>	
+						<div id="user-interests">
+							<c:forEach items="${loginUserInterestNames}" var="interestName">
+				                     <div class="my-page-show-interest-area">
+				                     	<i class="fa-solid fa-paper-plane"></i>
+				                     	<div>${interestName}</div>
+			                     	 </div>
+			                 </c:forEach>
+						</div>							    						
+					<button id="show-modify-interest-btn">관심사 수정하기</button>	
+				</div> 					
 				
+				<div id="interest-list-area" style="display:none">
+					<div class="first-my-page-interest-checkbox-area">
+						<input class="interest-list" type="checkbox" id="cultureArt" name="cultureArt">
+	        			<label for="cultureArt">문화예술</label>			            
 				
-					<div id="interest-list-area" style="display:none">
-						<div class="first-my-page-interest-checkbox-area">
-							<input class="interest-list" type="checkbox" id="cultureArt" name="cultureArt">
-		        			<label for="cultureArt">문화예술</label>			            
-					
-							<input class="interest-list" type="checkbox" id="activity" name="activity">
-							<label for="activity">액티비티</label>
-						</div>
-						
-						<div class="second-my-page-interest-checkbox-area"> 
-							<input class="interest-list" type="checkbox" id="foodDrink" name="foodDrink">
-		        			<label for="foodDrink">푸드/드링크</label>
-		        		
-		        			<input class="interest-list" type="checkbox" id="selfStudy" name="selfStudy">
-		        			<label for="selfStudy">자기계발</label>
-		        		</div>
-		        		
-		        		<div class="third-my-page-interest-checkbox-area">
-		        			<input class="interest-list" type="checkbox" id="etc" name="etc">
-		        			<label for="etc">기타</label> 	
-						</div>
-						
-						<div id="my-page-interest-warning"><!-- 관심사 한 가지 이상 선택 안내 메시지 --></div>
-						<button id="modify-interest-btn">수정 완료</button>
+						<input class="interest-list" type="checkbox" id="activity" name="activity">
+						<label for="activity">액티비티</label>
 					</div>
-				</div>		
+					
+					<div class="second-my-page-interest-checkbox-area"> 
+						<input class="interest-list" type="checkbox" id="foodDrink" name="foodDrink">
+	        			<label for="foodDrink">푸드/드링크</label>
+	        		
+	        			<input class="interest-list" type="checkbox" id="selfStudy" name="selfStudy">
+	        			<label for="selfStudy">자기계발</label>
+	        		</div>
+	        		
+	        		<div class="third-my-page-interest-checkbox-area">
+	        			<input class="interest-list" type="checkbox" id="etc" name="etc">
+	        			<label for="etc">기타</label> 	
+					</div>
+					
+					<div id="my-page-interest-warning"><!-- 관심사 한 가지 이상 선택 안내 메시지 --></div>
+					<button id="modify-interest-btn">수정 완료</button>
+				</div>
+			</div>		
 		</section>
 		
 		<section class="col-10 my-group-area">
@@ -116,8 +113,7 @@ $(document).ready(function(){
 				<button id="my-group-area">내 모임</button>
 				<button id="my-event-area">내 모임 일정</button>					
 			</div>
-			<div class="my-page-top-nav-line"><!--메뉴탭 아래 선 --></div>	
-						
+			<div class="my-page-top-nav-line"><!--메뉴탭 아래 선 --></div>							
 				
 				<div id="my-groups">
 					<div id="my-group-area-nav">
@@ -134,16 +130,14 @@ $(document).ready(function(){
 				
 				<div id="my-events">
 					<div id="my-event-area-nav">
-						<button class="my-event-bottom-nav" id="ongoing-events">진행 중 일정</button>
-						<button class="my-event-bottom-nav" id="past-events">지나간 일정</button>				
+						<button class="my-event-bottom-nav" id="ongoing-events">예전된 일정</button>
+						<button class="my-event-bottom-nav" id="past-events">지난 일정</button>				
 						<div id="my-event-nav-underline"><!--메뉴탭 아래 슬라이딩 선--> </div>
 					</div>			
 					<div id="my-event-content">
 					<!-- ajax로 받은 일정 목록이 보여짐 -->
 					</div>
-				</div>
-
-								
+				</div>								
 		</section>
 	</div>	
 </main>

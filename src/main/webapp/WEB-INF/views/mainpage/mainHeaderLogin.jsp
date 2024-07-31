@@ -38,7 +38,7 @@ $(document).ready(function(){
 				<option id="show-user-region" value="${userRegion}">${userRegion}</option>
 			 </select><!--
 	         --><button>
-	         <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:#e4e2dd"></i>
+	         <i class="fa-solid fa-magnifying-glass fa-thin" style="cursor: pointer; font-size: 18px; color:white"></i>
 	         </button>
 	       </form>	       
 	</div>
