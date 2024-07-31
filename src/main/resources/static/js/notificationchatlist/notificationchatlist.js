@@ -54,12 +54,17 @@ function updateChatContainer(chatList) {
         var chatHtml = `
             <div class="chatContainer" id="group-${chat.groupId}" data-group-id="${chat.groupId}">
                 <div class="groupImage">
-                    <img src="${chat.groupImage}" alt="Group Image"/>
+                    <img src="/upload/groupregister/${chat.groupImage}" alt="Group Image"/>
                 </div>
                 <div class="groupName">${chat.groupName}</div>
                 <div class="chatContent">
-                    <div class="userNickname">${chat.userNickname}</div>
-                    <div class="chatTime">${formatTimeToKorean(chat.chatTime)}</div>
+                    <div>
+                        <div class="profileImage">
+                            <img src="/upload/${chat.profileImage}" alt="Profile Image"/>
+                        </div>
+                        <div class="userNickname">${chat.userNickname}</div>
+                        <div class="chatTime">${formatTimeToKorean(chat.chatTime)}</div>
+                    </div>
                     <div class="chatMessage">${chat.chatMessage || "No Message"}</div>
                 </div>
             </div>

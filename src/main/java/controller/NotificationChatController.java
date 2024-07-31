@@ -11,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 import service.ChatService;
 import service.GroupService;
+import service.UserService;
 import dto.GroupDTO;
+import dto.UserDTO;
 
 @Controller
 public class NotificationChatController {
@@ -21,6 +23,9 @@ public class NotificationChatController {
     
     @Autowired
     GroupService groupService;
+    
+    @Autowired
+    UserService userService;
 
     @GetMapping("/notificationchatlist")
     public ModelAndView showChatPage(HttpSession session) {
@@ -31,7 +36,16 @@ public class NotificationChatController {
         if (userId == null) {
             mv.addObject("message", "로그인해주세요.");
         } else {
+        	
+        	UserDTO user = userService.getUserInfo(userId);
+        	String profileImage = "/upload/" + user.getProfileImage();
+        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+        	
+        	mv.addObject("profileImage", profileImage);
+        	mv.addObject("userRegion", userRegion);
+        	
             List<Integer> groupIds = chatService.getGroupIds(userId);
+            
             mv.addObject("groupIds", groupIds);
             
             if (groupIds.isEmpty()) {
