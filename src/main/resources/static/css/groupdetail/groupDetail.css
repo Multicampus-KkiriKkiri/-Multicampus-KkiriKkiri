@@ -47,13 +47,15 @@
 	max-height: 150px;
 	font-weight: bold;
     font-size: 50px;
+    font-size: 40px;
     overflow-wrap: break-word;
 }
 
 #groupCategoryDiv {
 	font-weight: bold;
-    font-size: 30px;
-    padding-bottom: 10px; 
+    font-size: 23px;
+    padding-bottom: 3px; 
+    padding-top: 10px;
 }
 
 /* 모임 이름 제외 div들 */
