@@ -58,7 +58,7 @@
 						<i class="fa-solid fa-anchor" style="color:#8fbc8f"></i>
 						<b>관심사별 검색을 통해 꼭 맞는 모임을 빠르게 만나보세요</b>
 					</h3>
-					<a href="#" class="group-more-btn">모임 더보기</a>
+					<a href="/groupsearch" class="group-more-btn">모임 더보기</a>
 				</div>				
 				<div class="row interest-nav-area">						  
 					<div class="col-sm-2 interest-nav continue-hover" data-interest-id="1">			    

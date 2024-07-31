@@ -23,7 +23,8 @@ main{
 	background-color: white;
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	padding: 15px;
-	position: absolute;
+	/*position: absolute;*/ /*모임 보여주는 박스 조정하며 삭제*/
+	width: 330px; /*모임 보여주는 박스 조정하며 추가*/
 	border-radius: 7px;
 }
 
@@ -268,6 +269,11 @@ main{
 }
 
 /*내 모임 목록*/
+/*모임 보여지는 div 최소 크기 지정*/
+#my-group-content{
+	min-height: 384px;
+}
+
 /*모임 이미지 & 이름*/
 .my-group-image-name:hover{    
     filter: contrast(80%) ;
@@ -296,7 +302,7 @@ main{
     text-overflow: ellipsis;
 }
 
-/*내 그룹이 없을 경우 보여지는 메시지*/
+/*내 그룹/일정이 없을 경우 보여지는 메시지*/
 .my-page-no-group-message img{
 	width: 20%;
 	height: 65%;
@@ -318,7 +324,18 @@ main{
 	text-decoration: underline;
 }
 
+.my-page-no-group-message h6{
+	margin-top: 10px;
+	color: #3b5f3e;
+	font-weight: bold;
+}
+
 /*일정 목록*/
+/*일정 보여지는 div 최소 크기 지정*/
+#my-event-content{
+	min-height: 384px;
+}
+
 #my-events{
 	display: none;
 }

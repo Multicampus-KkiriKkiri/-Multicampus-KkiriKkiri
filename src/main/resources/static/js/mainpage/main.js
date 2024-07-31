@@ -31,8 +31,8 @@ $(document).ready(function(){
 	                        marginStyle = 'margin-top: 1.5rem;'; 
 	                    } else {
 	                        marginStyle = 'margin-top: 4rem;'; 
-	                    }				
-						
+	                    }										
+
                         var newestGroupHtml = 
                         	'<div class="col-6 col-sm-3 group-detail" style="' + marginStyle + '">' +
 	                            '<a href="/groupdetail/info?groupId=' + newestGroupDetails2.groupId + '">' +

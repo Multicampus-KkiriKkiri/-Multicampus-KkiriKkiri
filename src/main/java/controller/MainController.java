@@ -43,13 +43,20 @@ public class MainController {
 	public List<HashMap<String, Object>> getGroupDetailsByInterestId(@RequestParam int interestId, Model model) {
 		ArrayList<HashMap<String, Object>> groupDetailsByInterest = groupService.getGroupDetailsByInterestId(interestId);	
 		
-	    List<Integer> groupIds = new ArrayList<>();
+		String groupImageBasePath = "/upload/groupregister/";
+	    
+		List<Integer> groupIds = new ArrayList<>();
 	    for (HashMap<String, Object> groupDetail : groupDetailsByInterest) {
 	        Integer groupId = (Integer) groupDetail.get("groupId");
 	        if (groupId != null) {
 	            groupIds.add(groupId);
 	        }
-	    }		
+	        
+	        String groupImage = (String) groupDetail.get("groupImage");
+	        if (groupImage != null) {
+	            groupDetail.put("groupImage", groupImageBasePath + groupImage);
+	        }      
+	    }		    
 		return groupDetailsByInterest;		
 	}
 	
@@ -64,9 +71,13 @@ public class MainController {
 				
 		for (GroupDTO dto : newestGroupDetails) {		
 			GroupDTO2 dto2 = new GroupDTO2();	
+			
+			String originalGroupImagePath = dto.getGroupImage();
+			String groupImage = "/upload/groupregister/" + originalGroupImagePath;
+			dto2.setGroupImage(groupImage);
+			
 			dto2.setGroupId(dto.getGroupId());
-			dto2.setGroupName(dto.getGroupName());
-			dto2.setGroupImage(dto.getGroupImage());
+			dto2.setGroupName(dto.getGroupName());			
 			dto2.setGroupType(dto.getGroupType());
 			dto2.setGroupRegionId(dto.getGroupRegionId());
 			dto2.setGroupDistrictId(dto.getGroupDistrictId());
@@ -93,14 +104,10 @@ public class MainController {
 			  } else {
 				  newestGroupDetail2.setDistrictName("");
 		      }
-			  	
 		}
-		//session.setAttribute("groupIds", groupIds);
 		model.addAttribute("newestGroupDetail2", newestGroupDetails2);
 		return newestGroupDetails2;	
-	}
-	
-	
+	}	
 }
 
 

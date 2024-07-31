@@ -18,7 +18,7 @@
 	</script>
 </head>
 
-<body>
+<body>	
     <header>
         <c:if test="${not empty sessionScope.sessionUserId}">
             <%@ include file="../mainpage/mainHeaderLogin.jsp" %>
@@ -148,7 +148,6 @@
             </div><!-- pagination 끝 -->
         </div><!-- resultsContainer 끝 -->
     </main>
-
     <footer>
         <%@ include file="../mainpage/mainFooter.jsp" %>
     </footer>

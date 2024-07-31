@@ -48,7 +48,7 @@ $(document).ready(function(){
 				var noneGroupHtml = 
 					`<div class="no-my-group-message">
 						<img src="/images/letsGo.jpg" alt="이모티콘"><br>
-						<a href="#">지금 모임 둘러보기</a>
+						<a href="/groupsearch">지금 모임 둘러보기</a>
 					</div>`;
                 $('#myGroupDetailContainer').empty().append(noneGroupHtml);
                 $('#go-to-my-group-list').hide();

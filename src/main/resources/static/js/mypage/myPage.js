@@ -161,7 +161,7 @@ $(document).ready(function() {
                         var noneGroupHtml =
                             '<div class="my-page-no-group-message">' +
                                 '<img src="/images/letsGo.jpg" alt="이모티콘">' +
-                                '<a href="#">지금 모임 둘러보기</a>' +
+                                '<a href="/groupsearch">지금 모임 둘러보기</a>' +
                             '</div>';
                         $('#my-group-content').empty().append(noneGroupHtml);
                     }
@@ -227,7 +227,7 @@ $(document).ready(function() {
     let previousYears = new Set();
     let previousDates = new Set(); 
 
-    // 진행중 일정, 지나간 일정 버튼 클릭 시
+    // 예정된 일정, 지난 일정 버튼 클릭 시
     $('#ongoing-events').click(function() {
         $('#my-groups').hide();
         eventType = 'ongoing';
@@ -266,78 +266,85 @@ $(document).ready(function() {
                     let groupedEvents = response;
                     let eventListHtml = '';  
                     
-  	                if (groupedEvents.length === 0) {
-						  console.log("groupEvents: ", groupedEvents);
-						  
+  	                if (groupedEvents.length === 0) {						  
+	                    //일정이 없을 경우 메시지 표시
 	                    if (eventPage === 0) {
-	                        // 일정이 없을 경우 메시지 표시
-	                        var noneGroupHtml =
-	                            '<div class="my-page-no-group-message">' +
-	                                '<img src="/images/letsGo.jpg" alt="이모티콘">' +
-	                                '<a href="#">지금 모임 둘러보기</a>' +
-	                            '</div>';
-	                        $('#my-event-content').empty().append(noneGroupHtml);
-	                    }
+							let noEventsMessage;
+	                        if (eventType === 'past') {
+	                            noEventsMessage = 
+	                                '<div class="my-page-no-group-message">' +
+	                                    '<img src="/images/nothing.png" alt="이모티콘">' +
+	                                    '<h6>지난 일정이 없습니다.</h6>' +
+	                                '</div>';
+	                        } else {
+	                            noEventsMessage = 
+	                                '<div class="my-page-no-group-message">' +
+	                                    '<img src="/images/letsGo.jpg" alt="이모티콘">' +
+	                                    '<a href="/groupsearch">지금 모임 둘러보기</a>' +
+	                                '</div>';
+	                        }
+	                        $('#my-event-content').empty().append(noEventsMessage);                                  
+	                    }//if(eventPage === 0)
 	                    eventIsLoading = false;
 	                    eventHasMoreData = false;
 	                    return; 
-	                } 		                       
-
+	                }else{	                       
 				        $.each(groupedEvents, function(index, event) {
-                        let date = new Date(event.eventDate);
-                        let year = date.getFullYear();
-                        let formattedDate = formatDate(date);        
-                        let dateKey = `${year}-${date.getMonth() + 1}-${date.getDate()}`;                       
-              
-                        // 현재 날짜 확인
-                   		let today = new Date();
-                   		let todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-                   		let isToday = (dateKey === todayKey);
-                 
-                        //console.log("Current Event Year: ", year);
-                  		//console.log("Previous Years: ", previousYears);                       
-                        
-                        //같은 연도의 일정일 경우 연도를 한 번만 표시
-                        if(!previousYears.has(year)){							
-							if (previousYears.size > 0) {
-	                            eventListHtml += '</div>'; // 이전 연도의 날짜 그룹을 닫음
-	                        }       
-				            eventListHtml += '<div class="event-year-group">';
-                            eventListHtml += '<h4 class="event-year">' + year + '</h4>';
-                            eventListHtml += '<div class="event-date-group">';
-                            previousYears.add(year);							
-						}		
-						
-	                    // 같은 날짜의 일정일 경우 날짜를 한 번만 표시 + 현재 날짜는 '오늘' 텍스트로 대체
-	                    if (!previousDates.has(dateKey)) {
-	                        if (isToday) {
-	                            eventListHtml += '<h5 class="event-date">오늘</h5>';
-	                        } else {
-	                            eventListHtml += '<h5 class="event-date">' + formattedDate + '</h5>';
-	                        }
-	                        eventListHtml += '<div class="event-date-hr"></div>';
-	                        previousDates.add(dateKey); 
-	                    }
-	                                 
-                        eventListHtml += '<a class="event-item" href="/groupdetail/info?groupId=' + event.groupId + '">';                       
-                        eventListHtml += '<img src="' + event.eventImage + '" alt="일정 사진">';                        
-                        eventListHtml += '<div class="event-item-content">';
-                        eventListHtml += '<div class="event-item-location">' + event.eventLocation + '</div>';
-                        eventListHtml += '<div class="event-item-name">' + event.eventName + '</div>';             
-                        eventListHtml += '<div class="event-item-group-name">' + event.groupName + '</div>';                        
-                        eventListHtml += '</div>';
-                        eventListHtml += '</a>';                        
-                    });//each
+	                        let date = new Date(event.eventDate);
+	                        let year = date.getFullYear();
+	                        let formattedDate = formatDate(date);        
+	                        let dateKey = `${year}-${date.getMonth() + 1}-${date.getDate()}`;                       
+	              
+	                        // 현재 날짜 확인
+	                   		let today = new Date();
+	                   		let todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+	                   		let isToday = (dateKey === todayKey);
+	                 
+	                        //console.log("Current Event Year: ", year);
+	                  		//console.log("Previous Years: ", previousYears);                       
+	                        
+	                        //같은 연도의 일정일 경우 연도를 한 번만 표시
+	                        if(!previousYears.has(year)){							
+								if (previousYears.size > 0) {
+		                            eventListHtml += '</div>'; // 이전 연도의 날짜 그룹을 닫음
+		                        }       
+					            eventListHtml += '<div class="event-year-group">';
+	                            eventListHtml += '<h4 class="event-year">' + year + '</h4>';
+	                            eventListHtml += '<div class="event-date-group">';
+	                            previousYears.add(year);							
+							}		
+							
+		                    // 같은 날짜의 일정일 경우 날짜를 한 번만 표시 + 현재 날짜는 '오늘' 텍스트로 대체
+		                    if (!previousDates.has(dateKey)) {
+		                        if (isToday) {
+		                            eventListHtml += '<h5 class="event-date">오늘</h5>';
+		                        } else {
+		                            eventListHtml += '<h5 class="event-date">' + formattedDate + '</h5>';
+		                        }
+		                        eventListHtml += '<div class="event-date-hr"></div>';
+		                        previousDates.add(dateKey); 
+		                    }
+		                                 
+	                        eventListHtml += '<a class="event-item" href="/groupdetail/info?groupId=' + event.groupId + '">';                       
+	                        eventListHtml += '<img src="' + event.eventImage + '" alt="일정 사진">';                        
+	                        eventListHtml += '<div class="event-item-content">';
+	                        eventListHtml += '<div class="event-item-location">' + event.eventLocation + '</div>';
+	                        eventListHtml += '<div class="event-item-name">' + event.eventName + '</div>';             
+	                        eventListHtml += '<div class="event-item-group-name">' + event.groupName + '</div>';                        
+	                        eventListHtml += '</div>';
+	                        eventListHtml += '</a>';                        
+	                    });//each
                     
-                  	if (previousYears.size > 0) {
-                    	eventListHtml += '</div>'; // 마지막 연도의 날짜 그룹을 닫음
-                	}
-
-                    $('#my-event-content').append(eventListHtml);                                        
-                    $('#my-event-content').show();
-                    eventPage++;
-                }//외부 else     
-                eventIsLoading = false;           
+	                  	if (previousYears.size > 0) {
+	                    	eventListHtml += '</div>'; // 마지막 연도의 날짜 그룹을 닫음
+	                	}
+	
+	                    $('#my-event-content').append(eventListHtml);                                        
+	                    $('#my-event-content').show();
+	                    eventPage++;
+	                }//else     
+                	eventIsLoading = false;  
+           		}//외부 else         
             },
             error: function(xhr, status, error) {
                 console.error('AJAX 요청 실패: ' + status, error);

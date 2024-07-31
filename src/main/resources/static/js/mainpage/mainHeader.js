@@ -160,20 +160,6 @@ $(document).ready(function(){
 					window.location.href = "/mainLogin";
 				} else{
 					$('#errorMessage').text('아이디 혹은 비밀번호가 다릅니다.');
-					$('#userPw').focus(function(){
-			            $('#errorMessage').text('');
-			        });
-			        $('#userEmail').focus(function(){
-			            $('#errorMessage').text('');
-			        });
-					$('.modal-close').click(function(){
-						$('#errorMessage').text('');
-					}); //modal-close
-					$(window).click(function(event){
-						if($(event.target).hasClass('modal')){
-							$('#errorMessage').text('');
-						}//if
-					}); //window
 				}//else
 			},
 			error: function(xhr,status, error){
@@ -181,6 +167,21 @@ $(document).ready(function(){
 			}			
 		}); //ajax
 	}); //login-modal-button	
+	
+	// 입력 필드에 마우스 클릭 또는 키보드 입력 생길 시 오류 메시지 제거
+    $('#userEmail, #userPw').on('input focus', function() {
+        $('#errorMessage').text('');
+    });
+    // 모달 닫기 버튼 클릭 시 오류 메시지 제거
+    $('.modal-close').click(function(){
+        $('#errorMessage').text('');
+    });
+    // 모달 외부 클릭 시 오류 메시지 제거
+    $(window).click(function(event){
+        if($(event.target).hasClass('modal')){
+            $('#errorMessage').text('');
+        }
+    }); 	
 });//ready
 
 
