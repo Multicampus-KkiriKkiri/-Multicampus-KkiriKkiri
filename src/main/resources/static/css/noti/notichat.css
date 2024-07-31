@@ -17,6 +17,17 @@ body.noti-body {
     max-width: 1200px;
 }
 
+/* .chatContainer {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+} */
+
 .chatContainer {
     display: flex;
     align-items: flex-start;
@@ -26,6 +37,13 @@ body.noti-body {
     margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer; /* 커서 모양 변경 */
+}
+
+.chatContainer:hover {
+    background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* 마우스 오버 시 그림자 효과 강화 */
 }
 
 .groupImage {
@@ -36,7 +54,7 @@ body.noti-body {
 .groupImage img {
     width: 150px;
     height: 150px;
-    border-radius: 50%;
+    border-radius: 10px; /* 타원형을 네모 모양으로 변경 */
     margin-bottom: 10px;
 }
 
@@ -54,15 +72,24 @@ body.noti-body {
     margin-left: 20px;
 }
 
+.profileImage, .userNickname, .chatTime {
+    display: inline-block; /* 한 줄에 배치하기 위해 inline-block 사용 */
+    vertical-align: middle; /* 수직 정렬 */
+}
+
+.profileImage {
+    margin-right: 10px; /* 요소 간 간격 추가 */
+}
+
 .userNickname {
     font-weight: bold;
     font-size: 1.2em;
+    margin-right: 10px; /* 요소 간 간격 추가 */
 }
 
 .chatTime {
     color: #999;
     font-size: 0.9em;
-    margin-top: 5px;
 }
 
 .chatMessage {
