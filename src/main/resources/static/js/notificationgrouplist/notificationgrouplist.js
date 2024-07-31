@@ -2,7 +2,7 @@ $(document).ready(function() {
     var page = 0;
     var size = 10;
     var loading = false;
-    var notifications = []; // 로드된 알림을 저장할 배열
+    var noMoreNotifications = false; // 더 이상 알림이 없는지 여부를 저장할 변수
 
     function loadNotifications(page, size) {
         $.ajax({
@@ -11,9 +11,20 @@ $(document).ready(function() {
             data: { page: page, size: size },
             success: function(response) {
                 console.log("Loaded notifications: ", response);
-                appendNotifications(response);
-                notifications = notifications.concat(response); // 로드된 알림을 저장
-                loading = false;
+                if (response.length === 0) {
+                    if (page === 0 && $("#initial-notifications").children().length === 0 && $("#ajax-notifications").children().length === 0) {
+                        $("#ajax-notifications").html('<div id="no-notifications">알림이 없습니다.</div><br>');
+                    }
+                    // 더 이상 알림이 없으므로 무한 스크롤 중단
+                    noMoreNotifications = true;
+                    loading = false;
+                } else {
+                    if ($("#no-notifications").length) {
+                        $("#no-notifications").remove(); // 기존 "알림이 없습니다" 메시지 제거
+                    }
+                    appendNotifications(response);
+                    loading = false;
+                }
             },
             error: function(xhr, status, error) {
                 console.log("Error loading notifications: ", error);
@@ -24,28 +35,23 @@ $(document).ready(function() {
 
     function appendNotifications(notification) {
         var container = $("#ajax-notifications");
-
-        if (notification.length === 0 && container.children().length === 0) {
-            container.append('<div>알림이 없습니다.</div><br>');
-        } else {
-            notification.forEach(function(dto) {
-                if ($("div[data-id='" + dto.notificationId + "']").length === 0) { // 중복 추가 방지
-                    var notificationItem = `
-                        <div class="notification-item" data-id="${dto.notificationId}">
-                            <div>${dto.notificationTime}</div>
-                            <div>${dto.notificationText}</div>
-                            <div>
-                                <form class="delete-form">
-                                    <input type="hidden" name="notificationId" value="${dto.notificationId}">
-                                    <button type="button" class="delete-button">삭제</button>
-                                </form>
-                            </div>
+        notification.forEach(function(dto) {
+            if ($("div[data-id='" + dto.notificationId + "']").length === 0) { // 중복 추가 방지
+                var notificationItem = `
+                    <div class="notification-item" data-id="${dto.notificationId}">
+                        <div>${dto.notificationTime}</div>
+                        <div>${dto.notificationText}</div>
+                        <div>
+                            <form class="delete-form">
+                                <input type="hidden" name="notificationId" value="${dto.notificationId}">
+                                <button type="button" class="delete-button">삭제</button>
+                            </form>
                         </div>
-                    `;
-                    container.append(notificationItem);
-                }
-            });
-        }
+                    </div>
+                `;
+                container.append(notificationItem);
+            }
+        });
     }
 
     $(document).on("click", ".delete-button", function(event) {
@@ -63,7 +69,6 @@ $(document).ready(function() {
             success: function(response) {
                 console.log("Response: ", response);
                 $("div[data-id='" + notificationId + "']").remove();
-                notifications = notifications.filter(n => n.notificationId !== parseInt(notificationId)); // 상태에서 제거
             },
             error: function(xhr, status, error) {
                 console.log("Error: ", error);
@@ -82,7 +87,7 @@ $(document).ready(function() {
     };
 
     var handleScroll = debounce(function() {
-        if (!loading && $(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
+        if (!loading && !noMoreNotifications && $(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
             loading = true;
             page++;
             loadNotifications(page, size);
@@ -93,10 +98,13 @@ $(document).ready(function() {
 
     // 초기 알림 로드
     loadNotifications(page, size);
-    
+
     // 일정 시간마다 알림을 새로고침
     setInterval(function() {
-        loadNotifications(0, size); // 첫 페이지의 최신 알림 로드
+        if (!loading && !noMoreNotifications) {
+            $("#ajax-notifications").empty(); // 기존 알림 제거
+            page = 0; // 페이지 리셋
+            loadNotifications(page, size); // 첫 페이지의 최신 알림 로드
+        }
     }, 60000); // 60초마다 새로고침
-    
 });

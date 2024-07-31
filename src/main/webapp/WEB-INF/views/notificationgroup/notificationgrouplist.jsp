@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,11 +27,11 @@
     <main>
         <div id="notification-container">
             <c:choose>
-                <c:when test="${not empty notificationMessage}">
-                    <div>${notificationMessage}</div><br>
+                <c:when test="${not empty notificationMessage && empty notification}">
+                    <div id="initial-message">${notificationMessage}</div><br>
                 </c:when>
                 <c:when test="${not empty notification}">
-                    <div class="notification-group">
+                    <div class="notification-group" id="initial-notifications">
                         <c:forEach var="dto" items="${notification}">
                             <div class="notification-item" data-id="${dto.notificationId}">
                                 <div>${dto.notificationTime}</div>
