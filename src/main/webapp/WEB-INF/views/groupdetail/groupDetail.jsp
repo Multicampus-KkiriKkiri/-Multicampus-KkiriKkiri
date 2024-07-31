@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Map" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,6 +10,7 @@
 <title>${ groupDTO.groupName }</title>
 <script src="/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/groupdetail/groupQuit.js"></script>
 <script src="/js/groupdetail/groupJoin.js"></script>
 <script src="/js/groupdetail/groupDetail.js"></script>
 <script>
@@ -20,13 +22,21 @@
 	var groupSignUpType = "${groupDTO.groupSignUpType}";
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
-	 $(document).ready(function() {
+  var leaderProfileImg = "${groupLeaderDTO.profileImage}";
+	var leaderName = "${groupLeaderDTO.userNickname}";
+	var groupSignUpQuestion = "${groupDTO.groupSignUpQuestion}";
+	var userEventAttendApplyHistory = "${userEventAttendApplyHistory}";
+
+  $(document).ready(function() {
 	        // URL에 #chatTapBtn이 있으면 자동으로 채팅 탭으로 이동
 	        if (window.location.hash === '#chatTapBtn') {
 	            $('#chatTapBtn').click();
 	        }
 	    });
+
 </script>
+<link rel="stylesheet" type="text/css" href="/css/groupdetail/groupQuit.css">
+<link rel="stylesheet" type="text/css" href="/css/groupdetail/groupJoin.css">
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
@@ -57,14 +67,23 @@
 						${category}
 					</span>
 				</div>
+				<%
+				Map<String, String> regionMap = (Map<String, String>)request.getAttribute("regionMap");
+				String groupDistrictName = regionMap.get("groupDistrict");
+				// groupDistrictName 이 '온라인'이 아닐때
+				if(!groupDistrictName.equals("온라인")) {
+				%>
 				<div id="groupRegionDiv" class="groupInfoDiv">
 					<span class="groupInfoIconSpan">
 						<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#7d7d7d"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"/></svg>
 					</span>
-					<span> 
+					<span>
 						${regionMap.groupRegion} ${regionMap.groupDistrict}
 					</span>
 				</div>
+				<%
+				}
+				%>
 				<div id="groupTypeDiv" class="groupInfoDiv">
 					<span class="groupInfoIconSpan" id="groupTypeIconSpan"> 
 						<!-- groupDetail.js 에서 추가 -->

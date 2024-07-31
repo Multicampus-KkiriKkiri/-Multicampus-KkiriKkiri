@@ -81,7 +81,7 @@ function getUserNincknameAndProfileImage() {
 function insertDateMessage(chatLog, date, isFirst = false) {
     var dateMessage = document.createElement("p");
     dateMessage.className = 'chatMessageP dateMessageP';
-    dateMessage.innerHTML = date;
+    dateMessage.innerHTML = formatDateString(date);
     if (isFirst) {
         chatLog.insertBefore(dateMessage, chatLog.firstChild);
     } else {
@@ -347,20 +347,20 @@ function saveChatMessage(myMessage, currentTime) {
 } // saveChatMessage() end
 
 // 날짜 형식을 'yyyy-MM-dd HH:mm:ss'로 변환하는 함수
-function formatDate(date) {
-    var year = date.getFullYear();
-    var month = ('0' + (date.getMonth() + 1)).slice(-2);
-    var day = ('0' + date.getDate()).slice(-2);
-    var hours = ('0' + date.getHours()).slice(-2);
-    var minutes = ('0' + date.getMinutes()).slice(-2);
-    var seconds = ('0' + date.getSeconds()).slice(-2);
+function formatDate(dateTime) {
+    var year = dateTime.getFullYear();
+    var month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+    var day = ('0' + dateTime.getDate()).slice(-2);
+    var hours = ('0' + dateTime.getHours()).slice(-2);
+    var minutes = ('0' + dateTime.getMinutes()).slice(-2);
+    var seconds = ('0' + dateTime.getSeconds()).slice(-2);
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 } // formatDate() end
 
 // 날짜 형식을 '오전/오후 h:mm' 형식으로 변환하는 함수
-function formatTimeToKorean(date) {
-    var hours = date.getHours();
-    var minutes = ('0' + date.getMinutes()).slice(-2);
+function formatTimeToKorean(dateTime) {
+    var hours = dateTime.getHours();
+    var minutes = ('0' + dateTime.getMinutes()).slice(-2);
     var period = hours < 12 ? '오전' : '오후';
 
     // 12시간 형식으로 변환
@@ -369,3 +369,19 @@ function formatTimeToKorean(date) {
 
     return period + ' ' + hours + ':' + minutes;
 }
+
+// 날짜 형식을 '${year}년 ${month}월 ${day}일' 형식으로 변환하는 함수
+function formatDateString(dateString) {
+    // 입력받은 날짜 문자열을 Date 객체로 변환
+    var date = new Date(dateString);
+
+    // Date 객체에서 연도, 월, 일 추출
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+    var day = date.getDate();
+
+    // 원하는 형식의 문자열로 변환
+    var formattedDate = `${year}년 ${month}월 ${day}일`;
+
+    return formattedDate;
+} // formatDateString() end

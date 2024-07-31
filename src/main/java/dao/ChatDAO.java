@@ -44,5 +44,13 @@ public class ChatDAO {
 	public int deleteOldChatsFromChat() {
 		return session.delete("deleteOldChatsFromChat");
 	}
+
+	public int deleteQuitMemberChatInChat(HashMap map) {
+		return session.delete("deleteQuitMemberChatInChat");
+	}
+
+	public int deleteQuitMemberChatInChatHistroy(HashMap map) {
+		return session.delete("deleteQuitMemberChatInChatHistroy");
+	}
 	
 }

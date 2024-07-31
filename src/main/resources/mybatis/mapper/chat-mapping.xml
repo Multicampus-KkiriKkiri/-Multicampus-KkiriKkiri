@@ -63,5 +63,13 @@
     	DELETE FROM `chat` WHERE chatTime < DATE_SUB(NOW(), INTERVAL 30 DAY)
     	]]>
     </delete>
+    
+	    <delete id="deleteQuitMemberChatInChat">
+    	DELETE FROM `chat` WHERE userId = #{userId} AND groupId = #{groupId}
+    </delete>
+    
+    <delete id="deleteQuitMemberChatInChatHistroy">
+    	DELETE FROM `chat_history` WHERE userId = #{userId} AND groupId = #{groupId}
+    </delete>
 	
 </mapper>

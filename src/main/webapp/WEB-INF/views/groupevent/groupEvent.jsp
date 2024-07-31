@@ -5,10 +5,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="/js/groupevent/groupEventAttendCancel.js"></script>
+		<script src="/js/groupevent/groupEventAttend.js"></script>
 		<script src="/js/groupevent/groupEvent.js"></script>
 		<script>
+			/* js 파일로 주입 */
 			var checkGroupMemberCnt = "${checkGroupMemberCnt}";
+			var userEventAttendApplyHistory = "${userEventAttendApplyHistory}"
 		</script>
+		<link rel="stylesheet" type="text/css" href="/css/groupevent/groupEventAttendCancel.css">	
+		<link rel="stylesheet" type="text/css" href="/css/groupevent/groupEventAttend.css">	
 		<link rel="stylesheet" type="text/css" href="/css/groupevent/groupEvent.css">	
 	</head>
 	
