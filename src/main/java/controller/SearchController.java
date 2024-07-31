@@ -31,7 +31,8 @@ public class SearchController {
     @GetMapping("/groupsearch")
     public ModelAndView getGroupsAtHeader(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) Integer userRegionId) {
+            @RequestParam(required = false) Integer userRegionId,
+            HttpSession session) {
         
         Integer regionId = (userRegionId == null || userRegionId == 0) ? null : userRegionId;
         
@@ -58,15 +59,47 @@ public class SearchController {
 
         List<Map<String, Object>> groups = searchService.getGroups(map);
         int groupCount = searchService.getGroupsCount(map);
-
-        ModelAndView mv = new ModelAndView("search/searchlist");
-        mv.addObject("searchType", searchType);
-        mv.addObject("map", map);
-        mv.addObject("groups", groups);
-        mv.addObject("groupCount", groupCount);
-        mv.addObject("currentPage", page);
-        mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
-        mv.addObject("userRegionId", userRegionId); // Add userRegionId to the model
+        
+        ModelAndView mv = new ModelAndView();
+        
+        if(session == null || session.getAttribute("sessionUserId") == null) {
+        	
+        	mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("groups", groups);
+            mv.addObject("groupCount", groupCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
+            mv.addObject("userRegionId", userRegionId);
+            mv.setViewName("search/searchlist");
+            
+        } else {
+        	
+        	/*로그인 사용자 userDTO 가져오기*/
+        	Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
+        	UserDTO user = userService.getUserInfo(sessionUserId);
+        	
+        	if (user != null) {
+	        	/*사용자 프로필 사진*/
+	        	String profileImage = "/upload/" + user.getProfileImage();
+				/* 사용자 지역정보(Region만) */
+	        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+	        	
+	        	mv.addObject("profileImage", profileImage);
+	        	mv.addObject("userRegion", userRegion);
+        	}
+        	
+        	mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("groups", groups);
+            mv.addObject("groupCount", groupCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
+            mv.addObject("userRegionId", userRegionId);
+            mv.setViewName("search/searchlistatlogin");
+            
+        }
+        	
         return mv;
     }
 
@@ -81,7 +114,8 @@ public class SearchController {
             @RequestParam(required = false) String onlineOffline,
             @RequestParam(defaultValue = "new") String sortOrder, 
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "15") int pageSize) {
+            @RequestParam(defaultValue = "15") int pageSize,
+            HttpSession session) {
 
         int offset = (page - 1) * pageSize;
 
@@ -97,14 +131,43 @@ public class SearchController {
 
         List<Map<String, Object>> groups = searchService.getGroups(map);
         int groupCount = searchService.getGroupsCount(map);
-
-        ModelAndView mv = new ModelAndView("search/searchlist");
-        mv.addObject("searchType", searchType);
-        mv.addObject("map", map);
-        mv.addObject("groups", groups);
-        mv.addObject("groupCount", groupCount);
-        mv.addObject("currentPage", page);
-        mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
+       
+        ModelAndView mv = new ModelAndView();
+        
+        if(session == null || session.getAttribute("sessionUserId") == null) {
+        	
+            mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("groups", groups);
+            mv.addObject("groupCount", groupCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
+            mv.setViewName("search/searchlist");
+            
+        } else {
+        	
+        	/*로그인 사용자 userDTO 가져오기*/
+        	Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
+        	UserDTO user = userService.getUserInfo(sessionUserId);
+        	
+        	if (user != null) {
+	        	/*사용자 프로필 사진*/
+	        	String profileImage = "/upload/" + user.getProfileImage();
+				/* 사용자 지역정보(Region만) */
+	        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+	        	
+	        	mv.addObject("profileImage", profileImage);
+	        	mv.addObject("userRegion", userRegion);
+        	}
+        	
+        	mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("groups", groups);
+            mv.addObject("groupCount", groupCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) groupCount / pageSize));
+            mv.setViewName("search/searchlistatlogin");
+        }
 
         return mv;
     }
@@ -119,7 +182,8 @@ public class SearchController {
             @RequestParam(required = false) String onlineOffline,
             @RequestParam(defaultValue = "new") String sortOrder,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "15") int pageSize) {
+            @RequestParam(defaultValue = "15") int pageSize,
+            HttpSession session) {
 
         int offset = (page - 1) * pageSize;
 
@@ -135,16 +199,47 @@ public class SearchController {
 
         List<Map<String, Object>> events = searchService.getEvents(map);
         int eventCount = searchService.getEventsCount(map);
-
-        ModelAndView mv = new ModelAndView("search/searchlist");
-        mv.addObject("searchType", searchType);
-        mv.addObject("map", map);
-        mv.addObject("events", events);
-        mv.addObject("eventCount", eventCount);
-        mv.addObject("currentPage", page);
-        mv.addObject("totalPages", (int) Math.ceil((double) eventCount / pageSize));
+        
+        ModelAndView mv = new ModelAndView();
+        
+        if (session == null || session.getAttribute("sessionUserId") == null) {
+        	
+        	mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("events", events);
+            mv.addObject("eventCount", eventCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) eventCount / pageSize));
+            mv.setViewName("search/searchlist");
+            
+        } else {
+        	
+        	/*로그인 사용자 userDTO 가져오기*/
+        	Integer sessionUserId = (Integer) session.getAttribute("sessionUserId");
+        	UserDTO user = userService.getUserInfo(sessionUserId);
+        	
+        	if (user != null) {
+	        	/*사용자 프로필 사진*/
+	        	String profileImage = "/upload/" + user.getProfileImage();
+				/* 사용자 지역정보(Region만) */
+	        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+	        	
+	        	mv.addObject("profileImage", profileImage);
+	        	mv.addObject("userRegion", userRegion);
+        	}
+        	
+        	mv.addObject("searchType", searchType);
+            mv.addObject("map", map);
+            mv.addObject("events", events);
+            mv.addObject("eventCount", eventCount);
+            mv.addObject("currentPage", page);
+            mv.addObject("totalPages", (int) Math.ceil((double) eventCount / pageSize));
+            mv.setViewName("search/searchlistatlogin");       	
+        	
+        }
 
         return mv;
+        
     }
 
 }

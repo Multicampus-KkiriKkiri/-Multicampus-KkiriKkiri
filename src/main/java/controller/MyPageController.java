@@ -404,6 +404,7 @@ public class MyPageController {
 	            
 	            myGroupAsLeader.setGroupName(group.getGroupName());
 	            myGroupAsLeader.setGroupType(group.getGroupType());
+	            myGroupAsLeader.setGroupId(group.getGroupId());
 
 	            List<String> groupRegionNames = groupService.getRegionName(group.getGroupRegionId());
 	            List<String> groupDistrictNames = groupService.getDistrictName(group.getGroupDistrictId());

@@ -271,7 +271,7 @@ main{
 /*내 모임 목록*/
 /*모임 보여지는 div 최소 크기 지정*/
 #my-group-content{
-	min-height: 384px;
+	min-height: 350px;
 }
 
 /*모임 이미지 & 이름*/
@@ -303,9 +303,9 @@ main{
 }
 
 /*내 그룹/일정이 없을 경우 보여지는 메시지*/
-.my-page-no-group-message img{
-	width: 20%;
-	height: 65%;
+.my-page-no-group-message img{	
+	width: 140px;
+	height: 180px;
 }
 
 .my-page-no-group-message{
@@ -313,8 +313,8 @@ main{
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding-top: 5rem;
-	padding-bottom: 5rem;
+	padding-top: 4rem;
+	padding-bottom: 2rem;
 }
 
 .my-page-no-group-message a{
@@ -333,7 +333,7 @@ main{
 /*일정 목록*/
 /*일정 보여지는 div 최소 크기 지정*/
 #my-event-content{
-	min-height: 384px;
+	min-height: 350px;
 }
 
 #my-events{

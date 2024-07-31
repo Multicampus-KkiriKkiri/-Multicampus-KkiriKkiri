@@ -101,8 +101,8 @@ function loadTabContent(tab) {
         success: function(data) {
             $("#groupTapPageSection").html(data);
             
-            // 모임설명&가입멤버 탭일 경우, 모임원 목록 다시 로드
-            if (tab === 'info') {
+            // [모임 상세] 탭일 경우, 모임원 목록 다시 로드
+            if (tab === 'info') { 
                 loadGroupMembers();
             }
             
@@ -406,16 +406,20 @@ function copyPageUrlToClipboard() {
 	});
 } // copyPageUrlToClipboard() end
 
+
 // 모임 이름 길어지는 경우 글자 크기 조정하는 함수
 function adjustFontSize() {
 	const groupNameDiv = document.getElementById('groupNameDiv');
 	const maxHeight = 150; // 고정된 세로 크기
-	let fontSize = 50; // 초기 글자 크기
+	let fontSize = 35; // 초기 글자 크기
 	groupNameDiv.style.fontSize = `${fontSize}px`;
 
 	// 글자 크기를 줄이면서 내용이 div 내에 모두 표시될 때까지 반복
 	while (groupNameDiv.scrollHeight > maxHeight && fontSize > 10) {
-		fontSize -= 5;
+		fontSize -= 2;
 		groupNameDiv.style.fontSize = `${fontSize}px`;
 	}
 }
+
+
+

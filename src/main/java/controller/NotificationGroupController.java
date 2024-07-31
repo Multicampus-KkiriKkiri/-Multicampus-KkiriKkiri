@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.NotificationDTO;
+import dto.UserDTO;
 import jakarta.servlet.http.HttpSession;
+import service.GroupService;
 import service.NotificationService;
+import service.UserService;
 
 @RestController
 public class NotificationGroupController {
@@ -23,6 +26,12 @@ public class NotificationGroupController {
     @Autowired
     @Qualifier("notificationServiceImple")
     NotificationService notificationService;
+    
+    @Autowired
+    UserService userService;
+    
+    @Autowired
+    GroupService groupService;
 
     @GetMapping("/notificationgrouplist")
     public ModelAndView getNotificationGroupList(HttpSession session, 
@@ -34,6 +43,14 @@ public class NotificationGroupController {
         if (userId != null) {
             int offset = page * size;
             List<NotificationDTO> notification = notificationService.getNotification(userId, offset, size);
+            UserDTO user = userService.getUserInfo(userId);
+            
+            String profileImage = "/upload/" + user.getProfileImage();
+            
+        	String userRegion = groupService.getRegionNameByRegionId(user.getUserRegionId());
+        	
+        	mv.addObject("profileImage", profileImage);
+        	mv.addObject("userRegion", userRegion);
 
             if (notification.isEmpty() && page == 0) {
                 mv.addObject("notificationMessage", "알림이 없습니다.");
