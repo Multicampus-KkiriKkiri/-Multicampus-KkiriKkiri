@@ -122,7 +122,7 @@
                 </div>
             </div>
             
-            <button type="submit" id="register_submit" class="btn btn-primary">모임 등록</button>
+            <button type="submit" id="register_submit" class="btn">모임 등록</button>
         </form>
     </div>
     

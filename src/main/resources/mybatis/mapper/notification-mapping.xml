@@ -5,7 +5,8 @@
 <mapper namespace="dao.NotificationDAO">
 
 	<select id="getNotification" resultType="notificationdto" parameterType="map">
-		select * from notification where userId=#{userId} LIMIT #{size} OFFSET #{offset}
+		select * from notification where userId=#{userId} order by notificationId DESC 
+		LIMIT #{size} OFFSET #{offset} 
 	</select>
 	 
 	<insert id="insertNotification" parameterType="notificationdto">
