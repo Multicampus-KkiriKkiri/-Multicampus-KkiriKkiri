@@ -1,69 +1,29 @@
 /* groupEventAttendCancel.css */
 
-/* 일정 참여 취소 팝업창 body */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #F6F7F8;
+/* 일정 참여 취소창 모달 */
+.eventAttendCancel-wide-modal {
+	width: 610px;
 }
 
-/* 일정 참여 취소 팝업 헤더 */
-#eventAttendCancelHeaderDiv div {
-	background-color: white;
+#eventAttendCancelGuideDiv {
     padding: 20px;
-    width: 500px;
+    width: 510px;
     text-align: center;
     border-radius: 10px;
     margin: 20px;
     border: 1px solid #ccc;
 }
 
-#eventAttendCancelGuideDiv1 {
-	font-size: 25px;
-	font-weight: bold;
-}
-
-#eventAttendCancelGuideDiv2 li{
-	font-size: 15px;
+#eventAttendCancelGuideDiv li {
 	text-align: left;
+	padding: 3px 0;
 }
 
-#eventAttendCancelGuideDiv2 ul{
+#eventAttendCancelGuideDiv ul{
 	text-align: center;
 	margin: 0 auto;
 }
 
-#checkDiv, #eventAttendCancelbtnsDiv {
-	display: flex;
-    justify-content: center;
-    align-items: center;
-	background-color: white;
-    padding: 20px;
-    width: 500px;
-    text-align: center;
-    border-radius: 10px;
-    margin: 20px;
-    border: 1px solid #ccc;
-    gap: 200px;
-}
-
-#eventAttendCancelbtnsDiv button{
-	margin-left: 5px;
-	margin-right: 5px;
-	padding: 10px;
-	width: 100px;
-	height: 48px;
-	border-radius: 7px;	
-	border: none;
-	background-color: #eaf2ea;
-	font-weight: bold;	
-	color:#3b5f3e;
-}
-
-#eventAttendCancelbtnsDiv button:hover {
-	background-color: #8fbc8f;
-	color: white;
+.eventAttendCancel-custom-confirm-button {
+	background-color: #E15C31 !important;
 }

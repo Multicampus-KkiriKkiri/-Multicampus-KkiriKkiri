@@ -1,51 +1,29 @@
 /* groupQuit.css */
 
-/* 모임 탈퇴 팝업창 body */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #F6F7F8;
+/* 모임 탈퇴창 모달 */
+.groupQuit-wide-modal {
+	width: 610px;
 }
 
-/* 모임 탈퇴창 헤더 */
-#groupQuitHeaderDiv div {
-	background-color: white;
+#groupQuitGuideDiv {
     padding: 20px;
-    width: 500px;
+    width: 510px;
     text-align: center;
     border-radius: 10px;
     margin: 20px;
     border: 1px solid #ccc;
 }
 
-#quitHeaderGuideDiv1 {
-	font-size: 25px;
-	font-weight: bold;
-}
-
-#quitHeaderGuideDiv2 li{
-	font-size: 15px;
+#groupQuitGuideDiv li {
 	text-align: left;
+	padding: 3px 0;
 }
 
-#quitHeaderGuideDiv2 ul{
+#groupQuitGuideDiv ul{
 	text-align: center;
 	margin: 0 auto;
 }
 
-#checkDiv, #QuitBtnsDiv {
-	display: flex;
-    justify-content: center;
-    align-items: center;
-	background-color: white;
-    padding: 20px;
-    width: 500px;
-    text-align: center;
-    border-radius: 10px;
-    margin: 20px;
-    border: 1px solid #ccc;
-    gap: 200px;
+.groupQuit-custom-confirm-button {
+	background-color: #E15C31 !important;
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +16,7 @@ import dto.EventDTO;
 import dto.EventDTO2;
 import dto.GroupDTO;
 import dto.UserDTO;
+import jakarta.servlet.http.HttpSession;
 import service.EventMemberService;
 import service.EventService;
 import service.GroupMemberService;
@@ -47,7 +47,7 @@ public class GroupEventController {
 	UserService userService;
 
 	@RequestMapping("/event")
-	ModelAndView groupEvent(int groupId) {
+	ModelAndView groupEvent(int groupId, HttpSession session) {
 				
 		// 모임 일정 목록 가져오기
 		List<EventDTO> eventList = eventService.getGroupEventList(groupId);
@@ -84,6 +84,17 @@ public class GroupEventController {
 		
 		
 		ModelAndView mv = new ModelAndView();
+		
+		if (session.getAttribute("sessionUserInfo") != null) { // 로그인 상태 시
+			int userId = (int)session.getAttribute("sessionUserId");
+			
+			// 모임 내 다가올 일정에 참여 신청한 내역 가져오기
+			HashMap<String, Integer> map = new HashMap<>();
+			map.put("userId", userId);
+			map.put("groupId", groupId);
+			mv.addObject("userEventAttendApplyHistory", eventMemberService.getMemberEventAttendApplyHistory(map).size() > 0 ? "일정 신청 내역 있음" : "일정 신청 내역 없음");
+		}
+		
 		mv.addObject("upcomingEventList", upcomingEventList);
 		mv.addObject("pastEventList", pastEventList);
 		mv.addObject("checkGroupMemberCnt", checkGroupMemberCnt);
@@ -163,21 +174,6 @@ public class GroupEventController {
 		
 	}
 	
-	// 일정 참여 신청 팝업창 열기
-	@GetMapping("/eventattend")
-	ModelAndView eventAttend(int userId, int groupId, int eventId) {
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("userId", userId);
-		mv.addObject("groupId", groupId);
-		mv.addObject("eventId", eventId);
-
-		mv.setViewName("groupevent/groupEventAttend");
-
-		return mv;
-
-	}
-	
 	// 일정 참여 신청 과정
 	@PostMapping("/eventattend")
 	@ResponseBody
@@ -190,21 +186,6 @@ public class GroupEventController {
 		
 		return eventMemberService.addMemberToEvent(map);
 			
-	}
-	
-	// 일정 참여 취소 팝업창 열기
-	@GetMapping("/eventattendcancel")
-	ModelAndView eventAttendCancel(int userId, int groupId, int eventId) {
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("userId", userId);
-		mv.addObject("groupId", groupId);
-		mv.addObject("eventId", eventId);
-
-		mv.setViewName("groupevent/groupEventAttendCancel");
-
-		return mv;
-
 	}
 	
 	// 일정 참여 취소 과정

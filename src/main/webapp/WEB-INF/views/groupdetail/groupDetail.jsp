@@ -10,6 +10,7 @@
 <title>${ groupDTO.groupName }</title>
 <script src="/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/groupdetail/groupQuit.js"></script>
 <script src="/js/groupdetail/groupJoin.js"></script>
 <script src="/js/groupdetail/groupDetail.js"></script>
 <script>
@@ -21,7 +22,13 @@
 	var groupSignUpType = "${groupDTO.groupSignUpType}";
 	var groupMemberCnt = ${groupMemberCnt};
 	var groupMaximumMemberCnt = ${groupDTO.groupMaximum};
+	var leaderProfileImg = "${groupLeaderDTO.profileImage}";
+	var leaderName = "${groupLeaderDTO.userNickname}";
+	var groupSignUpQuestion = "${groupDTO.groupSignUpQuestion}";
+	var userEventAttendApplyHistory = "${userEventAttendApplyHistory}";
 </script>
+<link rel="stylesheet" type="text/css" href="/css/groupdetail/groupQuit.css">
+<link rel="stylesheet" type="text/css" href="/css/groupdetail/groupJoin.css">
 <link rel="stylesheet" type="text/css" href="/css/groupdetail/groupDetail.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import dto.GroupDTO;
 import dto.UserDTO;
 import jakarta.servlet.http.HttpSession;
+import service.ChatService;
+import service.EventMemberService;
 import service.GroupMemberService;
 import service.GroupService;
 import service.InterestService;
@@ -39,6 +41,12 @@ public class GroupDetailController {
 
 	@Autowired
 	NotificationService notificationService;
+	
+	@Autowired
+	EventMemberService eventMemberService;
+	
+	@Autowired
+	ChatService chatService;
 
 	// 모임 상세 첫 화면
 	@GetMapping("/info")
@@ -58,16 +66,22 @@ public class GroupDetailController {
 			regionMap.put("groupRegion", groupService.getRegionNameByRegionId(groupDTO.getGroupRegionId()));
 			regionMap.put("groupDistrict", groupDistrictName);
 		}
-		
-		
+			
 		session.setAttribute("currentGroupId", groupId); // groupId를 세션에 저장 --안병찬- groupSettingSController에서 groupId를 사용해야할것같아서.
 		
 		ModelAndView mv = new ModelAndView();
 
 		if (session.getAttribute("sessionUserInfo") != null) { // 로그인 상태 시
-			mv.addObject("userId", (int)session.getAttribute("sessionUserId"));
+			int userId = (int)session.getAttribute("sessionUserId");
+			mv.addObject("userId", userId);
 			mv.addObject("profileImage", "/upload/" + ((UserDTO)session.getAttribute("sessionUserInfo")).getProfileImage());
 			mv.addObject("userRegion", groupService.getRegionNameByRegionId(((UserDTO)session.getAttribute("sessionUserInfo")).getUserDistrictId()));
+			
+			// 모임 내 다가올 일정에 참여 신청한 내역 가져오기
+			HashMap<String, Integer> map = new HashMap<>();
+			map.put("userId", userId);
+			map.put("groupId", groupId);
+			mv.addObject("userEventAttendApplyHistory", eventMemberService.getMemberEventAttendApplyHistory(map).size() > 0 ? "일정 신청 내역 있음" : "일정 신청 내역 없음");
 		} else {
 			mv.addObject("userId", 0);
 		}
@@ -154,29 +168,7 @@ public class GroupDetailController {
 				}
 			}
 		} // check user autority if end
-	}
-
-	// 모임 가입 팝업창 열기(승인제)
-	@GetMapping("/groupjoin")
-	ModelAndView groupJoin(int userId, int groupId) {
-
-		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
-		UserDTO tmpDTO = userService.getUserInfo(groupDTO.getGroupLeaderId());
-		UserDTO leaderDTO = new UserDTO();
-		leaderDTO.setUserId(tmpDTO.getUserId());
-		leaderDTO.setProfileImage(tmpDTO.getProfileImage());
-		leaderDTO.setUserNickname(tmpDTO.getUserNickname());
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("userId", userId);
-		mv.addObject("groupDTO", groupDTO);
-		mv.addObject("groupLeaderDTO", leaderDTO);
-
-		mv.setViewName("groupdetail/groupJoin");
-
-		return mv;
-
-	}
+	} // checkUserAuthority() end
 
 	// 모임 가입 신청 과정
 	@PostMapping("/groupjoin")
@@ -225,65 +217,21 @@ public class GroupDetailController {
 			return insertRow; // error
 		}
 		
-	}
-
-	// 모임 탈퇴 팝업창 열기
-	@GetMapping("/groupquit")
-	ModelAndView groupQuit(int userId, int groupId) {
-
-		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
-
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("userId", userId);
-		mv.addObject("groupDTO", groupDTO);
-
-		mv.setViewName("groupdetail/groupQuit");
-
-		return mv;
-
-	}
+	} // submitGroupJoinApply() end
 
 	// 모임 탈퇴 과정
 	@PostMapping("/groupquit")
 	@ResponseBody
 	int submitGroupQuit(int userId, int groupId) {
 
-		GroupDTO groupDTO = groupService.getGroupDetail(groupId);
-
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("groupId", groupId);
 		map.put("status", "탈퇴");
+		
+		// `group_member` 테이블에서 해당 회원 '탈퇴'로 수정
+		return groupMemberService.updateMemberToGroup(map); 
 
-		return groupMemberService.updateMemberToGroup(map);
-
-	}
-
-	// 아래는 sessionId 저장/삭제하기위한 임시코드
-
-	@GetMapping("/tmplogin")
-	ModelAndView tmpLogin() {
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("groupdetail/login_tmp");
-
-		return mv;
-
-	}
-
-	@PostMapping("/tmplogin")
-	String tmpLoginProcess(int inputUserId, HttpSession session) {
-
-		session.setAttribute("sessionUserId", inputUserId);
-
-		return "groupdetail/login_tmp";
-	}
-
-	@PostMapping("/tmplogout")
-	String tmpLogoutProcess(HttpSession session) {
-
-		session.removeAttribute("sessionUserId");
-
-		return "groupdetail/login_tmp";
-	}
+	} // submitGroupQuit() end
+	
 }

@@ -2,7 +2,7 @@
  * 모임 일정 페이지 js
  */
 
- $(document).ready(function() {
+$(document).ready(function() {
 	
 	// 사용자 권한에 따라 groupEventOptionBtn 버튼 속성 설정
 	setEventOptionBtn();
@@ -213,7 +213,7 @@ function eventOptionProcess(eventId, btnValue) {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				if(checkGroupMemberCnt === "가입 가능") {
-					groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupevent.js 파일 내 함수)					
+					groupJoinProcessByType(); // 모임 가입 과정 함수 실행(groupDetail.js 파일 내 함수)					
 				} else {
 					Swal.fire({
 			            title: "최대 가입 인원이 초과되어 가입이 불가합니다.",
@@ -225,30 +225,10 @@ function eventOptionProcess(eventId, btnValue) {
 			}
 		});
     } else if(btnValue === "attend") {
-		openEventAttendPopup(eventId);
+		openEventAttendModal(eventId); // 일정 참여 신청 모달창 열기 함수 호출(groupEventAttend.js 파일 내 함수)
 	} else if(btnValue === "cancel") {
-		openEventAttendCancelPopup(eventId);
+		openEventAttendCancleModal(eventId); // 일정 참여 신청 취소 모달창 열기 함수 호출(groupEventAttendCancel.js 파일 내 함수)
 	} else if(btnValue === "set") {
 		/* 일정 설정 페이지로 이동 */
 	} // if end
 } // groupOptionProcess() end
-
-// 일정 참여 신청 팝업창 열기 함수
-function openEventAttendPopup(eventId) {
-    var popupWidth = 600;
-    var popupHeight = 600;
-    var left = (screen.width / 2) - (popupWidth / 2);
-    var top = (screen.height / 2) - (popupHeight / 2);
-
-    window.open('/groupevent/eventattend?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
-} // openEventAttendPopup() end
-
-// 일정 참여 취소 팝업창 열기 함수
-function openEventAttendCancelPopup(eventId) {
-    var popupWidth = 600;
-    var popupHeight = 600;
-    var left = (screen.width / 2) - (popupWidth / 2);
-    var top = (screen.height / 2) - (popupHeight / 2);
-
-    window.open('/groupevent/eventattendcancel?userId=' + userId + '&groupId=' + groupId + '&eventId=' + eventId , 'eventAttendCancelPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
-} // openEventAttendCancelPopup() end

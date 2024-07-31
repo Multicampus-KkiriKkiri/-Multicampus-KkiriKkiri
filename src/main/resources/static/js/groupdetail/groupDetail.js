@@ -6,6 +6,7 @@ var auth = null; // 전역변수(사용자 권한)
 
 $(document).ready(function() {
 	
+	// 모임 이름 사이즈 조절
 	adjustFontSize();
 	
 	// 사용자 권한 확인(비회원/회원/모임원/모임장)
@@ -200,7 +201,7 @@ function groupOptionProcess(btnValue) {
 			}
 		});
 	} else if (btnValue === "join") {
-		groupJoinProcessByType();
+		groupJoinProcessByType(); // 모임 가입 과정 실행 함수 호출 (groupJoin.js 파일에 있는 함수)
     } else if(btnValue === "standby") {
 		Swal.fire({
 	        title: '가입 신청을 취소하시겠어요?',
@@ -211,46 +212,15 @@ function groupOptionProcess(btnValue) {
 	    }).then((result) => {
 	        if (result.isConfirmed) {
 	            // '예'를 클릭했을 때 실행할 코드
-	            openGroupQuitPopup(); // 대기 취소(모임 나가기 팝업창 열림)
-	        } else if (result.dismiss === Swal.DismissReason.cancel) {
-	            // '아니오'를 클릭 시 바로 종료
+	            openGroupQuitModal(); // 대기 취소(모임 나가기 모달창 열림, groupQuit.js 파일에있는 함수)
 	        }
 	    });
 	} else if(btnValue === "quit") {
-		openGroupQuitPopup();
+		openGroupQuitModal(); // 모임 나가기 실행 함수 호출(groupQuit.js 파일에있는 함수)
     } else if(btnValue === "set") {
 		openGroupSettingPage();
 	} // if end
 } // groupOptionProcess() end
-
-// 모임 가입 선착순/승인제 진행 함수
-function groupJoinProcessByType() {
-	if(groupSignUpType === "선착순") {
-		submitGroupJoin("선착순"); // 바로 가입 신청 함수 실행(groupJoin.js 파일에 있는 함수)
-	} else if(groupSignUpType === "승인제") {
-		openGroupJoinPopup(); // 가입질문 작성하는 팝업창 열기		
-	} // if end
-} // groupJoinProcessByType() end
-
-// 모임 가입 팝업창 열기 함수
-function openGroupJoinPopup() {
-    var popupWidth = 650;
-    var popupHeight = 650;
-    var left = (screen.width / 2) - (popupWidth / 2);
-    var top = (screen.height / 2) - (popupHeight / 2);
-
-    window.open('/groupdetail/groupjoin?userId=' + userId + '&groupId=' + groupId , 'groupJoinPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
-} // openGroupJoinPopup() end
-
-// 모임 나가기 팝업창 열기 함수
-function openGroupQuitPopup() {
-    var popupWidth = 600;
-    var popupHeight = 550;
-    var left = (screen.width / 2) - (popupWidth / 2);
-    var top = (screen.height / 2) - (popupHeight / 2);
-
-    window.open('/groupdetail/groupquit?userId=' + userId + '&groupId=' + groupId, 'groupQuitPopup', 'width=' + popupWidth + ', height=' + popupHeight + ', top=' + top + ', left=' + left);
-} // openGroupQuitPopup() end
 
 // 모임 설정 페이지 열기 함수
 function openGroupSettingPage() {
