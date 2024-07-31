@@ -146,18 +146,27 @@ $(document).ready(function(){
 	$('#login-modal-button').click(function(){
 		let userEmail = $('#userEmail').val();
         let userPw = $('#userPw').val();
-        //alert(userEmail +":"+userPw);
+        //로그인 바로 직전 페이지 저장
+        let redirectUrl = encodeURIComponent(window.location.href);
         
         $.ajax({
 			type: 'POST',
             url: '/main',
             data: {
                 userEmail: userEmail,
-                userPw: userPw
+                userPw: userPw,
+                redirectUrl: redirectUrl
             },
             success: function(response){
-				if(response === 'success'){
-					window.location.href = "/mainLogin";
+				if(response === 'success'){					
+					// 현재 URL에서 '/kkirikkiri'를 비교
+                    let currentPath = window.location.pathname; // URL 경로만 추출
+                    if (currentPath === '/kkirikkiri') {
+                        window.location.href = '/mainLogin';
+                    } else {
+                        // 다른 URL일 경우 저장된 원래 페이지로 리다이렉트
+                        window.location.href = decodeURIComponent(redirectUrl);
+                    }
 				} else{
 					$('#errorMessage').text('아이디 혹은 비밀번호가 다릅니다.');
 				}//else
