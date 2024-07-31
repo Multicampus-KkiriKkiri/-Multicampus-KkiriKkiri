@@ -6,8 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <title>모임 관리</title>
+    <!-- 부트스트랩 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 커스텀 CSS -->
     <link rel="stylesheet" href="<c:url value='/css/groupsettings/groupManage.css'/>">
-    <script src="<c:url value='/jquery-3.7.1.min.js'/>"></script>
+    <!-- jQuery -->
+    <script src="<c:url value='jquery-3.7.1.min.js'/>"></script>
+    <!-- Popper.js 및 부트스트랩 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- 커스텀 JS -->
     <script src="<c:url value='/js/groupsettings/groupManage.js'/>"></script>
 </head>
 <body>
@@ -46,20 +54,19 @@
                 </div>
             </div>
 
-           <div class="form-group" id="regionSelect" style="display: ${groupDTO.groupType == '오프라인' ? 'block' : 'none'};">
-         	  <label for="groupRegionId">모임 지역 선택</label>
-              	 <div class="region-container">
-                   <select id="groupRegionId" name="groupRegionId"   data-initial-region-id="${groupDTO.groupRegionId}">
-                               <!-- 지역 정보가 여기에 추가됨 -->
-                   </select>
-				</div>
-			    <div class="districts-container">
-			        <select id="groupDistrictId" name="groupDistrictId" data-initial-district-id="${groupDTO.groupDistrictId}">
-			            <!-- 구 정보가 여기에 추가됨 -->
-			        </select>
-			    </div>
-			</div>
-
+            <div class="form-group" id="regionSelect" style="display: ${groupDTO.groupType == '오프라인' ? 'block' : 'none'};">
+                <label for="groupRegionId">모임 지역 선택</label>
+                <div class="region-container">
+                    <select id="groupRegionId" name="groupRegionId" data-initial-region-id="${groupDTO.groupRegionId}">
+                        <!-- 지역 정보가 여기에 추가됨 -->
+                    </select>
+                </div>
+                <div class="districts-container">
+                    <select id="groupDistrictId" name="groupDistrictId" data-initial-district-id="${groupDTO.groupDistrictId}">
+                        <!-- 구 정보가 여기에 추가됨 -->
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label>모임 설명 & 이미지 수정</label>
@@ -102,8 +109,8 @@
                 </div>
             </div>
             <div class="form-group">
-            	<button type="button" id="deleteGroupButton" style="float: left;">모임 삭제</button>
-            	<button type="button" id="saveGroupButton" style="float: right;">수정 저장</button>
+                <button type="button" id="deleteGroupButton" style="float: left;">모임 삭제</button>
+                <button type="button" id="saveGroupButton" style="float: right;">수정 저장</button>
             </div>
         </form>
     </div>

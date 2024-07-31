@@ -1,34 +1,21 @@
+@charset "UTF-8";
 body {
     font-family: Arial, sans-serif;
 }
 
-.container {
-    width: 60%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-}
-
-h2 {
+.image-box {
+    width: 200px;
+    height: 200px;
+    border: 1px dashed #ccc;
+    position: relative;
     text-align: center;
+    overflow: hidden;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
+.image-box img {
     width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+    height: 100%;
+    object-fit: cover;
 }
 
 .description-image-box {
@@ -37,112 +24,21 @@ h2 {
     gap: 20px;
 }
 
-.image-box {
-    width: 100%;
-    max-width: 200px;
-    height: 200px;
-    border: 1px dashed #ccc;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-}
-
-.image-placeholder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-#addImageButton {
-    margin-bottom: 10px;
-}
-
-.plus-icon {
-    font-size: 50px;
-    color: #ccc;
-}
-
-#preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-textarea {
-    height: 200px;
-    resize: none;
-}
-
-.activity-type button {
-    display: inline-block;
-    width: 45%;
-    padding: 10px;
-    margin: 5px 0;
-    cursor: pointer;
-}
-
-.application-type {
+.activity-type {
     display: flex;
     flex-direction: column;
 }
 
-.application-type button {
+.activity-type .form-check {
     margin-bottom: 10px;
-}
-
-.application-description {
-    margin-top: 10px;
 }
 
 .application-description .first-come-first-served,
 .application-description .approval-system {
-    display: none; /* 기본적으로 숨김 */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    display: none;
 }
 
 .application-description .first-come-first-served.active,
 .application-description .approval-system.active {
-    display: block; /* active 클래스가 있을 때 표시 */
-}
-
-.application-type .active {
-    background-color: #ddd;
-}
-
-.region-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.region,
-.district {
-    display: inline-block;
-    padding: 10px;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.region.active,
-.district.active {
-    background-color: #ddd;
-}
-
-.districts-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-#register_submit {
-    display: flex;
-    margin-left: auto;
+    display: block;
 }

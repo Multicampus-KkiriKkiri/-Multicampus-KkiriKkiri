@@ -6,7 +6,16 @@
 <head>
     <meta charset="utf-8">
     <title>Group Settings Main</title>
-    <script src="<c:url value='/jquery-3.7.1.min.js' />"></script>
+    <!-- 부트스트랩 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="<c:url value='/css/groupsettings/groupSettingsMain.css'/>">
+    <!-- jQuery 및 Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <!-- 부트스트랩 JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- 커스텀 JS -->
     <script src="<c:url value='/js/groupsettings/groupSettingsMain.js' />"></script>
     <script>
         var groupId = ${groupDTO.groupId};  // 서버에서 전달된 groupId

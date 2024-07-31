@@ -7,28 +7,36 @@
     <meta charset="UTF-8">
     <title>모임 등록</title>
     <link rel="stylesheet" href="<c:url value='/css/groupRegister.css'/>">
-    <script src="<c:url value='/jquery-3.7.1.min.js'/>"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="<c:url value='/js/groupregister/groupRegister.js'/>"></script>
-    
 </head>
 <body>
     <header>
-        <!-- 헤더 내용 -->
+        <c:choose>
+            <c:when test="${userId == 0}">
+                <jsp:include page="../mainpage/mainHeader.jsp" />
+            </c:when>
+            <c:otherwise>
+                <jsp:include page="../mainpage/mainHeaderLogin.jsp" />
+            </c:otherwise>
+        </c:choose>
     </header>
 
-    <div class="container">
-        <h2>모임 등록</h2>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">모임 등록</h2>
 
         <!-- 모임 등록 폼 -->
         <form id="groupForm" action="<c:url value='/groupregister/register'/>" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="groupName">모임 이름</label>
-                <input type="text" id="groupName" name="groupName" required>
+            <div class="mb-3">
+                <label for="groupName" class="form-label">모임 이름</label>
+                <input type="text" id="groupName" name="groupName" class="form-control" required>
             </div>
             
-            <div class="form-group">
-                <label for="groupInterestId">모임 카테고리</label>
-                <select id="groupInterestId" name="groupInterestId" required>
+            <div class="mb-3">
+                <label for="groupInterestId" class="form-label">모임 카테고리</label>
+                <select id="groupInterestId" name="groupInterestId" class="form-select" required>
                     <option value="1">문화예술</option>
                     <option value="2">액티비티</option>
                     <option value="3">푸드/드링크</option>
@@ -36,81 +44,82 @@
                     <option value="5">기타</option>
                 </select>
             </div>
-            <!-- groupSignUpType 얘도 저장해야함.-->
-            <div class="form-group">
-                <label>활동 방식</label>
-                <div class="activity-type">
-                    <!-- <input type="button" id="offlineButton" name="groupType1" value="오프라인">
-                
-                    <input type="button" id="onlineButton"  name="groupType1" value="온라인">-->
-                     <input type="radio" id="onlineButton"  name="groupType1" value="온라인">  온라인                   
-                    <input type="radio" id="offlineButton"  name="groupType1" value="오프라인" > 오프라인
-                   
+
+            <div class="mb-3">
+                <label class="form-label">활동 방식</label>
+                <div class="form-check">
+                    <input type="radio" id="onlineButton" name="groupType1" value="온라인" class="form-check-input">
+                    <label for="onlineButton" class="form-check-label">온라인</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="offlineButton" name="groupType1" value="오프라인" class="form-check-input">
+                    <label for="offlineButton" class="form-check-label">오프라인</label>
                 </div>
             </div>
             
-                        
-            <div class="form-group" id="regionSelect">
-                <label for="groupRegionId">모임 지역 선택</label>
-                <div class="region-container">
-                    <select id="groupRegionId" name="groupRegionId">
-                        <!-- 지역 정보가 여기에 추가됨 -->
-                    </select>
-                </div>
-                <div class="districts-container">
-                    <select id="groupDistrictId" name="groupDistrictId">
-                        <!-- 구 정보가 여기에 추가됨 -->
-                    </select>
-                </div>
+            <div class="mb-3" id="regionSelect">
+                <label for="groupRegionId" class="form-label">모임 지역 선택</label>
+                <select id="groupRegionId" name="groupRegionId" class="form-select">
+                    <!-- 지역 정보가 여기에 추가됨 -->
+                </select>
+                <select id="groupDistrictId" name="groupDistrictId" class="form-select mt-2">
+                    <!-- 구 정보가 여기에 추가됨 -->
+                </select>
             </div>
             
-            <div class="form-group">
-                <label>모임 설명 & 이미지</label>
-                <div class="description-image-box">
-                    <div class="image-box">
-                        <label for="groupImage" class="image-placeholder">
-                            <img id="preview" src="#" alt="이미지 미리보기" style="display:none; max-width: 200px; max-height: 200px;">
-                            <span class="plus-icon">+</span>
-                            <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" style="display:none;">
-                            
+            <div class="mb-3">
+                <label class="form-label">모임 설명 & 이미지</label>
+                <div class="d-flex">
+                    <div class="image-box me-3">
+                        <label for="groupImage" class="d-flex justify-content-center align-items-center h-100 text-muted cursor-pointer">
+                            <img id="preview" src="#" alt="이미지 미리보기" class="img-fluid d-none" style="max-width: 200px; max-height: 200px;">
+                            <span class="fs-1">+</span>
+                            <input type="file" id="groupImage" name="groupRegisterImage" accept="image/*" class="d-none">
                         </label>
                     </div>
-                    <textarea id="groupDetail" name="groupDetail" placeholder="모임 설명을 입력하세요" required></textarea>
+                    <textarea id="groupDetail" name="groupDetail" class="form-control" placeholder="모임 설명을 입력하세요" rows="5" required></textarea>
                 </div>
             </div>
             
-            <button type="button" id="addImageButton">이미지 추가</button>
+            <button type="button" id="addImageButton" class="btn btn-secondary mb-3">이미지 추가</button>
             
-            <div class="form-group">
-                <label for="groupMaximum">참가인원(모임장 포함)</label>
-                <input type="number" id="groupMaximum" name="groupMaximum" min="2" max="300" required>
+            <div class="mb-3">
+                <label for="groupMaximum" class="form-label">참가인원(모임장 포함)</label>
+                <input type="number" id="groupMaximum" name="groupMaximum" class="form-control" min="2" max="300" required>
             </div>
             
-            <div class="form-group">
-                <label>신청 방식</label>
-                <div class="application-type">
-                    <input type="radio" class="approval-type" data-value="선착순" name="groupSignUpType" value="선착순" checked>선착순
-                    <input type="radio" class="approval-type" data-value="가입제" name="groupSignUpType" value="승인제" >승인제
+            <div class="mb-3">
+                <label class="form-label">신청 방식</label>
+                <div class="d-flex flex-column">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input approval-type" data-value="선착순" name="groupSignUpType" value="선착순" checked>
+                        <label class="form-check-label">선착순</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input approval-type" data-value="승인제" name="groupSignUpType" value="승인제">
+                        <label class="form-check-label">승인제</label>
+                    </div>
                 </div>
-                <div class="application-description">
+                <div class="mt-2">
                     <div class="first-come-first-served active">
-                        <!--  <img src="<c:url value='/images/firstcome.png' />" alt="선착순 이미지"> -->
                         <p>멤버들의 신청과 동시에 참여가 완료돼요. 누구나 참여할 수 있어서 신청률이 높아요.</p>
                     </div>
                     <div class="approval-system">
-                        <!-- <img src="<c:url value='/images/approval.png' />" alt="승인제 이미지"> -->
                         <p>호스트가 직접 멤버를 수락하거나 거절할 수 있어요. 질문을 통해 취향이 통하는 사람들과 만날 수 있어요.</p>
-                        <div class="form-group">
-                            <label for="groupSignUpQuestion">가입시 회원에게 물어볼 질문</label>
-                            <input type="text" id="groupSignUpQuestion" name="groupSignUpQuestion" style="width: 100%; height: 50px;">
-                            
+                        <div class="mb-3">
+                            <label for="groupSignUpQuestion" class="form-label">가입시 회원에게 물어볼 질문</label>
+                            <input type="text" id="groupSignUpQuestion" name="groupSignUpQuestion" class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
             
-            <button type="submit" id="register_submit">모임 등록</button>
+            <button type="submit" id="register_submit" class="btn btn-primary">모임 등록</button>
         </form>
     </div>
+    
+    <footer>
+        <jsp:include page="../mainpage/mainFooter.jsp" />
+    </footer>
 </body>
 </html>

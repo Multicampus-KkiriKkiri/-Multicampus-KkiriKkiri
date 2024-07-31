@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import service.GroupService;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
 import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
@@ -27,12 +31,11 @@ public class GroupSettingsController {
 
     @GetMapping("/main")
     public ModelAndView groupSettingsMain(@RequestParam("groupId") int groupId, HttpSession session) {
-        //System.out.println("Received request for group settings with groupId: " + groupId);
         session.setAttribute("currentGroupId", groupId);
 
         GroupDTO groupDTO = groupService.getGroupDetail(groupId);
         if (groupDTO == null) {
-            throw new IllegalArgumentException("그룹 정보를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("등록된 그룹 정보를 찾을 수 없습니다.");
         }
 
         ModelAndView mv = new ModelAndView("groupsettings/groupSettingsMain");
@@ -40,7 +43,7 @@ public class GroupSettingsController {
         mv.addObject("userId", session.getAttribute("sessionUserId"));
         return mv;
     }
-
+    
     @PostMapping("/group")
     public ModelAndView getGroupManagePage(HttpSession session) {
         return loadTabContent(session, "groupsettings/groupManage");
@@ -62,69 +65,44 @@ public class GroupSettingsController {
     }
 
     @PostMapping("/updateGroup")
-    public ModelAndView updateGroup(
-            @RequestParam("groupId") int groupId,
-            @RequestParam("groupName") String groupName,
-            @RequestParam("groupInterestId") int groupInterestId,
-            @RequestParam("groupType") String groupType,
-            @RequestParam(value = "groupRegionId", required = false) Integer groupRegionId,
-            @RequestParam(value = "groupDistrictId", required = false) Integer groupDistrictId,
-            @RequestParam("groupDetail") String groupDetail,
-            @RequestParam("groupMaximum") int groupMaximum,
-            @RequestParam("groupSignUpType") String groupSignUpType,
-            @RequestParam(value = "groupSignUpQuestion", required = false) String groupSignUpQuestion,
-            @RequestParam(value = "groupImage", required = false) MultipartFile groupImageFile,
-            HttpSession session) throws IOException {
-
-        GroupDTO groupDTO = new GroupDTO();
-        groupDTO.setGroupId(groupId);
-        groupDTO.setGroupName(groupName);
-        groupDTO.setGroupInterestId(groupInterestId);
-        groupDTO.setGroupType(groupType);
-        groupDTO.setGroupRegionId(groupRegionId);
-        groupDTO.setGroupDistrictId(groupDistrictId);
-        groupDTO.setGroupDetail(groupDetail);
-        groupDTO.setGroupMaximum(groupMaximum);
-        groupDTO.setGroupSignUpType(groupSignUpType);
-        groupDTO.setGroupSignUpQuestion(groupSignUpQuestion);
-
-        if (groupImageFile != null && !groupImageFile.isEmpty()) {
-            String imagePath = saveGroupImage(groupImageFile);
-            groupDTO.setGroupImage(imagePath);
+    @ResponseBody
+    public Map<String, Object> updateGroup(HttpSession session,
+                                            @RequestParam Map<String, String> params,
+                                            @RequestParam(value = "groupImageFile", required = false) MultipartFile groupImageFile) throws IOException {
+        // 세션에서 groupId를 가져옵니다.
+        Integer groupId = (Integer) session.getAttribute("currentGroupId");
+        if (groupId == null) {
+            throw new IllegalArgumentException("현재 그룹 ID를 세션에서 찾을 수 없습니다.");
         }
 
-        groupService.updateGroup(groupDTO);
+        // groupId는 세션에서 가져오므로, 요청 매개변수에서 제거합니다.
+        String imageFilename = "blank.png";
 
-        ModelAndView mv = new ModelAndView("redirect:/settings/main");
-        mv.addObject("groupId", groupId);
-        return mv;
-    }
-    @PostMapping("/deleteGroup")
-    public ModelAndView deleteGroup(@RequestParam("groupId") int groupId) {
-        groupService.deleteGroup(groupId);
+        if (groupImageFile != null && !groupImageFile.isEmpty()) {
+            // 이미지를 선택한 경우 새로운 파일을 저장
+            imageFilename = saveGroupImage(groupImageFile);
+        } else {
+            // 이미지 파일이 없으면 기존 이미지를 유지
+            String existingImageFilename = groupService.getExistingGroupImageFilename(groupId);
+            if (existingImageFilename != null && !existingImageFilename.isEmpty()) {
+                imageFilename = existingImageFilename;
+            }
+        }
 
-        ModelAndView mv = new ModelAndView("redirect:/mypage");
-        mv.addObject("groupId", groupId);
-        return mv;
-    }
-    @GetMapping("/regions/{regionId}")
-    @ResponseBody
-    public List<DistrictDTO> getDistrictsByRegionId(@PathVariable int regionId) {
-    	
-        return groupService.getDistrictsByRegionId(regionId);
-    }
+        // 나머지 그룹 정보 처리 로직
+        groupService.updateGroupInfo(groupId, params, imageFilename);
 
-    @GetMapping("/regions")
-    @ResponseBody
-    public List<RegionDTO> getAllRegions() {
-        return groupService.getAllRegions();
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("imageFilename", imageFilename);
+        return response;
     }
 
     private String saveGroupImage(MultipartFile groupImageFile) throws IOException {
         if (groupImageFile.isEmpty()) {
             throw new IOException("Uploaded file is empty");
         }
-
+        
         String fileExtension = ".png";
         String uniqueFilename = generateUniqueFilename(fileExtension);
 
@@ -144,11 +122,7 @@ public class GroupSettingsController {
 
         return uniqueFilename;
     }
-    @PostMapping("/checkGroupName")
-    @ResponseBody
-    public boolean checkGroupName(@RequestParam String groupName) {
-        return groupService.checkGroupNameExists(groupName);
-    }
+
     private String generateUniqueFilename(String fileExtension) {
         String uniqueFilename;
         File file;
@@ -158,6 +132,30 @@ public class GroupSettingsController {
         } while (file.exists());
 
         return uniqueFilename;
+    }
+
+    @PostMapping("/deleteGroup")
+    public ModelAndView deleteGroup(@RequestParam("groupId") int groupId) {
+        groupService.deleteGroup(groupId);
+        return new ModelAndView("redirect:/mypage");
+    }
+
+    @GetMapping("/regions/{regionId}")
+    @ResponseBody
+    public List<DistrictDTO> getDistrictsByRegionId(@PathVariable int regionId) {
+        return groupService.getDistrictsByRegionId(regionId);
+    }
+
+    @GetMapping("/regions")
+    @ResponseBody
+    public List<RegionDTO> getAllRegions() {
+        return groupService.getAllRegions();
+    }
+
+    @GetMapping("/checkGroupName")
+    @ResponseBody
+    public boolean checkGroupName(@RequestParam String groupName) {
+        return groupService.checkGroupNameExists(groupName);
     }
 
     private ModelAndView loadTabContent(HttpSession session, String viewName) {
