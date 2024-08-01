@@ -161,7 +161,7 @@ $(document).ready(function(){
 				if(response === 'success'){					
 					// 현재 URL에서 '/kkirikkiri'를 비교
                     let currentPath = window.location.pathname; // URL 경로만 추출
-                    if (currentPath === '/kkirikkiri') {
+                    if (currentPath === '/kkirikkiri' || currentPath === '/logout') {
                         window.location.href = '/mainLogin';
                     } else {
                         // 다른 URL일 경우 저장된 원래 페이지로 리다이렉트
